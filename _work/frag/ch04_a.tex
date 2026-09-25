@@ -1,0 +1,234 @@
+% ===========================================================
+%  ch04_a —— 《线性代数9讲》第 4 讲「矩阵的秩」（前半）
+%  印刷页 41–44（PDF p52–p55）
+%
+%  处理说明：
+%   1) 页首「三向解题法」思维导图按 AGENTS.md §7.1 决定 2 不转写、不重绘，
+%      只留 FIGURE-OPD 注释；节标题里的 OPD 代码括号（D₁/D₂/D₄₁/P₁₂）删除，
+%      保留原层级标题「一、定义」「二、公式」；
+%   2) 印刷页 41「隐含条件体系块」内的 17 条秩的公式/性质（①~⑰）逐条完整转写：
+%      原稿排为黑体强调的 ⑤、⑦ 用 fkey，其余用 fcard；标题 = 原编号 + 含义
+%      （原稿只有编号、无条目名）；原稿左侧竖排标签「隐含条件体系块」用 \fgroup；
+%   3) 原稿蓝色手写旁注属数学操作旁注，以行内括号 / 行内说明保留：
+%      「任取 k 行、k 列构成的 k 阶行列式」（p53）、
+%      「2=r(AB)≤r(A),r(B) ⟹ r(A),r(B)≤行数、列数」（p54）、
+%      「矩阵越乘秩越小」（p55）；
+%   4) 本片覆盖第 4 讲前半（印刷页 41–44）。印刷页 44（PDF p55）末句
+%      「同理，r(B−A)≥r(B)−r(A). 故」为跨页句，其续文在印刷页 45（PDF p56），
+%      属下一分片 ch04_b；
+%   5) 印刷页 41–44 无「习题」栏。
+% ===========================================================
+
+\fchap{第4章\quad 矩阵的秩}
+
+% ---- 印刷页 41（PDF p52）----
+
+% FIGURE-OPD: 41 三向解题法思维导图（按规则不保留）
+
+\begin{fcard}{① 秩的取值范围}
+$0\le r(A_{m\times n})\le\min\{m,\;n\}$.
+\end{fcard}
+
+\begin{fcard}{② 数乘不改变秩}
+$r(kA)=r(A)\ (k\ne 0)$.
+\end{fcard}
+
+\begin{fcard}{③ 可逆矩阵相乘不改变秩}
+$r(A)=r(PA)=r(AQ)=r(PAQ)$（$P$，$Q$ 为可逆矩阵）.
+\end{fcard}
+
+\begin{fcard}{④ 满秩矩阵的消去}
+设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵.
+
+若 $r(A)=n$（列满秩），则 $r(AB)=r(B)$；若 $r(B)=n$（行满秩），则 $r(AB)=r(A)$.
+\end{fcard}
+
+\begin{fkey}{⑤ 满秩矩阵的单侧消去}
+若 $CA=CB$，$C$ 列满秩，则 $A=B$；若 $AC=BC$，$C$ 行满秩，则 $A=B$.
+\end{fkey}
+
+\begin{fcard}{⑥ 乘积的秩的上界}
+$r(AB)\le\min\{r(A),\;r(B)\}$.
+\end{fcard}
+
+\begin{fkey}{⑦ 和的秩与拼接矩阵的秩}
+$r(A+B)\le r([A,\;B])\le r(A)+r(B)$.
+\end{fkey}
+
+\begin{fcard}{⑧ 乘积的秩的下界}
+$r(AB)\ge r(A)+r(B)-n$（$A$，$B$ 分别为 $m\times n$ 矩阵与 $n\times s$ 矩阵）.
+\end{fcard}
+
+\begin{fcard}{⑨ 三矩阵乘积的秩的下界}
+$r(ABC)\ge r(AB)+r(BC)-r(B)$.
+\end{fcard}
+
+\begin{fcard}{⑩ 转置与 $AA^{\mathrm T}$、$A^{\mathrm T}A$ 的秩}
+$r(A)=r(A^{\mathrm T})=r(AA^{\mathrm T})=r(A^{\mathrm T}A)$.
+\end{fcard}
+
+\begin{fcard}{⑪ 伴随矩阵 $A^*$ 的秩}
+\fml{r(A^*)=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+\end{fcard}
+
+\begin{fcard}{⑫ 满足二次方程时秩之和}
+若 $A^{2}-(k_1+k_2)A+k_1k_2E=O$，$k_1\ne k_2$，则 $r(A-k_1E)+r(A-k_2E)=n$.
+\end{fcard}
+
+\begin{fcard}{⑬ 基础解系所含向量的个数}
+$Ax=0$ 的基础解系所含向量的个数为 $s=n-r(A)$（$A$ 为 $m\times n$ 矩阵）.
+\end{fcard}
+
+\begin{fcard}{⑭ 两个方程组同解的充要条件}
+方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解 $\Leftrightarrow r(A)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(B)$.
+\end{fcard}
+
+\begin{fcard}{⑮ 向量组等价的秩刻画}
+$r(\mathrm{I})=r(\mathrm{II})=r(\mathrm{I},\mathrm{II})\Leftrightarrow$ 向量组（I）与向量组（II）等价.
+\end{fcard}
+
+\begin{fcard}{⑯ 相似时重根的个数与秩}
+若 $A\sim\Lambda$，则 $n_i=n-r(\lambda_iE-A)$，其中 $\lambda_i$ 是 $n_i$ 重特征根.
+\end{fcard}
+
+\begin{fcard}{⑰ 相似时秩与非零特征值}
+若 $A\sim\Lambda$，则 $r(A)$ 等于非零特征值的个数，重根按重数算
+\end{fcard}
+
+% ---- 印刷页 42（PDF p53）----
+
+\fsec{一、定义}
+
+设 $A$ 是 $m\times n$ 矩阵，$A$ 中最大的不为零的子式的阶数称为矩阵 $A$ 的秩，记为 $r(A)$. 也可以这样定义：若存在 $k$ 阶子式（任取 $k$ 行、$k$ 列构成的 $k$ 阶行列式）不为零，而任意 $k+1$ 阶子式全为零（如果有的话），则 $r(A)=k$，且若 $A$ 为 $n\times n$ 矩阵，则
+\fml{r(A_{n\times n})=n\Leftrightarrow|A|\ne 0\Leftrightarrow A\ \text{可逆}.}
+
+\begin{fnote}
+【注】用初等变换将 $A$ 化为行阶梯形矩阵，阶梯数即为矩阵的秩.
+\end{fnote}
+
+\fsec{二、公式}
+
+1. 设 $A$ 是 $m\times n$ 矩阵，则 $0\le r(A)\le\min\{m,\;n\}$.
+
+2. 设 $A$ 是 $m\times n$ 矩阵，则 $r(kA)=r(A)\ (k\ne 0)$.
+
+3. 设 $A$ 是 $m\times n$ 矩阵，$P$，$Q$ 分别是 $m$ 阶、$n$ 阶可逆矩阵，则
+\fml{r(A)=r(PA)=r(AQ)=r(PAQ).}
+
+\begin{fnote}
+【注】（1）公式 3 表明初等变换不改变矩阵的秩.
+
+（2）若 $r(AB)<r(A)$，$B$ 为 $n$ 阶矩阵，则 $r(B)<n$.
+\end{fnote}
+
+4. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵.
+
+（1）若 $r(A)=n$（列满秩），则 $r(AB)=r(B)$.
+
+（2）若 $r(B)=n$（行满秩），则 $r(AB)=r(A)$.
+
+\begin{fcard}{例 4.1}
+设 $A$ 为 $4\times 3$ 矩阵，$B$ 为 3 阶方阵，若 $r(A)=3$，则（\quad）.
+
+（A）$ABx=0$ 与 $Bx=0$ 同解\qquad\qquad（B）$ABx=0$ 与 $Ax=0$ 同解
+
+（C）$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $A^{\mathrm T}x=0$ 同解\qquad（D）$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $B^{\mathrm T}x=0$ 同解
+\end{fcard}
+
+【解】应选（A）.
+
+由下面的公式 6 与公式 8，知
+\fml{r(A)+r(B)-3\le r(AB)\le\min\{r(A),\;r(B)\}.\qquad\qquad(*)}
+
+当 $r(A)=3$ 时，由 $(*)$ 式得
+\fml{3+r(B)-3\le r(AB)\le r(B),}
+
+故有 $r(AB)=r(B)$，且满足 $Bx=0$ 的解必是 $ABx=0$ 的解，故 $ABx=0$ 与 $Bx=0$ 同解. 故选（A）.
+
+% ---- 印刷页 43（PDF p54）----
+
+\begin{fnote}
+【注】若 $r(B)=3$，同样由 $(*)$ 式可得
+\fml{r(A)+3-3\le r(AB)\le r(A),}
+故有 $r(AB)=r(A)$，则 $r(B^{\mathrm T}A^{\mathrm T})=r(A^{\mathrm T})$，$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $A^{\mathrm T}x=0$ 同解.
+\end{fnote}
+
+5. 若 $CA=CB$，$C$ 列满秩，则 $A=B$；若 $AC=BC$，$C$ 行满秩，则 $A=B$.
+
+\begin{fcard}{例 4.2}
+设 $B$ 是 $n$ 阶矩阵，$C$ 是 $n\times m$ 矩阵，且 $r(C)=n$，则下列结论：
+
+①若 $BC=O$，则 $B=O$；
+
+②若 $BC=C$，则 $B=E$；
+
+③若 $BC=O$，则 $1\le r(B)<n$；
+
+④若 $BC=C$，则 $r(B)=n$.
+
+所有正确结论的序号为（\quad）.
+
+（A）①②④\qquad（B）②④\qquad（C）①③④\qquad（D）③④
+\end{fcard}
+
+【解】应选（A）.
+
+对于①，$BC=O=OC$，由公式 5 得 $B=O$；对于②，$BC=C=EC$，由公式 5 得 $B=E$；对于③，由①可知③错误；对于④，由②可知④正确.
+
+\begin{fcard}{例 4.3}
+设 $A$，$B$ 分别为 $3\times 2$ 和 $2\times 3$ 实矩阵，若 $AB=\begin{bmatrix}8&0&-4\\-\frac32&9&-6\\-2&0&1\end{bmatrix}$，则 $BA=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}9&0\\0&9\end{bmatrix}$.
+
+因 $|AB|=0$，$r(AB)=2$，又 $2\le r(A)$，$r(B)\le 2$ $\quad(2=r(AB)\le r(A),r(B)\Rightarrow r(A),r(B)\le\text{行数、列数})$，故 $r(A)=r(B)=2$，即 $A$ 列满秩，$B$ 行满秩. 又由 $ABAB=9AB$，$A$ 列满秩，有 $BAB=9B$. 又 $B$ 行满秩，故有 $BA=9E_2=\begin{bmatrix}9&0\\0&9\end{bmatrix}$.
+
+6. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，则 $r(AB)\le\min\{r(A),\;r(B)\}$.
+
+\begin{fnote}
+【注】见到 $AB$，$ABC$，要善于想到单调性.
+\fml{r(ABC)\le r(AB)\le r(A).}
+如 $ABC=A\Rightarrow r(A)=r(ABC)\le r(AB)\le r(A)\Rightarrow r(A)=r(AB)$.
+\end{fnote}
+
+\begin{fcard}{例 4.4}
+已知 $n$ 阶矩阵 $A$，$B$，$C$ 满足 $ABC=O$，$E$ 为 $n$ 阶单位矩阵，记矩阵 $\begin{bmatrix}O&A\\BC&E\end{bmatrix}$，$\begin{bmatrix}AB&C\\O&E\end{bmatrix}$，$\begin{bmatrix}E&AB\\AB&O\end{bmatrix}$ 的秩分别为 $r_1$，$r_2$，$r_3$，则（\quad）.
+\end{fcard}
+
+% ---- 印刷页 44（PDF p55）----
+
+（A）$r_1\le r_2\le r_3$\qquad（B）$r_1\le r_3\le r_2$\qquad（C）$r_3\le r_1\le r_2$\qquad（D）$r_2\le r_1\le r_3$
+
+【解】应选（B）.
+
+对于 $\begin{bmatrix}O&A\\BC&E\end{bmatrix}$，将分块矩阵的第 2 行的 $(-A)$ 倍加至第 1 行，即
+\fml{\begin{bmatrix}E&-A\\O&E\end{bmatrix}\begin{bmatrix}O&A\\BC&E\end{bmatrix}=\begin{bmatrix}-ABC&O\\BC&E\end{bmatrix}=\begin{bmatrix}O&O\\BC&E\end{bmatrix},}
+其秩 $r_1=n$；
+
+对于 $\begin{bmatrix}AB&C\\O&E\end{bmatrix}$，将分块矩阵的第 2 行的 $(-C)$ 倍加至第 1 行，即
+\fml{\begin{bmatrix}E&-C\\O&E\end{bmatrix}\begin{bmatrix}AB&C\\O&E\end{bmatrix}=\begin{bmatrix}AB&O\\O&E\end{bmatrix},}
+其秩 $r_2=r(AB)+n$；
+
+对于 $\begin{bmatrix}E&AB\\AB&O\end{bmatrix}$，先将分块矩阵的第 1 行的 $(-AB)$ 倍加至第 2 行，即
+\fml{\begin{bmatrix}E&O\\-AB&E\end{bmatrix}\begin{bmatrix}E&AB\\AB&O\end{bmatrix}=\begin{bmatrix}E&AB\\O&-ABAB\end{bmatrix},}
+
+再将分块矩阵的第 1 列的 $(-AB)$ 倍加至第 2 列，即
+\fml{\begin{bmatrix}E&AB\\O&-ABAB\end{bmatrix}\begin{bmatrix}E&-AB\\O&E\end{bmatrix}=\begin{bmatrix}E&O\\O&-ABAB\end{bmatrix},}
+其秩 $r_3=r(-ABAB)+n$.
+
+又由于
+\fml{r(AB)\ge r(-ABAB)\ge 0.\qquad(\text{矩阵越乘秩越小})}
+
+于是 $r_1\le r_3\le r_2$，故选（B）.
+
+7. 设 $A$，$B$ 为同型矩阵，则 $r(A+B)\le r([A,\;B])\le r(A)+r(B)$.
+
+\begin{fnote}
+【注】①$r(A-B)\le r(A)+r(B)$；②$r(A-B)\ge|r(A)-r(B)|$.
+
+证\quad①因 $r(A+B)\le r(A)+r(B)$，故 $r(A-B)=r[A+(-B)]\le r(A)+r(-B)=r(A)+r(B)$.
+
+②因 $r(A+B)\le r(A)+r(B)$，令 $A+B=C$，则 $r(C)\le r(C-B)+r(B)$，即 $r(A)\le r(A-B)+r(B)$，故有
+\fml{r(A-B)\ge r(A)-r(B).\qquad\qquad(*)}
+同理，$r(B-A)\ge r(B)-r(A)$. 故
+\end{fnote}

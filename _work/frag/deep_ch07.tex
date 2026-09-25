@@ -1,0 +1,213 @@
+% ===========================================================
+%  第 7 章 特征值与特征向量 —— 高等代数【深化】拓展框（子代理提取）
+%  来源：北大《高等代数》第五版 七.4 特征值与特征向量（印刷 196–202）、
+%        七.3 线性变换的矩阵（印刷 190–195）；
+%        樊启斌《高等代数典型问题与方法》§6.3 特征值与特征向量（印刷 355–363）、
+%        §7.4 Hamilton–Cayley 定理（印刷 450–455）。
+%  说明：本片只补 deep_ch07_authored.tex 未覆盖的面向；例题解答一律跳过。
+% ===========================================================
+
+% ---------- 来源：樊 6.3.1（印刷 355）；北大 七.4（印刷 200）----------
+\begin{fdeep}{特征多项式的"完整系数"：$k$ 阶主子式之和}
+设 $A=(a_{ij})$ 为 $n$ 阶矩阵，把特征多项式按 $\lambda$ 的降幂整理成
+\fml{\lvert\lambda E-A\rvert=\lambda^{n}-a_1\lambda^{n-1}+a_2\lambda^{n-2}-\dots+(-1)^{n}a_n}
+则 $a_k$ 恰好等于 $A$ 的\textbf{全部 $k$ 阶主子式之和}。特别地
+\fml{a_1=a_{11}+a_{22}+\dots+a_{nn}=\operatorname{tr}A,\qquad a_n=\lvert A\rvert}
+对 $3$ 阶矩阵，这就给出一个\textbf{不必展开行列式}的速算法：
+\fml{\lvert\lambda E-A\rvert=\lambda^{3}-(\operatorname{tr}A)\lambda^{2}
++\bigl(\text{二阶主子式之和}\bigr)\lambda-\lvert A\rvert}
+而二阶主子式之和又等于 $\lambda_1\lambda_2+\lambda_1\lambda_3+\lambda_2\lambda_3$
+（一般地 $a_k$ 等于全部 $k$ 个特征值乘积之和）。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"会求矩阵的特征值和特征向量"。
+三阶矩阵求特征值最耗时的就是展开 $|\lambda E-A|$；用"迹、二阶主子式之和、行列式"三项
+直接拼出特征多项式，\textbf{省掉整个行列式展开}，并且顺带得到一条由特征值反求参数的方程
+（$a_k$ 两种算法相等）。
+\end{fdeep}
+
+% ---------- 来源：樊 6.3.2(2)（印刷 355）；北大 七.4 定义 4 后（印刷 196）----------
+\begin{fdeep}{不同特征值的特征向量线性无关：$n$ 个不同特征值就够了}
+\textbf{定理} 设 $\lambda_1,\dots,\lambda_s$ 是 $A$ 的\textbf{互不相同}的特征值，$\xi_i$ 是 $A$ 的属于
+$\lambda_i$ 的特征向量，则 $\xi_1,\dots,\xi_s$ 线性无关。
+\textbf{关键证明思路（对 $s$ 归纳）}：设 $k_1\xi_1+\dots+k_s\xi_s=0$。两端左乘 $A$ 并用 $A\xi_i=\lambda_i\xi_i$ 得
+$\sum_ik_i\lambda_i\xi_i=0$；再把原式乘 $\lambda_s$ 与之相减，$\xi_s$ 被消去：
+\fml{\sum_{i<s}k_i(\lambda_i-\lambda_s)\xi_i=0}
+由归纳假设与 $\lambda_i\ne\lambda_s$ 得 $k_i=0$（$i<s$），回代得 $k_s=0$。
+核心动作是"\textbf{乘 $A$、乘特征值、作差，逐个消去}"。
+另一条同样常用的性质：\textbf{一个特征向量只能属于一个特征值}——若 $A\xi=\lambda\xi$ 且
+$A\xi=\mu\xi$，则 $(\lambda-\mu)\xi=0$，而 $\xi\ne0$，故 $\lambda=\mu$。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解矩阵的特征值和特征向量的概念及性质"。
+它给出"不列方程就能数的免费维数"：$s$ 个互不相同特征值 $\Rightarrow$ 至少 $s$ 个线性无关特征
+向量，于是 $n$ 阶矩阵若有 $n$ 个互不相同特征值，就必能对角化（第 8 章常用充分条件）；
+也解释了"不同特征值的特征向量之和不再是特征向量"。
+\end{fdeep}
+
+% ---------- 来源：北大 七.4 例 4（印刷 200）；樊 例 6.48、例 6.55（印刷 356、360）----------
+\begin{fdeep}{实矩阵的复特征值必成对出现（共轭）}
+$A$ 为实矩阵时 $f(\lambda)=\lvert\lambda E-A\rvert$ 是\textbf{实系数}多项式，而实系数多项式的虚根
+成共轭对出现且重数相同，故
+\fml{\lambda\text{ 是 }A\text{ 的特征值}\ \Rightarrow\ \overline{\lambda}\text{ 也是，且代数重数相同}}
+\textbf{特征向量也成对}：由 $A\xi=\lambda\xi$ 逐分量取共轭，因 $A$ 的元素是实数得
+$A\overline{\xi}=\overline{\lambda}\,\overline{\xi}$，即 $\overline{\xi}$ 是 $\overline{\lambda}$ 的特征向量。
+两条直接推论：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{奇数阶实矩阵必有实特征值}（复根成对，总数为奇数，至少剩一个实根）；
+\item 实矩阵全体特征值之积 $\lvert A\rvert$ 为实数。
+\end{itemize}
+最典型的例子是旋转矩阵 $\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$：
+当 $\theta\ne k\pi$ 时特征多项式为 $\lambda^{2}-2\lambda\cos\theta+1$，判别式小于零，
+\textbf{它没有实特征值}——可见"实矩阵必有实特征值"是错的。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…概念及性质"。
+选择题常拿"实矩阵的特征值"设陷阱：由复根成对可以\textbf{直接排除}选项里不共轭的虚根，
+也能判定奇数阶实矩阵至少有一个实特征值。
+\end{fdeep}
+
+% ---------- 来源：北大 七.4 求法第 3 步（印刷 198）；樊 6.3.1、例 6.54（印刷 355、359）----------
+\begin{fdeep}{由特征值、特征向量反求矩阵：$A=P\Lambda P^{-1}$}
+若已知 $A$ 的 $n$ 个特征值 $\lambda_1,\dots,\lambda_n$ 及对应的 $n$ 个线性无关特征向量
+$\xi_1,\dots,\xi_n$，把它们按列排好：
+\fml{P=(\xi_1,\xi_2,\dots,\xi_n),\qquad \Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)}
+由 $AP=P\Lambda$ 且 $P$ 可逆，即得
+\fml{A=P\Lambda P^{-1}}
+口诀是"\textbf{特征向量按列排，特征值按同一顺序放对角线}"，$A$ 由此被唯一确定。
+若题中只给部分特征值与特征向量，则每个 $A\xi_i=\lambda_i\xi_i$ 都是一组\textbf{关于 $A$ 元素的
+方程}，再用补充条件（$\operatorname{tr}A$、$\lvert A\rvert$、对称性或矩阵类型）定出全部元素；
+常用手法是"两边再乘一个矩阵后比较分量"，例如由 $A^{*}\alpha=\lambda_0\alpha$ 与 $AA^{*}=\lvert A\rvert E$
+反推出 $A\alpha=\frac{\lvert A\rvert}{\lambda_0}\alpha$，把伴随矩阵的条件\textbf{换回 $A$ 的条件}。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"会求矩阵的特征值和特征向量"的反向题型。
+"已知特征值/特征向量求 $A$ 中的参数"是高频填空：把 $A\xi=\lambda\xi$ 写成方程组最稳；
+若特征向量给全了，$A=P\Lambda P^{-1}$ 一步到位。
+\end{fdeep}
+
+% ---------- 来源：北大 七.4 定理（印刷 202）及证明（印刷 202–203）；樊 7.4.1（印刷 450）----------
+\begin{fdeep}{Hamilton--Cayley 定理：特征多项式是零化多项式}
+\textbf{定理} 设 $A$ 为 $n$ 阶矩阵，$f(\lambda)=\lvert\lambda E-A\rvert$ 是它的特征多项式，则
+\fml{f(A)=A^{n}-a_1A^{n-1}+\dots+(-1)^{n}a_nE=O}
+即\textbf{把 $A$ 代入它自己的特征多项式，结果为 $O$}（常数项必须写成 $a_nE$，不能只写数）。
+\textbf{关键证明思路}（注意不能写 $\lvert AE-A\rvert=0$，那是数不是矩阵）：
+设 $B(\lambda)$ 是 $\lambda E-A$ 的伴随矩阵，则 $B(\lambda)(\lambda E-A)=\lvert\lambda E-A\rvert E=f(\lambda)E$。
+把 $B(\lambda)$ 按 $\lambda$ 的幂写成 $B(\lambda)=\lambda^{n-1}B_0+\lambda^{n-2}B_1+\dots+B_{n-1}$
+（$B_i$ 为数矩阵），比较 $\lambda$ 的同次幂得一组矩阵等式：记 $a_0=1$，则第 $k$ 个为
+\fml{B_k-B_{k-1}A=a_kE\qquad(k=0,1,\dots,n)}
+（约定 $B_{-1}=B_n=O$）。把第 $k$ 式两端右乘 $A^{n-k}$ 后\textbf{全部相加}：左端逐项相消为 $O$，
+右端恰为 $\sum_ka_kA^{n-k}=f(A)$，故 $f(A)=O$。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…性质"。
+H-C 是"以特征多项式为桥梁把\textbf{矩阵高次幂降次}"的定理：$k\ge n$ 时 $A^{k}$ 一定能写成
+$E,A,\dots,A^{n-1}$ 的组合。第 8 章的最小多项式、本片后面的求方幂与求逆都由它支撑。
+\end{fdeep}
+
+% ---------- 来源：樊 7.4.1、例 6.52、例 7.67（印刷 450、358、454）----------
+\begin{fdeep}{零化多项式反推特征值：抽象矩阵的唯一入口}
+\textbf{基本事实} 若 $A\xi=\lambda\xi$（$\xi\ne0$），则对任意 $\varphi$ 有
+$\varphi(A)\xi=\varphi(\lambda)\xi$，于是
+\fml{\varphi(A)=O\ \Rightarrow\ \varphi(\lambda)=0\quad(\lambda\text{ 为 }A\text{ 的特征值})}
+（因 $\xi\ne0$）。于是"求特征值"变成"\textbf{找零化多项式}"，是抽象矩阵的唯一入口。
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item $A^{2}=A$（幂等）$\Rightarrow$ $\lambda^{2}=\lambda$，故 $\lambda\in\{0,1\}$；
+\item $A^{2}=E$ $\Rightarrow$ $\lambda=\pm1$；一般地 $A^{k}=E$ $\Rightarrow$ $\lambda^{k}=1$，即 $|\lambda|=1$；
+\item $A^{k}=O$（幂零）$\Rightarrow$ 特征值全为 $0$；
+\item 秩 $1$ 矩阵 $A=\alpha\beta^{\mathrm T}$：$A^{2}=\alpha(\beta^{\mathrm T}\alpha)\beta^{\mathrm T}=cA$（$c=\operatorname{tr}A$），
+零化多项式 $\lambda^{2}-c\lambda$，故\textbf{特征值只能是 $\operatorname{tr}A$ 与 $0$}；
+全 $1$ 矩阵 $J$ 即 $c=n$ 的特例（特征值 $n$ 与 $0$，$n-1$ 重）。
+\end{itemize}
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"会求矩阵的特征值和特征向量"。
+抽象矩阵列不出特征方程，只能走"零化多项式 $\Rightarrow$ 特征值受限 $\Rightarrow$ 用 $\operatorname{tr}A$、
+$\lvert A\rvert$ 定位"这条路；秩 $1$ 矩阵的特征值可直接秒填。
+\end{fdeep}
+
+% ---------- 来源：樊 7.4.2 及其例 7.61、7.63、7.64（印刷 450–453）----------
+\begin{fdeep}{H-C 的两个主力用法：求 $A^{k}$ 与求 $A^{-1}$}
+\textbf{用法一：求方幂（降次）}。设 $f(\lambda)=\lvert\lambda E-A\rvert$（$n$ 次），对 $\varphi(\lambda)=\lambda^{k}$
+作带余除法
+\fml{\lambda^{k}=f(\lambda)q(\lambda)+r(\lambda),\qquad \deg r<n}
+由 $f(A)=O$ 立刻得 $A^{k}=r(A)$，即\textbf{任意高次幂都降到 $n-1$ 次以内}。$r$ 的系数由
+\fml{r^{(j)}(\lambda_i)=\varphi^{(j)}(\lambda_i)\qquad(j=0,1,\dots,m_i-1)}
+唯一确定（$m_i$ 是 $\lambda_i$ 的重数）：\textbf{单根只代函数值，重根还要代各阶导数}。
+\textbf{用法二：求逆}。设 $f(\lambda)=\lambda^{n}+a_{n-1}\lambda^{n-1}+\dots+a_1\lambda+a_0$，
+则 $a_0=f(0)=\lvert-A\rvert=(-1)^{n}\lvert A\rvert$。由 $f(A)=O$ 从左边提出一个 $A$ 即得
+\fml{A^{-1}=-\frac{1}{a_0}\bigl(A^{n-1}+a_{n-1}A^{n-2}+\dots+a_1E\bigr)}
+（$a_0\ne0$ 正是 $A$ 可逆）。也就是说\textbf{$A^{-1}$ 必是 $E,A,\dots,A^{n-1}$ 的线性组合}。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…性质"及矩阵求逆。
+"带余除法 + H-C 求 $A^{k}$"是求高次幂题型里\textbf{不依赖对角化的通法}（对角化只对可对角化
+矩阵有效，H-C 恒有效）；"$A^{-1}$ 由 $E,A,\dots,A^{n-1}$ 线性表示"是抽象矩阵求逆的标准答案形式。
+\end{fdeep}
+
+% ---------- 来源：北大 七.4（印刷 202）；樊 6.3.2(3)(5)（印刷 355）----------
+\begin{fdeep}{特征值与秩、迹的更多联系：$0$ 的重数、$\operatorname{tr}A^{k}$、$AB$ 与 $BA$}
+\textbf{（一）$0$ 的代数重数 $\ge n-r(A)$}。$0$ 是特征值当且仅当 $\lvert A\rvert=0$；此时
+$V_0=N(A)$，几何重数为 $n-r(A)$，再由"几何重数 $\le$ 代数重数"得
+\fml{r(A)=r\ \Rightarrow\ 0\text{ 的代数重数}\ge n-r}
+于是"已知秩求特征值"或"判断 $0$ 是几重根"都\textbf{不必算行列式}。
+\textbf{（二）$\operatorname{tr}A^{k}=\sum_{i=1}^{n}\lambda_i^{k}$}。由"同一特征向量"原理，
+$A^{k}$ 的特征值恰为 $\lambda_1^{k},\dots,\lambda_n^{k}$，对 $A^{k}$ 用"迹 = 特征值之和"即得；
+反过来，若干 $\operatorname{tr}A^{k}$ 的等式可以\textbf{反解出特征值}。
+\textbf{（三）$AB$ 与 $BA$ 有相同的非零特征值}。设 $A$ 为 $m\times n$、$B$ 为 $n\times m$、$m\ge n$，则
+\fml{\lvert\lambda E_m-AB\rvert=\lambda^{m-n}\lvert\lambda E_n-BA\rvert}
+故 $AB$ 与 $BA$ 的\textbf{非零特征值完全相同（连重数也相同）}，差别只是 $AB$ 多出 $m-n$ 个 $0$。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…概念及性质"。
+"由秩读 $0$ 的重数""$\operatorname{tr}A^{k}=\sum\lambda_i^{k}$""$AB$ 与 $BA$ 同非零特征值"
+是三条\textbf{不用解方程就能答题}的结论，也是矩阵、秩、特征值三块知识的接口。
+\end{fdeep}
+
+% ---------- 来源：樊 例 6.53、例 6.48（印刷 359、356）；Gershgorin 圆盘为选读补充 ----------
+\begin{fdeep}{特征值的估计：行和法、最大分量法与 Gershgorin 圆盘}
+\textbf{（一）行和就是特征值}。若 $A$ 的每一行元素之和都等于 $c$，取 $\xi=(1,1,\dots,1)^{\mathrm T}$，
+则 $A\xi$ 的每个分量都是 $c$，即 $A\xi=c\xi$：\fml{c=\text{行和}\ \Rightarrow\ c\text{ 是 }A\text{ 的特征值}}
+（列和相等同理，因 $A$ 与 $A^{\mathrm T}$ 同特征值。）这是"看行和猜特征值"的全部依据。
+\textbf{（二）最大分量法}。若 $0\le a_{ij}\le1$ 且每行和为 $1$，取特征向量 $\xi$ 中\textbf{模最大的分量}
+$|b_k|$，比较 $A\xi=\lambda\xi$ 的第 $k$ 个分量：
+\fml{|\lambda|\,|b_k|=\Bigl|\sum_j a_{kj}b_j\Bigr|\le\sum_j a_{kj}|b_j|\le|b_k|}
+故 $|\lambda|\le1$。"取模最大分量"是估计特征值上界的标准手法。
+\textbf{（三）Gershgorin 圆盘定理（选读）}：$A$ 的每个特征值至少落在某个圆盘
+$D_i=\{z:|z-a_{ii}|\le\sum_{j\ne i}|a_{ij}|\}$ 内，由此得
+$\lvert\lambda\rvert\le\max_i\sum_j|a_{ij}|$，即最大行绝对和是特征值模的上界。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…概念及性质"。
+"各行元素之和均为 $c$"往往就是题干给的特征值，填空可直接秒答；最大分量法是不求特征值而证
+$|\lambda|\le1$ 的常用证法，也是"特征值估计"这类题唯一可落手的地方。
+\end{fdeep}
+
+% ---------- 来源：樊 例 6.48（印刷 356）；北大 例 4（印刷 200）对照 ----------
+\begin{fdeep}{实对称矩阵与正交矩阵的特征值：实对称全为实数，正交全在单位圆上}
+$A$ 为\textbf{实对称}矩阵（$A^{\mathrm T}=A$）且 $A\xi=\lambda\xi$（$\xi\ne0$）时，对等式两端取共轭转置
+再右乘 $\xi$，得
+\fml{\xi^{*}A\xi=\overline{\lambda}\lVert\xi\rVert^{2}}
+而原式两端左乘 $\xi^{*}$ 得 $\xi^{*}A\xi=\lambda\lVert\xi\rVert^{2}$。两式相减：
+$(\lambda-\overline{\lambda})\lVert\xi\rVert^{2}=0$，而 $\lVert\xi\rVert^{2}>0$，故\textbf{$\lambda$ 必为实数}。
+用同一手法（把 $A$ 换成 $A^{\mathrm T}A$，即用 $\xi^{*}A^{\mathrm T}A\xi=\lVert A\xi\rVert^{2}$）可得：
+\textbf{正交矩阵的特征值满足 $|\lambda|=1$}——因为正交时 $\lVert A\xi\rVert=\lVert\xi\rVert$，于是
+$|\lambda|^{2}\lVert\xi\rVert^{2}=\lVert\xi\rVert^{2}$。
+由此还得到一条估计：实对称矩阵的特征值全为实数，故
+\fml{\lambda_{\min}\le\frac{1}{n}\operatorname{tr}A\le\lambda_{\max}}
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…概念及性质"。
+"实对称矩阵的特征值全为实数"是第 9 章用正交变换化二次型为标准形的前提条件；
+"正交矩阵特征值模为 $1$"常与行列式 $\lvert A\rvert=\pm1$ 一起考；
+"$\lambda_{\min}\le\frac{1}{n}\operatorname{tr}A\le\lambda_{\max}$"给出不具体求特征值也能夹出范围的估计。
+\end{fdeep}
+
+% ===========================================================
+%  按"深化提取原则"跳过的页 / 段（供主控核对，不计入正文）
+% -----------------------------------------------------------
+% 北大 p203–p207（印刷 191–195）§7.3 线性变换的矩阵：
+%   线性变换由一组基上的像唯一决定、L(V) 与 P^{n×n} 同构、坐标计算、
+%   基变换公式 B=X^{-1}AX、定理 5（不同基下矩阵相似）——属第 8 章相似理论，本片不抢。
+% 北大 p213（印刷 201）例题 5（有向图邻接矩阵、长 k 回路数 = tr A^k）：
+%   整页为例题，跳过；其中结论 tr A^k=Σλ_i^k 已收入第 8 块。
+% 北大 p214 上半（印刷 202）定理 6"相似矩阵有相同的特征多项式"：
+%   本质是相似不变量，留待第 8 章；本片只收其副产品 tr A^k=Σλ_i^k 与 H-C 定理。
+% 樊 p365–p372（印刷 356–363）§6.3 典型问题解析：几乎全为例题解答，按原则跳过；
+%   其中可复用的结论（AB 与 BA 同非零特征值、幂等矩阵特征值 0/1、秩 1 矩阵与全 1 矩阵、
+%   行和法、最大分量法、正交矩阵 |λ|=1）已抽出，分别收入第 6/8/9/10 块。
+%   例 6.59–6.60（置换矩阵、循环矩阵的特征值与行列式）超纲，跳过。
+% 樊 p460–p464（印刷 451–455）§7.4 后半：例 7.62–7.68 为例题，内容涉及 Jordan 标准形、
+%   初等因子、分块矩阵可逆、多项式互素，超纲或属第 8 章 λ-矩阵理论，跳过；
+%   仅例 7.64/7.65 的"用 H-C 求 A^{-1}"已抽象为公式收入第 7 块。
+% ===========================================================

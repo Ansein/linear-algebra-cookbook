@@ -1,0 +1,350 @@
+% ===========================================================
+%  ch03_a —— 《线性代数9讲》第 3 讲「矩阵运算」 印刷页 14–23（PDF p25–p34）
+%  处理说明：
+%   1) 原稿「三向解题法」方法论标记按 AGENTS.md §7.1 决定 2 剔除：
+%      节标题里的（O_x/D_xx）括号、正文里的纯 OPD 代码、页首思维导图（只留 FIGURE-OPD 注释）；
+%   2) 数学操作旁注（行向求和、列向求和、旋转/放缩、按第 1 行展开一类）
+%      以 \quad(\text{...}) 内联保留；交叉引用（第 9 讲"七、2."）照原文排入；
+%   3) 原稿「形状大观」用矩形示意图表示（宽=行向量、高=列向量、方=方阵、斜=对角矩阵），
+%      本片以「宽 / 高 / 方 / 斜」文字符号对应排入，图形未重绘（见交付报告"不确定清单"）；
+%   4) 例 3.4 末尾的几何示意图（OP 绕原点逆时针旋转 θ）留 % FIGURE: 占位；
+%   5) 本片覆盖第 3 讲前半（印刷页 14–23）；习题栏按仓库决定不收录。
+% ===========================================================
+
+\fchap{第3章\quad 矩阵运算}
+
+% ---- 印刷页 14（PDF p25）----
+
+% FIGURE-OPD: 14 三向解题法思维导图（按规则不保留）
+
+\begin{fkey}{熟记形状}
+① 宽 $\times$ 高 $=$ 小方；② 高 $\times$ 宽 $=$ 方；③ 宽 $\times$ 方 $=$ 宽；④ 方 $\times$ 高 $=$ 高；⑤ 宽 $\times$ 方 $\times$ 高 $=$ 小方（数： $\alpha^{\mathrm T}A\alpha=\alpha^{\mathrm T}A^{\mathrm T}\alpha=(\alpha^{\mathrm T}A\alpha)^{\mathrm T}$）；⑥ 方 $\times$ 斜 $=$ 方；⑦ 斜 $\times$ 方 $=$ 方；⑧ 斜 $\times$ 方 $\times$ 斜 $=$ 方；⑨ 方 $\times$ 斜 $=$ 方；⑩ 方 $\times$ 斜 $\times$ 方 $=$ 方.
+\end{fkey}
+
+% ---- 印刷页 15（PDF p26）----
+
+% FIGURE-OPD: 15 三向解题法思维导图（续，按规则不保留）
+
+\fsec{一、矩阵乘法的形状大观}
+
+1. 宽 $\times$ 高 $=$ 小方.（内积. 大小 $+$ 角度；列 1 阵：行向求和，如 $[x_1,x_2,x_3]\begin{bmatrix}1\\1\\1\end{bmatrix}=x_1+x_2+x_3$ $\quad(\text{行求和})$；行 1 阵：列向求和，如 $[1,1,1]\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=x_1+x_2+x_3$ $\quad(\text{列求和})$ .）
+
+数 $\alpha^{\mathrm T}\beta=(\alpha^{\mathrm T}\beta)^{\mathrm T}=\beta^{\mathrm T}\alpha$.
+
+对比可知，“宽 $\times$ 高”的结果比“高 $\times$ 宽”的结果要简单得多.
+
+2. 高 $\times$ 宽 $=$ 方.（列 1 阵：行向量复制，如 $\begin{bmatrix}1\\1\\1\end{bmatrix}\alpha^{\mathrm T}=\begin{bmatrix}\alpha^{\mathrm T}\\\alpha^{\mathrm T}\\\alpha^{\mathrm T}\end{bmatrix}$；行 1 阵：列向量复制，如 $\beta[1,1,1]=[\beta,\beta,\beta]$；秩 1 阵，如 $A=\alpha\beta^{\mathrm T}$，$A^n=[\operatorname{tr}(A)]^{n-1}A$ $\quad(A\ne O,\ r(A)=1)$ .）
+
+3. 宽 $\times$ 方 $=$ 宽.（行 1 阵：列向求和，如
+\fmll{\frac13[1,1,1]\begin{bmatrix}x_{11}&x_{12}&x_{13}\\x_{21}&x_{22}&x_{23}\\x_{31}&x_{32}&x_{33}\end{bmatrix}=\left[\frac13\sum_{i=1}^{3}x_{i1},\frac13\sum_{i=1}^{3}x_{i2},\frac13\sum_{i=1}^{3}x_{i3}\right]=[\bar x_1,\bar x_2,\bar x_3]\xrightarrow{\Delta}EX,}
+质心阵.）
+
+4. 方 $\times$ 高 $=$ 高.（列 1 阵：行向求和，如
+\fmll{\begin{bmatrix}x_{11}&x_{12}&x_{13}\\x_{21}&x_{22}&x_{23}\\x_{31}&x_{32}&x_{33}\end{bmatrix}\begin{bmatrix}1\\1\\1\end{bmatrix}=\begin{bmatrix}\sum_{j=1}^{3}x_{1j}\\\sum_{j=1}^{3}x_{2j}\\\sum_{j=1}^{3}x_{3j}\end{bmatrix}.}
+）
+\quad (1. 的推论：$A\alpha=\lambda\alpha$，故 $A\begin{bmatrix}1\\1\\1\end{bmatrix}=2\begin{bmatrix}1\\1\\1\end{bmatrix}$ .)
+
+% ---- 印刷页 16（PDF p27）----
+
+5. 宽 $\times$ 方 $\times$ 高 $=$ 小方.（行 1、列 1 夹逼阵：全求和，如
+\fmll{[1,1,1]\begin{bmatrix}x_{11}&x_{12}&x_{13}\\x_{21}&x_{22}&x_{23}\\x_{31}&x_{32}&x_{33}\end{bmatrix}\begin{bmatrix}1\\1\\1\end{bmatrix}=\sum_{i=1}^{3}\sum_{j=1}^{3}x_{ij}=a,}
+二次型的基本表达
+且该形式 $a$ 代表它是一个 $1\times1$ 的矩阵，即普通量，于是 $a^{\mathrm T}=a$.）
+
+6. 方 $\times$ 斜 $=$ 宽.（列放缩，如 $[\alpha_1,\alpha_2,\alpha_3]\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}=[\lambda_1\alpha_1,\lambda_2\alpha_2,\lambda_3\alpha_3]$ .）
+
+7. 斜 $\times$ 方 $=$ 高.（行放缩，如 $\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\end{bmatrix}=\begin{bmatrix}\lambda_1\beta_1\\\lambda_2\beta_2\\\lambda_3\beta_3\end{bmatrix}$ . $\quad(\vec\beta_i\ (i=1,2,3)\ \text{为行向量})$）
+
+8. 斜 $\times$ 方 $\times$ 斜 $=$ 方.（行、列放缩，如 $\begin{bmatrix}\lambda_1&\\&\lambda_2\end{bmatrix}\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}\begin{bmatrix}\lambda_1&\\&\lambda_2\end{bmatrix}=\begin{bmatrix}\lambda_1^2a_{11}&\lambda_1\lambda_2a_{12}\\\lambda_2\lambda_1a_{21}&\lambda_2^2a_{22}\end{bmatrix}$ .）
+
+9. 方 $\times$ 斜 $=$ 方.（副 1 阵：换列阵，如 $[\alpha_1,\alpha_2,\alpha_3]\begin{bmatrix}&&1\\&1&\\1&&\end{bmatrix}=[\alpha_3,\alpha_2,\alpha_1]$ .）
+
+\begin{fnote}
+【注】$[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\begin{bmatrix}0&0&0&1\\0&1&0&0\\0&0&1&0\\1&0&0&0\end{bmatrix}=[\alpha_4,\alpha_2,\alpha_3,\alpha_1]$.
+\end{fnote}
+
+10. 方 $\times$ 斜 $\times$ 方 $=$ 方.（相似变换，如
+\fmll{\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1&&\\&2&\\&&3\end{bmatrix}\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}=\begin{bmatrix}1&1&1\\0&2&1\\0&0&3\end{bmatrix}.}
+）
+\quad (旋转、放缩、旋转；7~9 讲经常出现)
+
+$P^{-1}AP=\Lambda\Rightarrow A=P\Lambda P^{-1}$，
+\fmll{AB=P\Lambda P^{-1}B\xrightarrow{\text{若 }P^{-1}=P^{\mathrm T}}P\Lambda P^{\mathrm T}B}
+
+\fsec{二、证 $A=O$}
+
+证 $A=O$，可考虑由如下角度获得.
+
+① $r(A)=0$，则 $A=O$.
+
+② $r(A)<n-1$，则 $A^*=O$.
+
+③ $\operatorname{tr}(AA^{\mathrm T})=0$，则 $A=O$. $\quad(\text{思考一下为什么？答案在本讲的“四、1.②”．此处若出题，就是难题})$
+
+④ $A$ 的行向量与 $B$ 的列向量均正交，则 $AB=\begin{bmatrix}\alpha_1\\\vdots\\\alpha_n\end{bmatrix}[\beta_1,\cdots,\beta_m]=O$. $\Rightarrow r(A)+r(B)\le A$ 的列数.
+
+% ---- 印刷页 17（PDF p28）----
+
+\begin{fcard}{例 3.1}
+设 $A$ 为 3 阶实矩阵，$(A^{\mathrm T}-A)A=O$（$A^{\mathrm T}A=A^2$），证明 $A=A^{\mathrm T}$.
+\end{fcard}
+
+【证】令 $B=A^{\mathrm T}-A$，则
+\fmll{\begin{aligned}
+BB^{\mathrm T}&=(A^{\mathrm T}-A)(A-A^{\mathrm T})=A^{\mathrm T}A-(A^{\mathrm T})^2-A^2+AA^{\mathrm T}\\
+&=AA^{\mathrm T}-(A^{\mathrm T})^2=AA^{\mathrm T}-(A^2)^{\mathrm T}\\
+&=AA^{\mathrm T}-A^{\mathrm T}A,
+\end{aligned}}
+故 $\operatorname{tr}(BB^{\mathrm T})=\operatorname{tr}(AA^{\mathrm T})-\operatorname{tr}(A^{\mathrm T}A)=0$，因此 $B=O$，即 $A=A^{\mathrm T}$.
+
+\fsec{三、计算 $A^n$}
+
+由 $m\times n$ 个数 $a_{ij}$（$i=1,2,\cdots,m$；$j=1,2,\cdots,n$）排成的 $m$ 行 $n$ 列的矩形表格
+\fml{\begin{bmatrix}a_{11}&a_{12}&\cdots&a_{1n}\\a_{21}&a_{22}&\cdots&a_{2n}\\\vdots&\vdots&&\vdots\\a_{m1}&a_{m2}&\cdots&a_{mn}\end{bmatrix}}
+称为一个 $m\times n$ 矩阵，简记为 $A$ 或 $(a_{ij})_{m\times n}$. 当 $m=n$ 时，称 $A$ 为 $n$ 阶方阵.
+
+\textbf{1. $A$ 为方阵且 $r(A)=1$}
+
+若 $a_i$，$b_i$（$i=1,2,3$）不全为 0，$A=\begin{bmatrix}a_1b_1&a_1b_2&a_1b_3\\a_2b_1&a_2b_2&a_2b_3\\a_3b_1&a_3b_2&a_3b_3\end{bmatrix}=\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix}[b_1,b_2,b_3]\overset{\text{记}}{=}\alpha\beta^{\mathrm T}$，则 $r(A)=1$，且
+\fmll{A^n=(\alpha\beta^{\mathrm T})(\alpha\beta^{\mathrm T})\cdots(\alpha\beta^{\mathrm T})=\alpha(\beta^{\mathrm T}\alpha)(\beta^{\mathrm T}\alpha)\cdots(\beta^{\mathrm T}\alpha)\beta^{\mathrm T}=\left(\sum_{i=1}^{3}a_ib_i\right)^{n-1}A=[\operatorname{tr}(A)]^{n-1}A.}
+
+对于 $m$（$m>3$）阶方阵，若 $r(A)=1$，同样有 $A^n=[\operatorname{tr}(A)]^{n-1}A$.
+
+\begin{fcard}{例 3.2}
+设 $A=\begin{bmatrix}2&6&-4\\-1&-3&2\\3&9&-6\end{bmatrix}$，则 $A^{10}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $-7^9\begin{bmatrix}2&6&-4\\-1&-3&2\\3&9&-6\end{bmatrix}$.
+$\quad(\text{注意这种写法，第一列元素是原矩阵各行的比例，且使得其为恒等变形})$
+
+由题可得 $A=\begin{bmatrix}2\\-1\\3\end{bmatrix}[1,3,-2]$，故
+\fmll{A^{10}=\begin{bmatrix}2\\-1\\3\end{bmatrix}[1,3,-2]\begin{bmatrix}2\\-1\\3\end{bmatrix}[1,3,-2]\cdots\begin{bmatrix}2\\-1\\3\end{bmatrix}[1,3,-2]=(-7)^9A=-7^9\begin{bmatrix}2&6&-4\\-1&-3&2\\3&9&-6\end{bmatrix}.}
+$\quad(A^n=[\operatorname{tr}(A)]^{n-1}A$；9 个 $(-7)$ 相乘$)$
+
+% ---- 印刷页 18（PDF p29）----
+
+% 原稿此条目标「重点」
+\begin{fkey}{2. 试算 $A^2$（或 $A^3$），找规律}
+（1）若 $A^2=kA$，则 $A^n=k^{n-1}A$.（本讲的“三、1.”是这里的特殊情形）.
+
+（2）若 $A^2=kE$，则 $\begin{cases}A^{2n}=k^nE\ (\text{若 }k=-1,\text{则 }A^4=E),\\A^{2n+1}=k^nA.\end{cases}$ $\quad(A^{2n})^{\mathrm T}=(k^nE)^{\mathrm T}=k^nE$，$A^{2n+1}=A^{2n}A=k^nA$.
+
+亦有可能试算 $A^3$，如 $A^3=kA$，这些次数不会太高.
+\end{fkey}
+
+\begin{fcard}{例 3.3}
+若 $A=\begin{bmatrix}1&a&b\\0&1&a\\0&0&1\end{bmatrix}$，则当 $n\ge2$ 时，$A^n=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}1&na&\frac{n(n-1)}{2}a^2+nb\\0&1&na\\0&0&1\end{bmatrix}$.
+
+试算
+\fmll{A^2=\begin{bmatrix}1&2a&a^2+2b\\0&1&2a\\0&0&1\end{bmatrix},\ A^3=\begin{bmatrix}1&3a&3a^2+3b\\0&1&3a\\0&0&1\end{bmatrix},\ A^4=\begin{bmatrix}1&4a&6a^2+4b\\0&1&4a\\0&0&1\end{bmatrix},\ \cdots,}
+归纳得，当 $n\ge2$ 时，$A^n=\begin{bmatrix}1&na&\frac{n(n-1)}{2}a^2+nb\\0&1&na\\0&0&1\end{bmatrix}$.
+
+\begin{fcard}{例 3.4\quad（有几何意义）}
+设 $A=\begin{bmatrix}\frac12&-\frac{\sqrt3}{2}\\\frac{\sqrt3}{2}&\frac12\end{bmatrix}$，则 $A^{11}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}\frac12&-\frac{\sqrt3}{2}\\\frac{\sqrt3}{2}&\frac12\end{bmatrix}$.
+
+事实上，$\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$ 为正交矩阵，其几何意义为当 $\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$ 作用于向量 $\overrightarrow{OP}$ 时，有 $\overrightarrow{OP}$ 绕原点逆时针旋转 $\theta$.
+
+% FIGURE: 19 直角坐标系中向量 OP 旋转到 OP' 的示意图（x 轴、y 轴、P、P'、角 θ）
+
+% ---- 印刷页 19（PDF p30）----
+
+已知 $A=\begin{bmatrix}\frac12&-\frac{\sqrt3}{2}\\\frac{\sqrt3}{2}&\frac12\end{bmatrix}=\begin{bmatrix}\cos\frac{\pi}{3}&-\sin\frac{\pi}{3}\\\sin\frac{\pi}{3}&\cos\frac{\pi}{3}\end{bmatrix}$，$\theta=\frac{\pi}{3}$，于是 $A^3=\begin{bmatrix}-1&0\\0&-1\end{bmatrix}$，$A^6=\begin{bmatrix}1&0\\0&1\end{bmatrix}$，$A^{-1}=\begin{bmatrix}\frac12&\frac{\sqrt3}{2}\\-\frac{\sqrt3}{2}&\frac12\end{bmatrix}$
+（顺时针旋转 $\frac{\pi}{3}$），故 $A^{11}=A^{12}A^{-1}=A^{-1}$，$A^{-11}=(A^{11})^{-1}=(A^{-1})^{-1}=A$.
+
+\begin{fnote}
+【注】考生习惯求 $A^n$，若考题命制 $A^{-n}$，则写 $A^{-n}=(A^n)^{-1}$ 即可.
+\end{fnote}
+
+\textbf{3. $A\xrightarrow{\text{分解}}B+C$} $\quad(\text{一般 }B=E\text{ 或 }kE)$
+
+若 $A=B+C$，$BC=CB$，则
+\fml{A^n=(B+C)^n=B^n+nB^{n-1}C+\frac{n(n-1)}{2}B^{n-2}C^2+\cdots+C^n.}
+
+（1）若 $B=E$，则 $A^n=E+nC+\frac{n(n-1)}{2}C^2+\cdots+C^n$.
+
+（2）若 $BC=CB=O$，则 $A^n=B^n+C^n$.
+
+\begin{fcard}{例 3.5}
+设 $A=\begin{bmatrix}1&1&-1\\0&1&1\\0&0&1\end{bmatrix}$，则 $A^{10}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}1&10&35\\0&1&10\\0&0&1\end{bmatrix}$.
+
+记 $A=E+B$，其中 $B=\begin{bmatrix}0&1&-1\\0&0&1\\0&0&0\end{bmatrix}$，$B^2=\begin{bmatrix}0&0&1\\0&0&0\\0&0&0\end{bmatrix}$，$B^3=O$，则
+\fmll{\begin{aligned}
+A^{10}&=(E+B)^{10}=E^{10}+10E^9B+\frac{10\times9}{2}E^8B^2\\
+&=\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix}+\begin{bmatrix}0&10&-10\\0&0&10\\0&0&0\end{bmatrix}+\begin{bmatrix}0&0&45\\0&0&0\\0&0&0\end{bmatrix}\\
+&=\begin{bmatrix}1&10&35\\0&1&10\\0&0&1\end{bmatrix}.
+\end{aligned}}
+
+\begin{fnote}
+【注】因为 $A$ 只有 1 个线性无关的特征向量，所以不可相似对角化，故不能用 $A^n=P\Lambda^nP^{-1}$ 求 $A^n$.
+\end{fnote}
+
+% ---- 印刷页 20（PDF p31）----
+
+\textbf{4. 用初等矩阵知识求 $P_1^mAP_2^n$} $\quad(P_2\ \text{的列变换操作 }n\text{ 次；}P_1\ \text{的行变换操作 }m\text{ 次})$
+
+若 $P_1$，$P_2$ 均为初等矩阵，$m$，$n$ 为正整数，则 $P_1^mAP_2^n$ 表示先对 $A$ 作了与 $P_1$ 相同的初等行变换，且重复 $m$ 次；再对 $P_1^mA$ 作了与 $P_2$ 相同的初等列变换，且重复 $n$ 次. 若再综合，可考 $P_1^{\mathrm T}AP_2^2$，$P_1^{-2}AP_2^{\mathrm T}$，$P_1^3AP_2^{-3}$ 等.
+
+\begin{fcard}{例 3.6}
+$\begin{bmatrix}1&0\\-1&1\end{bmatrix}^3\begin{bmatrix}1&2\\-1&3\end{bmatrix}\begin{bmatrix}0&1\\1&0\end{bmatrix}^{-5}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}2&1\\-3&-4\end{bmatrix}$.
+
+记 $A=\begin{bmatrix}1&2\\-1&3\end{bmatrix}$，$B=\begin{bmatrix}1&0\\-1&1\end{bmatrix}$，$C=\begin{bmatrix}0&1\\1&0\end{bmatrix}$，则 $B^3A$ 是将 $A$ 的第 1 行的 $(-1)$ 倍加到第 2 行，重复 3 次，故 $B^3A=\begin{bmatrix}1&2\\-4&-3\end{bmatrix}$. 又 $C^{-5}=(C^5)^{-1}=C^5$，故 $B^3AC^{-5}$ 是将 $B^3A$ 的第 1 列与第 2 列互换，重复 5 次，即只互换 1 次，故
+\fml{\text{原式}=B^3AC^5=\begin{bmatrix}2&1\\-3&-4\end{bmatrix}.}
+
+\textbf{5. 用相似理论求 $A^n$}
+
+（1）若 $A\sim B$，即 $P^{-1}AP=B$，则 $A=PBP^{-1}$，$A^n=PB^nP^{-1}$.
+
+（2）若 $A\sim\Lambda$，即 $P^{-1}AP=\Lambda$，则 $A=P\Lambda P^{-1}$，$A^n=P\Lambda^nP^{-1}$. $\quad(\text{重点考查})$
+
+\begin{fcard}{例 3.7}
+设 $A$，$B$，$C$ 均是 3 阶矩阵，且满足 $AB=B^2-BC$，其中 $B=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}$，$C=\begin{bmatrix}0&1&1\\0&0&1\\0&0&1\end{bmatrix}$，则 $A^{99}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}1&0&-1\\0&1&-1\\0&0&0\end{bmatrix}$.
+
+由 $|B|=\begin{vmatrix}1&1&1\\0&1&1\\0&0&1\end{vmatrix}=1\ne0$，知 $B$ 可逆，且由 $AB=B^2-BC=B(B-C)$，得 $A=B(B-C)B^{-1}$. 于是
+\fmll{A^{99}=B(B-C)B^{-1}B(B-C)B^{-1}\cdots B(B-C)B^{-1}=B(B-C)^{99}B^{-1}.}
+又由
+\fmll{\begin{aligned}
+[B,E]&=\begin{bmatrix}1&1&1&1&0&0\\0&1&1&0&1&0\\0&0&1&0&0&1\end{bmatrix}\\
+&\to\begin{bmatrix}1&0&0&1&-1&0\\0&1&0&0&1&-1\\0&0&1&0&0&1\end{bmatrix}=[E,B^{-1}],
+\end{aligned}}
+（原矩阵特点，主对角线及右上方全是 1）
+
+（逆矩阵，主对角线上还是 1，右上方与主对角线挨着的斜线上是 $-1$，其余位置都是 0）
+
+% ---- 印刷页 21（PDF p32）----
+
+故 $B^{-1}=\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}$.$\quad(\text{最好能熟悉甚至记住下面注的结论})$
+
+$B-C=\begin{bmatrix}1&&\\&1&\\&&0\end{bmatrix}$，
+故
+\fmll{\begin{aligned}
+A^{99}&=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1&&\\&1&\\&&0\end{bmatrix}^{99}\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1&&\\&1&\\&&0\end{bmatrix}\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}\\
+&=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&0\end{bmatrix}=\begin{bmatrix}1&0&-1\\0&1&-1\\0&0&0\end{bmatrix}.
+\end{aligned}}
+$\quad(\text{沿这条斜线上是}-1)$
+
+\begin{fnote}
+【注】$A^{-1}=\begin{bmatrix}1&-1&0&\cdots&0&0\\0&1&-1&\cdots&0&0\\0&0&1&\cdots&0&0\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&1&-1\\0&0&0&\cdots&0&1\end{bmatrix}_n$ 与 $A=\begin{bmatrix}1&1&1&\cdots&1&1\\0&1&1&\cdots&1&1\\0&0&1&\cdots&1&1\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&1&1\\0&0&0&\cdots&0&1\end{bmatrix}_n$ 互为逆矩阵.
+
+更进一步地，$A^{-1}=\begin{bmatrix}a&-1&0&\cdots&0&0\\0&a&-1&\cdots&0&0\\0&0&a&\cdots&0&0\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&a&-1\\0&0&0&\cdots&0&a\end{bmatrix}_n$ 与 $A=\begin{bmatrix}\frac1a&\frac1{a^2}&\frac1{a^3}&\cdots&\frac1{a^{n-1}}&\frac1{a^n}\\0&\frac1a&\frac1{a^2}&\cdots&\frac1{a^{n-2}}&\frac1{a^{n-1}}\\0&0&\frac1a&\cdots&\frac1{a^{n-3}}&\frac1{a^{n-2}}\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&\frac1a&\frac1{a^2}\\0&0&0&\cdots&0&\frac1a\end{bmatrix}_n$（$a\ne0$）互为逆矩阵.
+
+这在矩阵中具有重要地位. 这种矩阵才是所有矩阵的最终归宿.
+
+如，$A=\begin{bmatrix}-2&-1&0\\0&-2&-1\\0&0&-2\end{bmatrix}$，$A^{-1}=\begin{bmatrix}-\frac12&\frac14&-\frac18\\0&-\frac12&\frac14\\0&0&-\frac12\end{bmatrix}$.
+\end{fnote}
+
+% ---- 印刷页 22（PDF p33）----
+
+\fsec{四、$A^{\mathrm T}A$，$A^*$，$A^{-1}$ 与初等矩阵}
+
+\textbf{1. $A^{\mathrm T}A$}
+
+这里 $A$ 为 $n$ 阶实矩阵，称 $A^{\mathrm T}A$ 为格拉姆矩阵.
+
+以 3 阶矩阵为例，记 $A=[\alpha_1,\alpha_2,\alpha_3]$，则 $A^{\mathrm T}=\begin{bmatrix}\alpha_1^{\mathrm T}\\\alpha_2^{\mathrm T}\\\alpha_3^{\mathrm T}\end{bmatrix}$，于是
+\begin{fkey}{记住}
+\fml{A^{\mathrm T}A=\begin{bmatrix}\|\alpha_1\|^2&(\alpha_1,\alpha_2)&(\alpha_1,\alpha_3)\\(\alpha_2,\alpha_1)&\|\alpha_2\|^2&(\alpha_2,\alpha_3)\\(\alpha_3,\alpha_1)&(\alpha_3,\alpha_2)&\|\alpha_3\|^2\end{bmatrix}.}
+\end{fkey}
+
+① 若 $A^{\mathrm T}A=\begin{bmatrix}1&0&0\\0&2&0\\0&0&3\end{bmatrix}$，则 $\|\alpha_1\|=1$，$\|\alpha_2\|=\sqrt2$，$\|\alpha_3\|=\sqrt3$，且 $\alpha_1$，$\alpha_2$，$\alpha_3$ 两两正交.
+
+② 若 $\operatorname{tr}(A^{\mathrm T}A)=0$，则 $\|\alpha_1\|^2+\|\alpha_2\|^2+\|\alpha_3\|^2=0$，于是 $\alpha_1=\alpha_2=\alpha_3=0$，即 $A=O$.
+
+③ $A^{\mathrm T}Ax=0$ 与 $Ax=0$ 同解.
+
+④ $r(A)=r(A^{\mathrm T})=r(A^{\mathrm T}A)=r(AA^{\mathrm T})$.
+
+⑤ 设 $A^{\mathrm T}A=B$，其中 $B$ 为已知的正定矩阵，如何求 $A$?（$\to$ 详见第 9 讲的“七、2.”. 这个知识点以后可能会作为出题方向）
+
+由条件知存在可逆矩阵 $P$，使得 $P^{\mathrm T}BP=E$.
+
+由于 $A^{\mathrm T}A=B$，则 $x^{\mathrm T}A^{\mathrm T}Ax=x^{\mathrm T}Bx$，即 $(Ax)^{\mathrm T}Ax=x^{\mathrm T}Bx$，令 $f=x^{\mathrm T}Bx\overset{\text{配方法}}{\underset{x=Py}{=}}y^{\mathrm T}P^{\mathrm T}BPy=y^{\mathrm T}Ey=y^{\mathrm T}y$，
+故 $y=Ax$，又 $x=Py$，即 $A=P^{-1}$. $\quad(\to\text{见例 9.13})$
+
+\textbf{2. $A^*$}
+
+（1）定义.
+\fml{A^*=\begin{bmatrix}A_{11}&A_{21}&\cdots&A_{n1}\\A_{12}&A_{22}&\cdots&A_{n2}\\\vdots&\vdots&&\vdots\\A_{1n}&A_{2n}&\cdots&A_{nn}\end{bmatrix},}
+其中 $A_{ij}$ 是 $a_{ij}$ 的代数余子式，$A^*$ 叫作 $A$ 的伴随矩阵. $\quad(\text{行的代数余子式列向排列})$
+
+（2）公式.
+
+设 $A$，$B$ 为 $n$（$n\ge2$）阶矩阵，则（其中⑤，⑥，⑦要求 $A$ 可逆）：
+
+① $AA^*=A^*A=|A|E$.（定义式）
+
+② $|A^*|=|A|^{n-1}$.
+
+③ $(A^{\mathrm T})^*=(A^*)^{\mathrm T}$.
+
+% ---- 印刷页 23（PDF p34）----
+
+④ $(kA)^*=k^{n-1}A^*$，$(-A)^*=(-1)^{n-1}A^*$.
+
+⑤ $A^{-1}=\frac{1}{|A|}A^*$.
+
+⑥ $A^*=|A|A^{-1}$.
+
+⑦ $(A^*)^{-1}=\frac{1}{|A|}A=(A^{-1})^*$.
+
+⑧ $(A^*)^*=|A|^{n-2}A$.
+
+⑨ $|(A^*)^*|=|A|^{(n-1)^2}$.
+
+⑩ $(AB)^*=B^*A^*$.（穿脱原则）
+
+⑪ 若 $r(A)=n-1$，则 $(A^*)^*=[\operatorname{tr}(A^*)]^{n-1}A^*$.
+
+\begin{fnote}
+【注】证 当 $|AB|\ne0$ 时，$(AB)^*=|AB|(AB)^{-1}=|B||A|B^{-1}A^{-1}=B^*A^*$. $\quad(\text{这个证明方法为“扰动法”})$
+
+当 $|AB|=0$ 时，令 $A_t=A+tE$，$B_t=B+tE$，使 $|A_tB_t|=|(A+tE)(B+tE)|\ne0$.
+
+于是 $(A_tB_t)^*=B_t^*A_t^*$，因上式两边的元素均为 $t$ 的连续函数，令 $t\to0$，有 $(AB)^*=B^*A^*$.
+
+其中，扰动法（摄动法）：在 $n$ 阶矩阵 $B$ 满足某条件 $T$ 时，令 $A+tE=B$，显然 $A+tE$ 亦满足条件 $T$. 由于在考研范围内，$A+tE$ 的元素均是 $t$ 的多项式，也即 $t$ 的连续函数，故当 $t\to0$ 时，$A+tE\to A$，即 $A$ 亦满足条件.
+\end{fnote}
+
+\begin{fcard}{例 3.8}
+设 $A$，$B$ 为 $n$ 阶矩阵，则以下结论中，正确的个数是（　）.
+
+① 若 $AB=BA$，则 $A^*B=BA^*$；
+
+② 若 $A$ 与 $B$ 等价，则 $A^*$ 与 $B^*$ 等价；
+
+③ 若 $A$ 与 $B$ 相似，则 $A^*$ 与 $B^*$ 相似；
+
+④ 若 $A$ 与 $B$ 合同，则 $A^*$ 与 $B^*$ 合同.
+
+（A）1\qquad（B）2\qquad（C）3\qquad（D）4
+\end{fcard}
+
+【解】应选（D）.
+
+对于①. 当 $A$ 可逆时，在等式 $AB=BA$ 两边左乘 $A^*$ 且右乘 $A^*$，得 $A^*ABA^*=A^*BAA^*$.
+
+由 $AA^*=A^*A=|A|E$，可得 $|A|BA^*=|A|A^*B$. 又 $|A|\ne0$，得 $BA^*=A^*B$.
+
+当 $A$ 不可逆时，令 $A_t=A+tE$，使得 $|A+tE|\ne0$，即 $A+tE$ 可逆. 此时
+\fml{A_tB=(A+tE)B=AB+tB=BA+tB=B(A+tE)=BA_t,}
+于是，$A_t^*B=BA_t^*$，即
+\fml{(A+tE)^*B=B(A+tE)^*.}
+因上式是关于 $t$ 的连续函数，令 $t\to0$，有 $A^*B=BA^*$. 故①正确.
+
+对于②，因为 $A$ 与 $B$ 等价的充要条件是 $r(A)=r(B)$. 由 $A$ 与 $A^*$ 的秩的关系，可知
+
+% 印刷页 23 正文到此结束，例 3.8 的解答续于 PDF p35（印刷页 24），不属本片范围。

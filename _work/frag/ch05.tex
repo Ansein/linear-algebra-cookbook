@@ -1,0 +1,913 @@
+% ===========================================================
+% 《线性代数9讲》第 5 讲  线性方程组 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p60–p64（印刷页 49–53），共 5 页
+%
+% 处理说明：
+%   1) 页首「三向解题法」思维导图（PDF p60 = 印刷页 49，占整页）按 AGENTS.md §7.1
+%      决定 2 **不转写、不重绘**，只留 `% FIGURE-OPD:` 一行注释。导图中的数学内容
+%      「齐次线性方程组 $Ax=0$」「非齐次线性方程组 $Ax=b$」在 PDF p62（印刷页 51）
+%      正文中重新出现，已按正文完整转写；
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2）：
+%      · \fsec 标题里的 OPD 括号删除，只保留标题文字与路线/方法名：
+%        「一、线性方程组理论总结」（$D_1$（常规操作））
+%        「1. 齐次线性方程组 $Ax=0$」（$D_1$（常规操作））
+%        「2. 非齐次线性方程组 $Ax=b$」（$D_1$（常规操作））
+%        「二、线性方程组问题」（$D_1$（常规操作）+$D_{22}$（转换等价表述）+$P_2$（反证思路））
+%        「1. 一般求解问题（含参常考）」（$O_1$（盯住目标1）+$D_1$（常规操作）+$P_2$（反证思路））
+%        「3. 线性方程组的几何意义（仅数学一）」
+%        （$O_4$（盯住目标4）+$D_1$（常规操作）+$D_{22}$（转换等价表述）+$D_{43}$（数形结合））
+%      · 正文中指向公式/结论的蓝色纯 OPD 代码与「见到……想到……」方法论语句一律
+%        以 `% OPD 蓝色标注（原稿）：……` 注释留痕，不排入正文（同 ch04_b 的处理）：
+%        →$D_1$（常规操作），牢记（p62「基础解系」处）
+%        →$D_{22}$（转换等价表述），且此条件较强，要留意（p62「解与系数的关系」处）
+%        →$D_1$（常规操作），牢记（p62「非齐次线性方程组解的情形」处）
+%        →$D_1$（常规操作），牢记（p63【注】(1) 处）
+%        $D_{22}$（转换等价表述）；见到 $AB=O$，想到 $AX=O$；见到 $|A|=0$，想到
+%          $AA^{*}=O$，$A^{*}A=O$，想到 $AX=O$，$A^{*}X=O$（p63 例5.1 处）
+%        →$D_{21}$（观察研究对象），第3讲，矩阵乘法的形状大观（p64 例5.2 处）
+%      · 数学符号一律照抄（如 $A$，$\bar A$，$\alpha_i$，$\beta_i$，$D_i$ 作为行列式记号）；
+%   3) 蓝色**数学**旁注照原文内联排入（\quad(\text{...}) 或独立成行）：
+%      「表达平面 $\Pi_i$ 的方向」「表达确定方向后 $\Pi_i$ 的位置」（p61）；
+%      「任何两个面都不重合／存在两个面重合／任何两个面都相交／存在两个面平行但不重合」
+%      （p61 两表末列）；「①是 $Ax=0$ 的解；②$\xi_1,\cdots,\xi_{n-r}$ 线性无关；③$s=n-r(A)$」
+%      「$Ax=b$ 的一个特解」（p63 通解式旁注）；
+%      「$Ax=b$ 的"广义基础解系"」「解中有 $n-r(A)+1$ 个线性无关的向量」（p63【注】(3) 处）；
+%   4) 印刷页 50（PDF p61）两张「方程组有解/无解的情形」表：原表三列
+%      「图形｜几何意义｜代数表达」。按规范，**图形列不重绘**，留 `% FIGURE:` 占位注释；
+%      「几何意义」列作 `\fcard` 标题，「代数表达」列作卡片正文；两表分别用
+%      `\fgroup` 标出表头「方程组有解的情形」「方程组无解的情形」；行序照原表自上而下；
+%   5) 本片无「习题」栏（已逐页核实 PDF p60–p64）；第 5 讲自印刷页 49 开始；
+%   6) 印刷页 51（PDF p62）「1.」「2.」为原稿蓝色粗体子标题（层级在「一、」「二、」之下，
+%      在「（1）（2）（3）」之上），本片段用 `\fsec` 承接（可用宏只有两个层级）。
+%
+% 接缝说明：
+%   · 首行承第 4 讲末尾（PDF p59 = 印刷页 48 末）——该讲已结束，本片自思维导图页起；
+%   · 例5.1 的解答跨 PDF p63（印刷页 52）末行「……且」与 PDF p64（印刷页 53）首行
+%     「$r(B^{\mathrm T})=r[(B^{\mathrm T},b)]=3$……」，本片按一个 `fcard` 排完；
+%   · 例5.3 题干在 PDF p64（印刷页 53）末行只到「（1）……；」，其「（2）」小问与两问的
+%     【解】在 PDF p65（印刷页 54，属下一分片 ch05_b）；本片在该处结束 fcard。
+% ===========================================================
+
+\fchap{第5章\quad 线性方程组}
+
+% -----------------------------------------------------------
+% PDF p60（印刷页 49）——整页为「三向解题法」思维导图
+% -----------------------------------------------------------
+% FIGURE-OPD: 49 三向解题法思维导图（按规则不保留）
+
+% -----------------------------------------------------------
+% PDF p61（印刷页 50）
+% -----------------------------------------------------------
+
+\fsec{深化一　解空间、核空间与解的结构}
+
+\begin{fdeep}{齐次解集就是核空间：基础解系的 $n-r$ 从哪来}
+齐次方程组 $Ax=0$（$A$ 为 $m\times n$）的全部解记作
+\fml{N(A)=\{x\in\mathbb{R}^{n}\mid Ax=0\}}
+它远不只是一个“解的集合”，而是 $\mathbb{R}^{n}$ 的一个\textbf{子空间}（叫\textbf{零空间}或\textbf{核空间}）：
+因为若 $Ax_1=0$、$Ax_2=0$，则 $A(x_1+x_2)=0$、$A(kx_1)=0$，即解对加法与数乘封闭。
+
+\medskip
+\textbf{于是“基础解系”有了准确的身份}：它就是 $N(A)$ 的\textbf{一组基}。
+“基础解系含 $n-r(A)$ 个向量”这句话，正是第 4 章\textbf{秩-零化度定理}的直接推论：
+\fml{\dim N(A)=n-r(A)}
+这里要看清三件事：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item $n$ 是\textbf{未知数个数}（不是方程个数）——很多同学错写成 $m$；
+\item 之所以是 $n-r$ 而不是 $m-r$：被“压成零”的自由度取决于\textbf{输入空间}的维度 $n$；
+\item 基础解系\textbf{不唯一}（任何一组基都行），但\textbf{向量个数唯一}，恒为 $n-r$。
+      这也解释了为什么不同解法写出的基础解系长得不一样，却都对。
+\end{itemize}
+\fbref{}：服务考纲〔线性方程组〕“理解齐次线性方程组的基础解系、通解及解空间的概念”。
+考场上凡是问“基础解系有几个向量”“解空间维数是多少”，答案永远是 $n-r(A)$，\textbf{不必解方程就能答}。
+反过来，若题目给了解空间维数，也能反推 $r(A)$。把“解空间”当成一个几何对象（子空间）而不是一堆向量，
+是理解第 6 章向量空间的最佳入口。
+\end{fdeep}
+
+\begin{fdeep}{“自由未知量取单位向量”为什么必然得到一组基}
+定理（北大 三.6）：齐次方程组有非零解时必有基础解系，且基础解系所含解的个数等于 $n-r$，其中 $r$ 为系数矩阵的秩。\textbf{这个定理的证明就是求法本身}。
+把行最简形写回方程组，以 $x_{r+1},\dots,x_n$ 为自由未知量。任给它们一组值就唯一确定一个解；换句话说，\textbf{自由未知量的值一样，两个解就完全一样}。现在取 $n-r$ 组单位向量当自由未知量的值：
+\fml{(1,0,\dots,0),\ (0,1,\dots,0),\ \dots,\ (0,0,\dots,1)}
+得到 $n-r$ 个解（樊 3.3 印刷页 143 给出了它们的显式形状）。
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{线性无关}：若 $k_1\eta_1+\cdots+k_{n-r}\eta_{n-r}=0$，比较\textbf{最后 $n-r$ 个分量}（它们恰是 $k_1,\dots,k_{n-r}$），立得 $k_1=\cdots=k_{n-r}=0$；
+\item \textbf{能表出任一解}：设 $\eta$ 是任一解，则 $c_{r+1}\eta_1+\cdots+c_n\eta_{n-r}$（$c_{r+1},\dots,c_n$ 是 $\eta$ 的自由未知量取值）也是解，且与 $\eta$ 的最后 $n-r$ 个分量相同，故两个解完全相同。
+\end{itemize}
+\fbref{}：服务考纲“掌握基础解系和通解的求法”。“自由未知量依次取单位向量、比较最后 $n-r$ 个分量”就是考场的标准模板；这一招还能反过来用于\textbf{快速判断给定的一组解向量是否线性无关}（只看末 $n-r$ 个分量即可）。
+\end{fdeep}
+
+\begin{fdeep}{基础解系不唯一：任意 $n-r$ 个线性无关的解都是一组基}
+樊 3.3.1 的两条定义性事实：齐次方程组 $Ax=0$ 的全部解构成 $K^n$ 的一个子空间，称为\textbf{解空间}；非零解空间的一个\textbf{基}称为基础解系；且 $\dim S=n-r(A)$。
+由定义立刻看出：\textbf{任何一个与某个基础解系等价的线性无关向量组，仍是一个基础解系}（北大 三.6 印刷页 97）。理由有两条：其一，“能线性表出全部解”这个性质在等价替换下保持不变；其二，等价的两个线性无关组所含向量个数相同。
+由此得到两条实用推论：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{基础解系不唯一，但所含向量个数唯一}，恒为 $n-r$。这解释了为什么不同解法（换自由未知量、换消元顺序）写出的基础解系长相不同却都对——它们张成的是同一个子空间。
+\item \textbf{$Ax=0$ 的任意 $n-r$ 个线性无关的解向量必构成基础解系}：个数已经“够多”，线性无关就说明它们撑满了整个解空间。
+\end{itemize}
+\fbref{}：服务考纲“理解齐次线性方程组的基础解系、通解及解空间的概念”。“任意 $n-r$ 个线性无关的解就是基础解系”是选择题里出现频率极高的一句话；它把“验证基础解系”从“验证能表出所有解”（难）降级成“数个数 + 查线性无关”（易）。
+\end{fdeep}
+
+\fsec{一、线性方程组理论总结}
+
+\fsec{1. 齐次线性方程组 $Ax=0$}
+
+（1）解的性质.
+
+对于齐次线性方程组
+\fml{A_{m\times n}x=0,}
+
+若 $\xi_1$，$\xi_2$ 是方程组 $Ax=0$ 的解，则 $x=k_1\xi_1+k_2\xi_2$（$k_1$，$k_2\in\mathbb{R}$）也是它的解.
+
+（2）基础解系与通解.
+
+①设 $r(A)<n$，$\xi_1$，$\xi_2$，$\cdots$，$\xi_s$ 是方程组 $Ax=0$ 的一组解向量. 如果
+
+a. $\xi_1$，$\xi_2$，$\cdots$，$\xi_s$ 线性无关；
+
+b. 方程组 $Ax=0$ 的任一解向量均可由 $\xi_1$，$\xi_2$，$\cdots$，$\xi_s$ 线性表示，即 $s=n-r(A)$，则称 $\xi_1$，$\xi_2$，$\cdots$，$\xi_s$ 是方程组 $Ax=0$ 的一个基础解系.
+
+% OPD 蓝色标注（原稿）：→$D_1$（常规操作），牢记
+
+\begin{fnote}
+【注】基础解系应满足三个条件：①是解；②线性无关；③ $s=n-r(A)$.
+\end{fnote}
+
+②齐次线性方程组 $Ax=0$ 有非零解的充要条件是 $r(A)<n$，此时它的通解为
+\fml{x=k_1\xi_1+k_2\xi_2+\cdots+k_{n-r}\xi_{n-r},}
+其中 $r=r(A)$，$k_1$，$k_2$，$\cdots$，$k_{n-r}$ 为任意常数.
+
+（3）解与系数的关系.
+
+若齐次线性方程组
+\fml{\begin{cases}a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0,\\a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0,\\\cdots\cdots\\a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=0\end{cases}}
+有解 $\beta=[b_1,b_2,\cdots,b_n]^{\mathrm T}$，即
+\fml{a_{i1}b_1+a_{i2}b_2+\cdots+a_{in}b_n=0\quad(i=1,2,\cdots,m).}
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述），且此条件较强，要留意
+
+记系数矩阵 $A$ 的行向量为 $\alpha_i=[a_{i1},a_{i2},\cdots,a_{in}]$（$i=1,2,\cdots,m$），则上式即为
+\fml{\alpha_i\beta=0\quad(i=1,2,\cdots,m),}
+故系数矩阵 $A$ 的行向量与 $Ax=0$ 的解向量正交.
+
+\fsec{深化二　方程组的行列式判据（克拉默法则）}
+
+\begin{fdeep}{Cramer 法则的两层用法：算唯一解，和“给一般方程组收尾”}
+樊 3.2 的陈述：数域 $K$ 上含 $n$ 个未知量 $n$ 个方程的方程组，若系数行列式 $D\ne0$，则它有唯一解
+\fml{x_j=\frac{D_j}{D}\qquad (j=1,2,\dots,n)}
+其中 $D_j$ 是把 $D$ 的第 $j$ 列换成常数项 $b_1,\dots,b_n$ 得到的行列式。\textbf{边界很硬}：必须有 $n$ 个方程、$n$ 个未知量，且 $D\ne0$；$D=0$ 时它一个字也说不了；方程个数与未知量个数不等时，$D$ 根本不存在。
+
+北大 三.6（印刷页 93–94）给出的是它的\textbf{理论用法}——用 Cramer 法则解一般方程组：设 $r(A)=r(\bar A)=r$，取 $A$ 的一个不为零的 $r$ 阶子式 $D$（不妨设位于左上角），则 $\bar A$ 的前 $r$ 行构成 $\bar A$ 的一个极大线性无关组，第 $r+1,\dots,s$ 行都可经它们线性表出，故\textbf{删去后 $s-r$ 个方程不改变解集}。于是：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item $r=n$ 时，直接对留下的 $r$ 个方程用 Cramer 法则，得唯一解；
+\item $r<n$ 时，把含 $x_{r+1},\dots,x_n$ 的项移到等号右边当作已知量，剩下 $r$ 个方程的系数行列式恰为 $D\ne0$，于是\textbf{自由未知量每取一组值，都用 Cramer 法则得到唯一解}。
+\end{itemize}
+可见 Cramer 法则并不因 $D=0$ 而“失效”，它只是要求你先选好保留哪 $r$ 个方程、把哪些未知量挪到右边。
+\fbref{}：服务考纲“会用克拉默法则”。考场计算只用第一层；理解结构用第二层。第二层顺手说清了基础解系为什么恰好 $n-r$ 个——正是被挪到右边当参数的那 $n-r$ 个未知量。
+\end{fdeep}
+
+\begin{fdeep}{齐次方程组：$D\ne0$ 与“只有零解”互为充要，但“$D$”只在方阵上有}
+由 Cramer 法则立得：当 $b_1=\cdots=b_n=0$ 而 $D\ne0$ 时，$Ax=0$ 只有零解；取逆否，$Ax=0$ 有非零解则必有 $D=0$。方阵情形这两句其实是\textbf{充要}的，因为
+\fml{D=0\iff r(A)<n\iff Ax=0\ \text{有非零解}}
+但 $D$ 只在\textbf{方程个数等于未知量个数}时才存在。对一般的 $m\times n$ 系数矩阵，唯一判据是秩：
+\fml{Ax=0\ \text{有非零解}\iff r(A)<n}
+\warn{注意} n 是\textbf{未知量个数}，与方程个数 m 无关；特别地 m<n 时必然有非零解（樊 3.3.2）。
+实操中 $D=0$ 最常见的用法是\textbf{反解参数}：把题干条件写成“某齐次方程组有非零解”，凑出 $n$ 阶系数矩阵，由 $D=0$ 解出参数候选值。这只用到了必要性，\textbf{候选值必须逐个代回}：$D=0$ 只保证秩不满，题目往往还附加“基础解系恰含 $k$ 个向量”“某给定向量是解”等条件，要再算秩来筛。
+\fbref{}：服务考纲“齐次线性方程组有非零解的充分必要条件”。一句话记住：“$D\ne0$”只在方阵上管用，一般情形一律换成 $r(A)<n$；而 $D=0$ 只负责筛参数，筛完必须代回验算。
+\end{fdeep}
+
+\fsec{2. 非齐次线性方程组 $Ax=b$}
+
+（1）解的性质.
+
+对于非齐次线性方程组
+\fml{A_{m\times n}x=b,}
+若 $\eta_1$，$\eta_2$ 都是方程组 $Ax=b$ 的解，则 $\eta_1-\eta_2$ 是相应的齐次线性方程组 $Ax=0$ 的解.
+
+（2）非齐次线性方程组解的情形.
+
+% OPD 蓝色标注（原稿）：→$D_1$（常规操作），牢记
+
+①当 $r(A)=r([A,b])=n$ 时，方程组有唯一解；
+
+% -----------------------------------------------------------
+% PDF p63（印刷页 52）
+% -----------------------------------------------------------
+②当 $r(A)=r([A,b])<n$ 时，方程组有无穷多解；
+
+③当 $r(A)\ne r([A,b])$ 时，方程组无解.
+
+（3）非齐次线性方程组的通解.
+
+设 $r(A)=r<n$，若 $\xi_1$，$\xi_2$，$\cdots$，$\xi_{n-r}$ 为非齐次线性方程组 $Ax=b$ 相应的齐次线性方程组 $Ax=0$ 的基础解系，$\eta^*$ 为非齐次线性方程组 $Ax=b$ 的一个特解，则非齐次线性方程组 $Ax=b$ 的通解为
+\fml{x=\eta^*+k_1\xi_1+k_2\xi_2+\cdots+k_{n-r}\xi_{n-r},}
+
+（$\eta^*$ 为 $Ax=b$ 的一个特解；①是 $Ax=0$ 的解；②$\xi_1$，$\cdots$，$\xi_{n-r}$ 线性无关；③ $s=n-r(A)$）
+
+其中 $k_1$，$k_2$，$\cdots$，$k_{n-r}$ 为任意常数.
+
+\begin{fnote}
+【注】（1）与非齐次线性方程组 $Ax=b$ 对应的齐次线性方程组 $Ax=0$ 称为非齐次线性方程组 $Ax=b$ 的导出组，故上述结论可简述为非齐次线性方程组的通解等于它的一个特解与其导出组的通解之和.
+
+% OPD 蓝色标注（原稿）：→$D_1$（常规操作），牢记
+
+（2）当未知数个数等于方程个数，且 $|A|\ne0$ 时，可用克拉默法则求解，即 $x_i=\dfrac{D_i}{|A|}$，$i=1,2,\cdots,n$.
+
+（3）设 $\eta^*$ 是非齐次线性方程组 $A_{m\times n}x=b$（$b\ne0$）的一个解，$\xi_1$，$\cdots$，$\xi_{n-r}$ 是其导出组 $Ax=0$ 的一个基础解系，且 $r(A)=r$，则
+
+① $\eta^*$，$\eta^*+\xi_1$，$\cdots$，$\eta^*+\xi_{n-r}$ 线性无关；\quad($Ax=b$ 的“广义基础解系”)
+
+② 非齐次线性方程组 $Ax=b$ 的任一解都可由 $\eta^*$，$\eta^*+\xi_1$，$\cdots$，$\eta^*+\xi_{n-r}$ 线性表示.\quad(解中有 $n-r(A)+1$ 个线性无关的向量)
+\end{fnote}
+
+\fsec{深化三　有解判别与同解}
+
+\begin{fdeep}{$A x=b$ 何时有解：$b$ 是否落在 $A$ 的列空间里}
+判别法是这样的：设 $A$ 为 $m\times n$，则
+\fml{Ax=b\ \text{有解}\iff r(A)=r\bigl([A\mid b]\bigr)}
+\textbf{为什么要这么判——几何本质比公式好记}：
+$A$ 的各列记作 $\alpha_1,\dots,\alpha_n$，方程组就是
+\fml{x_1\alpha_1+x_2\alpha_2+\cdots+x_n\alpha_n=b}
+也就是说：\textbf{$Ax=b$ 有解 $\iff$ $b$ 可以表示成 $A$ 的列向量的线性组合}
+$\iff$ \textbf{$b$ 落在 $A$ 的列向量组张成的空间里}。
+而“添上 $b$ 之后秩不变”正是“$b$ 没有带来新的维度”的形式化说法——它已经在列空间里了。
+
+由此立刻得到两种“无解”：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item $r(A)<r([A\mid b])$：$b$ 落到了列空间外面，\textbf{无解}；
+\item 若 $r(A)=r([A\mid b])$，记这个公共值为 $r$，则 $r=n$ 时\textbf{有唯一解}；$r<n$ 时\textbf{有无穷多解}（含 $n-r$ 个自由参数）。
+\end{itemize}
+
+\fbref{}：服务考纲〔线性方程组〕“理解…非齐次线性方程组有解的充分必要条件”。
+把判别式理解成“$b$ 在不在列空间里”，有三个好处：
+① 不会记反（谁等于谁）；② 立刻明白“无解”不是算不出来，而是几何上不可能；
+③ 与第 4 章“矩阵的秩等于列向量组的秩”接上，形成一条完整的推理链，
+而不是两个互不相干的结论。
+\end{fdeep}
+
+\begin{fdeep}{$Ax=\beta$ 有解的七种等价说法：把“有解”翻译成子空间语言}
+设 $A=(\alpha_1,\dots,\alpha_n)$ 为 $m\times n$ 矩阵，$\beta$ 为 $m$ 维列向量。下列说法\textbf{完全等价}（樊 3.4.1）：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.2em]
+\item 非齐次方程组 $Ax=\beta$（即 $\sum_{j=1}^{n}x_j\alpha_j=\beta$）有解；
+\item $\beta$ 可由列向量组 $\alpha_1,\dots,\alpha_n$ 线性表示；
+\item 向量组 $\alpha_1,\dots,\alpha_n$ 与 $\alpha_1,\dots,\alpha_n,\beta$ 等价；
+\item 它们张成的子空间相同：$L(\alpha_1,\dots,\alpha_n)=L(\alpha_1,\dots,\alpha_n,\beta)$；
+\item 两个张成子空间的维数相同，即 $\dim L(\alpha_1,\dots,\alpha_n)=\dim L(\alpha_1,\dots,\alpha_n,\beta)$；
+\item 向量组的秩相等：$r(\alpha_1,\dots,\alpha_n)=r(\alpha_1,\dots,\alpha_n,\beta)$；
+\item 矩阵的秩相等：$r(A)=r(A,\beta)$。
+\end{enumerate}
+同一套语言还能翻译“解的情形”：$r(A)=r(A,\beta)=n$ 时表示法\textbf{唯一}；$r(A)=r(A,\beta)<n$ 时能表示但表示法\textbf{不唯一}；$r(A)\ne r(A,\beta)$ 时\textbf{不能}表示。
+\fbref{}：服务考纲“理解非齐次线性方程组有解的充分必要条件”。这七条里只有秩的两条是“能算的”，其余是“能懂的”——“有解”的几何身份就是\textbf{添上 $\beta$ 之后张成空间没有变大}。命题判断题最爱在“有解 / 可线性表示 / 张成空间相同 / 秩相等”之间做替换，认出它们是一回事，题就送分。
+\end{fdeep}
+
+\begin{fdeep}{无解的精确形状：$r(\bar A)=r(A)+1$；以及它的平面几何对照}
+增广矩阵 $\bar A$ 只比 $A$ 多一列，所以两个秩至多差 1：
+\fml{r(A)\le r(\bar A)\le r(A)+1}
+于是“无解”有一个\textbf{精确}写法（北大 三.5 印刷页 93）：
+\fml{Ax=b\ \text{无解}\iff r(\bar A)=r(A)+1}
+（相应地“有解”就是 $r(\bar A)=r(A)$。）讨论含参数方程组时这条特别省事：只要阶梯形里出现 $0\ 0\ \cdots\ 0\mid d$（$d\ne0$）这样一行，就直接断定无解，不必再回头核对两个秩的数值。
+
+\textbf{几何对照}（北大 三.6 印刷页 98）以两个方程三个未知量为例，每个方程表示一张平面，$r(A)$ 只能是 1 或 2：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item $r(A)=1$、$r(\bar A)=1$：$A$ 的两行成比例、$\bar A$ 的两行也成比例，两平面\textbf{重合}，无穷多解；
+\item $r(A)=1$、$r(\bar A)=2$：两平面\textbf{平行而不重合}，无解；
+\item $r(A)=2$：此时必有 $r(\bar A)=2$，两平面\textbf{不平行因而必定相交}，无穷多解。
+\end{itemize}
+判别式在这里不是算出来的，而是“两张平面相对位置”的代数翻译。
+\fbref{}：服务考纲“理解非齐次线性方程组有解的充分必要条件”。$r(\bar A)=r(A)+1$ 去掉了“$r(A)<r(\bar A)$ 到底小多少”的含糊；几何对照则让“解的个数”类选择题可以不计算就排除选项（三张平面的情形同理，$r(A)=r(\bar A)=2$ 对应交于一条直线）。
+\end{fdeep}
+
+\begin{fdeep}{初等变换为什么保同解：一个“互相包含”的证明模板}
+三种变换称为线性方程组的\textbf{初等变换}：① 用一非零数乘某一方程；② 把一个方程的倍数加到另一个方程；③ 互换两个方程的位置。消元的过程就是反复施行初等变换的过程。核心结论：\textbf{初等变换总是把方程组变成同解方程组}（北大 三.1）。
+证明思路（以第②种为例）：设把第 2 个方程的 $k$ 倍加到第 1 个方程得新方程组。若 $(c_1,\dots,c_n)$ 是原方程组的任一解，则它自动满足新方程组中未改动的后 $s-1$ 个方程；又因原前两式成立，
+\fmll{a_{11}c_1+\cdots+a_{1n}c_n=b_1,\qquad a_{21}c_1+\cdots+a_{2n}c_n=b_2,}
+把第二式两边乘 $k$ 再加到第一式，正得 $(a_{11}+ka_{21})c_1+\cdots+(a_{1n}+ka_{2n})c_n=b_1+kb_2$，即新方程组的第一个方程。故原解都是新解；对称地可证新解都是原解。两个解集互相包含，因而不相上下——这就是同解。两种变换（乘非零数、互换位置）的证明同法可做。
+\fbref{}：服务考纲“掌握用初等行变换求解线性方程组的方法”。它回答了“凭什么可以对增广矩阵随便做行变换”——每一步都保持解集不变。凡遇“变换后解集是否改变”的辨析题，就用“两个解集互相包含”这两句话作答。
+\end{fdeep}
+
+\begin{fdeep}{同解方程组：秩相等只是必要条件，不是充分条件}
+两个方程组\textbf{同解} $\iff$ 它们有相同的解集合。设 $A,B$ 都是 $m\times n$ 矩阵。若 $Ax=0$ 与 $Bx=0$ 同解，则二者的解空间相同，于是
+\fml{n-r(A)=n-r(B)\ \Longrightarrow\ r(A)=r(B)}
+\textbf{但反过来不成立}。樊 3.3 给出的反例：
+\fml{\begin{pmatrix}1&2\\0&0\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=0,\qquad \begin{pmatrix}2&1\\0&0\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=0}
+两个系数矩阵的秩都是 1，但前者要求 $x_1=-2x_2$（$x_2$ 任意），后者要求 $x_2=-2x_1$（$x_1$ 任意），显然不同解。可见\textbf{秩相等只说明两个解空间的维数相同，并不说明是同一个子空间}。
+正确的判定是：$Ax=0$ 与 $Bx=0$ 同解 $\iff$ 两者的\textbf{行向量组等价}（可以互相线性表出）——因为每个方程都是一次线性约束，“同解”意味着两套约束能互相推出。特别地，若 $A$ 可经初等行变换化为 $B$，则两方程组同解。
+\fbref{}：服务考纲“理解齐次线性方程组的基础解系、通解及解空间的概念”。命题判断题里“同解”与“秩相等”最易混淆：要判同解，要么比较两个解空间（解出通解比一比），要么检验行向量组能否互相表出；只比秩一定不够。
+\end{fdeep}
+
+\fsec{二、线性方程组问题}
+
+线性方程组问题分为①一般问题；②公共解问题；③同解问题.
+
+\fsec{1. 一般求解问题（含参常考）}
+
+\begin{fcard}{例5.1}
+设 $A$ 是秩为 2 的 $2\times5$ 矩阵，$B$ 是秩为 3 的 $3\times5$ 矩阵，若 $AB^{\mathrm T}=O$，则对于齐次线性方程组 $Ax=0$ 的任一非零解 $b$ 有（\quad）.
+
+（A）$A^{\mathrm T}y=b$ 有唯一解\qquad\qquad（B）$A^{\mathrm T}y=b$ 有无穷多解
+
+（C）$B^{\mathrm T}y=b$ 有唯一解\qquad\qquad（D）$B^{\mathrm T}y=b$ 有无穷多解
+
+【解】应选（C）.
+
+由题可得 $r(A)=2$，$r(B)=r(B^{\mathrm T})=3$.
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）；见到 $AB=O$，想到 $AX=O$；见到 $|A|=0$，想到 $AA^{*}=O$，$A^{*}A=O$，想到 $AX=O$，$A^{*}X=O$
+
+又由于 $AB^{\mathrm T}=O$，即矩阵 $B$ 的每一行的转置均为齐次线性方程组 $Ax=0$ 的解，且 $Ax=0$ 的基础解系中所含解向量的个数 $s=5-2=3$. 而矩阵 $B$ 的三个行向量线性无关，故转置所对应的三个列向量是 $Ax=0$ 的一个基础解系.
+
+又 $Ab=0$，且 $b\ne0$，于是 $b$ 可由矩阵 $B$ 的三个行向量的转置线性表示，即 $B^{\mathrm T}y=b$ 有解，且
+
+% -----------------------------------------------------------
+% PDF p64（印刷页 53）
+% -----------------------------------------------------------
+$r(B^{\mathrm T})=r[(B^{\mathrm T},b)]=3$，$B^{\mathrm T}y=b$ 有唯一解.
+
+取 $A=\begin{bmatrix}1&0&0&0&0\\0&1&0&0&0\end{bmatrix}$，$B=\begin{bmatrix}0&0&1&0&0\\0&0&0&1&0\\0&0&0&0&1\end{bmatrix}$，$b=\begin{bmatrix}0\\0\\1\\0\\0\end{bmatrix}$，则 $r[(A^{\mathrm T},b)]\ne r(A^{\mathrm T})$，$r[(B^{\mathrm T},b)]=r(B^{\mathrm T})=3$，故选项（A），（B），（D）错误.
+\end{fcard}
+
+\begin{fcard}{例5.2}
+设 2 阶矩阵 $A$ 满足 $a_{ij}+a_{ji}=0$，$i,j=1,2$. 实矩阵 $P=[\alpha,A\alpha]$，其中 $A\alpha$ 为非零列向量，则（\quad）.
+
+（A）$\begin{bmatrix}A+A^{\mathrm T}&O\\E&P\end{bmatrix}x=0$ 只有零解\qquad（B）$\begin{bmatrix}A+E&O\\E&P\end{bmatrix}x=0$ 有非零解
+
+（C）$\begin{bmatrix}O&A+A^{\mathrm T}\\P&E\end{bmatrix}x=\begin{bmatrix}\alpha\\A\alpha\end{bmatrix}$ 有无穷多解\qquad（D）$\begin{bmatrix}O&A+E\\P&E\end{bmatrix}x=\begin{bmatrix}\alpha\\A\alpha\end{bmatrix}$ 有唯一解
+
+【解】应选（D）.
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象），第3讲，矩阵乘法的形状大观
+
+由 $a_{ij}+a_{ji}=0$，知 $A^{\mathrm T}=-A$，于是 $\alpha^{\mathrm T}A\alpha=(\alpha^{\mathrm T}A\alpha)^{\mathrm T}=\alpha^{\mathrm T}A^{\mathrm T}\alpha=-\alpha^{\mathrm T}A\alpha$，即 $\alpha^{\mathrm T}A\alpha=0$，$\alpha$ 与 $A\alpha$ 正交，即 $P=[\alpha,A\alpha]$ 可逆.
+
+对于选项（A），因为 $A^{\mathrm T}=-A$，可得 $A+A^{\mathrm T}=O$，也即
+\fml{\begin{bmatrix}A+A^{\mathrm T}&O\\E&P\end{bmatrix}x=\begin{bmatrix}O&O\\E&P\end{bmatrix}x=0.}
+
+显然系数矩阵 $\begin{bmatrix}O&O\\E&P\end{bmatrix}$ 不满秩，于是 $\begin{bmatrix}A+A^{\mathrm T}&O\\E&P\end{bmatrix}x=0$ 有无穷多解.
+
+同理，对于选项（C），
+\fml{\begin{bmatrix}O&A+A^{\mathrm T}\\P&E\end{bmatrix}x=\begin{bmatrix}O&O\\P&E\end{bmatrix}x=\begin{bmatrix}\alpha\\A\alpha\end{bmatrix},}
+而又因为 $\alpha$ 为非零列向量，其增广矩阵的秩
+\fml{r\begin{bmatrix}O&O&\alpha\\P&E&A\alpha\end{bmatrix}>r\begin{bmatrix}O&O\\P&E\end{bmatrix},}
+可知 $\begin{bmatrix}O&A+A^{\mathrm T}\\P&E\end{bmatrix}x=\begin{bmatrix}\alpha\\A\alpha\end{bmatrix}$ 无解.
+
+此外，由题意可知 $A=\begin{bmatrix}0&a\\-a&0\end{bmatrix}$（$a\ne0$），则 $|A+E|=\begin{vmatrix}1&a\\-a&1\end{vmatrix}=1+a^2\ne0$.
+
+故 $\begin{vmatrix}A+E&O\\E&P\end{vmatrix}=|A+E||P|\ne0$，选项（B）只有零解，同理选项（D）有唯一解.
+\end{fcard}
+
+\begin{fcard}{例5.3}
+已知矩阵 $A=\begin{bmatrix}2&1&-1\\1&-1&1\\4&5&-5\end{bmatrix}$.
+
+（1）求一个秩为 1 的 3 阶矩阵 $C$，使得 $AC$ 为零矩阵；
+% 例 5.3 的（2）小问与解答在 PDF p65（印刷页 54），已合并入本卡片
+（2）证明：不存在秩为 2 的 3 阶矩阵 $C$，使得 $AC$ 为零矩阵.
+
+（1）【解】设 $a$，$b$，$c$ 不全为 0，且令 $C=\begin{pmatrix}a&a&a\\b&b&b\\c&c&c\end{pmatrix}$. 由 $AC=O$，即 $\begin{pmatrix}2&1&-1\\1&-1&1\\4&5&-5\end{pmatrix}\begin{pmatrix}a\\b\\c\end{pmatrix}=0$，也即 $Ax=0$.
+
+对 $A$ 作初等行变换得
+
+\fmll{\begin{pmatrix}2&1&-1\\1&-1&1\\4&5&-5\end{pmatrix}\xrightarrow{(-1)\text{倍加至}}\begin{pmatrix}1&2&-2\\1&-1&1\\4&5&-5\end{pmatrix}\xrightarrow[(-1)\text{倍加至}]{(-4)\text{倍加至}}\begin{pmatrix}1&2&-2\\0&-3&3\\0&-3&3\end{pmatrix}}
+\fmll{\xrightarrow{(-1)\text{倍加至}}\begin{pmatrix}1&2&-2\\0&-3&3\\0&0&0\end{pmatrix}\underset{\times\left(-\frac13\right)}{\longleftrightarrow}\begin{pmatrix}1&2&-2\\0&1&-1\\0&0&0\end{pmatrix}\xrightarrow{(-2)\text{倍加至}}\begin{pmatrix}1&0&0\\0&1&-1\\0&0&0\end{pmatrix},}
+
+则可取 $[a,b,c]^{\mathrm T}=[0,1,1]^{\mathrm T}$，满足条件，故有 $C=\begin{pmatrix}0&0&0\\1&1&1\\1&1&1\end{pmatrix}$，$r(C)=1$，满足 $AC=O$.
+
+（2）【证】由（1）可知，$r(A)=2$，设存在 3 阶矩阵 $C$，且 $r(C)=2$，满足 $AC=O$，则 $r(A)+r(C)\le3$，得 $r(A)\le1$，与 $r(A)=2$ 矛盾. 于是不存在秩为 2 的 3 阶矩阵 $C$，使得 $AC$ 为零矩阵.
+% OPD 蓝色标注（原稿）：$\longrightarrow P_2$（反证思路）
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：节标题后附「（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——按 §7.1 决定 2，仅删 OPD 括号，保留节名
+
+\fsec{2. 公共解问题}
+
+（1）齐次线性方程组公共非零解.
+
+① 对于齐次线性方程组 $Ax=0$ 和 $Bx=0$，因其必有公共零解，故要求公共解，主要着眼于求公共非零解，联立方程组求解是基本办法.
+
+② $A_{m\times n}x=0$ 和 $B_{s\times n}x=0$ 有公共非零解的充要条件是 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 有非零解，也即 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)<n$.
+
+（2）非齐次线性方程组公共解.
+
+① 非齐次方程组公共解本质上也是方程组联立解，这个思路一定要记住.
+
+② 设（Ⅰ）$A_{m\times n}x=\beta$ 与（Ⅱ）$B_{s\times n}x=\gamma$ 均有解，则（Ⅰ）与（Ⅱ）有公共解的充要条件是
+
+\fml{r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right).}
+
+\begin{fcard}{例5.4}
+设矩阵 $A=\begin{pmatrix}0&-1&2\\-1&0&2\\-1&-1&a\end{pmatrix}$，已知 1 是 $A$ 的特征多项式的重根.
+
+（1）求 $a$ 的值；
+
+% -----------------------------------------------------------
+% PDF p66（印刷页 55）
+% -----------------------------------------------------------
+（2）求所有满足 $A\alpha=\alpha+\beta$，$A^{2}\alpha=\alpha+2\beta$ 的非零列向量 $\alpha$，$\beta$.% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）（印在（2）右侧）
+
+【解】（1）$f(\lambda)=|\lambda E-A|=(\lambda-1)[(\lambda-a)(\lambda+1)+4]$，因为 1 是 $A$ 的特征多项式的重根，故 $(1-a)(1+1)+4=0$，$a=3$.
+
+（2）\textbf{法一}\quad 由（1）可知 $A=\begin{pmatrix}0&-1&2\\-1&0&2\\-1&-1&3\end{pmatrix}$，由 $A\alpha=\alpha+\beta$，得 $2A\alpha=2\alpha+2\beta$，与 $A^{2}\alpha=\alpha+2\beta$ 联立得 $2A\alpha-A^{2}\alpha=\alpha$，即 $(A-E)^{2}\alpha=0$.
+% OPD 蓝色标注（原稿）：$D_1$（常规操作），联立方程组求解是基本方法（箭头指向「联立得」处）
+
+易求得 $(A-E)^{2}=O$，故 $\alpha$ 为任意的非零列向量，即 $\alpha=[a_1,a_2,a_3]^{\mathrm T}$，$a_1$，$a_2$，$a_3$ 不全为零，则
+
+\fml{\beta=(A-E)\alpha=\begin{pmatrix}-1&-1&2\\-1&-1&2\\-1&-1&2\end{pmatrix}\begin{pmatrix}a_1\\a_2\\a_3\end{pmatrix}=\begin{pmatrix}2a_3-a_1-a_2\\2a_3-a_1-a_2\\2a_3-a_1-a_2\end{pmatrix},}
+
+其中 $a_1+a_2\ne2a_3$.
+
+综上 $\alpha=\begin{pmatrix}a_1\\a_2\\a_3\end{pmatrix}$，$\beta=\begin{pmatrix}2a_3-a_1-a_2\\2a_3-a_1-a_2\\2a_3-a_1-a_2\end{pmatrix}$（$a_1$，$a_2$，$a_3$ 不全为零，$a_1+a_2\ne2a_3$）.
+
+\textbf{法二}\quad 由题设得 $\beta=A\alpha-\alpha$，$A^{2}\alpha-A\alpha=\beta$，于是 $A\beta=A^{2}\alpha-A\alpha=\beta$，即 $(A-E)\beta=0$.
+
+解线性方程组 $(E-A)x=0$，得两个线性无关的解向量 $\alpha_1=\begin{pmatrix}-1\\1\\0\end{pmatrix}$，$\alpha_2=\begin{pmatrix}2\\0\\1\end{pmatrix}$，因此，$\beta=\begin{pmatrix}-k+2l\\k\\l\end{pmatrix}$，其中 $k$，$l$ 不同时为 0.
+
+再由题设，可知 $\alpha$ 为线性方程组 $(A-E)x=\beta$ 的非零解.
+
+对增广矩阵施以初等行变换，得
+
+\fml{[A-E,\beta]\to\left(\begin{array}{ccc|c}-1&-1&2&-k+2l\\0&0&0&2k-2l\\0&0&0&k-l\end{array}\right).}
+
+故 $(A-E)x=\beta$ 当且仅当 $k=l\ne0$ 时有非零解.
+
+综上，满足方程组的非零列向量为 $\beta=\begin{pmatrix}k\\k\\k\end{pmatrix}$，$\alpha=\begin{pmatrix}-k-p+2q\\p\\q\end{pmatrix}$，其中 $k$，$p$，$q\in\mathbb{R}$ 且 $k\ne0$.
+\end{fcard}
+
+\begin{fcard}{例5.5}
+设 3 阶矩阵 $A$，$B$ 满足 $r(AB)=r(BA)+1$，则（\quad）.
+
+（A）方程组 $(A+B)x=0$ 只有零解
+
+（B）方程组 $Ax=0$ 与方程组 $Bx=0$ 均只有零解
+
+（C）方程组 $Ax=0$ 与方程组 $Bx=0$ 没有公共非零解
+
+（D）方程组 $ABx=0$ 与方程组 $BAx=0$ 有公共非零解
+
+% -----------------------------------------------------------
+% PDF p67（印刷页 56）
+% -----------------------------------------------------------
+【解】应选（D）.
+
+因为 $r(AB)=r(BA)+1\le3$，可得 $r(BA)\le2$. 若 $r(BA)=2$，则有 $|BA|=0$，而此时 $r(AB)=3$ 可得 $|AB|\ne0$，又因为 $|BA|=|AB|$，所以矛盾，故 $r(BA)\le1$，进而可得
+
+\fml{r\left(\begin{bmatrix}ABA\\BAB\end{bmatrix}\right)\le r(ABA)+r(BAB)\le r(BA)+r(BA)\le2,}
+
+则 $\begin{bmatrix}ABA\\BAB\end{bmatrix}x=0$ 有非零解，（D）正确.
+
+排除法. 取 $A=\begin{pmatrix}1&0&0\\0&0&0\\0&0&0\end{pmatrix}$，$B=\begin{pmatrix}0&0&1\\0&0&0\\0&0&0\end{pmatrix}$，则 $AB=\begin{pmatrix}0&0&1\\0&0&0\\0&0&0\end{pmatrix}$，$r(AB)=1$.
+
+\fmll{BA=\begin{pmatrix}0&0&0\\0&0&0\\0&0&0\end{pmatrix},\quad r(BA)=0,\ \text{满足}\ r(AB)=r(BA)+1.}
+
+\fmll{A+B=\begin{pmatrix}1&0&1\\0&0&0\\0&0&0\end{pmatrix},\quad r(A+B)=1,\ \text{排除（A）}.}
+
+\fmll{r(A)=r(B)=1,\ \text{排除（B）}.}
+
+因为 $Ax=0$ 与 $Bx=0$ 组成的方程组为 $\begin{cases}x_1=0,\\x_3=0,\end{cases}$ 则非零解为 $k\begin{pmatrix}0\\1\\0\end{pmatrix}(k\ne0)$，排除（C）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：节标题后附「（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——按 §7.1 决定 2，仅删 OPD 括号，保留节名
+
+\fsec{3. 同解问题}
+
+（1）齐次线性方程组.
+
+① 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解的充要条件是 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)=r(B)$.
+% OPD 蓝色标注（原稿）：「①、②、③形成新的 $D_{22}$（转换等价表述）——互相转换成彼此形式」（印在①右侧）
+
+\begin{fnote}
+【注】证 设 $Ax=0$ 的基础解系为 $\xi_1$，$\xi_2$，$\cdots$，$\xi_s$，$Bx=0$ 的基础解系为 $\eta_1$，$\eta_2$，$\cdots$，$\eta_t$.
+
+\fml{\begin{gathered}
+Ax=0\ \text{与}\ Bx=0\ \text{同解}\iff\text{（Ⅰ）}\ \xi_1,\xi_2,\cdots,\xi_s\ \text{与（Ⅱ）}\ \eta_1,\eta_2,\cdots,\eta_t\ \text{等价}\\
+\iff r(\text{Ⅰ})=r(\text{Ⅱ})\text{，且（Ⅰ）可由（Ⅱ）线性表示}\\
+\iff r(\text{Ⅰ})=r(\text{Ⅱ})=r(\text{Ⅰ},\text{Ⅱ})\\
+\iff r(A)=r(B)\text{，且}\ Ax=0\ \text{的解均为}\ Bx=0\ \text{的解}\\
+\iff r(A)=r(B)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right).
+\end{gathered}}
+\end{fnote}
+
+② 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解的充要条件是 $A$ 的行向量组与 $B$ 的行向量组等价.
+
+\begin{fnote}
+% OPD 蓝色标注（原稿）：本页版心右侧竖排标签「等价表述体系块」
+【注】显然由①的证明过程即可获得此结论.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p68（印刷页 57）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：本页版心左侧竖排标签「等价表述体系块」
+③ 设矩阵 $A_{m\times n}$，$B_{s\times n}$，则 $Ax=0$ 与 $Bx=0$ 同解的充要条件是存在矩阵 $P$，$Q$，使得 $B=PA$，$A=QB$.
+
+\begin{fnote}
+【注】证 设 $Ax=0$ 与 $Bx=0$ 的通解分别为 $x_A$，$x_B$，先证 $x_A$ 可由 $x_B$ 线性表示的充要条件是存在 $s\times m$ 矩阵 $P$，使得 $PA=B$.
+
+若 $PA=B$，设 $x_A$ 是 $Ax=0$ 的解，则 $Ax_A=0$，于是 $PAx_A=Bx_A=0$，即 $x_A$ 为 $Bx=0$ 的解，$x_A$ 可由 $x_B$ 线性表示.
+
+反过来，若 $Ax=0$ 的解均为 $Bx=0$ 的解，则 $Ax=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解，即 $x_A$ 可由 $x_B$ 线性表示，从而 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)$，即 $B$ 的行向量可由 $A$ 的行向量组线性表示，故存在 $s\times m$ 矩阵 $P$，使得 $PA=B$.
+
+同理可证 $A=QB$.
+\end{fnote}
+
+\begin{fcard}{例5.6}
+设 $A$，$B$ 为 $n$ 阶矩阵，且 $A$ 满足 $A^{2}-A=3E$，则与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 不一定同解的是（\quad）.
+
+\fmll{\text{（A）}\begin{bmatrix}A-B\\A+AB\end{bmatrix}x=0\qquad\text{（B）}\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}x=0}
+\fmll{\text{（C）}\begin{bmatrix}A-B\\2A+B\end{bmatrix}x=0\qquad\text{（D）}\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}x=0}
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述），同解 $\Longrightarrow$ 上述①$\sim$③均可，由题干与选项，宜用③（印在选项右侧）
+
+【解】应选（D）.
+
+由题设可知，$A+E$ 可逆，$A-2E$ 可逆.
+
+对于选项（A），$\begin{bmatrix}A-B\\A+AB\end{bmatrix}=\begin{bmatrix}E&-E\\E&A\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&-E\\E&A\end{bmatrix}\to\begin{bmatrix}E&-E\\O&A+E\end{bmatrix}$，由 $\begin{bmatrix}E&-E\\O&A+E\end{bmatrix}$ 可逆，得 $\begin{bmatrix}E&-E\\E&A\end{bmatrix}$ 可逆，于是
+
+\fml{\begin{bmatrix}A-B\\A+AB\end{bmatrix}x=\begin{bmatrix}E&-E\\E&A\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{与}\ \begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{同解}.}
+
+同理，对于选项（B），$\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}=\begin{bmatrix}E&E\\E&A-E\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&E\\E&A-E\end{bmatrix}\to\begin{bmatrix}E&E\\O&A-2E\end{bmatrix}$，由 $\begin{bmatrix}E&E\\O&A-2E\end{bmatrix}$ 可逆，可知 $\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}x=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解.
+
+对于选项（C），$\begin{bmatrix}A-B\\2A+B\end{bmatrix}=\begin{bmatrix}E&-E\\2E&E\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&-E\\2E&E\end{bmatrix}\to\begin{bmatrix}E&-E\\3E&O\end{bmatrix}$，由 $\begin{bmatrix}E&-E\\3E&O\end{bmatrix}$ 可逆，可知 $\begin{bmatrix}A-B\\2A+B\end{bmatrix}x=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解.
+
+对于选项（D），$\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}=\begin{bmatrix}E&E\\B&B\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&E\\B&B\end{bmatrix}\to\begin{bmatrix}E&O\\B&O\end{bmatrix}$，由 $\begin{bmatrix}E&O\\B&O\end{bmatrix}$ 不可逆，可知
+
+\fml{\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}x=0\ \text{与}\ \begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{不一定同解}.}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p69（印刷页 58）
+% -----------------------------------------------------------
+\begin{fcard}{例5.7}
+设矩阵 $A=\begin{pmatrix}4&2&-3\\a&3&-4\\b&5&-7\end{pmatrix}$，若方程组 $A^{*}x=0$ 与 $Ax=0$ 不同解，则 $a-b=\underline{\hspace{2.6em}}$.
+
+【解】应填 $-4$.
+
+若 $A^{*}x=0$ 与 $Ax=0$ 同解，则三秩相等，即
+
+\fml{r(A)=r(A^{*})=r\left(\begin{bmatrix}A\\A^{2}\end{bmatrix}\right).}
+% OPD 蓝色标注（原稿）：$P_4$（逆否思路），"$A\Rightarrow B$" 转化为"$\overline{B}\Rightarrow\overline{A}$"（印在公式右侧）
+
+如果 $A$ 可逆，三秩显然相等，则 $A^{*}x=0$ 与 $Ax=0$ 同解，于是要想 $A^{*}x=0$ 与 $Ax=0$ 不同解，即 $A$ 不可逆，于是 $|A|=0$. 根据行列式的倍加性质易得
+% OPD 蓝色标注（原稿）：手写蓝色「$A\Rightarrow B$」（在「如果 $A$ 可逆」上）与「$\overline{B}\Rightarrow\overline{A}$」（在「即 $A$ 不可逆」上）
+
+\fml{|A|=\begin{vmatrix}4&2&-3\\a&3&-4\\b&5&-7\end{vmatrix}=\begin{vmatrix}4&2&-1\\a&3&-1\\b&5&-2\end{vmatrix}=\begin{vmatrix}4&0&-1\\a&1&-1\\b&1&-2\end{vmatrix}=4(-2+1)-(a-b),}
+
+令 $|A|=0$，有 $a-b=-4$.
+\end{fcard}
+
+（2）非齐次线性方程组.
+
+% OPD 蓝色标注（原稿）：「$D_{22}$（转换等价表述），若对于一个知识点，有多种等价说法或对于一个命题有多种充要条件，那么这里的 $D_2$（脱胎换骨）就成了极为重要的考点」（小节引语下的蓝色整段）
+
+设（Ⅰ）$A_{m\times n}x=\beta$ 与（Ⅱ）$B_{s\times n}x=\gamma$ 均有解，则
+
+\fml{\begin{aligned}
+&\text{①（Ⅰ）与（Ⅱ）同解}\iff\text{②}\ A_{m\times n}x=0\ \text{与}\ B_{s\times n}x=0\ \text{同解且（Ⅰ）与（Ⅱ）有公共解}\\
+&\iff\text{③}\ r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)=r(B)\\
+&\iff\text{④}\ [A,\beta]\ \text{与}\ [B,\gamma]\ \text{的行向量组等价}.
+\end{aligned}}
+
+\begin{fnote}
+% OPD 蓝色标注（原稿）：本页版心右侧竖排标签「等价表述体系块」
+【注】证 ①$\Rightarrow$②：当（Ⅰ）与（Ⅱ）同解时，设 $\eta^{*}$ 为其任一解，即 $A\eta^{*}=\beta$，$B\eta^{*}=\gamma$. 又设 $\xi$ 为 $Ax=0$ 的任一解，即 $A\xi=0$，于是 $A(\eta^{*}+\xi)=\beta$，且 $B(\eta^{*}+\xi)=\gamma$，从而 $B\xi=0$，即 $\xi$ 也为 $Bx=0$ 的解. 反过来，同理可证，若 $\alpha$ 为 $Bx=0$ 的任一解，则 $\alpha$ 也为 $Ax=0$ 的解，故 $Ax=0$ 与 $Bx=0$ 同解. 又因（Ⅰ）,（Ⅱ）同解，知（Ⅰ）,（Ⅱ）有公共解. ②成立.
+
+②$\Rightarrow$③：因 $Ax=0$ 与 $Bx=0$ 同解，则有 $r(A)=r(B)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)$. 又 $\begin{cases}A_{m\times n}x=\beta,\\B_{s\times n}x=\gamma\end{cases}$ 有解，则 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$. ③成立.
+
+③$\Rightarrow$④：由于（Ⅰ）,（Ⅱ）均有解，故 $r([A,\beta])=r(A)$，$r([B,\gamma])=r(B)$，于是 $r([A,\beta])=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$，$r([B,\gamma])=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$，故 $[A,\beta]$ 与 $[B,\gamma]$ 的行向量组等价. ④成立.
+
+④$\Rightarrow$①：由④，存在矩阵 $P$，使得 $P[A,\beta]=[B,\gamma]$，即 $PA=B$，$P\beta=\gamma$；存在矩阵 $Q$，使得 $Q[B,\gamma]=$
+% 本【注】框在 PDF p70（印刷页 59）续完（原稿在本页仍画蓝框）；片段 C 已以新 fnote 承接
+\end{fnote}
+
+\fsec{深化四　唯一性、参数讨论与 AB=O}
+
+\begin{fdeep}{非齐次解集：一个特解加上核空间的“平移”}
+设 $Ax=b$（$b\ne0$）有解，取它的任一个解 $\eta^{*}$（称\textbf{特解}），则全部解为
+\fml{\{x\mid Ax=b\}=\eta^{*}+N(A)=\{\eta^{*}+\xi\mid \xi\in N(A)\}}
+\textbf{一句话理解}：$Ax=b$ 的解集是把核空间 $N(A)$ 整体“平移”了 $\eta^{*}$ 得到的。
+两个解之差必是齐次解，这一点用一个等式就能看出：
+\fml{A(x_1-x_2)=b-b=0\;\Longrightarrow\;x_1-x_2\in N(A)}
+
+\textbf{为什么它“不是子空间”——这是常考的辨析点}：
+$N(A)$ 含零向量，而 $b\ne0$ 时 $x=0$ 不满足 $Ax=b$，故\textbf{非齐次解集不过原点，对加法与数乘都不封闭}。
+例如取两个解相加：$A(x_1+x_2)=2b\ne b$，已不再是解。所以它是\textbf{仿射子空间}（子空间平移），
+只有当 $b=0$ 时才退化成子空间本身。
+
+\medskip
+\textbf{由此得到通解的“标准写法”}：
+\fml{x=\eta^{*}+k_1\xi_1+k_2\xi_2+\cdots+k_{n-r}\xi_{n-r}\qquad(k_i\in\mathbb{R})}
+其中 $\xi_1,\dots,\xi_{n-r}$ 是 $N(A)$ 的一组基（即基础解系），$r=r(A)$。
+\textbf{要写通解必须先“找到”一个特解}——通常是令自由变量全取 $0$ 得到的最省事的那个。
+
+\fbref{}：服务考纲〔线性方程组〕“理解非齐次线性方程组解的结构及通解的概念”。
+知道“解集 = 特解 + 核空间平移”之后，$\eta^{*}+k_1\xi_1+\cdots$ 这个形状就不再是死记的公式，
+而是“几何图像的文字化”。这类题的两个高频变式——“求满足 $A\eta=b$ 且与某向量正交的解”
+“在解集中找一个范数最小的解”——本质都是在同一个仿射集里挑点。
+\end{fdeep}
+
+\begin{fdeep}{导出组：非齐次解集的两条运算法则与“唯一解”判据}
+把 $Ax=b$ 的常数项全部换成 $0$ 得到的齐次方程组 $Ax=0$，称为 $Ax=b$ 的\textbf{导出组}（樊 3.4.3、北大 三.6）。两者解之间有两条运算法则（北大 三.6 印刷页 97）：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item $Ax=b$ 的\textbf{两个解之差}是其导出组 $Ax=0$ 的解；
+\item $Ax=b$ 的\textbf{一个解加上导出组的一个解}，仍是 $Ax=b$ 的解。
+\end{itemize}
+由第一条，取任一特解 $\gamma_0$，任一解 $\gamma$ 都可写成 $\gamma=\gamma_0+(\gamma-\gamma_0)$，其中 $\gamma-\gamma_0$ 是导出组的解，于是全部解为 $\gamma_0+\eta$（$\eta$ 取遍导出组的解）——这正是通解 $\gamma_0+k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$ 的来源。
+\textbf{推论（常考）}：在 $Ax=b$ \textbf{有解}的前提下，
+\fml{Ax=b\ \text{的解唯一}\iff \text{导出组}\ Ax=0\ \text{只有零解}}
+证明用第一条即可：若 $Ax=b$ 有两个不同解，其差是导出组的非零解；反之若导出组有非零解，把它加到任一解上就得到另一个解。换成秩语言：方阵情形就是 $\det A\ne0$，一般情形就是 $r(A)=n$（列满秩）。
+\fbref{}：服务考纲“理解非齐次线性方程组解的结构及通解的概念”。“非齐次解唯一 $\iff$ 导出组只有零解”比“$r(A)=r(\bar A)=n$”更好用：含参数题里只要判出齐次部分只有零解，就能立刻断定唯一，不必同时盯两个秩。
+\end{fdeep}
+
+\begin{fdeep}{$AB=O$ 为什么给出 $r(A)+r(B)\le n$：看 $B$ 的列落在谁里面}
+樊 4.4.3（印刷页 221）的秩不等式：设 $A$ 是 $m\times n$ 矩阵、$B$ 是 $n\times s$ 矩阵，若 $AB=O$，则
+\fml{r(A)+r(B)\le n}
+考研辅导里这条常被死记，其实\textbf{用方程组一句话就说清了}。把 $B$ 按列分块 $B=(\beta_1,\dots,\beta_s)$，则 $AB=O$ 等价于
+\fml{A\beta_j=0,\qquad j=1,2,\dots,s}
+即 \textbf{$B$ 的每一列都是齐次方程组 $Ax=0$ 的解}——$B$ 的列向量组整个落在解空间（核空间）里。于是
+\fml{r(B)=\dim L(\beta_1,\dots,\beta_s)\le \dim N(A)=n-r(A)}
+移项即得 $r(A)+r(B)\le n$。\textbf{等号何时成立}：当 $B$ 的列向量组恰好是 $Ax=0$ 的一组基时，$r(B)=n-r(A)$，等号成立。所以“$AB=O$ 且 $r(A)+r(B)=n$”这句话里其实藏着“$B$ 的列构成 $Ax=0$ 的基础解系”。
+\fbref{}：服务考纲“理解齐次线性方程组的基础解系、通解及解空间的概念”。秩不等式里 $r(A)+r(B)\le n$（注意是 $A$ 的\textbf{列数} $n$，不是 $m$ 也不是 $s$）最容易记错，用“$B$ 的列都在解空间里”这一步就永远不会写错；反过来，题目一给 $AB=O$，就要立刻想到“$B$ 的列是 $Ax=0$ 的解”。
+\end{fdeep}
+
+\begin{fdeep}{含参数方程组：先分流，再分情形}
+由樊 §3.3、§3.4 的含参数例题（如例 3.32、例 3.55 等）可归纳出一条稳定的讨论路线：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{方程个数等于未知量个数 $n$}：先算系数行列式 $D$。$D\ne0$ 时由 Cramer 法则直接得\textbf{唯一解}（此时不必讨论）；再令 $D=0$ 解出参数候选值，逐个代回，对增广矩阵作初等行变换，比较 $r(A)$ 与 $r(\bar A)$。
+\item \textbf{方程个数不等于未知量个数}（或参数藏在常数项里）：不算行列式，\textbf{直接对增广矩阵作初等行变换}，把含参数的表达式保留在矩阵中，找出“会使某个主元消失”的参数值，再按这些值分情形。
+\item 两条省力的判别捷径：① 阶梯形里出现 $0\ 0\ \cdots\ 0\mid d$（$d\ne0$）$\Longrightarrow$ 无解（即 $r(\bar A)=r(A)+1$）；② 若已知方程组\textbf{有不止一个解}（例如题给三个互异的解向量），则其导出组有非零解；当系数矩阵是 $n$ 阶方阵时立刻得到 $\det A=0$。
+\end{enumerate}
+\fbref{}：服务考纲“非齐次线性方程组有解的充分必要条件”及含参数方程组的讨论。先把题目分流到第 1 类还是第 2 类，能省掉大量无用计算——只有方阵才值得先算行列式，非方阵一律直接消元。第 3 条②则是“给解求参数”类题的突破口：从“解不唯一”直接读出“系数矩阵奇异”。
+\end{fdeep}
+
+% ===========================================================
+% 《线性代数9讲》第 5 讲  线性方程组 —— 片段 C（本讲后半，收尾片）
+% 源：线代9讲强化.pdf  PDF p70–p74（印刷页 59–63），共 5 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · PDF p70（59）$D_{22}$（转换等价表述）．将①⇔③转化为①⇔③
+%        · PDF p70（59）「（1）的解答过程完整展示了"方程组（Ⅰ）的解是方程组（Ⅱ）的解"的常规解法，一定要掌握」
+%        · PDF p71（60）$D_{22}$（转换等价表述）（箭头指向 $[B,\beta]\to$ 后的矩阵）
+%        · PDF p71（60）节标题下的（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{22}$（转换等价表述）$+D_{43}$（数形结合））
+%        · PDF p72（61）表（a）标题右侧 $\to D_1$（常规操作）
+%        · PDF p72（61）表（b）标题右侧 $\to D_1$（常规操作）
+%        · PDF p73（62）例 5.9 解首 $D_{43}$（数形结合）；例 5.9 图右侧 $D_{22}$（转换等价表述）$+D_{43}$（数形结合）
+%        · PDF p74（63）例 5.10 选项右侧 $D_{22}$（转换等价表述）$+D_{43}$（数形结合）
+%   2) **数学操作旁注保留**（照原文排入）：PDF p70（59）「步骤一：求方程组（Ⅰ）的通解」
+%      「步骤二：将（Ⅰ）的通解代入（Ⅱ）」「步骤三：验证（Ⅰ）的通解满足（Ⅱ）」；
+%      PDF p71（60）「表达平面 $\Pi_i$ 的方向」「表达确定方向后 $\Pi_i$ 的位置」；
+%      交叉引用（①、②、③、④，（Ⅰ）、（Ⅱ））照原文排入；
+%   3) **几何示意图一律不重绘、不丢弃**，按主控要求留 `% FIGURE:` 占位行：
+%      PDF p72（61）表（a）4 幅、表（b）2 幅；PDF p73（62）续表 2 幅、例 5.9 题干 1 幅；
+%      共 9 幅，均待主控裁切原图或重绘后替换；
+%   4) 第 5 讲末尾（PDF p73–p74，印刷页 62–63）**无「习题」栏**（已逐页核实）：
+%      PDF p74（印刷页 63）以例 5.10 结束，其后整页留白（下半页全空）；
+%      第 6 讲「向量组」自印刷页 64（PDF p75）开始；
+%   5) 本片无页首思维导图（第 5 讲导图在 PDF p60，印刷页 49）。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p69（印刷页 58）【注】框的余下部分（该框在本页续完，原稿在本页仍画蓝框）；
+%   · 例 5.8 题干与（1）在 PDF p70、（2）在 PDF p70 末～PDF p71 首，本片按一个卡片排完；
+%   · 表（a）、表（b）与 PDF p73 的「续表」原为一张跨页大表，本片按情形拆为 6 张 fcard，
+%     并以 \fgroup 标出表名与「续表」。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p70（印刷页 59）
+% -----------------------------------------------------------
+% 承 PDF p69（印刷页 58）【注】框的余下部分（该框在本页续完）
+\begin{fnote}
+$[A,\beta]$，即 $QB=A$，$Q\gamma=\beta$.
+
+现设 $\eta^{*}$ 为（Ⅰ）的任一解，即 $A\eta^{*}=\beta$，则 $B\eta^{*}=PA\eta^{*}=P\beta=\gamma$，即 $\eta^{*}$ 也为（Ⅱ）的任一解.
+
+反过来，亦可证明（Ⅱ）的任一解亦是（Ⅰ）的任一解. ①成立.
+
+证明①$\sim$④循环封闭，故①$\sim$④为等价命题.
+\end{fnote}
+
+\begin{fcard}{例5.8}
+设矩阵 $A=\begin{pmatrix}1&-1&0&-1\\1&1&0&3\\2&1&2&6\end{pmatrix}$，$B=\begin{pmatrix}1&0&1&2\\1&-1&a&a-1\\2&-3&2&-2\end{pmatrix}$，向量 $\alpha=\begin{pmatrix}0\\2\\3\end{pmatrix}$，$\beta=\begin{pmatrix}1\\0\\-1\end{pmatrix}$.
+
+（1）证明：方程组 $Ax=\alpha$ 的解均为方程组 $Bx=\beta$ 的解；
+
+（2）若方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 不同解，求 $a$ 的值.
+
+（1）【证】对 $Ax=\alpha$ 的增广矩阵施以初等行变换，有
+
+\fml{[A,\alpha]=\left(\begin{array}{cccc|c}1&-1&0&-1&0\\1&1&0&3&2\\2&1&2&6&3\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&0&1&1\\0&1&0&2&1\\0&0&1&1&0\end{array}\right),}
+
+（步骤一：求方程组（Ⅰ）的通解）
+
+得 $Ax=\alpha$ 的通解为
+
+\fml{x=\begin{pmatrix}1\\1\\0\\0\end{pmatrix}+k\begin{pmatrix}-1\\-2\\-1\\1\end{pmatrix}=\begin{pmatrix}1-k\\1-2k\\-k\\k\end{pmatrix},\quad\text{其中}\ k\ \text{为任意常数}.}
+
+（步骤二：将（Ⅰ）的通解代入（Ⅱ））
+
+将 $Ax=\alpha$ 的通解代入 $Bx$ 得
+
+\fml{Bx=\begin{pmatrix}1&0&1&2\\1&-1&a&a-1\\2&-3&2&-2\end{pmatrix}\begin{pmatrix}1-k\\1-2k\\-k\\k\end{pmatrix}=\begin{pmatrix}1\\0\\-1\end{pmatrix}=\beta,}
+
+（步骤三：验证（Ⅰ）的通解满足（Ⅱ））
+
+% OPD 蓝色标注（原稿）：（1）的解答过程完整展示了"方程组（Ⅰ）的解是方程组（Ⅱ）的解"的常规解法，一定要掌握
+
+所以方程组 $Ax=\alpha$ 的解均为方程组 $Bx=\beta$ 的解.
+
+（2）【解】对 $Bx=\beta$ 的增广矩阵施以初等行变换，有
+
+\fml{[B,\beta]=\left(\begin{array}{cccc|c}1&0&1&2&1\\1&-1&a&a-1&0\\2&-3&2&-2&-1\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&1-a&3-a&1\\0&0&a-1&a-1&0\end{array}\right).}
+
+当 $a\ne1$ 时，再经初等行变换，有
+
+\fml{[B,\beta]\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&1-a&3-a&1\\0&0&a-1&a-1&0\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&0&1&1\\0&1&0&2&1\\0&0&1&1&0\end{array}\right),}
+
+% -----------------------------------------------------------
+% PDF p71（印刷页 60）
+% -----------------------------------------------------------
+得方程组 $Bx=\beta$ 的通解为
+
+\fml{x=\begin{pmatrix}1\\1\\0\\0\end{pmatrix}+k\begin{pmatrix}-1\\-2\\-1\\1\end{pmatrix},\quad\text{其中}\ k\ \text{为任意常数},}
+
+所以方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 同解.
+
+当 $a=1$ 时，经初等行变换，有
+
+\fml{[B,\beta]\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&0&2&1\\0&0&0&0&0\end{array}\right),}
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）（位于该式左侧，箭头指向该矩阵）
+
+知 $r([A,\alpha])\ne r([B,\beta])$. 所以方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 不同解.
+
+综上可知，$a=1$.
+\end{fcard}
+
+\fsec{三、线性方程组的几何意义（仅数学一）}
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{22}$（转换等价表述）$+D_{43}$（数形结合））
+
+设线性方程组
+
+\fml{\begin{cases}a_1x+b_1y+c_1z=d_1,\\a_2x+b_2y+c_2z=d_2,\\a_3x+b_3y+c_3z=d_3.\end{cases}}
+
+记
+
+\fmll{\text{表达平面}\Pi_i\text{的方向}\longrightarrow A=\begin{pmatrix}a_1&b_1&c_1\\a_2&b_2&c_2\\a_3&b_3&c_3\end{pmatrix},\qquad \overline{A}=\begin{pmatrix}a_1&b_1&c_1&d_1\\a_2&b_2&c_2&d_2\\a_3&b_3&c_3&d_3\end{pmatrix}\longrightarrow\text{表达确定方向后}\Pi_i\text{的位置}.}
+
+且 $\Pi_i$（$i=1$，2，3）表示第 $i$ 张平面：$a_ix+b_iy+c_iz=d_i$，$\alpha_i$（$i=1$，2，3）表示第 $i$ 张平面的法向量 $[a_i,\ b_i,\ c_i]$，即 $A$ 的行向量，$\beta_i$（$i=1$，2，3）表示 $[a_i,\ b_i,\ c_i,\ d_i]$，即 $\overline{A}$ 的行向量.
+
+\begin{fnote}
+【注】以下 $i\ne j$.
+
+①$\alpha_i$ 与 $\alpha_j$ 线性相关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 平行或重合.
+
+②$\alpha_i$ 与 $\alpha_j$ 线性无关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 相交.
+
+③$\beta_i$ 与 $\beta_j$ 线性相关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 重合.
+
+如 $\Pi_1:x+y+z=1$，$\Pi_2:2x+2y+2z=2$，其中
+
+\fml{\beta_1=[1,\ 1,\ 1,\ 1],\ \beta_2=[2,\ 2,\ 2,\ 2],}
+
+$\beta_1$ 与 $\beta_2$ 线性相关，故 $\Pi_1$ 与 $\Pi_2$ 重合.
+
+④$\beta_i$ 与 $\beta_j$ 线性无关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 不重合.
+
+如 $\Pi_1:x+y+z=0$，$\Pi_2:x+y+z=1$，其中
+
+\fml{\beta_1=[1,\ 1,\ 1,\ 0],\ \beta_2=[1,\ 1,\ 1,\ 1],}
+
+$\beta_1$ 与 $\beta_2$ 线性无关，故 $\Pi_1$ 与 $\Pi_2$ 不重合.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p72（印刷页 61）
+% -----------------------------------------------------------
+综上，可按不同情形列表（a）和表（b）.
+
+% OPD 蓝色标注（原稿）：$\to D_1$（常规操作）（位于表（a）标题右上方）
+
+\fgroup{表（a）\quad 方程组有解的情形}
+
+\begin{fcard}{三张平面相交于一点}
+\figimg[3.4cm]{fig_plane_pt}
+\fml{r(A)=r(\overline{A})=3}
+\fml{\Leftrightarrow Ax=\beta\ \text{有唯一解}}
+\end{fcard}
+
+\begin{fcard}{三张平面相交于一条直线}
+\figimg[3.4cm]{fig_plane_line}
+\fml{r(A)=r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中任意两个向量都线性无关.
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}\qquad\text{任何两个面都不重合}}
+\end{fcard}
+
+\begin{fcard}{两张平面重合，第三张平面与之相交}
+\figimg[3.4cm]{fig_plane_2coincide}
+\fml{r(A)=r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中有两个向量线性相关.
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}\qquad\text{存在两个面重合}}
+\end{fcard}
+
+\begin{fcard}{三张平面重合}
+\figimg[3.4cm]{fig_plane_3coincide}
+\fml{r(A)=r(\overline{A})=1}
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}}
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$\to D_1$（常规操作）（位于表（b）标题右侧）
+
+\fgroup{表（b）\quad 方程组无解的情形}
+
+\begin{fcard}{三张平面两两相交，且交线相互平行}
+\figimg[3.4cm]{fig_plane_parlines}
+\fml{r(A)=2,\ r(\overline{A})=3,}
+且 $\alpha_1$，$\alpha_2$，$\alpha_3$ 中任意两个向量都线性无关.
+\fml{\text{任何两个面都相交}}
+\end{fcard}
+
+\begin{fcard}{两张平面平行，第三张平面与它们相交}
+\figimg[3.4cm]{fig_plane_2parallel}
+\fml{r(A)=2,\ r(\overline{A})=3,}
+且 $\alpha_1$，$\alpha_2$，$\alpha_3$ 中有两个向量线性相关.
+\fml{\text{存在两个面平行但不重合}}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p73（印刷页 62）
+% -----------------------------------------------------------
+\fgroup{续表}
+
+\begin{fcard}{三张平面相互平行但不重合}
+\figimg[3.4cm]{fig_plane_3parallel}
+\fml{r(A)=1,\ r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中任意两个向量都线性无关.
+\fml{\text{任何两个面都不重合}}
+\end{fcard}
+
+\begin{fcard}{两张平面重合，第三张平面与它们平行但不重合}
+\figimg[3.4cm]{fig_plane_2coinc1par}
+\fml{r(A)=1,\ r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中有两个向量线性相关.
+\fml{\text{存在两个面重合}}
+\end{fcard}
+
+\begin{fcard}{例5.9}
+在空间直角坐标系 $O-xyz$ 中，三张平面 $\Pi_1:\alpha x+y-z=1$，$\Pi_2:x+y+bz=a$，$\Pi_3:x+ay-z=1$ 的位置关系如图所示，则（\quad）.
+
+（A）$a=1$，$b\ne-1$
+
+（B）$a=1$，$b=-1$
+
+（C）$a\ne-2$，$b=2$
+
+（D）$a=-2$，$b=2$
+
+\figimg[4.2cm]{fig_plane_ex59}
+
+% OPD 蓝色标注（原稿）：$D_{43}$（数形结合）（位于「【解】应选（D）.」右侧）
+
+【解】应选（D）.
+
+由于三张平面相交于一条直线，记
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）$+D_{43}$（数形结合）（位于题干示意图右下方，箭头指向下列向量）
+
+\fml{\alpha_1=\begin{pmatrix}a\\1\\-1\end{pmatrix},\ \alpha_2=\begin{pmatrix}1\\1\\b\end{pmatrix},\ \alpha_3=\begin{pmatrix}1\\a\\-1\end{pmatrix},\ \beta_1=\begin{pmatrix}a\\1\\-1\\1\end{pmatrix},\ \beta_2=\begin{pmatrix}1\\1\\b\\a\end{pmatrix},\ \beta_3=\begin{pmatrix}1\\a\\-1\\1\end{pmatrix},}
+
+则 $r(\alpha_1,\alpha_2,\alpha_3)=r(\beta_1,\beta_2,\beta_3)=2$，且 $\beta_1$，$\beta_2$，$\beta_3$ 任意两个向量均线性无关.
+
+\fml{[\beta_1,\beta_2,\beta_3]=\begin{pmatrix}a&1&1\\1&1&a\\-1&b&-1\\1&a&1\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&a-1&1-a\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&0&2-a^2-a\end{pmatrix}.}
+
+①当 $a=1$ 时，$\beta_1$ 与 $\beta_3$ 线性相关，不满足题意；
+
+②当 $a\ne1$ 时，
+
+\fml{[\beta_1,\beta_2,\beta_3]\to\begin{pmatrix}1&1&a\\0&1&1+a\\0&b+1&a-1\\0&0&a+2\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1&1+a\\0&0&-b(a+1)-2\\0&0&a+2\end{pmatrix},}
+
+要满足题意，则 $a+2=0$ 且 $-b(a+1)-2=0$，故 $\begin{cases}a=-2,\\b=2.\end{cases}$
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p74（印刷页 63）—— 第 5 讲末页
+% -----------------------------------------------------------
+\begin{fcard}{例5.10}
+设 $\alpha_1$，$\alpha_2$，$\alpha_3$，$\alpha_4$ 是 $n$ 维列向量，$\alpha_1$，$\alpha_2$ 线性无关，$\alpha_1$，$\alpha_2$，$\alpha_3$ 线性相关，且 $\alpha_1+\alpha_2+\alpha_4=0$. 在空间直角坐标系 $O-xyz$ 中，关于 $x$，$y$，$z$ 的方程组 $x\alpha_1+y\alpha_2+z\alpha_3=\alpha_4$ 的几何图形是（\quad）.
+
+（A）过原点的一个平面\qquad（B）过原点的一条直线
+
+（C）不过原点的一个平面\qquad（D）不过原点的一条直线
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）$+D_{43}$（数形结合）（位于（B）（D）两选项右侧，箭头指向「直线」二字）
+
+【解】应选（D）.
+
+记 $A=[\alpha_1,\alpha_2,\alpha_3]$，由 $\alpha_1$，$\alpha_2$ 线性无关，$\alpha_1$，$\alpha_2$，$\alpha_3$ 线性相关，可得 $r(A)=2$. 记 $\overline{A}=[A,\alpha_4]=[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$，再由 $\alpha_1+\alpha_2+\alpha_4=0$，得 $r(\overline{A})=2$. 于是 $Ax=\alpha_4$ 有无穷多解，若过原点，则 $\alpha_4=0$，进而可知 $\alpha_1+\alpha_2=0$，与 $\alpha_1$，$\alpha_2$ 线性无关矛盾，故不过原点.
+
+由上述分析可知 $r(A)=r(\overline{A})=2$，则 $x\alpha_1+y\alpha_2+z\alpha_3=\alpha_4$ 不妨设为
+
+\fml{\begin{cases}a_{11}x+a_{12}y+a_{13}z=a_{14},\\a_{21}x+a_{22}y+a_{23}z=a_{24},\end{cases}}
+
+两平面交于一条直线，且不过原点. 故选（D）.
+\end{fcard}
+
+% 第 5 讲至此结束（印刷页 63 下半页留白）。
+% 第 5 讲末尾（PDF p73–p74，印刷页 62–63）无「习题」栏（已逐页核实），故无需 `% 习题栏：按仓库决定不收录`。

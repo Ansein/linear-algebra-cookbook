@@ -1,0 +1,733 @@
+% ===========================================================
+%  ch04_a —— 《线性代数9讲》第 4 讲「矩阵的秩」（前半）
+%  印刷页 41–44（PDF p52–p55）
+%
+%  处理说明：
+%   1) 页首「三向解题法」思维导图按 AGENTS.md §7.1 决定 2 不转写、不重绘，
+%      只留 FIGURE-OPD 注释；节标题里的 OPD 代码括号（D₁/D₂/D₄₁/P₁₂）删除，
+%      保留原层级标题「一、定义」「二、公式」；
+%   2) 印刷页 41「隐含条件体系块」内的 17 条秩的公式/性质（①~⑰）逐条完整转写：
+%      原稿排为黑体强调的 ⑤、⑦ 用 fkey，其余用 fcard；标题 = 原编号 + 含义
+%      （原稿只有编号、无条目名）；原稿左侧竖排标签「隐含条件体系块」用 \fgroup；
+%   3) 原稿蓝色手写旁注属数学操作旁注，以行内括号 / 行内说明保留：
+%      「任取 k 行、k 列构成的 k 阶行列式」（p53）、
+%      「2=r(AB)≤r(A),r(B) ⟹ r(A),r(B)≤行数、列数」（p54）、
+%      「矩阵越乘秩越小」（p55）；
+%   4) 本片覆盖第 4 讲前半（印刷页 41–44）。印刷页 44（PDF p55）末句
+%      「同理，r(B−A)≥r(B)−r(A). 故」为跨页句，其续文在印刷页 45（PDF p56），
+%      属下一分片 ch04_b；
+%   5) 印刷页 41–44 无「习题」栏。
+% ===========================================================
+
+\fchap{第4章\quad 矩阵的秩}
+
+% ---- 印刷页 41（PDF p52）----
+
+% FIGURE-OPD: 41 三向解题法思维导图（按规则不保留）
+
+\begin{fcard}{① 秩的取值范围}
+$0\le r(A_{m\times n})\le\min\{m,\;n\}$.
+\end{fcard}
+
+\begin{fcard}{② 数乘不改变秩}
+$r(kA)=r(A)\ (k\ne 0)$.
+\end{fcard}
+
+\begin{fcard}{③ 可逆矩阵相乘不改变秩}
+$r(A)=r(PA)=r(AQ)=r(PAQ)$（$P$，$Q$ 为可逆矩阵）.
+\end{fcard}
+
+\begin{fcard}{④ 满秩矩阵的消去}
+设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵.
+
+若 $r(A)=n$（列满秩），则 $r(AB)=r(B)$；若 $r(B)=n$（行满秩），则 $r(AB)=r(A)$.
+\end{fcard}
+
+\begin{fkey}{⑤ 满秩矩阵的单侧消去}
+若 $CA=CB$，$C$ 列满秩，则 $A=B$；若 $AC=BC$，$C$ 行满秩，则 $A=B$.
+\end{fkey}
+
+\begin{fcard}{⑥ 乘积的秩的上界}
+$r(AB)\le\min\{r(A),\;r(B)\}$.
+\end{fcard}
+
+\begin{fkey}{⑦ 和的秩与拼接矩阵的秩}
+$r(A+B)\le r([A,\;B])\le r(A)+r(B)$.
+\end{fkey}
+
+\begin{fcard}{⑧ 乘积的秩的下界}
+$r(AB)\ge r(A)+r(B)-n$（$A$，$B$ 分别为 $m\times n$ 矩阵与 $n\times s$ 矩阵）.
+\end{fcard}
+
+\begin{fcard}{⑨ 三矩阵乘积的秩的下界}
+$r(ABC)\ge r(AB)+r(BC)-r(B)$.
+\end{fcard}
+
+\begin{fcard}{⑩ 转置与 $AA^{\mathrm T}$、$A^{\mathrm T}A$ 的秩}
+$r(A)=r(A^{\mathrm T})=r(AA^{\mathrm T})=r(A^{\mathrm T}A)$.
+\end{fcard}
+
+\begin{fcard}{⑪ 伴随矩阵 $A^*$ 的秩}
+\fml{r(A^*)=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+\end{fcard}
+
+\begin{fcard}{⑫ 满足二次方程时秩之和}
+若 $A^{2}-(k_1+k_2)A+k_1k_2E=O$，$k_1\ne k_2$，则 $r(A-k_1E)+r(A-k_2E)=n$.
+\end{fcard}
+
+\begin{fcard}{⑬ 基础解系所含向量的个数}
+$Ax=0$ 的基础解系所含向量的个数为 $s=n-r(A)$（$A$ 为 $m\times n$ 矩阵）.
+\end{fcard}
+
+\begin{fcard}{⑭ 两个方程组同解的充要条件}
+方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解 $\Leftrightarrow r(A)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(B)$.
+\end{fcard}
+
+\begin{fcard}{⑮ 向量组等价的秩刻画}
+$r(\mathrm{I})=r(\mathrm{II})=r(\mathrm{I},\mathrm{II})\Leftrightarrow$ 向量组（I）与向量组（II）等价.
+\end{fcard}
+
+\begin{fcard}{⑯ 相似时重根的个数与秩}
+若 $A\sim\Lambda$，则 $n_i=n-r(\lambda_iE-A)$，其中 $\lambda_i$ 是 $n_i$ 重特征根.
+\end{fcard}
+
+\begin{fcard}{⑰ 相似时秩与非零特征值}
+若 $A\sim\Lambda$，则 $r(A)$ 等于非零特征值的个数，重根按重数算
+\end{fcard}
+
+% ---- 印刷页 42（PDF p53）----
+
+\fsec{一、定义}
+
+设 $A$ 是 $m\times n$ 矩阵，$A$ 中最大的不为零的子式的阶数称为矩阵 $A$ 的秩，记为 $r(A)$. 也可以这样定义：若存在 $k$ 阶子式（任取 $k$ 行、$k$ 列构成的 $k$ 阶行列式）不为零，而任意 $k+1$ 阶子式全为零（如果有的话），则 $r(A)=k$，且若 $A$ 为 $n\times n$ 矩阵，则
+\fml{r(A_{n\times n})=n\Leftrightarrow|A|\ne 0\Leftrightarrow A\ \text{可逆}.}
+
+\begin{fnote}
+【注】用初等变换将 $A$ 化为行阶梯形矩阵，阶梯数即为矩阵的秩.
+\end{fnote}
+
+\fsec{深化一　秩的等价刻画与秩不等式}
+
+\begin{fdeep}{秩的四种等价定义：什么时候该用哪一种}
+“秩”在课本里被反复重新定义，初学者容易觉得它们是四件事。其实\textbf{是同一个数的四种刻画}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{子式定义}：$r(A)$ = $A$ 中非零子式的最高阶数。
+      这是最“原始”的定义，好处是\textbf{能直接用于证明不等式}（只要有非零子式就给出秩的下界）。
+\item \textbf{行（列）向量组定义}：$r(A)$ = $A$ 的行向量组的秩 = 列向量组的秩。
+      用于讨论\textbf{线性相关性与极大无关组}。
+\item \textbf{初等变换定义}：$r(A)$ = 用初等变换化成的阶梯形矩阵中\textbf{非零行的个数}。
+      这是\textbf{唯一真正好算}的定义，考试算秩一律用它。
+\item \textbf{线性变换定义}：$r(A)=\dim\operatorname{Im}(A)$（$A$ 作为线性映射的像的维数）。
+      用于理解\textbf{秩的几何意义}，也是秩-零化度定理的一半。
+\end{enumerate}
+\textbf{怎么选}：\textbf{算}秩 → 用 ③；\textbf{证}不等式 → 用 ①；
+\textbf{谈结构}（求极大无关组、判断相关性）→ 用 ②；\textbf{理解定理} → 用 ④。
+\fbref{}服务考纲〔矩阵〕“理解矩阵的秩的概念，掌握用初等变换求矩阵的秩”+
+〔向量〕“理解矩阵的秩与其行（列）向量组的秩之间的关系”。
+考生最常见的困境是“知道秩是几，但不知道这题该用哪种定义去说理”——
+\must{记住}上面这句“算/证/谈结构/理解”的对应，题目的证法方向就定了。
+\end{fdeep}
+
+\begin{fdeep}{秩-零化度定理：$r(A)+\dim N(A)=n$ —— 全书的“守恒律”}
+设 $A$ 为 $m\times n$ 矩阵，$N(A)=\{x\mid Ax=0\}$ 是它的\textbf{零空间（核空间）}，则
+\fml{r(A)+\dim N(A)=n}
+\textbf{它说的是一件非常直观的事}：把一个 $n$ 维空间用 $A$ 映射出去，
+“被压成零”的维度（$\dim N(A)$）加上“活下来的像”的维度（$r(A)$），
+正好等于出发时的总维度 $n$。\textbf{维度不会凭空产生或消失}。
+
+\textbf{为什么成立（一句话）}：取 $N(A)$ 的一组基 $\xi_1,\dots,\xi_{n-r}$，再把它扩充为 $\mathbb{R}^n$ 的基
+$\xi_1,\dots,\xi_{n-r},\eta_1,\dots,\eta_r$。可以证明 $A\eta_1,\dots,A\eta_r$ 恰好构成 $\operatorname{Im}(A)$ 的一组基
+（它们张成像，且线性无关——若 $\sum c_iA\eta_i=0$ 则 $\sum c_i\eta_i\in N(A)$，
+可被 $\xi$ 组表示，由基的无关性得系数全为 $0$）。于是 $\dim\operatorname{Im}(A)=r$，定理得证。
+
+\textbf{三条直接推论}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 齐次方程组 $Ax=0$ 的\textbf{基础解系恰含 $n-r(A)$ 个向量}。
+      这就是“基础解系为什么是 $n-r$ 个”的最终答案——它不是规定，而是维度守恒。
+\item $A$ 为 $n$ 阶方阵时：$r(A)=n\iff\dim N(A)=0\iff Ax=0$ 只有零解 $\iff A$ 可逆。
+      把第 3 章那张“可逆等价刻画网”里的三条串了起来。
+\item $r(A)\le\min\{m,n\}$：因为 $r(A)=\dim\operatorname{Im}(A)\le\dim\mathbb{R}^m=m$，
+      又 $r(A)=n-\dim N(A)\le n$。
+\end{itemize}
+\fbref{}服务考纲〔线性方程组〕“理解齐次线性方程组的基础解系、通解及解空间的概念”。
+这是\must{全书最值得记住的一个等式}：它把“秩”（算出来的）与“解空间的维数”（想出来的）锁在一起。
+考场上凡是问“基础解系有几个向量”“解空间维数是多少”，答案永远是 $n-r(A)$，不必推导。
+反过来，若题目给出解空间维数，也能反推秩。第 5 章整章都建立在这条定理上。
+\end{fdeep}
+
+\begin{fdeep}{秩的不等式不是“记下来的”，而是“数出来的”}
+本讲开篇那张表里有三条看似要背的不等式。它们其实共用一个想法：
+\textbf{把秩想成“维数”，再用“维数不可能凭空增加”来夹逼。}
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.25em]
+\item $r(AB)\le\min\{r(A),\,r(B)\}$。
+      \textbf{为什么}：$AB$ 的每一列都是 $A$ 的列的线性组合，
+      所以 $AB$ 的列空间 $\subseteq$ $A$ 的列空间，故 $r(AB)\le r(A)$；
+      同理 $AB$ 的每一行都是 $B$ 的行的线性组合，故 $r(AB)\le r(B)$。取小者即得。
+      （这是“用列空间包含关系证秩不等式”的样板。）
+\item $\lvert r(A)-r(B)\rvert\le r(A+B)\le r(A)+r(B)$。
+      \textbf{上界}：$A+B$ 的列空间 $\subseteq$（$A$ 的列空间 $+$ $B$ 的列空间），
+      而“两个空间之和的维数 $\le$ 维数之和”，故 $r(A+B)\le r(A)+r(B)$。
+      \textbf{下界}：由 $A=(A+B)-B$ 对上界式用一次，得 $r(A)\le r(A+B)+r(B)$，
+      即 $r(A+B)\ge r(A)-r(B)$；同理交换 $A,B$ 得 $r(A+B)\ge r(B)-r(A)$，合起来即绝对值形式。
+\item \textbf{Sylvester 不等式} $r(AB)\ge r(A)+r(B)-n$（$A$ 为 $m\times n$，$B$ 为 $n\times s$）。
+      \textbf{它是三条里最不直观的，但推导很干净}：把 $B$ 按列分块 $B=(\beta_1,\dots,\beta_s)$，
+      则 $AB=(A\beta_1,\dots,A\beta_s)$。考虑线性映射
+      \fml{\varphi:\ \operatorname{Im}(B)\longrightarrow\operatorname{Im}(AB),\qquad \xi\mapsto A\xi}
+      它的核是 $\operatorname{Im}(B)\cap N(A)$，而 $\operatorname{Im}(B)\subseteq\mathbb{R}^{n}$、$N(A)\subseteq\mathbb{R}^{n}$，
+      故 $\dim\ker\varphi\le\dim N(A)=n-r(A)$。对 $\varphi$ 用秩-零化度定理：
+      \fml{r(AB)=\dim\operatorname{Im}(AB)=\dim\operatorname{Im}(B)-\dim\ker\varphi\ \ge\ r(B)-\bigl(n-r(A)\bigr)}
+      整理即得 $r(AB)\ge r(A)+r(B)-n$。
+\end{enumerate}
+\textbf{它的最强推论}：取 $AB=O$，即 $r(AB)=0$，得
+\fml{AB=O\ \Longrightarrow\ r(A)+r(B)\le n}
+这一条在考研里出现频率极高（“已知 $AB=O$，求 $r(A)+r(B)$ 的取值范围”）。
+
+\fbref{}：服务考纲〔矩阵〕“理解矩阵的秩的概念”。三条不等式的\textbf{记忆负担可以用“维数夹逼”取代}：
+遇到新的秩不等式，先问“谁的空间包含谁”，再问“维数最多能加到多少”。
+Sylvester 那条尤其值得掌握推导——它是 $AB=O$ 型问题的唯一来源。
+\end{fdeep}
+
+\begin{fdeep}{$r(A^{\mathrm T}A)=r(A)$ 与秩 1 矩阵的完全刻画}
+\textbf{一、$r(A^{\mathrm T}A)=r(A)$（$A$ 为实矩阵）}
+这一条把“转置乘积”的秩锁死在原矩阵上，常用它把 $A^{\mathrm T}A$ 的问题化回 $A$。
+\textbf{证明只需证两个方程组同解}：
+\fml{Ax=0\ \Longrightarrow\ A^{\mathrm T}Ax=0}
+反过来若 $A^{\mathrm T}Ax=0$，两边左乘 $x^{\mathrm T}$ 得 $x^{\mathrm T}A^{\mathrm T}Ax=0$，
+即 $\lVert Ax\rVert^{2}=0$，故 $Ax=0$（\textbf{这里用到实矩阵，复数情形要改用共轭转置}）。
+既然 $Ax=0$ 与 $A^{\mathrm T}Ax=0$ 同解，它们的基础解系含同样多的向量，
+由 $s=n-r$ 即得 $r(A^{\mathrm T}A)=r(A)$。同理 $r(AA^{\mathrm T})=r(A)$。
+
+\textbf{二、秩 1 矩阵的完全刻画}
+设 $r(A)=1$（$A$ 为 $n$ 阶），则存在非零列向量 $\alpha,\beta$ 使
+\fml{A=\alpha\beta^{\mathrm T}}
+并且它的全部性质可以一次说清：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{迹就是内积}：$\operatorname{tr}A=\beta^{\mathrm T}\alpha$（是数，不是矩阵）；
+\item \textbf{幂有闭式}：$A^{2}=(\operatorname{tr}A)A$，更一般地 $A^{k}=(\operatorname{tr}A)^{k-1}A$；
+      ——这条让“求 $A^{k}$”对秩 1 矩阵变成一步；
+\item \textbf{特征值全可写出}：$\lambda_{1}=\operatorname{tr}A,\ \lambda_{2}=\cdots=\lambda_{n}=0$
+      （因为 $Ax=\alpha(\beta^{\mathrm T}x)=0$ 的解空间是 $n-1$ 维）；
+\item \textbf{可对角化的判据}：$A$ 可对角化 $\iff \operatorname{tr}A\ne0$。
+      因为 $\operatorname{tr}A\ne0$ 时几何重数 $=1=$ 代数重数（特征值 $0$ 的代数重数是 $n-1$，
+      而 $n-1$ 维解空间正好给出 $n-1$ 个无关特征向量）；
+      $\operatorname{tr}A=0$ 时 $A$ 幂零且 $A\ne O$，几何重数 $n-1<$ 代数重数 $n$，不可对角化。
+\end{itemize}
+\fbref{}：服务考纲〔矩阵〕“秩”与〔特征值〕。
+秩 1 矩阵是考研最爱构造的对象（$A=\alpha\beta^{\mathrm{T}}$ 形式），
+把这四条一起记住，凡是遇到秩 1 的题——求幂、求特征值、判断能否对角化、求迹——
+都能\textbf{直接写答案而不必算}。第 ② 条还可与第 3 章“求 $A^{k}$ 的判据”合看。
+\end{fdeep}
+
+\fsec{二、公式}
+
+1. 设 $A$ 是 $m\times n$ 矩阵，则 $0\le r(A)\le\min\{m,\;n\}$.
+
+2. 设 $A$ 是 $m\times n$ 矩阵，则 $r(kA)=r(A)\ (k\ne 0)$.
+
+3. 设 $A$ 是 $m\times n$ 矩阵，$P$，$Q$ 分别是 $m$ 阶、$n$ 阶可逆矩阵，则
+\fml{r(A)=r(PA)=r(AQ)=r(PAQ).}
+
+\begin{fnote}
+【注】（1）公式 3 表明初等变换不改变矩阵的秩.
+
+（2）若 $r(AB)<r(A)$，$B$ 为 $n$ 阶矩阵，则 $r(B)<n$.
+\end{fnote}
+
+4. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵.
+
+（1）若 $r(A)=n$（列满秩），则 $r(AB)=r(B)$.
+
+（2）若 $r(B)=n$（行满秩），则 $r(AB)=r(A)$.
+
+\begin{fcard}{例 4.1}
+设 $A$ 为 $4\times 3$ 矩阵，$B$ 为 3 阶方阵，若 $r(A)=3$，则（\quad）.
+
+（A）$ABx=0$ 与 $Bx=0$ 同解\qquad\qquad（B）$ABx=0$ 与 $Ax=0$ 同解
+
+（C）$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $A^{\mathrm T}x=0$ 同解\qquad（D）$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $B^{\mathrm T}x=0$ 同解
+\end{fcard}
+
+【解】应选（A）.
+
+由下面的公式 6 与公式 8，知
+\fml{r(A)+r(B)-3\le r(AB)\le\min\{r(A),\;r(B)\}.\qquad\qquad(*)}
+
+当 $r(A)=3$ 时，由 $(*)$ 式得
+\fml{3+r(B)-3\le r(AB)\le r(B),}
+
+故有 $r(AB)=r(B)$，且满足 $Bx=0$ 的解必是 $ABx=0$ 的解，故 $ABx=0$ 与 $Bx=0$ 同解. 故选（A）.
+
+% ---- 印刷页 43（PDF p54）----
+
+\begin{fnote}
+【注】若 $r(B)=3$，同样由 $(*)$ 式可得
+\fml{r(A)+3-3\le r(AB)\le r(A),}
+故有 $r(AB)=r(A)$，则 $r(B^{\mathrm T}A^{\mathrm T})=r(A^{\mathrm T})$，$B^{\mathrm T}A^{\mathrm T}x=0$ 与 $A^{\mathrm T}x=0$ 同解.
+\end{fnote}
+
+5. 若 $CA=CB$，$C$ 列满秩，则 $A=B$；若 $AC=BC$，$C$ 行满秩，则 $A=B$.
+
+\begin{fcard}{例 4.2}
+设 $B$ 是 $n$ 阶矩阵，$C$ 是 $n\times m$ 矩阵，且 $r(C)=n$，则下列结论：
+
+①若 $BC=O$，则 $B=O$；
+
+②若 $BC=C$，则 $B=E$；
+
+③若 $BC=O$，则 $1\le r(B)<n$；
+
+④若 $BC=C$，则 $r(B)=n$.
+
+所有正确结论的序号为（\quad）.
+
+（A）①②④\qquad（B）②④\qquad（C）①③④\qquad（D）③④
+\end{fcard}
+
+【解】应选（A）.
+
+对于①，$BC=O=OC$，由公式 5 得 $B=O$；对于②，$BC=C=EC$，由公式 5 得 $B=E$；对于③，由①可知③错误；对于④，由②可知④正确.
+
+\begin{fcard}{例 4.3}
+设 $A$，$B$ 分别为 $3\times 2$ 和 $2\times 3$ 实矩阵，若 $AB=\begin{bmatrix}8&0&-4\\-\frac32&9&-6\\-2&0&1\end{bmatrix}$，则 $BA=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}9&0\\0&9\end{bmatrix}$.
+
+因 $|AB|=0$，$r(AB)=2$，又 $2\le r(A)$，$r(B)\le 2$ $\quad(2=r(AB)\le r(A),r(B)\Rightarrow r(A),r(B)\le\text{行数、列数})$，故 $r(A)=r(B)=2$，即 $A$ 列满秩，$B$ 行满秩. 又由 $ABAB=9AB$，$A$ 列满秩，有 $BAB=9B$. 又 $B$ 行满秩，故有 $BA=9E_2=\begin{bmatrix}9&0\\0&9\end{bmatrix}$.
+
+6. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，则 $r(AB)\le\min\{r(A),\;r(B)\}$.
+
+\begin{fnote}
+【注】见到 $AB$，$ABC$，要善于想到单调性.
+\fml{r(ABC)\le r(AB)\le r(A).}
+如 $ABC=A\Rightarrow r(A)=r(ABC)\le r(AB)\le r(A)\Rightarrow r(A)=r(AB)$.
+\end{fnote}
+
+\begin{fcard}{例 4.4}
+已知 $n$ 阶矩阵 $A$，$B$，$C$ 满足 $ABC=O$，$E$ 为 $n$ 阶单位矩阵，记矩阵 $\begin{bmatrix}O&A\\BC&E\end{bmatrix}$，$\begin{bmatrix}AB&C\\O&E\end{bmatrix}$，$\begin{bmatrix}E&AB\\AB&O\end{bmatrix}$ 的秩分别为 $r_1$，$r_2$，$r_3$，则（\quad）.
+\end{fcard}
+
+% ---- 印刷页 44（PDF p55）----
+
+（A）$r_1\le r_2\le r_3$\qquad（B）$r_1\le r_3\le r_2$\qquad（C）$r_3\le r_1\le r_2$\qquad（D）$r_2\le r_1\le r_3$
+
+【解】应选（B）.
+
+对于 $\begin{bmatrix}O&A\\BC&E\end{bmatrix}$，将分块矩阵的第 2 行的 $(-A)$ 倍加至第 1 行，即
+\fml{\begin{bmatrix}E&-A\\O&E\end{bmatrix}\begin{bmatrix}O&A\\BC&E\end{bmatrix}=\begin{bmatrix}-ABC&O\\BC&E\end{bmatrix}=\begin{bmatrix}O&O\\BC&E\end{bmatrix},}
+其秩 $r_1=n$；
+
+对于 $\begin{bmatrix}AB&C\\O&E\end{bmatrix}$，将分块矩阵的第 2 行的 $(-C)$ 倍加至第 1 行，即
+\fml{\begin{bmatrix}E&-C\\O&E\end{bmatrix}\begin{bmatrix}AB&C\\O&E\end{bmatrix}=\begin{bmatrix}AB&O\\O&E\end{bmatrix},}
+其秩 $r_2=r(AB)+n$；
+
+对于 $\begin{bmatrix}E&AB\\AB&O\end{bmatrix}$，先将分块矩阵的第 1 行的 $(-AB)$ 倍加至第 2 行，即
+\fml{\begin{bmatrix}E&O\\-AB&E\end{bmatrix}\begin{bmatrix}E&AB\\AB&O\end{bmatrix}=\begin{bmatrix}E&AB\\O&-ABAB\end{bmatrix},}
+
+再将分块矩阵的第 1 列的 $(-AB)$ 倍加至第 2 列，即
+\fml{\begin{bmatrix}E&AB\\O&-ABAB\end{bmatrix}\begin{bmatrix}E&-AB\\O&E\end{bmatrix}=\begin{bmatrix}E&O\\O&-ABAB\end{bmatrix},}
+其秩 $r_3=r(-ABAB)+n$.
+
+又由于
+\fml{r(AB)\ge r(-ABAB)\ge 0.\qquad(\text{矩阵越乘秩越小})}
+
+于是 $r_1\le r_3\le r_2$，故选（B）.
+
+7. 设 $A$，$B$ 为同型矩阵，则 $r(A+B)\le r([A,\;B])\le r(A)+r(B)$.
+
+\begin{fnote}
+【注】①$r(A-B)\le r(A)+r(B)$；②$r(A-B)\ge|r(A)-r(B)|$.
+
+证\quad①因 $r(A+B)\le r(A)+r(B)$，故 $r(A-B)=r[A+(-B)]\le r(A)+r(-B)=r(A)+r(B)$.
+
+②因 $r(A+B)\le r(A)+r(B)$，令 $A+B=C$，则 $r(C)\le r(C-B)+r(B)$，即 $r(A)\le r(A-B)+r(B)$，故有
+\fml{r(A-B)\ge r(A)-r(B).\qquad\qquad(*)}
+同理，$r(B-A)\ge r(B)-r(A)$. 故
+\end{fnote}
+
+\fsec{深化二　行秩 = 列秩：子式证法}
+
+\begin{fdeep}{极大线性无关组与向量组的秩（北大 三.3 定义 13、14 与定理 3，印刷 83）}
+向量组的一个部分组若本身线性无关，且从原向量组中任添一个向量进来所得的部分组都线性相关，
+就称为原向量组的一个\textbf{极大线性无关组}。两条要点：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 任一极大线性无关组都与向量组本身\textbf{等价}。部分组表出整体是显然的；反过来，
+      对组中任一 $\alpha_i$，由极大性 $\alpha_1,\dots,\alpha_s,\alpha_i$ 线性相关，即有不全为零的
+      $k_1,\dots,k_s,l$ 使 $k_1\alpha_1+\cdots+k_s\alpha_s+l\alpha_i=0$；若 $l=0$，
+      则 $\alpha_1,\dots,\alpha_s$ 线性相关，与假设矛盾，故 $l\ne0$，于是
+      $\alpha_i=-\frac{k_1}{l}\alpha_1-\cdots-\frac{k_s}{l}\alpha_s$ 可由部分组线性表出。
+\item 既然各个极大无关组都彼此等价，而它们又都线性无关，由替换定理的推论 ③，
+      \textbf{一个向量组的任意两个极大线性无关组都含有相同个数的向量}。
+\end{itemize}
+于是可以放心地\key{定义}：向量组的极大线性无关组所含向量的个数，称为这个向量组的\textbf{秩}。
+由定义立得：向量组线性无关的充要条件是它的秩等于它所含向量的个数。
+\fbref{}服务考纲〔向量〕“理解向量组的秩、极大线性无关组的概念”。秩之所以是一个“确定”的数（可以放心去算），靠的正是“极大无关组彼此等价 $+$ 等价无关组个数相同”这两步，而不是规定。考场上“求秩”“求极大无关组”“判断相关性”三件事本质是同一个操作（化阶梯形、数非零行、取主元列）——先记住这条，再去看第 4 章的矩阵秩。
+\end{fdeep}
+
+\begin{fdeep}{行秩 $=$ 列秩：北大的子式证法（北大 三.4 定理 4，印刷 86--88）}
+\key{定理}：矩阵 $A$ 的秩 $=$ 列秩 $=$ 行秩（行与列的情形完全对称，只证一半即可）。
+设 $A$ 为 $s\times n$ 矩阵，$r(A)=r$，证明按五步走：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item 由子式定义，存在一个 $r$ 阶非零子式 $d$；必要时交换列的次序，可设 $d$ 位于前 $r$ 列、
+      第 $i_1,\dots,i_r$ 行上（换列前后两矩阵的列向量组是一样的，有相同的列秩）。
+\item $d$ 的 $r$ 个列向量线性无关：因 $d\ne0$，以 $d$ 为系数矩阵的齐次方程组只有零解（克拉默法则）。
+\item $A$ 的前 $r$ 个列向量是 $d$ 的 $r$ 个列向量各添上 $s-r$ 个分量得到的，由“延长性质”仍线性无关。
+\item 再证 $A$ 的任一列 $\alpha_j$ 都可由前 $r$ 列线性表出：以 $d$ 为系数矩阵、以 $\alpha_j$ 在
+      $i_1,\dots,i_r$ 行上的分量为右端的方程组有唯一解 $l_1,\dots,l_r$；作初等列变换把第 $j$ 列换成
+      $\alpha_j-l_1\alpha_1-\cdots-l_r\alpha_r$，则它在 $i_1,\dots,i_r$ 行上的分量全为 $0$。
+\item 最后用“$r+1$ 阶子式为零”收拾剩下的分量：取 $i_1,\dots,i_r$ 与任一 $i$ 行、前 $r$ 列与第 $j$ 列
+      构成的 $r+1$ 阶子式，它必为零；把第 $i$ 行调到第 $1$ 行、第 $j$ 列调到第 $1$ 列（子式仍为零），
+      再作列变换消元，即得该子式 $=b_{ij}d=0$，由 $d\ne0$ 得 $b_{ij}=0$。
+      于是 $\alpha_j=l_1\alpha_1+\cdots+l_r\alpha_r$。
+\end{enumerate}
+所以前 $r$ 列是 $A$ 的列向量组的一个极大线性无关组，$A$ 的列秩 $=r=A$ 的秩；行秩同理。
+由证明过程还可直接看出：\textbf{秩为 $r$ 的矩阵中，$r$ 阶非零子式所在的那 $r$ 个行（列）向量，
+就是行（列）向量组的一个极大线性无关组}。
+\fbref{}服务考纲〔向量〕“理解矩阵的秩与其行（列）向量组的秩之间的关系”——这是考纲点名要理解的结论。这段证明把三个世界焊在一起：子式（行列式）、无关性（线性组合）、方程组的解（克拉默法则）；看懂“第 ③ 步靠延长性质、第 ⑤ 步靠子式为零”这两处卡点，就抓住了子式观点与向量组观点互译的全部机制。附带的那条结论更是解题利器：“找极大无关组”与“找最高阶非零子式所在的行列”是同一件事，遇到“已知 $r(A)=2$，求某参数使某两列构成极大无关组”的题可直接定位。
+\end{fdeep}
+
+\begin{fdeep}{初等变换下的秩、阶梯形与极大无关组（北大 三.4 推论 1--3，印刷 88--89）}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \key{推论 1}：矩阵的初等列变换和初等行变换都不改变该矩阵的秩、列秩和行秩。
+      只对列变换说明，行变换同理：$A$ 经初等列变换变成 $B$ 时，两者的列向量组等价，
+      故列秩不变；再串成一条链“$A$ 的行秩 $=A$ 的秩 $=A$ 的列秩 $=B$ 的列秩 $=B$ 的秩 $=B$ 的行秩”，
+      可见三者被同时保持（链中第二、第三个等号用的是定理 4）。
+\item \key{推论 2}：$A$ 的秩等于 $A$ 在初等行变换下所得阶梯形矩阵中\textbf{非零行的数目}。
+      理由：阶梯形的 $r$ 个非零行各取首个非零元素所在的列 $i_1,\dots,i_r$，交出的 $r$ 阶子式
+      等于 $b_{1i_1}b_{2i_2}\cdots b_{ri_r}\ne0$；而任何 $r+1$ 阶子式至少含一行全为零，
+      故最高阶非零子式恰为 $r$ 阶，秩就是 $r$。这就是“算秩一律化阶梯形、数非零行”的依据。
+\item \key{推论 3}：设 $A$ 的阶梯形是上述矩阵 $B$，则 $B$ 的第 $i_1,\dots,i_r$（主元）列组成
+      $B$ 的列向量组的一个极大线性无关组；因而 $A$ 的第 $i_1,\dots,i_r$ 列组成 $A$ 的列向量组的
+      一个极大线性无关组。
+\end{itemize}
+\fbref{}服务考纲〔矩阵〕“掌握用初等变换求矩阵的秩和逆矩阵的方法”与〔向量〕“会求向量组的极大线性无关组”。三条推论就是考场上的标准动作：化阶梯形 $\to$ 数非零行得秩 $\to$ 取主元列得极大无关组。要点有二：① 初等变换保持秩，是因为它把行（列）向量组换成等价组，而等价组秩相同；② 只有推论 2 用的是“阶梯形”这一具体形状，其余都要靠“等价”这一步过渡，答卷时不要跳过“向量组等价故秩相同”这句话。
+\end{fdeep}
+
+\fsec{深化三　秩的计算方法与秩论技巧}
+
+\begin{fdeep}{求矩阵秩的五种方法：先看条件，再选工具}
+书中列出的五条路子，实际对应五类题面条件：
+\begin{enumerate}[leftmargin=2.4em,itemsep=0.22em]
+\item \textbf{利用向量组的秩}——题面给的是“向量组”“极大无关组”“线性表示”；
+\item \textbf{利用齐次方程组的理论}——题面给的是“$Ax=0$ 有非零解”“解空间维数”；
+\item \textbf{利用矩阵秩的等式或不等式}——题面给的是“$AB=O$”“$A^{2}=A$”等代数关系；
+\item \textbf{利用分块矩阵}——待证的式子是“几个秩的和差”，先把它们拼进一个分块矩阵；
+\item \textbf{利用子空间的维数}，特别是线性变换\textbf{值域与核}的维数（详见第 5、6 章）。
+\end{enumerate}
+\fbref{}服务考纲〔矩阵〕“掌握用初等变换求矩阵的秩”。求“一个具体矩阵的秩”用化阶梯形；而遇到\textbf{含字母关系式的秩}（$AB=O$、$A^{2}=A$、$AB=BA$ 之类），初等变换帮不上忙，必须按上表选路子——绝大多数情况落在第 ③ 与第 ④ 条（见下面“分块初等变换”一块）。
+\end{fdeep}
+
+\begin{fdeep}{分块初等变换：秩论证明的“统一手法”}
+\textbf{做法}：把要证的几个秩所对应的矩阵块拼成一个 $2\times2$ 分块矩阵，然后\textbf{左乘或右乘可逆的分块矩阵}（即分块的行变换、列变换），秩始终不变；同一矩阵化成两种不同形状，就同时得到它的两种“秩的表达式”，比较即得等式或不等式。
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{得到等式}（打洞成对角块）：如上文 $r(A-B)+r(B)=r(A)+r(B-BA^{-1}B)$，把非对角块消成 $O$ 后，秩就“裂开”成两块之和。
+\item \textbf{得到不等式}（Frobenius，例 4.79 方法 2）：
+\fml{\begin{pmatrix}ABC&O\\ O&B\end{pmatrix}\xrightarrow{\ \text{行}\ }\begin{pmatrix}ABC&AB\\ O&B\end{pmatrix}\xrightarrow{\ \text{列}\ }\begin{pmatrix}O&AB\\ BC&B\end{pmatrix}}
+（第一步：第一分块行加上“$A$ 乘第二分块行”；第二步：右乘可逆矩阵 $\begin{pmatrix}-E&O\\ C&E\end{pmatrix}$。）两端秩相等，而右端 $\ge r(AB)+r(BC)$，即得 $r(ABC)+r(B)\ge r(AB)+r(BC)$。
+\end{itemize}
+\fbref{}服务考纲〔矩阵〕“理解矩阵的秩的概念”+〔线性方程组〕。考研里凡出现“证明 $r(\cdot)\pm r(\cdot)\ge/\;=r(\cdot)$”的题，\textbf{第一反应就是分块初等变换}——它把“构造一个恒等式”变成了纯机械的消元操作，比凑向量组关系稳妥得多。
+\end{fdeep}
+
+\begin{fdeep}{证秩相等的一条捷径：两个方程组同解}
+设 $A$ 为 $m\times n$、$B$ 为 $n\times s$ 矩阵。若 $\operatorname{rank}(AB)=\operatorname{rank}B$，则对任一 $s\times t$ 矩阵 $C$，有
+\fml{\operatorname{rank}(ABC)=\operatorname{rank}(BC).}
+两个证法对应两种语言：\textbf{分块初等变换}（把 $\begin{pmatrix}ABC&O\\ O&B\end{pmatrix}$ 化两种形状）；\textbf{方程组同解}——设 $S_1,S_2$ 分别是 $ABCx=0$ 与 $BCx=0$ 的解空间，则 $S_1\supseteq S_2$；又任取 $x_0\in S_1$，有 $(AB)(Cx_0)=0$，由 $ABx=0$ 与 $Bx=0$ 同解得 $B(Cx_0)=0$，故 $x_0\in S_2$，于是 $S_1=S_2$，$\dim S_1=\dim S_2$，即得秩相等。
+\fbref{}服务考纲〔线性方程组〕“理解同解方程组的概念”。\textbf{秩相等 $\Longleftrightarrow$ 解空间相同}是一枚硬币的两面：算秩算不动时，改证“两个方程组同解”，往往一行就完事；反过来题目说“同解”，也立刻知道秩相等、解空间维数相等。
+\end{fdeep}
+
+\begin{fdeep}{矩阵方程有解：$r(A)=r(A,B)$，以及 $A=ABC$ 的充要条件}
+\textbf{一、矩阵方程有解的判据}。设 $A$ 为 $m\times n$ 矩阵，$B$ 为 $m\times l$ 矩阵，$C$ 为 $p\times n$ 矩阵，则
+\fml{AX=B\ \text{有解}\iff \operatorname{rank}A=\operatorname{rank}(A,B),}
+\fml{XA=C\ \text{有解}\iff \operatorname{rank}A=\operatorname{rank}\begin{pmatrix}A\\ C\end{pmatrix}.}
+\textbf{二、$A=ABC$ 的充要条件}。设 $A$ 为 $m\times n$、$B$ 为 $n\times m$ 矩阵，则存在 $m\times n$ 矩阵 $C$ 使 $A=ABC$，当且仅当
+\fml{\operatorname{rank}A=\operatorname{rank}(AB).}
+\textbf{必要性}只用到 $r(ABC)\le r(AB)$；\textbf{充分性}可以这样看：把 $A$ 按列分块 $A=(\alpha_1,\dots,\alpha_n)$，条件 $r(AB)=r(A)=r(AB,A)$ 说明方程组 $ABx=\alpha_j$ 对每个 $j$ 都有解（因增广矩阵 $\operatorname{rank}(AB,\alpha_j)\le\operatorname{rank}(AB,A)=r(AB)$），取这些解作列即得 $C$。
+\fbref{}服务考纲〔线性方程组〕“理解非齐次线性方程组有解的判定条件”。第一条是\textbf{矩阵形式的“有解判别定理”}：$r(A)\ne r(A,B)$ 就是“系数矩阵秩小于增广矩阵秩”，比逐行消元快得多，选择题里几乎必用。
+\end{fdeep}
+
+\begin{fdeep}{Frobenius 不等式：秩不等式的“母版”}
+设 $A$ 为 $m\times n$、$B$ 为 $n\times s$、$C$ 为 $s\times t$ 矩阵，则
+\fml{\operatorname{rank}(ABC)\ge \operatorname{rank}(AB)+\operatorname{rank}(BC)-\operatorname{rank}B.}
+它把 Sylvester 不等式 $r(AB)\ge r(A)+r(B)-n$ 推进到了\textbf{“三个因子”}的情形。证明有两条路：\textbf{满秩分解} $B=GH$（$G$ 列满秩、$H$ 行满秩）再套 Sylvester 不等式；或直接用分块初等变换。书中的【注】特别指出，\textbf{这条不等式的证明是各校考研的“高频”题}。
+\fbref{}服务考纲〔矩阵〕“理解矩阵的秩的概念”。Frobenius 是\textbf{一切三因子秩不等式的出发点}：把 $ABC$ 中的某个因子取成 $O$，就退化成 $AB=O$、$BA=O$ 型结论；反复套用还能证明“秩序列 $r(A^{n})=r(A^{n+1})$”（见后文“秩序列的稳定性”一块）。\must{记住}它的\textbf{形状}——“中间项的秩要扣掉”——选择题里足以直接判对错。
+\end{fdeep}
+
+\begin{fdeep}{矩阵的等价标准形：三件套}
+\textbf{(1) 标准形}：设 $A$ 为 $m\times n$ 矩阵，$r(A)=r$，则存在 $m$ 阶可逆矩阵 $P$ 与 $n$ 阶可逆矩阵 $Q$，使
+\fml{PAQ=\begin{pmatrix}E_r&O\\ O&O\end{pmatrix}.}
+\textbf{(2) 满秩分解}：设 $A$ 为 $m\times n$ 矩阵，$r(A)=r$，则存在 $m\times r$ 的\textbf{列满秩}矩阵 $B$ 与 $r\times n$ 的\textbf{行满秩}矩阵 $C$，使
+\fml{A=BC.}
+\textbf{(3) 矩阵方程有解的判据}：$AX=B$ 有解 $\iff r(A)=r(A,B)$；$XA=C$ 有解 $\iff r(A)=r\begin{pmatrix}A\\ C\end{pmatrix}$（即把 $C$ 接在 $A$ 下方后秩不变）。
+\fbref{}服务考纲〔矩阵〕“了解矩阵等价的概念”。这三条是\textbf{同一个事实的三种说法}：任何矩阵都“等价于”一个只由秩决定的标准形。(1) 用于\textbf{把一般矩阵换成对角块}再谈秩与构造；(2) 用于\textbf{把 $A$ 降维成“瘦长 $\times$ 扁平”}，是 $r(AB)\ge r(A)+r(B)-n$ 与 Frobenius 的证明引擎；(3) 是\textbf{矩阵形式的有解判别定理}，与第 5 章非齐次方程组判别式完全同源。
+\end{fdeep}
+
+\begin{fdeep}{行满秩与列满秩：单侧逆与消去律}
+$A$ 为 $m\times n$ 矩阵，$r(A)=m$ 时称 $A$ \textbf{行满秩}（行向量组线性无关）；$r(A)=n$ 时称 $A$ \textbf{列满秩}。
+\textbf{标准形}：$A$ 行满秩时，存在 $n$ 阶可逆矩阵 $Q$ 使
+\fml{A=(E_m,\ O)Q;}
+$A$ 列满秩时，存在 $m$ 阶可逆矩阵 $P$ 使 $A=P\begin{pmatrix}E_n\\ O\end{pmatrix}$。
+\textbf{单侧逆}：$A$ 行满秩 $\iff$ 存在 $n\times m$ 矩阵 $B$ 使 $AB=E_m$（右逆）；$A$ 列满秩 $\iff$ 存在左逆。
+\textbf{消去律}（书中【注 2】）：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item $A$ \textbf{行满秩}且 $GA=HA$，则 $G=H$（\textbf{右消去律}）；
+\item $A$ \textbf{列满秩}且 $AG=AH$，则 $G=H$（\textbf{左消去律}）。
+\end{itemize}
+\fbref{}服务考纲〔向量〕“理解向量组线性相关、线性无关的概念”、〔矩阵〕。这条把“线性无关/相关”翻译成了\textbf{能不能约掉}：题目中若出现“由 $GA=HA$ 推出 $G=H$”，判分依据就是 $A$ 行满秩（列满秩取转置同理）。此外“行满秩 $\Rightarrow$ 有右逆”是解矩阵方程、构造反例时最常用的手段。
+\end{fdeep}
+
+\begin{fdeep}{满秩分解 $A=BC$ 的用法：$AX=0$ 与 $CX=0$ 同解}
+称 $A=BC$ 为 $A$ 的\textbf{满秩分解表达式}，其中 $B$ 为 $m\times r$ 列满秩矩阵、$C$ 为 $r\times n$ 行满秩矩阵，$r=r(A)$。
+\textbf{构造}：由 $A=P\begin{pmatrix}E_r&O\\ O&O\end{pmatrix}Q$ 直接拆开：
+\fml{A=P\begin{pmatrix}E_r\\ O\end{pmatrix}\bigl(E_r,\ O\bigr)Q,}
+取 $B=P\tbinom{E_r}{O}$（列满秩）、$C=(E_r,O)Q$（行满秩）即可。
+\textbf{核心性质}：$A=BC$ 为满秩分解时，\textbf{$AX=0$ 与 $CX=0$ 是同解方程组}——因为 $B$ 列满秩 $\Rightarrow BX=0$ 只有零解，故 $BCx=0\iff Cx=0$。
+\fbref{}服务考纲〔线性方程组〕“理解齐次线性方程组的基础解系”。要说清“$A$ 的零空间是谁”，\textbf{把 $A$ 写成 $BC$ 是最省力的一步}：$B$ 只负责“拉伸”，$C$ 决定了整个零空间。求基础解系时先做行变换取 $C$（阶梯形的非零行），本质上就是这条性质。
+\end{fdeep}
+
+\begin{fdeep}{Sylvester 不等式取等的充要条件}
+$A$ 为 $m\times n$、$B$ 为 $n\times s$ 矩阵时，$r(AB)\ge r(A)+r(B)-n$（推导见主控深化框）。进一步，\textbf{等号成立}
+\fml{\operatorname{rank}(AB)=\operatorname{rank}A+\operatorname{rank}B-n}
+\textbf{的充分必要条件是}：矩阵方程
+\fml{AX+YB=E_n}
+有解。证明思路是\textbf{等价标准形}：取可逆 $P,Q$ 使 $PAQ=\begin{pmatrix}E_r&O\\ O&O\end{pmatrix}$（$r=r(A)$），令 $Q^{-1}B=\begin{pmatrix}C\\ D\end{pmatrix}$，则 $PAB=\begin{pmatrix}C\\ O\end{pmatrix}$，于是 $r(AB)=r(C)$，而 $r(AB)\ge r(A)+r(B)-n$ 等价于“$C$ 的行数 $r$ 与 $B$ 的行秩 $r(B)$ 之差不超过 $D$ 的行数 $n-r$”，取等即 $C$ 的行线性无关、$D$ 的每一行都可由 $C$ 的行线性表示——这正是 $AX+YB=E_n$ 有解的等价说法。
+\fbref{}服务考纲〔矩阵〕、〔线性方程组〕。知道“取等 $\iff$ $AX+YB=E_n$ 有解”后，判断“$r(AB)$ 能否取到最小值 $r(A)+r(B)-n$”就有了\textbf{可操作的判据}（转化为解一个矩阵方程），而不用再去凑基础解系。
+\end{fdeep}
+
+% ===========================================================
+% 《线性代数9讲》第 4 讲  矩阵的秩 —— 片段 B（本讲后半）
+% 源：线代9讲强化.pdf  PDF p56–p59（印刷页 45–48），共 4 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · $D_{41}$（试取特殊情形）
+%        · $P_{12}$（反向思维）（代码 $P_{12}$ 作为块交换矩阵记号保留，仅剔除方法名）
+%        · 「见到 $f(A)$，想 $f(\lambda)$，故 $\lambda=0$ 或 1」
+%        · 「涉及幂的命题，考虑数学归纳法」
+%   2) 蓝色**数学**旁注（公式8 / 三秩相等！ / $AB=O\Rightarrow r(A)+r(B)\le n$ /
+%      $AA^{*}=|A|E$ / 用 $r(A)$ 与 $r(A^{*})$ 的关系 / $\alpha_i$ 为矩阵 $A$ 的行向量 /
+%      $|A+E|\ne0$，因 $-1$ 不是特征值）照原文内联排入；
+%   3) 数学操作旁注（「左边乘 $A$ 加至」「右边乘 $(-B)$ 加至」「右边乘 $(-C)$ 加至」
+%      「$\times(-E)$」）照原文排入；交叉引用（公式8 等）照原文排入；
+%   4) 第 4 讲末尾（PDF p58–p59，印刷页 47–48）**无「习题」栏**（已逐页核实）：
+%      PDF p59（印刷页 48）以第 17 条结论结束，其后整页留白；
+%   5) PDF p59（印刷页 48）为本讲最后一页；第 5 讲「线性方程组」自印刷页 49 开始；
+%   6) 本片无插图、无页首思维导图。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p55（印刷页 44）第 7 题【注】框的余下部分（该框在本页续完）；
+%   · 例4.6 的题干在 PDF p56 末、①②③④与解答在 PDF p57 首，本片按一个卡片排完；
+%   · 第 12 题【注】框在 PDF p58 末起、PDF p59 首另起同内容框续写，本片拆为两张 fnote。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p56（印刷页 45）
+% -----------------------------------------------------------
+% 承 PDF p55（印刷页 44）第 7 题【注】框的余下部分（该框在本页续完）
+\begin{fnote}
+\fml{\hfill -r(B-A)\le r(A)-r(B).\hfill(\ast\ast)}
+又 $r(A-B)=r(B-A)$，结合（$\ast$）（$\ast\ast$）可得 $-r(A-B)\le r(A)-r(B)\le r(A-B)$，即 $|r(A)-r(B)|\le r(A-B)$.
+\end{fnote}
+
+\begin{fcard}{例4.5}
+设 $A$，$B$ 分别为 $m\times n$ 与 $n\times m$ 矩阵，$C$ 为 $n$ 阶可逆矩阵，且 $r(A)=r<n$，$A(C+BA)=O$，则 $r(C+BA)=$\underline{\hspace{2.6em}}.
+
+【解】应填 $n-r$.
+
+因 $A(C+BA)=O$，故 $r(A)+r(C+BA)\le n$. 又 $r(A)=r$，于是
+
+\fml{r(C+BA)\le n-r,}
+
+且
+
+\fml{r(C+BA)=r[C-(-BA)]\ge r(C)-r(BA)\ge r(C)-r(A)=n-r,}
+
+故 $r(C+BA)=n-r$.
+\end{fcard}
+
+8. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，则 $r(AB)\ge r(A)+r(B)-n$.
+
+\begin{fnote}
+【注】证 左边乘 $A$ 加至
+
+\fmll{\begin{bmatrix}E&O\\O&AB\end{bmatrix}\xrightarrow{\text{左边乘} A\text{加至}}\begin{bmatrix}E&O\\A&AB\end{bmatrix}\xrightarrow{\text{右边乘}(-B)\text{加至}}\begin{bmatrix}E&-B\\A&O\end{bmatrix}\xrightarrow{P_{12}}\begin{bmatrix}-B&E\\O&A\end{bmatrix}\xrightarrow{\times(-E)}\begin{bmatrix}B&E\\O&A\end{bmatrix},}
+
+% OPD 蓝色标注（原稿）：$P_{12}$（反向思维）（原稿该标签印在第 3、4 个矩阵上方；按数学含义，块交换对应第 3→4 步，×(-E) 对应第 4→5 步）
+
+故 $r(AB)+n=r\left(\begin{bmatrix}E&O\\O&AB\end{bmatrix}\right)=r\left(\begin{bmatrix}B&E\\O&A\end{bmatrix}\right)\ge r(A)+r(B)$. 证毕.
+
+\warn{注意}：①当 $AB=O$ 时，有 $r(A)+r(B)\le n$.
+
+②当 $AB$ 为 $n$ 阶可逆矩阵时，$r(AB)=n$，有 $r(A)+r(B)\le 2n$.
+
+③当 $B$ 的列向量均为 $Ax=0$ 的解，即 $AB=O$ 时，有 $r(A)+r(B)\le n$.
+
+④当 $B\ne O$，且其列向量均为 $Ax=0$ 的解，即 $AB=O$ 时，有 $r(A)+r(B)\le n$，$r(B)\ge1$，$r(A)\le n-1$，则 $A$ 列不满秩，即 $A$ 的列向量组线性相关.
+
+⑤记 $A=\begin{bmatrix}\alpha_1\\\alpha_2\\\vdots\\\alpha_m\end{bmatrix}$（$\alpha_i$ 为矩阵 $A$ 的行向量），$B=[\beta_1,\beta_2,\cdots,\beta_s]$，当 $(\alpha_i,\beta_j)=0$，$i=1,2,\cdots,m$；$j=1,2,\cdots,s$，即 $A$ 的任一行向量均与 $B$ 的任一列向量正交时，有
+
+\fmll{AB=\begin{bmatrix}(\alpha_1,\beta_1)&(\alpha_1,\beta_2)&\cdots&(\alpha_1,\beta_s)\\ (\alpha_2,\beta_1)&(\alpha_2,\beta_2)&\cdots&(\alpha_2,\beta_s)\\ \vdots&\vdots&&\vdots\\ (\alpha_m,\beta_1)&(\alpha_m,\beta_2)&\cdots&(\alpha_m,\beta_s)\end{bmatrix}=O,}
+
+故 $r(A)+r(B)\le n$.
+
+⑥由 $AB=O$，便得 $B^{\mathrm{T}}A^{\mathrm{T}}=O$，可将①\textasciitilde{}⑤再研究一遍，加深理解.
+\end{fnote}
+
+% 承 PDF p57（印刷页 46）：★例4.6 的①②③④与解答在次页首
+\begin{fcard}{例4.6}
+设 $n$ 阶矩阵 $A$，$B$，$C$ 满足 $r(A)+r(B)+r(C)=r(ABC)+2n$，给出下列四个结论：
+
+①$r(ABC)+n=r(AB)+r(C)$；
+
+②$r(AB)+n=r(A)+r(B)$；
+
+③$r(A)=r(B)=r(C)=n$；
+
+④$r(AB)=r(BC)=n$.
+
+所有正确结论的序号是（\quad）.
+
+（A）①②\qquad（B）①③\qquad（C）②④\qquad（D）③④
+
+【解】应选（A）.
+
+法一 由于
+
+% 原稿蓝色旁注（数学交叉引用，箭头指向上式右端）：公式8
+\fmll{r(A)+r(B)+r(C)=r(ABC)+2n\ge r(AB)+r(C)-n+2n\quad(\text{公式8})}
+\fmll{\phantom{r(A)+r(B)+r(C)}\ge r(A)+r(B)-n+r(C)-n+2n=r(A)+r(B)+r(C),}
+
+故 $r(ABC)+2n=r(AB)+r(C)+n$，$r(A)+r(B)+r(C)=r(AB)+r(C)+n$，可得 $r(ABC)+n=r(AB)+r(C)$，$r(A)+r(B)=r(AB)+n$，则①，②正确.
+
+综上，选（A）.
+
+法二 排除法. 取 $A=\begin{bmatrix}1&0\\0&0\end{bmatrix}$，$B=\begin{bmatrix}0&0\\0&1\end{bmatrix}$，$C=E$，则 $r(A)=1$，$r(B)=1$，$r(C)=2$，满足 $r(A)+r(B)+r(C)=r(ABC)+2n$，代入可排除③，④，故选（A）.
+% OPD 蓝色标注（原稿）：$D_{41}$（试取特殊情形）（箭头指向「法二」所取的 $A$，$B$）
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p57（印刷页 46）
+% -----------------------------------------------------------
+9. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，$C$ 是 $s\times t$ 矩阵，则 $r(ABC)\ge r(AB)+r(BC)-r(B)$.
+
+\begin{fnote}
+【注】证 左边乘 $A$ 加至
+
+\fmll{\begin{bmatrix}ABC&O\\O&B\end{bmatrix}\xrightarrow{\text{左边乘} A\text{加至}}\begin{bmatrix}ABC&AB\\O&B\end{bmatrix}\xrightarrow{\text{右边乘}(-C)\text{加至}}\begin{bmatrix}O&AB\\-BC&B\end{bmatrix}\xrightarrow{\ \ \ \ }\begin{bmatrix}AB&O\\B&-BC\end{bmatrix}\xrightarrow{\times(-E)}\begin{bmatrix}AB&O\\B&BC\end{bmatrix},}
+
+% 原稿蓝色标注（块交换示意）：第 3、4 个矩阵之间以蓝色椭圆圈出两个列块（无文字标签），此处保留空标签箭头
+
+故 $r(ABC)+r(B)=r\left(\begin{bmatrix}ABC&O\\O&B\end{bmatrix}\right)=r\left(\begin{bmatrix}AB&O\\B&BC\end{bmatrix}\right)\ge r(AB)+r(BC)$. 证毕.
+\end{fnote}
+
+\begin{fcard}{例4.7}
+设矩阵 $A_{m\times n}$，$B_{n\times s}$ 满足 $r(AB)=r(B)$，证明：对任意矩阵 $C_{s\times t}$，有 $r(ABC)=r(BC)$.
+
+【证】由 $r(ABC)\ge r(AB)+r(BC)-r(B)$，且 $r(AB)=r(B)$，有 $r(ABC)\ge r(BC)$. 又 $r(ABC)\le r(BC)$，故 $r(ABC)=r(BC)$.
+\end{fcard}
+
+\begin{fnote}
+【注】此证法极简. 若研究 $ABCx=0$ 与 $BCx=0$ 同解，亦可得证，但不如此证法简便.
+\end{fnote}
+
+10. 设 $A$ 是 $m\times n$ 实矩阵，则 $r(A)=r(A^{\mathrm{T}})=r(AA^{\mathrm{T}})=r(A^{\mathrm{T}}A)$.
+
+\begin{fnote}
+【注】$A^{\mathrm{T}}Ax=0$ 与 $Ax=0$ 同解，$AA^{\mathrm{T}}x=0$ 与 $A^{\mathrm{T}}x=0$ 同解，故 $A^{\mathrm{T}}A$ 与 $A$ 的行向量组等价，$AA^{\mathrm{T}}$ 与 $A^{\mathrm{T}}$ 的行向量组等价：
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p58（印刷页 47）
+% -----------------------------------------------------------
+\begin{fcard}{例4.8}
+设 $A$，$B$ 为 $n$ 阶实矩阵，下列结论不成立的是（\quad）.
+
+\fmll{\text{（A）}\ r\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}=2r(A)\qquad\text{（B）}\ r\begin{bmatrix}A&O\\O&A^{\mathrm{T}}A\end{bmatrix}=2r(A)}
+\fmll{\text{（C）}\ r\begin{bmatrix}A&BA\\O&AA^{\mathrm{T}}\end{bmatrix}=2r(A)\qquad\text{（D）}\ r\begin{bmatrix}A&O\\BA&A^{\mathrm{T}}\end{bmatrix}=2r(A)}
+
+【解】应选（C）.
+
+由矩阵的秩的性质知，$r(A)=r(A^{\mathrm{T}})=r(AA^{\mathrm{T}})=r(A^{\mathrm{T}}A)$.
+
+故 $r\begin{bmatrix}A&O\\O&A^{\mathrm{T}}A\end{bmatrix}=2r(A)$，选项（B）成立.
+
+在 $\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}$ 中，$AB$ 的列向量组可由 $A$ 的列向量组线性表示，故 $\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}\to\begin{bmatrix}A&O\\O&A^{\mathrm{T}}\end{bmatrix}$，故 $r\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}=2r(A)$，选项（A）成立.
+
+同理，选项（D）也成立.
+
+而选项（C），取 $A=\begin{bmatrix}0&1\\0&1\end{bmatrix}$，$B=\begin{bmatrix}0&0\\1&1\end{bmatrix}$，
+
+\fml{r\begin{bmatrix}A&BA\\O&AA^{\mathrm{T}}\end{bmatrix}=r\begin{bmatrix}0&1&0&0\\0&1&0&2\\0&0&1&1\\0&0&1&1\end{bmatrix}\ne2r(A).}
+
+故选（C）.
+\end{fcard}
+
+11. 设 $A$ 是 $n$ 阶方阵，$A^{*}$ 是 $A$ 的伴随矩阵，则
+
+\fml{r(A^{*})=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+
+\begin{fcard}{例4.9}
+设 $A$ 为 4 阶矩阵，$A^{*}$ 为 $A$ 的伴随矩阵，若 $A(A-A^{*})=O$ 且 $A\ne A^{*}$，则 $r(A)$ 取值为（\quad）.
+
+（A）0 或 1\qquad（B）1 或 3\qquad（C）2 或 3\qquad（D）1 或 2
+
+【解】应选（D）.
+
+由题意可知 $A(A-A^{*})=O$，故 $r(A)+r(A-A^{*})\le4$\quad($AB=O\Rightarrow r(A)+r(B)\le n$). 又 $A\ne A^{*}$，故 $A-A^{*}\ne O$，即 $r(A-A^{*})\ge1$，因此 $r(A)\le3$.
+
+又 $A(A-A^{*})=A^2-AA^{*}=A^2-|A|E=A^2=O$\quad($AA^{*}=|A|E$)，则 $r(A)+r(A)\le4$\quad($AB=O\Rightarrow r(A)+r(B)\le n$)，于是 $r(A)\le2$，此时 $r(A^{*})=0$，故 $A^{*}=O$，又 $A\ne A^{*}$，所以 $r(A)\ge1$，故 $r(A)=1$ 或 2.\quad(用 $r(A)$ 与 $r(A^{*})$ 的关系)
+\end{fcard}
+
+12. 设 $n$ 阶矩阵 $A$ 满足 $A^2-(k_1+k_2)A+k_1k_2E=O$，$k_1\ne k_2$，则 $r(A-k_1E)+r(A-k_2E)=n$.
+
+\begin{fnote}
+【注】(1) 证 由 $A^2-(k_1+k_2)A+k_1k_2E=O$，得 $(A-k_1E)(A-k_2E)=O$，于是
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p59（印刷页 48）—— 本讲最后一页
+% -----------------------------------------------------------
+% 承 PDF p58（印刷页 47）第 12 题【注】框；原稿在本页另起同内容框续写
+\begin{fnote}
+\fml{r(A-k_1E)+r(A-k_2E)\le n.}
+
+又
+
+\fmll{r(A-k_1E)+r(A-k_2E)=r(k_1E-A)+r(A-k_2E)}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}\ge r(k_1E-A+A-k_2E)}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}=r[(k_1-k_2)E]}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}=r(E)=n,}
+
+故 $r(A-k_1E)+r(A-k_2E)=n$.
+
+(2) 设 $A$ 为 $n$ 阶方阵，则由上述结论可知：
+
+①若 $A^2=A$，则
+% OPD 蓝色标注（原稿）：见到 $f(A)$，想 $f(\lambda)$，故 $\lambda=0$ 或 1
+
+a. $r(A)+r(A-E)=n$；
+
+b. $A$ 可相似对角化；
+
+c. $A+E$ 可逆；\quad($|A+E|\ne0$，因 $-1$ 不是特征值)
+
+d. $(A+E)^{*}=E+(2^n-1)A$.
+% OPD 蓝色标注（原稿）：涉及幂的命题，考虑数学归纳法
+
+②若 $A^2=E$，则 $r(A+E)+r(A-E)=n$.
+\end{fnote}
+
+13. 设 $A$ 是 $m\times n$ 矩阵，则 $Ax=0$ 的基础解系所含向量的个数为 $s=n-r(A)$.
+
+14. 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解 $\Leftrightarrow r(A)=r\begin{pmatrix}A\\B\end{pmatrix}=r(B)$.\quad(三秩相等！)
+
+15. 设两个向量组：（Ⅰ）$\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$，（Ⅱ）$\beta_1$，$\beta_2$，$\cdots$，$\beta_t$，则 $\underline{r(\text{Ⅰ})=r(\text{Ⅱ})=r(\text{Ⅰ},\text{Ⅱ})}\Leftrightarrow$ 向量组（Ⅰ）与向量组（Ⅱ）等价.
+
+16. 若 $A\sim\Lambda$，则 $\underline{n_i=n-r(\lambda_iE-A)}$，其中 $\lambda_i$ 是 $n_i$ 重特征根.
+
+17. 若 $A\sim\Lambda$，则 $r(A)$ 等于非零特征值的个数，重根按重数算.
+
+% ===========================================================
+% 本讲（第 4 讲）正文至此结束。PDF p59（印刷页 48）第 17 条之后整页留白，
+% 未见「习题」栏；第 5 讲「线性方程组」自印刷页 49（PDF p60）开始。
+% ===========================================================

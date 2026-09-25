@@ -1,0 +1,492 @@
+% ===========================================================================
+%  北大《高等代数》第五版 · 第二章 行列式 —— 深化提取
+%  源：PDF p51–p58 = 印刷页 39–46（实测页脚：p51 页脚 = 39，p58 页脚 = 46，
+%      本段偏移 = PDF 页 − 12）
+%  覆盖：§3 n 阶行列式（尾段）、§4 n 阶行列式的性质（全）、§5 行列式的计算（开头）
+%  原则：只取概念 / 性质 / 定理 / 关键证明思路；例题与习题全部跳过。
+% ===========================================================================
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的概念与性质（考纲「行列式」）
+% 反哺点：把定义里的 (−1)^τ 与"行、列指标地位对称"打通，判断项的正负号不再靠死记
+% ---------------------------------------------------------------------------
+\begin{fdeep}{行列式项的两种记法与符号的一致性}
+\fsec{§3\quad n 阶行列式}
+
+容易看出，当行列式的元素全是数域 $P$ 中的数时，它的值也是数域 $P$ 中的一个数.
+
+在行列式的定义中，为了决定每一项的正负号，我们把 $n$ 个元素按行指标排起来.事实上，数的乘法是交换的，因而这 $n$ 个元素的次序是可以任意写的，一般地，$n$ 阶行列式中的项可以写成
+\fml{a_{i_1j_1}a_{i_2j_2}\cdots a_{i_nj_n},\qquad (11)}
+其中 $i_1i_2\cdots i_n$，$j_1j_2\cdots j_n$ 是两个 $n$ 阶排列.利用排列的性质，不难证明，(11) 的符号等于
+\fml{(-1)^{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}.\qquad (12)}
+
+事实上，为了根据定义来决定 (11) 的符号，就要把这 $n$ 个元素重新排一下，使得它们的行指标成自然顺序，也就是排成
+\fml{a_{1j_1'}a_{2j_2'}\cdots a_{nj_n'},\qquad (13)}
+于是它的符号是
+\fml{(-1)^{\tau(j_1'j_2'\cdots j_n')}.\qquad (14)}
+
+现在来证明，(12) 与 (14) 是一致的.我们知道，由 (11) 变到 (13) 可以经过一系列元素的对换来实现.每作一次对换，元素的行指标与列指标所成的排列 $i_1i_2\cdots i_n$ 与 $j_1j_2\cdots j_n$ 就都同时作一次对换，也就是 $\tau(i_1i_2\cdots i_n)$ 与 $\tau(j_1j_2\cdots j_n)$ 同时改变奇偶性，因而它们的和
+\fml{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}
+的奇偶性不改变.这就是说，对 (11) 作一次元素的对换不改变 (12) 的值.因此，在一系列对换之后有
+\fml{(-1)^{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}=(-1)^{\tau(12\cdots n)+\tau(j_1'j_2'\cdots j_n')}=(-1)^{\tau(j_1'j_2'\cdots j_n')}.}
+这就证明了 (12) 与 (14) 是一致的.
+
+例如，$a_{21}a_{32}a_{14}a_{43}$ 是 4 阶行列式中一项，$\tau(2314)=2$，$\tau(1243)=1$，于是它的符号应为 $(-1)^{2+1}=-1$.如按行指标排列起来，就是 $a_{14}a_{21}a_{32}a_{43}$，$\tau(4123)=3$，因而它的符号也是 $(-1)^{3}=-1$.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的定义、性质 1（转置不变）
+% 反哺点：给出"按列展开"的等价定义，说明对行成立的性质对列自动成立，省去一半记忆量
+% ---------------------------------------------------------------------------
+\begin{fdeep}{按列指标排列的定义式与转置行列式}
+按 (12) 来决定行列式中每一项的符号的好处在于，行指标与列指标的地位是对称的，因而为了决定每一项的符号，我们同样可以把每一项按列指标排起来，于是定义又可写成
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\sum_{j_1j_2\cdots j_n}(-1)^{\tau(j_1j_2\cdots j_n)}a_{1j_1}a_{2j_2}\cdots a_{nj_n}.\qquad (15)}
+
+由此即得行列式的下列性质.
+
+\textbf{性质 1}\quad 行列互换，行列式不变.即
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{21} & \cdots & a_{n1}\\
+a_{12} & a_{22} & \cdots & a_{n2}\\
+\vdots & \vdots & & \vdots\\
+a_{1n} & a_{2n} & \cdots & a_{nn}
+\end{vmatrix}.\qquad (16)}
+
+\textbf{证明思路}\quad 元素 $a_{ij}$ 在 (16) 的右端位于第 $j$ 行第 $i$ 列，这就是说，$i$ 是它的列指标，$j$ 是它的行指标.因之，把右端按 (15) 展开就等于
+\fml{\sum_{j_1j_2\cdots j_n}(-1)^{\tau(j_1j_2\cdots j_n)}a_{1j_1}a_{2j_2}\cdots a_{nj_n},}
+它正是左端按 (6) 的展开式.
+
+(16) 中等式右边的行列式称为左边行列式的转置行列式.性质 1 说明行列式转置，值不变.
+
+性质 1 表明，在行列式中行与列的地位是对称的，因之凡是有关行的性质，对列也同样成立.例如，由 (8) 即得下三角形的行列式
+\fml{\begin{vmatrix}
+a_{11} & 0 & 0 & \cdots & 0\\
+a_{21} & a_{22} & 0 & \cdots & 0\\
+\vdots & \vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
+\end{vmatrix}
+=a_{11}a_{22}\cdots a_{nn}.\qquad (17)}
+
+下面我们所谈的行列式的性质大多是对行来说的，对于列也有相同的性质，就不重复了.
+\end{fdeep}
+
+% beida p56 例 1（n 阶"每行一个 a、其余为 b"的行列式）与例 2（反对称行列式）
+% 均为例题及其解答，按深化提取原则整段跳过；p57 上半页为 例 2 的解答，同样跳过。
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式按一行展开的雏形、代数余子式 A_{ij} 的含义
+% 反哺点：说清"为什么能把第 i 行提出来"以及 A_{ij} 与第 i 行无关 —— 这是按行展开定理的根
+% ---------------------------------------------------------------------------
+\begin{fdeep}{按第 $i$ 行的元素提取公因子与 $A_{ij}$ 的含义}
+\fsec{§4\quad n 阶行列式的性质}
+
+行列式的计算是一个重要的问题，也是一个很麻烦的问题.$n$ 阶行列式一共有 $n!$ 项，计算它就需要做 $n!(n-1)$ 个乘法.当 $n$ 较大时，$n!$ 是一个相当大的数字.直接从定义来计算行列式几乎是不可能的事.因此我们有必要进一步讨论行列式的性质.利用这些性质可以化简行列式的计算.
+
+在行列式的定义中，虽然每一项是 $n$ 个元素的乘积，但是由于这 $n$ 个元素是取自不同的行与列，所以对于某一确定的行中 $n$ 个元素（譬如 $a_{i1},a_{i2},\cdots,a_{in}$）来说，每一项都含有其中的一个且只含有其中的一个元素.因之，$n$ 阶行列式的 $n!$ 项可以分成 $n$ 组，第一组的项都含有 $a_{i1}$，第二组的项都含有 $a_{i2}$，等等.再分别把 $i$ 行的元素提出来，就有
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=a_{i1}A_{i1}+a_{i2}A_{i2}+\cdots+a_{in}A_{in},\qquad (1)}
+其中 $A_{ij}$ 代表那些含有 $a_{ij}$ 的项在提出公因子 $a_{ij}$ 之后的代数和.至于 $A_{ij}$ 究竟是哪些项的和，我们暂且不管，到 §6 再来讨论.从以上讨论可以知道，$A_{ij}$ 中不再含有第 $i$ 行的元素，也就是 $A_{i1},A_{i2},\cdots,A_{in}$ 全与行列式中第 $i$ 行的元素无关.由此即得
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 2（提公因子）、性质 3（可加性）
+% 反哺点：这是"行列式是各行的多重线性函数"最朴素的说法，拆项、提数全靠它
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 2\quad 一行的公因子可以提出来}
+\textbf{性质 2}
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+ka_{i1} & ka_{i2} & \cdots & ka_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=k\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.}
+
+这就是说，一行的公因子可以提出来，或者说以一数乘行列式的一行就相当于用这个数乘此行列式.
+
+\textbf{证明思路}\quad 事实上，由 (1) 得
+\fml{\begin{aligned}
+\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+ka_{i1} & ka_{i2} & \cdots & ka_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+&=ka_{i1}A_{i1}+ka_{i2}A_{i2}+\cdots+ka_{in}A_{in}\\[1mm]
+&=k(a_{i1}A_{i1}+a_{i2}A_{i2}+\cdots+a_{in}A_{in})
+=k\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.
+\end{aligned}}
+
+令 $k=0$ 就有，如果行列式中一行为零，那么行列式为零.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 3（一行为两组数之和可拆开）
+% 反哺点：拆项法是行列式计算与证明中的第一手法，此处给出它的严格出处
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 3\quad 一行为两组数之和，行列式可拆成两个行列式之和}
+\textbf{性质 3}
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+b_{i1}+c_{i1} & b_{i2}+c_{i2} & \cdots & b_{in}+c_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+b_{i1} & b_{i2} & \cdots & b_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
++\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+c_{i1} & c_{i2} & \cdots & c_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.}
+
+这就是说，如果某一行是两组数的和，那么这个行列式就等于两个行列式的和，而这两个行列式除这一行以外全与原来行列式的对应的行一样.
+
+\textbf{证明思路}\quad 事实上，设这一行是第 $i$ 行，于是
+\fml{\begin{aligned}
+&\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+b_{i1}+c_{i1} & b_{i2}+c_{i2} & \cdots & b_{in}+c_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=(b_{i1}+c_{i1})A_{i1}+(b_{i2}+c_{i2})A_{i2}+\cdots+(b_{in}+c_{in})A_{in}\\[1mm]
+&\quad=(b_{i1}A_{i1}+b_{i2}A_{i2}+\cdots+b_{in}A_{in})+(c_{i1}A_{i1}+c_{i2}A_{i2}+\cdots+c_{in}A_{in})\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+b_{i1} & b_{i2} & \cdots & b_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
++\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+c_{i1} & c_{i2} & \cdots & c_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.
+\end{aligned}}
+
+性质 3 显然可以推广到某一行为多组数的和的情形，读者可以自己写出来.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 4（两行相同为零）—— 考研最常用的"零判定"
+% 反哺点：配对相消的证明思路给出"两行相同/成比例 ⇒ 0"的原理，也是"换行反号"的前提
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 4\quad 两行相同，行列式为零}
+再根据排列的性质，我们有：
+
+\textbf{性质 4}\quad 如果行列式中有两行相同，那么行列式为零.所谓两行相同就是说两行的对应元素都相等.
+
+\textbf{证明}\quad 设行列式
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\sum_{j_1\cdots j_n}(-1)^{\tau(j_1\cdots j_{i-1}j_ij_{i+1}\cdots j_{k-1}j_kj_{k+1}\cdots j_n)}
+a_{1j_1}\cdots a_{ij_i}\cdots a_{kj_k}\cdots a_{nj_n}\qquad (2)}
+中第 $i$ 行与第 $k$ 行相同，即
+\fml{a_{ij}=a_{kj},\qquad j=1,2,\cdots,n.\qquad (3)}
+
+为了证明 (2) 为零，只需证明 (2) 的右端所出现的项全能两两相消就行了.事实上，与项
+\fml{(-1)^{\tau(j_1\cdots j_i\cdots j_k\cdots j_n)}a_{1j_1}\cdots a_{ij_i}\cdots a_{kj_k}\cdots a_{nj_n}}
+同时出现的还有
+\fml{(-1)^{\tau(j_1\cdots j_k\cdots j_i\cdots j_n)}a_{1j_1}\cdots a_{ij_k}\cdots a_{kj_i}\cdots a_{nj_n}.}
+比较这两项，由 (3) 有
+\fml{a_{ij_i}=a_{kj_i},\qquad a_{ij_k}=a_{kj_k}.}
+也就是说，这两项有相同的数值.但是排列
+\fml{j_1\cdots j_i\cdots j_k\cdots j_n\quad\text{与}\quad j_1\cdots j_k\cdots j_i\cdots j_n}
+相差一个对换，因而有相反的奇偶性，所以这两项的符号相反.易知，全部 $n$ 阶排列可以按上述形式两两配对.因之，在 (2) 的右端，对于每一项都有一数值相同但符号相反的项与之成对出现，从而行列式为零.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 5、6
+% 反哺点：性质 5 是"两行成比例 ⇒ 0"的速判；性质 6 是化上三角形算法合法性的依据
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 5\quad 两行成比例，行列式为零}
+由这三个性质我们不难推得行列式其他的一些性质.
+
+\textbf{性质 5}\quad 如果行列式中两行成比例，那么行列式为零.
+
+\textbf{证明}
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+ka_{i1} & ka_{i2} & \cdots & ka_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=k\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}=0,}
+这里第一步是根据性质 2，第二步是根据性质 4.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 6（倍加不变）—— 高斯消元法算行列式的合法性
+% 反哺点：把"倍加不变"的来历讲清（性质 3 拆项 + 性质 5 成比例为零），用时不再心虚
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 6\quad 把一行的倍数加到另一行，行列式不变}
+\textbf{性质 6}\quad 把一行的倍数加到另一行，行列式不变.
+
+设
+\fml{\begin{aligned}
+&\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1}+ca_{k1} & a_{i2}+ca_{k2} & \cdots & a_{in}+ca_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
++\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+ca_{k1} & ca_{k2} & \cdots & ca_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.
+\end{aligned}}
+这里，第一步是根据性质 3，第二步是根据性质 5.
+
+根据性质 6 即得
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的性质 7（对换两行反号）
+% 反哺点：用性质 6 三次凑出"换行反号"，解释了"为什么换行要变号"这一最易记错的规则
+% ---------------------------------------------------------------------------
+\begin{fdeep}{性质 7\quad 对换行列式中两行的位置，行列式反号}
+\textbf{性质 7}\quad 对换行列式中两行的位置，行列式反号.
+
+\textbf{证明}
+\fml{\begin{aligned}
+&\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1}+a_{k1} & a_{i2}+a_{k2} & \cdots & a_{in}+a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1}+a_{k1} & a_{i2}+a_{k2} & \cdots & a_{in}+a_{kn}\\
+\vdots & \vdots & & \vdots\\
+-a_{i1} & -a_{i2} & \cdots & -a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+-a_{i1} & -a_{i2} & \cdots & -a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=-\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.
+\end{aligned}}
+这里，第一步是把第 $k$ 行加到第 $i$ 行，第二步是把第 $i$ 行的 $-1$ 倍加到第 $k$ 行，第三步是把第 $k$ 行加到第 $i$ 行，最后再把第 $k$ 行的公因子 $-1$ 提出.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：行列式的计算（化上三角形）
+% 反哺点：把"用初等行变换化上三角再取对角线乘积"这条主线算法一次性交代清楚
+% ---------------------------------------------------------------------------
+\begin{fdeep}{§5 行列式的计算：化上三角形法}
+\fsec{§5\quad 行列式的计算}
+
+下面我们利用行列式的性质给出一个计算行列式的方法.
+
+在 §3 我们看到，一个上三角形行列式
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\
+0 & a_{22} & a_{23} & \cdots & a_{2n}\\
+0 & 0 & a_{33} & \cdots & a_{3n}\\
+\vdots & \vdots & \vdots & & \vdots\\
+0 & 0 & 0 & \cdots & a_{nn}
+\end{vmatrix}}
+就等于它主对角线上元素的乘积
+\fml{a_{11}a_{22}\cdots a_{nn}.}
+这个计算是很简单的.下面我们想办法把任意的 $n$ 阶行列式化为上三角形行列式来计算.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：矩阵的概念（考纲「矩阵」）
+% 反哺点：为"用初等行变换算行列式"提供记号基础；矩阵与行列式的区别在此一句话讲清
+% ---------------------------------------------------------------------------
+\begin{fdeep}{矩阵的概念（定义 5）}
+为了便于叙述并考虑到以后的应用，我们引进矩阵以及矩阵的初等行变换的概念.
+
+\textbf{定义 5}\quad 由 $sn$ 个数排成的 $s$ 行（横的）$n$ 列（纵的）的表
+\fml{\begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{s1} & a_{s2} & \cdots & a_{sn}
+\end{pmatrix}\qquad (1)}
+称为一个 $s\times n$ 矩阵.
+
+例如，
+\fml{\begin{pmatrix}
+1 & 0 & \dfrac{1}{2} & 2\\
+-1 & 2 & 1 & 0
+\end{pmatrix}}
+是一个 $2\times4$ 矩阵，
+\fml{\begin{pmatrix}
+1 & 1 & 2\mathrm{i}\\
+0 & \mathrm{i} & 1\\
+3 & 2 & 1
+\end{pmatrix}}
+是一个 $3\times3$ 矩阵.
+
+数 $a_{ij}\,(i=1,2,\cdots,s,\,j=1,2,\cdots,n)$ 称为矩阵 (1) 的 $(i,j)$ 元素，简称为元，$i$ 称为元素 $a_{ij}$ 的行指标，$j$ 称为列指标.当一个矩阵的元素全是某一数域 $P$ 中的数时，它就称为这一数域 $P$ 上的矩阵.在上面所举的例子中，第一个是有理数域上的矩阵，第二个是复数域上的矩阵.
+
+$n\times n$ 矩阵也称 $n$ 阶方阵.一个 $n$ 阶方阵
+\fml{A=\begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{pmatrix}}
+定义一个 $n$ 阶行列式
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix},}
+称为矩阵 $A$ 的行列式，记作 $|A|$.
+\end{fdeep}
+
+
+% ---------------------------------------------------------------------------
+% 【深化】服务考点：矩阵的初等行变换（考纲「矩阵」）
+% 反哺点：初等行变换的定义就是行列式化三角形三条手段的"矩阵版"，两者一一对应
+% ---------------------------------------------------------------------------
+\begin{fdeep}{矩阵的初等行变换（定义 6）}
+下面来定义矩阵的初等行变换.
+
+\textbf{定义 6}\quad 所谓数域 $P$ 上矩阵的初等行变换是指下列三种变换：
+
+1）以 $P$ 中一个非零的数乘矩阵的某一行；
+
+2）把矩阵的某一行的 $c$ 倍加到另一行，这里 $c$ 是 $P$ 中任意一个数；
+
+3）互换矩阵中两行的位置.
+
+一般说来，一个矩阵经过初等行变换后，就变成了另一个矩阵.譬如说，把矩阵
+\fml{\begin{pmatrix}
+1 & 0 & 2 & 1\\
+2 & 1 & 0 & 2\\
+-1 & 2 & 1 & 3
+\end{pmatrix}}
+\end{fdeep}

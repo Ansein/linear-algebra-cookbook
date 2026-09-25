@@ -1,0 +1,463 @@
+% ===========================================================
+%  ch03_b —— 《线性代数9讲》第 3 讲「矩阵运算」
+%  覆盖 PDF p35–p42（印刷页 24–31），共 8 页，逐页看图转录完毕。
+%  -----------------------------------------------------------
+%  片首/片尾接缝说明：
+%   * p35 开头顶格承接 PDF p34（印刷页 23）例 3.8【解】②③④ 的续页，
+%     故本片开头没有标题，直接从「所以 $r(A^*)=r(B^*)$…」起排。
+%   * p42 末尾的例 3.17 在印刷页 31 页脚处被切断（题干排到「$A=BC$ .」为止），
+%     其解答续印刷页 32，不在本片范围内。
+%  OPD 处理（依 AGENTS.md §7.1 决定 2「不保留方法论」）：
+%   * 原稿蓝色「三向解题法」标记（$\to D_{xx}$（…）箭头旁注、蓝色竖排模块标签
+%     「隐含条件体系」「等价表述运算法块」、蓝色方法论评述句）一律以
+%     「% OPD 蓝色标注」注释保留，未排入正文；
+%   * 其余蓝色旁注（数学交叉引用、行阶梯形/行最简形矩阵等）照原文排入。
+%   * 圈码 ⑯–⑳、㉑–㉚ 在 xeCJK 下静默丢字（style.tex 的兜底只到 ⑮），
+%     本片统一写作 \textcircled{\footnotesize NN}，编译缺字计数为 0。
+%     ⚠️ 建议主控在 style.tex 补 ⑯–㉚ 的 newunicodechar 兜底。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p35（印刷页 24）
+% -----------------------------------------------------------
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象）
+\fml{r(A^*)=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+
+所以 $r(A^*)=r(B^*)$，则 $A^*$ 与 $B^*$ 等价. 故②正确.
+
+对于③，当 $A$ 可逆时，由 $A$ 与 $B$ 相似，可知存在可逆矩阵 $P$，使得 $P^{-1}AP=B$ 且 $|A|=|B|$. 对 $P^{-1}AP=B$ 两边取逆可得 $B^{-1}=P^{-1}A^{-1}P$，所以 $|B|B^{-1}=P^{-1}|A|A^{-1}P$，即 $B^*=P^{-1}A^*P$，可得 $A^*$ 与 $B^*$ 相似.
+
+当 $A$ 不可逆时，可知 $B$ 也不可逆.
+
+令 $A_t=A+tE$，$B_t=B+tE$，使 $A_t$，$B_t$ 均可逆. 由 $A$ 与 $B$ 相似，可得 $A_t$ 与 $B_t$ 相似，故 $A_t^*$ 与 $B_t^*$ 相似. 因 $A_t^*$，$B_t^*$ 均是 $t$ 的连续函数，令 $t\to0$，有 $A^*$ 与 $B^*$ 相似. 可知③正确.
+
+对应④，当 $A$ 可逆时，由 $A$ 与 $B$ 合同，可知 $B$ 可逆，则存在可逆矩阵 $C$，使得 $C^{T}AC=B$，等式两边同时取逆得 $B^{-1}=C^{-1}A^{-1}(C^{-1})^{T}$，则
+
+\fml{\frac{|A|}{|B|}B^{-1}=C^{-1}|A|A^{-1}(C^{-1})^{T},}
+
+即 $\frac{|A|}{|B|}B^*=C^{-1}A^*(C^{-1})^{T}$，可知 $A^*$ 与 $\frac{|A|}{|B|}B^*$ 合同，又 $\frac{|A|}{|B|}B^*$ 与 $B^*$ 合同，由合同的传递性，可得 $A^*$ 与 $B^*$ 合同.
+
+当 $A$ 不可逆时，$B$ 也不可逆，令 $A_t=A+tE$，$B_t=B+tE$，使得 $A_t$，$B_t$ 可逆. 由 $A$ 与 $B$ 合同可得 $A_t$ 与 $B_t$ 合同，故 $A_t^*$ 与 $B_t^*$ 合同. 因 $A_t^*$，$B_t^*$ 均是 $t$ 的连续函数，令 $t\to0$，有 $A^*$ 与 $B^*$ 合同. 可知④正确.
+
+\begin{fcard}{例3.9}
+设 $A$，$B$ 为 $n(n\ge2)$ 阶可逆矩阵，则下列说法中不正确的是（\quad）.
+
+\fmll{\text{（A）}\ \begin{bmatrix}A&O\\O&B\end{bmatrix}^*=\begin{bmatrix}|B|A^*&O\\O&|A|B^*\end{bmatrix}}
+\fmll{\text{（B）}\ \begin{bmatrix}O&A\\B&O\end{bmatrix}^*=(-1)^{n^2}\begin{bmatrix}O&|A|B^*\\|B|A^*&O\end{bmatrix}}
+\fmll{\text{（C）}\ \begin{bmatrix}A&C\\O&B\end{bmatrix}^*=\begin{bmatrix}|B|A^*&-A^*CB^*\\O&|A|B^*\end{bmatrix}}
+\fmll{\text{（D）}\ \begin{bmatrix}A&O\\C&B\end{bmatrix}^*=\begin{bmatrix}|B|A^*&O\\-A^*CB^*&|A|B^*\end{bmatrix}}
+\end{fcard}
+
+【解】应选（D）.
+
+对于 $A$ 的伴随矩阵 $A^*$，具有性质 $AA^*=A^*A=|A|E$，下面只需验证四个选项是否满足此性质.
+
+对于选项（A），
+
+\fmll{\begin{bmatrix}A&O\\O&B\end{bmatrix}\begin{bmatrix}|B|A^*&O\\O&|A|B^*\end{bmatrix}=\begin{bmatrix}A|B|A^*&O\\O&B|A|B^*\end{bmatrix}=\begin{bmatrix}|A||B|E_n&O\\O&|B||A|E_n\end{bmatrix}=\begin{bmatrix}A&O\\O&B\end{bmatrix}\begin{bmatrix}E_n&O\\O&E_n\end{bmatrix}.}
+
+对于选项（B），
+
+\fmll{(-1)^{n^2}\begin{bmatrix}O&A\\B&O\end{bmatrix}\begin{bmatrix}O&|A|B^*\\|B|A^*&O\end{bmatrix}=(-1)^{n^2}\begin{bmatrix}A|B|A^*&O\\O&B|A|B^*\end{bmatrix}}
+\fmll{=(-1)^{n^2}\begin{bmatrix}|A||B|E_n&O\\O&|B||A|E_n\end{bmatrix}=\begin{bmatrix}O&A\\B&O\end{bmatrix}\begin{bmatrix}E_n&O\\O&E_n\end{bmatrix}.}
+
+% -----------------------------------------------------------
+% PDF p36（印刷页 25）
+% -----------------------------------------------------------
+
+对于选项（C），
+
+\fmll{\begin{bmatrix}A&C\\O&B\end{bmatrix}\begin{bmatrix}|B|A^*&-A^*CB^*\\O&|A|B^*\end{bmatrix}=\begin{bmatrix}A|B|A^*&-AA^*CB^*+C|A|B^*\\O&B|A|B^*\end{bmatrix}}
+\fmll{=\begin{bmatrix}|A||B|E_n&O\\O&|A||B|E_n\end{bmatrix}=\begin{bmatrix}A&C\\O&B\end{bmatrix}\begin{bmatrix}E_n&O\\O&E_n\end{bmatrix}.}
+
+对于选项（D），
+
+\fmll{\begin{bmatrix}A&O\\C&B\end{bmatrix}\begin{bmatrix}|B|A^*&O\\-A^*CB^*&|A|B^*\end{bmatrix}=\begin{bmatrix}|A||B|E_n&O\\|B|CA^*-BA^*CB^*&|A||B|E_n\end{bmatrix}\ne\begin{bmatrix}A&O\\C&B\end{bmatrix}\begin{bmatrix}E_n&O\\O&E_n\end{bmatrix}.}
+
+则只有（D）选项不满足伴随矩阵的性质，故本题选（D）.
+
+（3）秩.
+
+% OPD 蓝色标注（原稿）：左侧蓝色竖排模块标签「隐含条件体系」（方法论模块名，不排入正文）
+
+设 $A$ 是 $n$ 阶方阵，$A^*$ 是 $A$ 的伴随矩阵，则
+
+\fml{r(A^*)=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+
+\begin{fnote}
+【注】进一步地，设 $A$ 为 $n(n>1)$ 阶方阵，关于 $(A^*)^*$ 的结论：
+
+①当 $n=2$ 时，$(A^*)^*=A$；
+
+②当 $n>2$ 时，若 $A$ 是可逆矩阵，则 $(A^*)^*=|A|^{n-2}A$；
+
+③当 $n>2$ 时，若 $A$ 是不可逆矩阵，则 $(A^*)^*=O$.
+\end{fnote}
+
+\begin{fcard}{例3.10}
+已知 3 阶行列式 $|A|$ 的元素 $a_{ij}$ 均为实数，且 $a_{ij}$ 不全为 0. 若
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象）$+D_{22}$（转换等价表述）
+\fml{a_{ij}=-A_{ij}\quad(i,\ j=1,\ 2,\ 3),}
+
+其中 $A_{ij}$ 是 $a_{ij}$ 的代数余子式，则 $|A|=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $-1$.
+
+由 $A^{T}=\begin{bmatrix}a_{11}&a_{21}&a_{31}\\a_{12}&a_{22}&a_{32}\\a_{13}&a_{23}&a_{33}\end{bmatrix}$，$A^*=\begin{bmatrix}A_{11}&A_{21}&A_{31}\\A_{12}&A_{22}&A_{32}\\A_{13}&A_{23}&A_{33}\end{bmatrix}$，$a_{ij}=-A_{ij}$，得 $A^*=-A^{T}$. 于是 $|A^*|=|-A^{T}|$，即 $|A|^{3-1}=(-1)^{3}|A|$，也即 $|A|^{2}=-|A|$，故
+
+\fml{|A|\,\big(|A|+1\big)=0.\qquad\qquad(*)}
+
+由 $a_{ij}$ 不全为 0 知，存在 $a_{kj}\ne0$，将行列式 $|A|$ 按第 $k$ 行展开，得
+
+\fml{|A|=a_{k1}A_{k1}+a_{k2}A_{k2}+a_{k3}A_{k3}=-a_{k1}^{2}-a_{k2}^{2}-a_{k3}^{2}<0,}
+
+故由（$*$）式知，$|A|=-1$.
+
+\begin{fcard}{例3.11}
+设 $n$ 阶矩阵 $A$ 满足 $|A|=1$，其元素 $a_{ij}=-a_{ji}$，$i$，$j=1,2,\cdots,n$，$n$ 维列向量 $x=[1,1,\cdots,1]^{T}$，
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象）$+D_{22}$（转换等价表述）
+则 $x^{T}A^*x=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 0.
+
+由 $a_{ij}=-a_{ji}$，有 $A^{T}=-A$，故 $|A^{T}|=(-1)^{n}|A|$. 当 $n$ 为奇数时，$|A|=0$，与题设矛盾，故 $n$ 为偶数. 于是
+
+\fml{(A^*)^{T}=(A^{T})^*=(-A)^*\overset{(*)}{=}(-1)^{n-1}A^*=-A^*,}
+
+故 $A_{ij}=-A_{ji}$，$i$，$j=1,2,\cdots,n$. 于是
+
+% -----------------------------------------------------------
+% PDF p37（印刷页 26）
+% -----------------------------------------------------------
+
+\fml{x^{T}A^*x=[1,1,\cdots,1](A_{ij})_{n\times n}\begin{bmatrix}1\\\vdots\\1\end{bmatrix}=\sum_{j=1}^{n}\sum_{i=1}^{n}A_{ij}=0.}
+
+\begin{fnote}
+【注】（$*$）处，$(-A)^*=|-A|(-A)^{-1}=(-1)^{n}|A|(-1)^{-1}A^{-1}=(-1)^{n-1}|A|A^{-1}=(-1)^{n-1}A^*$.
+\end{fnote}
+
+\begin{fcard}{3. $A^{-1}$}
+（1）定义.
+
+对于方阵 $A$，$B$，若 $AB=E$，则 $A$，$B$ 互为逆矩阵，且 $A^{-1}=B$，$B^{-1}=A$，$AB=BA$.
+
+（2）性质.
+
+① $(A^{-1})^{-1}=A$.
+
+② $(AB)^{-1}=B^{-1}A^{-1}$（穿脱原则）.
+
+③ $k\ne0$，$(kA)^{-1}=\frac{1}{k}A^{-1}$.
+
+④ $(A^{T})^{-1}=(A^{-1})^{T}$.
+
+⑤ $|A^{-1}|=\frac{1}{|A|}$.
+
+（3）求 $A^{-1}$.
+
+① 具体型.
+
+a. $A^{-1}=\frac{1}{|A|}A^*$.
+
+b. $[\,A,\ E\,]\xrightarrow{\text{初等行变换}}[\,E,\ A^{-1}\,]$.
+
+② 抽象型.
+
+a. 由题设式子恒等变形，创造 $AB=E$，则 $A^{-1}=B$.
+
+b. 由题设式子恒等变形，创造 $A=BC$，若 $B$，$C$ 均可逆，则 $A^{-1}=C^{-1}B^{-1}$.
+
+（4）$A_{n\times n}$ 可逆的充要条件大观.
+
+% OPD 蓝色标注（原稿）：→$D_{11}$（转换等价表述）. 这是线性代数考题中“脱胎换骨”的核心. 若对于一个知识点有多种等价说法或对于一个命题有多种充分必要条件，那么这里的 $D_{11}$（转换等价表述）就成了极为重要的考点.
+% OPD 蓝色标注（原稿）：右侧蓝色竖排模块标签「等价表述运算法块」（方法论模块名，不排入正文）
+
+$A_{n\times n}$ 可逆 $\Leftrightarrow$ ①存在方阵 $B$，使 $AB=BA=E$
+
+$\Leftrightarrow$ ②存在 $B$，使 $BA=E$
+
+$\Leftrightarrow$ ③存在 $B$，使 $AB=E$ \quad（与定义联系）
+
+$\Leftrightarrow$ ④$|A|\ne0$ —— 与行列式联系
+
+$\Leftrightarrow$ ⑤$A$ 的等价标准形为 $E$
+
+$\Leftrightarrow$ ⑥$A$ 可经初等行变换化为 $E$（即 $P_s\cdots P_2P_1A=E$）
+
+$\Leftrightarrow$ ⑦$A$ 可经初等列变换化为 $E$（即 $AP_1P_2\cdots P_s=E$）\quad（与初等变换、初等矩阵联系）
+
+$\Leftrightarrow$ ⑧$A$ 可分解为若干个初等矩阵乘积
+
+% -----------------------------------------------------------
+% PDF p38（印刷页 27）
+% -----------------------------------------------------------
+
+$\Leftrightarrow$ ⑨$r(A)=n$
+
+$\Leftrightarrow$ ⑩$\forall C_{n\times s}$，$r(AC)=r(C)$
+
+$\Leftrightarrow$ ⑪$\forall C_{n\times n}$，$r(AC)=r(C)$
+
+$\Leftrightarrow$ ⑫$\forall C_{n\times n}$，$r(CA)=r(C)$
+
+$\Leftrightarrow$ ⑬$\forall C_{s\times n}$，$r(CA)=r(C)$ \quad（与秩联系）
+
+$\Leftrightarrow$ ⑭$Ax=0$ 只有零解
+
+$\Leftrightarrow$ ⑮$\forall\beta_{n\times1}$，$Ax=\beta$ 有唯一解
+
+$\Leftrightarrow$ ⑯$\forall\beta_{n\times1}$，$Ax=\beta$ 有解
+
+$\Leftrightarrow$ ⑰$AX=O_{n\times s}$（$\forall s\in Z^{+}$）只有零解
+
+$\Leftrightarrow$ ⑱$\forall C_{n\times s}$，$AX=C$ 有唯一解
+
+$\Leftrightarrow$ ⑲$\forall C_{n\times s}$，$AX=C$ 有解 \quad（与方程组的解联系）
+
+$\Leftrightarrow$ ⑳$A$ 的列向量组线性无关 $\Leftrightarrow A$ 的任一列向量均不能由其余列向量线性表示
+
+$\Leftrightarrow$ ㉑$A$ 的行向量组线性无关 $\Leftrightarrow A$ 的任一行向量均不能由其余行向量线性表示 \quad（与向量组线性表示联系）
+
+$\Leftrightarrow$ ㉒$A$ 的列向量组是 $R^{n}$ 的一个基
+
+$\Leftrightarrow$ ㉓$A$ 的行向量组是 $R^{n}$ 的一个基 \quad（与基联系（仅数学一））
+
+$\Leftrightarrow$ ㉔$0$ 不是 $A$ 的特征值 —— 与特征值联系
+
+$\Leftrightarrow$ ㉕$A^{T}A$ 正定
+
+$\Leftrightarrow$ ㉖$AA^{T}$ 正定
+
+$\Leftrightarrow$ ㉗$A^{T}A$ 的特征值全为正
+
+$\Leftrightarrow$ ㉘$A^{T}A$ 与 $E$ 合同
+
+$\Leftrightarrow$ ㉙$A^{T}A$ 的正惯性指数为 $n$
+
+$\Leftrightarrow$ ㉚$A^{T}A$ 的顺序主子式全为正 \quad（与正定性联系）
+\end{fcard}
+
+\begin{fcard}{例3.12}
+设 $n$ 阶方阵 $A$ 满足 $A^{3}-2A^{2}+3A-4E=O$，则 $(A-E)^{-1}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\frac{1}{2}(A^{2}-A+2E)$.
+
+由长除法，得
+
+% OPD 蓝色标注（原稿）：$D_{11}$（常规操作）· 要熟练
+\fmll{\begin{array}{r@{}l}
+&\quad A^{2}-A+2E\\
+A-E&\overline{\big)\,A^{3}-2A^{2}+3A-4E}\\
+&\quad \underline{A^{3}-A^{2}}\\
+&\quad -A^{2}+3A-4E\\
+&\quad \underline{-A^{2}+A}\\
+&\quad 2A-4E\\
+&\quad \underline{2A-2E}\\
+&\quad -2E
+\end{array}}
+
+% -----------------------------------------------------------
+% PDF p39（印刷页 28）
+% -----------------------------------------------------------
+
+即
+
+\fml{(A-E)\,(A^{2}-A+2E)-2E=O,}
+
+所以 $(A-E)\left[\frac{1}{2}(A^{2}-A+2E)\right]=E$，故
+
+\fml{(A-E)^{-1}=\frac{1}{2}(A^{2}-A+2E).}
+
+\begin{fcard}{例3.13}
+设 $A=\begin{bmatrix}0&1&\cdots&1\\1&\ddots&&\vdots\\\vdots&&\ddots&1\\1&\cdots&1&0\end{bmatrix}_n$，则 $A^{-1}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\frac{1}{n-1}\begin{bmatrix}2-n&1&\cdots&1\\1&2-n&&\vdots\\\vdots&&\ddots&1\\1&\cdots&1&2-n\end{bmatrix}_n$.
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象）$+D_{23}$（化归经典形式）$\begin{bmatrix}0&1&1\\1&0&1\\1&1&0\end{bmatrix}+\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix}=\begin{bmatrix}1&1&1\\1&1&1\\1&1&1\end{bmatrix}=[1,1,1]$. 这种“观察”和“化归”是考生要着重训练的.
+
+\fml{A=\begin{bmatrix}1\\\vdots\\1\end{bmatrix}[1,\cdots,1]-E=aa^{T}-E,}
+
+\fmll{\begin{aligned}
+(aa^{T}-E)(kaa^{T}-E)&=kaa^{T}aa^{T}-(1+k)aa^{T}+E\\
+&=\big[k(n-1)-1\big]aa^{T}+E.
+\end{aligned}}
+
+当 $k=\frac{1}{n-1}$ 时，$A\left(\frac{aa^{T}}{n-1}-E\right)=E$，故 $A^{-1}=\frac{aa^{T}}{n-1}-E=\frac{1}{n-1}\begin{bmatrix}2-n&1&\cdots&1\\1&2-n&\cdots&1\\\vdots&\vdots&&\vdots\\1&1&\cdots&2-n\end{bmatrix}_n$.
+
+\begin{fcard}{例3.14}
+设 $A$ 为 $n$ 阶非零矩阵，$E$ 为 $n$ 阶单位矩阵，若 $A^{3}=O$，则（\quad）.
+
+（A）$E-A$ 不可逆，$E+A$ 不可逆 \qquad （B）$E-A$ 不可逆，$E+A$ 可逆
+
+（C）$E-A$ 可逆，$E+A$ 可逆 \qquad （D）$E-A$ 可逆，$E+A$ 不可逆
+\end{fcard}
+
+【解】应选（C）.
+
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式）
+法一 因为 $A^{3}=O$，故 $E=E\pm A^{3}=(E\pm A)(E\mp A+A^{2})$，即分别存在矩阵 $E-A+A^{2}$ 和 $E+A+A^{2}$，使得
+
+\fml{(E+A)(E-A+A^{2})=E,\qquad (E-A)(E+A+A^{2})=E,}
+
+可知 $E-A$ 与 $E+A$ 都是可逆的，所以应选（C）.
+
+% OPD 蓝色标注（原稿）：→$D_{11}$（观察研究对象）. 见到 $f(A)=O$，想到 $f(\lambda)=0$
+法二 设 $\lambda$ 是 $A$ 的实特征值，由 $A^{3}=O$，得 $\lambda^{3}=0$，故 $\lambda=0$，所以 $A$ 的实特征值只有 0. 于是 $E-A$ 的实特征值只有 1，$E+A$ 的实特征值只有 1，故二者均可逆，应选（C）.
+
+\begin{fnote}
+【注】法一是利用定义，法二是说明 0 不是特征值.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p40（印刷页 29）
+% -----------------------------------------------------------
+
+\begin{fcard}{4. 初等矩阵}
+（1）初等矩阵的性质.
+
+① $|E_{ij}|=-1$，$|E_{ij}(k)|=1$，$|E_i(k)|=k$.
+
+② $E_{ij}^{T}=E_{ij}$，$E_{ij}^{T}(k)=E_{ji}(k)$，$E_i^{T}(k)=E_i(k)$.
+
+③ $E_{ij}^{-1}=E_{ij}$，$E_{ij}^{-1}(k)=E_{ij}(-k)$，$E_i^{-1}(k)=E_i\left(\frac{1}{k}\right)$.
+
+④ $E_{ij}^*=|E_{ij}|E_{ij}^{-1}=-E_{ij}$；
+
+$E_{ij}^*(k)=|E_{ij}(k)|E_{ij}^{-1}(k)=E_{ij}(-k)$；
+
+$E_i^*(k)=|E_i(k)|E_i^{-1}(k)=kE_i\left(\frac{1}{k}\right)$.
+\end{fcard}
+
+\begin{fcard}{例3.15}
+设 $A$ 是 3 阶可逆矩阵，交换 $A$ 的第 1 列和第 2 列得到 $B$，$A^*$，$B^*$ 分别是 $A$，$B$ 的伴随矩阵，则 $B^*$ 可由（\quad）.
+
+（A）$A^*$ 的第 1 列与第 2 列互换得到 \qquad （B）$A^*$ 的第 1 行与第 2 行互换得到
+
+（C）$-A^*$ 的第 1 列与第 2 列互换得到 \qquad （D）$-A^*$ 的第 1 行与第 2 行互换得到
+\end{fcard}
+
+【解】应选（D）.
+
+交换 $A$ 的第 1 列和第 2 列得到 $B$，即
+
+\fml{B=AE_{12},\qquad(\text{由常讲的“四、4.（1）④”可知}.)}
+
+则
+
+\fml{B^*=(AE_{12})^*=E_{12}^*A^*=-E_{12}A^*=E_{12}(-A^*),}
+
+故 $B^*$ 可由 $-A^*$ 的第 1 行与第 2 行互换得到，应选（D）.
+
+% OPD 蓝色标注（原稿）：一个数学工具在若干场合下均可使用，则务必搞懂知识点，一要全面归纳出各种情形，二要区分各种情形下条件、过程、结论的不同
+
+\begin{fcard}{（2）初等变换使用的各种场合}
+① 用于联系初等变换前、后行列式的关系.
+
+若 $E_{ij}A=B$，则 $-|A|=|B|$；若 $E_i(k)A=B$，则 $k|A|=|B|$；若 $E_{ij}(k)A=B$，则 $|A|=|B|$.
+
+② 用于求逆矩阵.
+
+若 $A$ 可逆，则 $[A,E]\xrightarrow{\text{行}}[E,A^{-1}]$ 或 $\begin{bmatrix}A\\E\end{bmatrix}\xrightarrow{\text{列}}\begin{bmatrix}E\\A^{-1}\end{bmatrix}$.
+
+③ 用于求矩阵的秩（可行可列）.
+
+④ 用于解线性方程组.
+
+若 $Ax=\beta$，则 $[A,\beta]\xrightarrow{\text{行}}[\,PA,\ P\beta\,]$（行阶梯形矩阵/行最简形矩阵）.
+
+⑤ 用于解矩阵方程.
+
+若 $AX=B$，且 $A$ 可逆，则 $X=A^{-1}B$，于是 $[A,B]\xrightarrow{\text{行}}[E,A^{-1}B]$；或者 $XA=B$，且 $A$ 可逆，则 $X=BA^{-1}$,
+
+% -----------------------------------------------------------
+% PDF p41（印刷页 30）
+% -----------------------------------------------------------
+
+于是 $\begin{bmatrix}A\\B\end{bmatrix}\xrightarrow{\text{列}}\begin{bmatrix}E\\BA^{-1}\end{bmatrix}$. 在求解 $P^{-1}AP=B$ 中的 $A$ 时，可写成 $AP=PB$，于是 $\begin{bmatrix}P\\PB\end{bmatrix}\xrightarrow{\text{列}}\begin{bmatrix}E\\PBP^{-1}\end{bmatrix}=\begin{bmatrix}E\\A\end{bmatrix}$.
+\end{fcard}
+
+\begin{fcard}{例3.16}
+设 $P=\begin{bmatrix}1&1&3\\1&2&2\\0&0&2\end{bmatrix}$，且 $P^{-1}AP=\begin{bmatrix}-1&0&0\\0&-2&0\\0&0&0\end{bmatrix}$，则 $A^{99}=\underline{\hspace{2.6em}}$.
+\end{fcard}
+
+【解】应填 $\begin{bmatrix}2^{99}-2&1-2^{99}&2-2^{98}\\2^{100}-2&1-2^{100}&2-2^{99}\\0&0&0\end{bmatrix}$.
+
+令 $B=\begin{bmatrix}-1&0&0\\0&-2&0\\0&0&0\end{bmatrix}$，由于 $P^{-1}AP=B$，则有 $P^{-1}A^{99}P=B^{99}$，即 $A^{99}P=PB^{99}$.
+
+又 $PB^{99}=\begin{bmatrix}1&1&3\\1&2&2\\0&0&2\end{bmatrix}\begin{bmatrix}(-1)^{99}&0&0\\0&(-2)^{99}&0\\0&0&0\end{bmatrix}=\begin{bmatrix}-1&-2^{99}&0\\-1&-2^{100}&0\\0&0&0\end{bmatrix}$，对 $\begin{bmatrix}P\\PB^{99}\end{bmatrix}$ 进行初等列变换，有
+
+\fmll{\begin{bmatrix}P\\PB^{99}\end{bmatrix}=\begin{bmatrix}1&1&3\\1&2&2\\0&0&2\\-1&-2^{99}&0\\-1&-2^{100}&0\\0&0&0\end{bmatrix}\to\begin{bmatrix}1&0&0\\1&1&-1\\0&0&2\\-1&1-2^{99}&3\\-1&1-2^{100}&3\\0&0&0\end{bmatrix}}
+
+\fmll{\to\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\\2^{99}-2&1-2^{99}&4-2^{99}\\2^{100}-2&1-2^{100}&4-2^{100}\\0&0&0\end{bmatrix}\to\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\\2^{99}-2&1-2^{99}&2-2^{98}\\2^{100}-2&1-2^{100}&2-2^{99}\\0&0&0\end{bmatrix}}
+
+故 $A^{99}=\begin{bmatrix}2^{99}-2&1-2^{99}&2-2^{98}\\2^{100}-2&1-2^{100}&2-2^{99}\\0&0&0\end{bmatrix}$.
+
+⑥ 用于求极大线性无关组.
+
+根据初等行变换不改变列向量组的相关性.
+
+a. 作初等行变换，化 $A$ 为行阶梯形.
+
+\fml{A\to\begin{bmatrix}\boxed{\phantom{A}}&\phantom{A}&\phantom{A}\\&\boxed{\phantom{A}}&\phantom{A}\\&&\boxed{\phantom{A}}\end{bmatrix}.}
+
+b. 若台阶数为 $r$，按列找出 $r$ 个线性无关的列向量，即为极大线性无关组.
+
+⑦ 用于求矩阵 $A$ 的等价标准形及分解方法.
+
+% -----------------------------------------------------------
+% PDF p42（印刷页 31）
+% -----------------------------------------------------------
+
+设 $A_{m\times n}$ 且 $r(A)=r$，则存在可逆矩阵 $P_{m\times m}$，$Q_{n\times n}$，使得
+
+\fml{A=P^{-1}\begin{bmatrix}E_r&O\\O&O\end{bmatrix}Q^{-1},}
+
+称 $\begin{bmatrix}E_r&O\\O&O\end{bmatrix}$ 为 $A$ 的等价标准形.
+
+其中求 $P$，$Q$ 的方法为：对 $\begin{bmatrix}A&E_m\\E_n&O\end{bmatrix}$ 的前 $m$ 行、前 $n$ 列分别作初等行变换、初等列变换化为 $\begin{bmatrix}S&P\\Q&O\end{bmatrix}$，其中 $S=\begin{bmatrix}E_r&O\\O&O\end{bmatrix}$，则 $P$，$Q$ 可逆且 $PAQ=S$.
+
+⑧ 用于矩阵的满秩分解.
+
+若 $PAQ=\begin{bmatrix}E_r&O\\O&O\end{bmatrix}$，则 $A=P^{-1}\begin{bmatrix}E_r&O\\O&O\end{bmatrix}Q^{-1}$. 进一步，$A=P^{-1}\begin{bmatrix}E_r\\O\end{bmatrix}[\,E_r,\ O\,]Q^{-1}\overset{\text{记}}{=}P_1Q_1$，$P_1$ 列满秩，$Q_1$ 行满秩.
+
+\begin{fnote}
+【注】（1）事实上，$A_{m\times n}$ 列满秩 $\Leftrightarrow$ 存在可逆矩阵 $P$，使得 $A=P\begin{bmatrix}E_n\\O\end{bmatrix}$.
+
+（2）$A_{m\times n}$ 行满秩 $\Leftrightarrow$ 存在可逆矩阵 $Q$，使得 $A=[\,E_m,\ O\,]Q$.
+
+（3）还有一个满秩分解的好方法，见例3.17.
+\end{fnote}
+
+⑨（仅数学一）用于求基和维数，这与⑥概念不同，但方法都一致.
+
+\begin{fnote}
+【注】初等变换可行、列混用的场合.
+
+（1）不考虑对错，想撕卷子的时候.
+
+（2）计算行列式.
+
+（3）求矩阵的秩.
+
+（4）求向量组的秩.
+
+（5）求矩阵的等价标准形.
+
+（6）成对初等变换（必须行、列混用）.
+
+除此之外，一般是“列拼”行变换（如 $[A,E]\xrightarrow{\text{行}}[E,A^{-1}]$）；“行拼”列变换（如 $\begin{bmatrix}A\\E\end{bmatrix}\xrightarrow{\text{列}}\begin{bmatrix}E\\A^{-1}\end{bmatrix}$）.
+\end{fnote}
+
+\begin{fcard}{★★★例3.17}
+已知矩阵 $A=\begin{bmatrix}1&1&1&1\\1&1&1&1\\2&1&0&-1\\-1&0&1&2\end{bmatrix}$，$B=\begin{bmatrix}1&1\\1&1\\0&1\\1&0\end{bmatrix}$，$A=BC$.
+
+% OPD 蓝色标注（原稿）：→$D_{21}$（观察研究对象）$+D_{23}$（化归经典形式）
+% 说明：例 3.17 的题干在印刷页 31 页脚处被切断，解答续印刷页 32，不在本片范围。
+\end{fcard}

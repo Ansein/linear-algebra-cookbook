@@ -1,0 +1,608 @@
+% ===========================================================
+% 《线性代数9讲》第 7 讲  特征值与特征向量 —— 片段 A
+% 源：线代9讲强化.pdf  PDF p83–p86（印刷页 72–75），共 4 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2 及 2026-xx 统一口径）：
+%      **纯 OPD 代码 / 方法论语句 / 页边模块名**一律以 `% OPD 蓝色标注（原稿）`
+%      注释留痕，**不排入正文**；**节标题及其下的 OPD 路线行整段删除**
+%      （连其中的中文词组一起删），标题只留数学方法名：
+%        · PDF p83（72）节标题「一、利用特征值命题」下方蓝色路线行
+%          （$D_1$（常规操作）$+D_{22}$（转换等价表述））→ 整段删除
+%        · PDF p83（72）【注】框下方蓝色 →$D_{23}$（化归经典形式）→ 只删 D 代码
+%        · PDF p83（72）表右侧蓝色「多项式形式是重点，见到它们要立即想到
+%          $f(A)\leftrightarrow f(\lambda)$」→ 方法论提示语，删除
+%        · PDF p83（72）～p84（73）、p86（75）页右缘竖排模块名「隐含条件体系块」
+%          → 方法论模块标签，删除留痕
+%        · PDF p85（74）例 7.2 题干上方蓝色「→见到相似，想到 $\xi\to P^{-1}\xi$」
+%          与「→见到 $f(A)$，想到 $\lambda\to f(\lambda)$」→ 方法论提示语，删除
+%        · PDF p85（74）「（2）重要结论.」下方蓝色 →$D_{22}$（转换等价表述）→ 删除
+%        · PDF p85（74）节标题「二、利用特征向量命题」下方蓝色路线行
+%          （$D_1$（常规操作）$+D_{22}$（转换等价表述））→ 整段删除
+%   2) **数学内容一律不受影响**：蓝色批注中的**数学推导与数学结论**照原文排入
+%      （以 `\fml` / `fnote` 呈现），仅删其 OPD 代码标签：
+%        · PDF p83（72）$|bE-(-aA)|=(-a)^{n}\left|-\frac{b}{a}E-A\right|=0$，
+%          则 $\lambda_0=-\frac{b}{a}$（承上【注】的推导）
+%        · PDF p83（72）如 $f(A)=A^{3}+2A^{2}-A+5E$，则 $f(\lambda)=\lambda^{3}+2\lambda^{2}-\lambda+5$
+%        · PDF p84（73）①$|\lambda E-A|=|(\lambda E-A)^{T}|=|\lambda E-A^{T}|$，
+%          故特征值相同；②但 $(\lambda E-A)x=0$ 与 $(\lambda E-A^{T})x=0$
+%          不是同解方程组，故特征向量不同
+%        · PDF p86（75）①右侧「已有 $k$ 个线性无关的特征向量时，$\lambda$ 至少是 $k$ 重根」
+%        · PDF p86（75）③右侧「$\lambda_1\ne\lambda_2\Rightarrow\xi_1$，$\xi_2$ 线性无关；
+%          $\lambda_1=\lambda_2\Rightarrow\xi_1$，$\xi_2$ 可能线性相关，可能线性无关」
+%        · PDF p86（75）⑦右侧「其余 $\lambda_i$ 均不是 $A$ 的特征值」
+%          与「若 $\lambda_i$ 是 $A$ 的特征值，则 $\lambda_i$ 至少有一个线性无关的特征向量」
+%   3) **数学操作旁注保留**：交叉引用（如「由本讲的"一、（3）①"知」「一、（2）」）
+%      与「由题设知」「又」「因」「故」等推导连接词全部照原文排入.
+%   4) **卡片类型**：原稿蓝色【注】框（含 ★★★【注】）→ `fnote`；
+%      有编号的表格类「①记住下表」→ `fkey`；例题 → `fcard`.
+%   5) **页首思维导图不转写**：PDF p83（印刷页 72）页首「三向解题法」思维导图
+%      （利用特征值命题 / 利用特征向量命题 / 利用矩阵方程命题 三分支）按规则不保留，
+%      仅留 `% FIGURE-OPD:` 一行.
+%   6) **本片无位图插图、无 fdeep**（9 讲正文不使用 fdeep）；原稿右上角蓝色二维码
+%      为装饰性内容，非正文，未转写.
+%   7) **本片范围内无「习题」栏**（PDF p83–p86 = 印刷页 72–75 已逐页核实）：
+%      PDF p86（印刷页 75）以第 ⑧ 条结论及其【注】证结束，其后为页脚页码；
+%      编号结论第 ⑨ 条在 PDF p87（印刷页 76），由片段 B 负责.
+%
+% 接缝说明：
+%   · 本片首行即第 7 讲章首（PDF p83 = 印刷页 72）；
+%   · PDF p83（72）尾「表中 $\lambda$ 在分母上的，设 $\lambda\ne0$.」结束于该页，
+%     PDF p84（73）自【注】（1）起，本片按页序连续转录；
+%   · PDF p85（74）末「（2）重要结论.」在本片，其下 ①～⑧ 条结论在 PDF p86（75），
+%     本片连续排入；第 ⑨ 条（PDF p87）属片段 B.
+% ===========================================================
+
+\fchap{第7章\quad 特征值与特征向量}
+
+% -----------------------------------------------------------
+% PDF p83（印刷页 72）
+% -----------------------------------------------------------
+
+% FIGURE-OPD: 72 三向解题法思维导图（利用特征值命题 / 利用特征向量命题 / 利用矩阵方程命题，按规则不保留）
+
+\fsec{深化一　特征值与特征向量的基本性质}
+
+\begin{fdeep}{特征子空间 $V_{\lambda}=N(\lambda E-A)$：特征向量其实是一个子空间}
+课本说“$\lambda$ 的特征向量是满足 $A\xi=\lambda\xi$（$\xi\ne0$）的向量”。这句话容易让人以为
+特征向量是“一个一个解出来的”。换个写法就清楚了：
+\fml{A\xi=\lambda\xi\iff(\lambda E-A)\xi=0\iff\xi\in N(\lambda E-A)}
+也就是说：\textbf{$\lambda$ 的全部特征向量，就是齐次方程组 $(\lambda E-A)x=0$ 的全部非零解}。
+于是定义
+\fml{V_{\lambda}=N(\lambda E-A)=\{\xi\mid A\xi=\lambda\xi\}}
+它\textbf{是一个子空间}（因为齐次解集是子空间，见第 5 章），称为 $\lambda$ 的\textbf{特征子空间}。
+\warn{注意 $V_{\lambda}$ 含零向量，但零向量不算特征向量}——特征向量专指 $V_{\lambda}$ 中的非零向量。
+
+\textbf{两条直接推论}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{几何重数可算}：$\dim V_{\lambda}=n-r(\lambda E-A)$（由第 4 章秩-零化度定理）。
+      这就是“特征向量有几个线性无关”的答案，而且\textbf{不必解方程就能先算出来}。
+\item \textbf{同一个特征值的特征向量全体（添上零）自动构成子空间}，
+      所以“特征向量之和仍是特征向量”（同 $\lambda$ 时成立），“特征向量的倍数仍是特征向量”。
+      但\textbf{不同特征值的特征向量之和不再是特征向量}——这是常见错误。
+\end{itemize}
+\fbref{}：服务考纲〔矩阵的特征值和特征向量〕“理解矩阵的特征值和特征向量的概念及性质，会求矩阵的特征值和特征向量”。
+把“求特征向量”还原为“求核空间”，就与第 5 章的解方程组理论完全统一，
+而且立刻得到“几何重数 $=n-r(\lambda E-A)$”这个\textbf{可以先算、不必解方程}的量。
+第 8 章判断能否相似对角化时，用的正是它。
+\end{fdeep}
+
+\begin{fdeep}{代数重数 vs 几何重数：一个决定“能否对角化”的比较}
+设 $\lambda_0$ 是 $A$ 的特征值，定义两个“重数”：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{代数重数} $m_{\lambda_0}$：特征多项式 $f(\lambda)=\lvert\lambda E-A\rvert$ 中
+      因式 $(\lambda-\lambda_0)$ 的重数（即 $\lambda_0$ 作为方程 $f(\lambda)=0$ 的根的重数）；
+\item \textbf{几何重数} $g_{\lambda_0}$：特征子空间的维数 $\dim V_{\lambda_0}=n-r(\lambda_0 E-A)$，
+      即“能解出几个线性无关的特征向量”。
+\end{itemize}
+核心不等式是
+\fml{\boxed{\,1\le g_{\lambda_0}\le m_{\lambda_0}\,}}
+\textbf{左边为什么成立}：$\lambda_0$ 既然是特征值，$\lvert\lambda_0 E-A\rvert=0$，
+故 $(\lambda_0 E-A)x=0$ 有非零解，$g_{\lambda_0}\ge1$。
+\textbf{右边为什么成立（思路）}：把几何重数 $g$ 个线性无关的特征向量扩充成整个空间的一组基，
+在这组基下 $A$ 相似于分块上三角阵 $\begin{pmatrix}\lambda_0 E_g&\ast\\ O&B\end{pmatrix}$，
+于是特征多项式含因子 $(\lambda-\lambda_0)^{g}$，故代数重数至少为 $g$。
+
+\medskip
+\textbf{为什么这个比较就是“能否对角化”的答案？}
+对每个特征值，$g_{\lambda}=m_{\lambda}$ 意味着“特征向量够用”；
+把各特征值的特征子空间拼起来，总维数是 $\sum_{\lambda}g_{\lambda}$。
+而 $A$ 可对角化 $\iff$ 有 $n$ 个线性无关特征向量 $\iff\sum_{\lambda}g_{\lambda}=n$。
+又因为 $\sum_{\lambda}m_{\lambda}=n$（特征多项式的次数），所以
+\fml{A\ \text{可对角化}\iff\text{对每个}\ \lambda\ \text{都有}\ g_{\lambda}=m_{\lambda}
+\iff\sum_{\lambda}g_{\lambda}=n}
+\textbf{“不能对角化”就是某个 $\lambda$ 的 $g<m$}。
+
+\must{标准反例（必须记住）}：$J=\begin{pmatrix}\lambda&1\\0&\lambda\end{pmatrix}$（Jordan 块）。
+由 $(\lambda E-J)=\begin{pmatrix}0&-1\\0&0\end{pmatrix}$ 得 $r=1$，故
+$g=n-r=2-1=1$，而 $m=2$。于是 $g<m$，\textbf{$J$ 不可对角化}。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…矩阵可相似对角化的充分必要条件”。
+9 讲给出的判据是“有 $n$ 个线性无关特征向量”，这个说法正确但不好用——
+考场上你得先解出所有特征向量才能判断。而 $g_{\lambda}=n-r(\lambda E-A)$ \textbf{只需算秩}，
+所以\textbf{“对每个特征值比较 $g$ 与 $m$”是判断可对角化的最快途径}。
+第 8 章会把它扩展成一张更完整的等价条件网。
+\end{fdeep}
+
+\begin{fdeep}{特征多项式的“完整系数”：$k$ 阶主子式之和}
+设 $A=(a_{ij})$ 为 $n$ 阶矩阵，把特征多项式按 $\lambda$ 的降幂整理成
+\fml{\lvert\lambda E-A\rvert=\lambda^{n}-a_1\lambda^{n-1}+a_2\lambda^{n-2}-\dots+(-1)^{n}a_n}
+则 $a_k$ 恰好等于 $A$ 的\textbf{全部 $k$ 阶主子式之和}。特别地
+\fml{a_1=a_{11}+a_{22}+\dots+a_{nn}=\operatorname{tr}A,\qquad a_n=\lvert A\rvert}
+对 $3$ 阶矩阵，这就给出一个\textbf{不必展开行列式}的速算法：
+\fml{\lvert\lambda E-A\rvert=\lambda^{3}-(\operatorname{tr}A)\lambda^{2}
++\bigl(\text{二阶主子式之和}\bigr)\lambda-\lvert A\rvert}
+而二阶主子式之和又等于 $\lambda_1\lambda_2+\lambda_1\lambda_3+\lambda_2\lambda_3$
+（一般地 $a_k$ 等于全部 $k$ 个特征值乘积之和）。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“会求矩阵的特征值和特征向量”。
+三阶矩阵求特征值最耗时的就是展开 $|\lambda E-A|$；用“迹、二阶主子式之和、行列式”三项
+直接拼出特征多项式，\textbf{省掉整个行列式展开}，并且顺带得到一条由特征值反求参数的方程
+（$a_k$ 两种算法相等）。
+\end{fdeep}
+
+\begin{fdeep}{不同特征值的特征向量线性无关：$n$ 个不同特征值就够了}
+\key{定理} 设 $\lambda_1,\dots,\lambda_s$ 是 $A$ 的\textbf{互不相同}的特征值，$\xi_i$ 是 $A$ 的属于
+$\lambda_i$ 的特征向量，则 $\xi_1,\dots,\xi_s$ 线性无关。
+\textbf{关键证明思路（对 $s$ 归纳）}：设 $k_1\xi_1+\dots+k_s\xi_s=0$。两端左乘 $A$ 并用 $A\xi_i=\lambda_i\xi_i$ 得
+$\sum_ik_i\lambda_i\xi_i=0$；再把原式乘 $\lambda_s$ 与之相减，$\xi_s$ 被消去：
+\fml{\sum_{i<s}k_i(\lambda_i-\lambda_s)\xi_i=0}
+由归纳假设与 $\lambda_i\ne\lambda_s$ 得 $k_i=0$（$i<s$），回代得 $k_s=0$。
+核心动作是“\textbf{乘 $A$、乘特征值、作差，逐个消去}”。
+另一条同样常用的性质：\textbf{一个特征向量只能属于一个特征值}——若 $A\xi=\lambda\xi$ 且
+$A\xi=\mu\xi$，则 $(\lambda-\mu)\xi=0$，而 $\xi\ne0$，故 $\lambda=\mu$。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解矩阵的特征值和特征向量的概念及性质”。
+它给出“不列方程就能数的免费维数”：$s$ 个互不相同特征值 $\Rightarrow$ 至少 $s$ 个线性无关特征
+向量，于是 $n$ 阶矩阵若有 $n$ 个互不相同特征值，就必能对角化（第 8 章常用充分条件）；
+也解释了“不同特征值的特征向量之和不再是特征向量”。
+\end{fdeep}
+
+\begin{fdeep}{实矩阵的复特征值必成对出现（共轭）}
+$A$ 为实矩阵时 $f(\lambda)=\lvert\lambda E-A\rvert$ 是\textbf{实系数}多项式，而实系数多项式的虚根
+成共轭对出现且重数相同，故
+\fml{\lambda\text{ 是 }A\text{ 的特征值}\ \Rightarrow\ \overline{\lambda}\text{ 也是，且代数重数相同}}
+\textbf{特征向量也成对}：由 $A\xi=\lambda\xi$ 逐分量取共轭，因 $A$ 的元素是实数得
+$A\overline{\xi}=\overline{\lambda}\,\overline{\xi}$，即 $\overline{\xi}$ 是 $\overline{\lambda}$ 的特征向量。
+两条直接推论：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{奇数阶实矩阵必有实特征值}（复根成对，总数为奇数，至少剩一个实根）；
+\item 实矩阵全体特征值之积 $\lvert A\rvert$ 为实数。
+\end{itemize}
+最典型的例子是旋转矩阵 $\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$：
+当 $\theta\ne k\pi$ 时特征多项式为 $\lambda^{2}-2\lambda\cos\theta+1$，判别式小于零，
+\textbf{它没有实特征值}——可见“实矩阵必有实特征值”是错的。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…概念及性质”。
+选择题常拿“实矩阵的特征值”设陷阱：由复根成对可以\textbf{直接排除}选项里不共轭的虚根，
+也能判定奇数阶实矩阵至少有一个实特征值。
+\end{fdeep}
+
+\fsec{一、利用特征值命题}
+
+% OPD 蓝色标注（原稿）：节标题下方蓝色路线行（$D_1$（常规操作）$+D_{22}$（转换等价表述））（整段删除）
+
+（1）$\lambda_0$ 是 $A$ 的特征值 $\iff$ $|\lambda_0E-A|=0$（建立方程求参数或证明行列式 $|\lambda_0E-A|=0$）；
+$\lambda_0$ 不是 $A$ 的特征值 $\iff$ $|\lambda_0E-A|\ne0$（矩阵可逆，满秩）.
+
+% OPD 蓝色标注（原稿）：页右缘起自本行的竖排模块名「隐含条件体系块」（方法论模块标签，已删）
+
+\begin{fnote}
+【注】这里常见的命题方法：若 $|aA+bE|=0$（或 $aA+bE$ 不可逆），$a\ne0$，则 $-\dfrac{b}{a}$ 是 $A$ 的特征值.
+\end{fnote}
+
+% OPD 蓝色标注（原稿）：$\to D_{23}$（化归经典形式）（箭头指向下行推导式；D 代码已删，数学推导保留）
+\fml{|bE-(-aA)|=(-a)^{n}\left|-\frac{b}{a}E-A\right|=0,\qquad \text{则}\ \lambda_0=-\frac{b}{a}.}
+
+（2）若 $\lambda_1$，$\lambda_2$，$\dots$，$\lambda_n$ 是 $A$ 的 $n$ 个特征值，则
+\fml{\begin{cases}|A|=\lambda_1\lambda_2\cdots\lambda_n,\\\operatorname{tr}(A)=\lambda_1+\lambda_2+\cdots+\lambda_n.\end{cases}}
+
+★★★（3）重要结论.
+
+% OPD 蓝色标注（原稿）：表右侧蓝色提示语「多项式形式是重点，见到它们要立即想到 $f(A)\leftrightarrow f(\lambda)$」（方法论提示语，已删）
+% OPD 蓝色标注（原稿）：$\to$ 如 $f(A)=A^{3}+2A^{2}-A+5E$（数学例子，保留）
+\fml{f(A)=A^{3}+2A^{2}-A+5E,\qquad \text{则}\ f(\lambda)=\lambda^{3}+2\lambda^{2}-\lambda+5.}
+
+\begin{fkey}{① 记住下表}
+\fml{\begin{array}{|c|c|c|c|c|c|c|c|c|}\hline
+\text{矩阵} & A & kA & A^{k} & f(A) & A^{-1} & A^{*} & P^{-1}AP\xrightarrow{\text{记}}B & P^{-1}f(A)P\xrightarrow{\text{记}}f(B)\\ \hline
+\text{特征值} & \lambda & k\lambda & \lambda^{k} & f(\lambda) & \dfrac{1}{\lambda} & \dfrac{|A|}{\lambda} & \lambda & f(\lambda)\\ \hline
+\text{对应的特征向量} & \xi & \xi & \xi & \xi & \xi & \xi & P^{-1}\xi & P^{-1}\xi\\ \hline
+\end{array}}
+\end{fkey}
+
+表中 $\lambda$ 在分母上的，设 $\lambda\ne0$.
+
+% -----------------------------------------------------------
+% PDF p84（印刷页 73）
+% -----------------------------------------------------------
+
+\begin{fnote}
+【注】（1）若 $\alpha$ 是 $A$ 的属于特征值 $\lambda$ 的特征向量，则 $A^{n}\alpha=\lambda^{n}\alpha$，见到求 $A^{n}\alpha$，可想到此式；
+（2）进一步地，当 $\lambda\ne0$ 时，$af(A)\pm bA^{-1}\pm cA^{*}$ 的特征值为 $af(\lambda)\pm b\dfrac{1}{\lambda}\pm c\dfrac{|A|}{\lambda}$，特征向量仍为 $\xi$. 但 $f(A)$，$A^{-1}$，$A^{*}$ 与 $A^{T}$，$B$ 的线性组合因特征向量不同，无上述规律.
+\end{fnote}
+
+②虽然 $A^{T}$ 的特征值与 $A$ 相同，但特征向量不再是 $\xi$，要单独计算才能得出.
+
+% OPD 蓝色标注（原稿）：①②（蓝色数学推导，保留）
+\begin{fnote}
+①$|\lambda E-A|=|(\lambda E-A)^{T}|=|\lambda E-A^{T}|$，故特征值相同；
+②但 $(\lambda E-A)x=0$ 与 $(\lambda E-A^{T})x=0$ 不是同解方程组，故特征向量不同.
+\end{fnote}
+
+\begin{fnote}
+★★★【注】$A^{T}$ 和 $A$ 属于不同特征值的特征向量正交.
+
+证 设 $A$ 有特征值 $\lambda_1$，对应的特征向量为 $\alpha$；$A^{T}$ 有特征值 $\lambda_2$，对应的特征向量为 $\beta$，且 $\lambda_1\ne\lambda_2$，则
+\fml{A\alpha=\lambda_1\alpha,\qquad A^{T}\beta=\lambda_2\beta,}
+\fml{\lambda_1\lambda_2\alpha^{T}\beta=\lambda_1\alpha^{T}\lambda_2\beta=\lambda_1\alpha^{T}A^{T}\beta=\lambda_1(A\alpha)^{T}\beta=\lambda_1(\lambda_1\alpha)^{T}\beta=\lambda_1^{2}\alpha^{T}\beta,}
+即 $\lambda_1(\lambda_2-\lambda_1)\alpha^{T}\beta=0$.
+
+同理可得 $\lambda_2(\lambda_1-\lambda_2)\beta^{T}\alpha=0$，其中 $\beta^{T}\alpha=\alpha^{T}\beta$. 两式相加得
+\fml{(\lambda_1-\lambda_2)^{2}\alpha^{T}\beta=0,}
+由于 $\lambda_1\ne\lambda_2$，故 $\alpha^{T}\beta=0$，即 $\alpha$，$\beta$ 正交.
+\end{fnote}
+
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「隐含条件体系块」（续 PDF p83，方法论模块标签，已删）
+
+③归零准则.
+
+a. 归零准则一：设 $f(x)$ 为多项式，若矩阵 $A$ 满足 $f(A)=O$，$\lambda$ 是 $A$ 的任一特征值，则 $\lambda$ 满足 $f(\lambda)=0$.
+
+\begin{fnote}
+★★★【注】解得的 $\lambda$ 的值只代表范围，如 $A^{2}-E=O$，则 $\lambda^{2}=1$，$\lambda=\pm1$，只能说 $A$ 的特征值的取值范围是 $\{1,-1\}$，即 $A$ 的特征值可能全为 1，可能为 1 和 $-1$，也可能全为 $-1$，如
+\fml{\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix},\qquad \begin{bmatrix}1&0&0\\0&-1&0\\0&0&1\end{bmatrix},\qquad \begin{bmatrix}-1&0&0\\0&-1&0\\0&0&-1\end{bmatrix}}
+都满足 $A^{2}-E=O$. 故考生一定不要因为 $\lambda^{2}=1$，就武断地说 $\lambda_1=1$，$\lambda_2=-1$. 这是典型的错误.
+\end{fnote}
+
+b. 归零准则二：设 $n$ 阶方阵 $A$ 的特征多项式为 $f(\lambda)=|\lambda E-A|=\lambda^{n}+a_{n-1}\lambda^{n-1}+\dots+a_1\lambda+a_0$，则 $A$ 的多项式 $f(A)$ 为零矩阵，即 $f(A)=A^{n}+a_{n-1}A^{n-1}+\dots+a_1A+a_0E=O$.
+
+\begin{fnote}
+【注】如 $A=\begin{bmatrix}3&0&1\\0&4&0\\1&0&3\end{bmatrix}$，因 $f(\lambda)=|\lambda E-A|=(\lambda-2)(\lambda-4)^{2}$，则有 $f(A)=(A-2E)(A-4E)^{2}=O$.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p85（印刷页 74）
+% -----------------------------------------------------------
+
+\begin{fcard}{例 7.1}
+设 $A$ 是 3 阶矩阵，$|A|=3$，且满足 $|A^{2}+2A|=0$，$|2A^{2}+A|=0$，则 $A_{11}+A_{22}+A_{33}=\underline{\hspace{2em}}$.
+
+【解】应填 $-\dfrac{13}{2}$.
+
+由题设知，$|A^{2}+2A|=|A(A+2E)|=|A||A+2E|=0$，因 $|A|=3\ne0$，则 $|A+2E|=0$，故 $A$ 有特征值 $\lambda_1=-2$.
+
+又 $|2A^{2}+A|=|A(2A+E)|=8|A|\left|A+\dfrac{1}{2}E\right|=0$，即 $\left|A+\dfrac{1}{2}E\right|=0$，得 $A$ 有特征值 $\lambda_2=-\dfrac{1}{2}$.
+
+因 $|A|=3=\lambda_1\lambda_2\lambda_3$，故 $\lambda_3=3$.
+
+由本讲的“一、（3）①”知，$A^{*}$ 的特征值为 $\dfrac{|A|}{\lambda}$，故 $A^{*}$ 有特征值 $\mu_1=-\dfrac{3}{2}$，$\mu_2=-6$，$\mu_3=1$，由本讲的“一、（2）”知，
+\fml{A_{11}+A_{22}+A_{33}=\operatorname{tr}(A^{*})=\mu_1+\mu_2+\mu_3=-\frac{3}{2}-6+1=-\frac{13}{2}.}
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：例 7.2 题干上方两根蓝色箭头提示语「→见到相似，想到 $\xi\to P^{-1}\xi$」「→见到 $f(A)$，想到 $\lambda\to f(\lambda)$」（方法论提示语，已删）
+
+\begin{fcard}{例 7.2}
+设 $A=\begin{bmatrix}1&2\\5&4\end{bmatrix}$，$P=\begin{bmatrix}1&1\\0&1\end{bmatrix}$，$B=P^{-1}A^{100}P$，则 $B+E$ 的线性无关的特征向量可以为（\quad）.
+
+（A）$\begin{bmatrix}0\\1\end{bmatrix}$，$\begin{bmatrix}7\\5\end{bmatrix}$
+
+（B）$\begin{bmatrix}-2\\1\end{bmatrix}$，$\begin{bmatrix}-3\\5\end{bmatrix}$
+
+（C）$\begin{bmatrix}1\\-1\end{bmatrix}$，$\begin{bmatrix}2\\5\end{bmatrix}$
+
+（D）$\begin{bmatrix}0\\1\end{bmatrix}$，$\begin{bmatrix}3\\2\end{bmatrix}$
+
+【解】应选（B）.
+
+设 $A$ 的特征向量为 $\alpha$，因 $B=P^{-1}f(A)P$，故由本讲的“一、（3）①”知，$P^{-1}\alpha$ 是 $B$ 的特征向量，从而也是 $B+E$ 的特征向量.
+
+由于 $|\lambda E-A|=\begin{vmatrix}\lambda-1&-2\\-5&\lambda-4\end{vmatrix}=(\lambda+1)(\lambda-6)=0$，故 $A$ 的特征值为 $\lambda_1=-1$，$\lambda_2=6$，容易求得 $A$ 的对应于特征值 $\lambda_1=-1$ 与 $\lambda_2=6$ 的线性无关的特征向量分别为 $\begin{bmatrix}-1\\1\end{bmatrix}$ 与 $\begin{bmatrix}2\\5\end{bmatrix}$. 由于 $P^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}$，故
+\fml{P^{-1}\begin{bmatrix}-1\\1\end{bmatrix}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}\begin{bmatrix}-1\\1\end{bmatrix}=\begin{bmatrix}-2\\1\end{bmatrix},\qquad P^{-1}\begin{bmatrix}2\\5\end{bmatrix}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}\begin{bmatrix}2\\5\end{bmatrix}=\begin{bmatrix}-3\\5\end{bmatrix},}
+于是，$B+E$ 的线性无关的特征向量可以为 $\begin{bmatrix}-2\\1\end{bmatrix}$，$\begin{bmatrix}-3\\5\end{bmatrix}$.
+\end{fcard}
+
+\fsec{深化二　代数重数、几何重数与对角化的关系}
+
+\begin{fdeep}{特征多项式的“两个系数”与特征值的速算关系}
+设 $A$ 为 $n$ 阶矩阵，特征多项式为
+\fml{f(\lambda)=\lvert\lambda E-A\rvert=\lambda^{n}-(\operatorname{tr}A)\lambda^{n-1}
++\cdots+(-1)^{n}\lvert A\rvert}
+即\textbf{只展开前两项与末项}就能看出：
+\fml{\operatorname{tr}A=\lambda_1+\lambda_2+\cdots+\lambda_n,\qquad
+\lvert A\rvert=\lambda_1\lambda_2\cdots\lambda_n}
+（$\lambda_i$ 按代数重数计，含复根。）
+
+\textbf{这两条是“不算特征值也能求迹与行列式”的捷径，反过来也是“由特征值反求参数”的题眼}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 题目给定全部特征值、要求 $\lvert A\rvert$ 或 $\operatorname{tr}A$：\textbf{直接乘/加，不必算矩阵}；
+\item 题目说“$A$ 的特征值为 $1,2,3$”而 $A$ 中含未知参数：用 $\operatorname{tr}A$ 与 $\lvert A\rvert$ 列方程解参数，
+      \textbf{通常一条就够}。
+\item \textbf{特例}：若 $A$ 的特征值全为 $0$，则 $\lvert A\rvert=0$ 且 $\operatorname{tr}A=0$；
+      若 $A$ 是幂零矩阵（$A^{k}=O$），则它的特征值全为 $0$，从而 $\operatorname{tr}A=\lvert A\rvert=0$。
+\end{itemize}
+
+\medskip
+\textbf{“同一特征向量”原理：一串速算结论的共同来源。}
+若 $A\xi=\lambda\xi$（$\xi\ne0$），则把 $A$ 换成它的各种“函数”，$\xi$ 仍是特征向量，特征值按同样方式变换：
+\fml{A^{k}\xi=\lambda^{k}\xi,\qquad
+f(A)\xi=f(\lambda)\xi}
+由 $A\xi=\lambda\xi$ 与 $A$ 可逆（$\lambda\ne0$）得 $A^{-1}\xi=\tfrac1\lambda\xi$；
+由 $AA^{*}=\lvert A\rvert E$ 得 $A^{*}\xi=\tfrac{\lvert A\rvert}{\lambda}\xi$。
+所以
+\fml{A^{k}\to\lambda^{k},\qquad A^{-1}\to\tfrac1\lambda,\qquad
+A^{*}\to\tfrac{\lvert A\rvert}{\lambda},\qquad f(A)\to f(\lambda)}
+\textbf{不要逐个背}——它们都只是“$A$ 作用在 $\xi$ 上等于乘 $\lambda$”这一句话的推论。
+\warn{唯一要注意的是 $A^{\mathrm T}$}：$A$ 与 $A^{\mathrm T}$ 有\textbf{相同的特征值}（因为 $\lvert\lambda E-A^{\mathrm T}\rvert=\lvert\lambda E-A\rvert$），
+但\textbf{特征向量一般不同}——这是最容易被误解的一处。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解矩阵的特征值和特征向量的概念及性质”。
+“迹 = 特征值和、行列式 = 特征值积”是\textbf{无需计算就能得分的两条}；
+而“同一特征向量”原理把 $A^{k}$、$A^{-1}$、$A^{*}$、$f(A)$ 的特征值问题\textbf{压缩成一条规则}。
+提醒：$A$ 与 $A^{\mathrm T}$ 同特征值但不同特征向量，这一点常被出成辨析题。
+\end{fdeep}
+
+\fsec{二、利用特征向量命题}
+
+% OPD 蓝色标注（原稿）：节标题下方蓝色路线行（$D_1$（常规操作）$+D_{22}$（转换等价表述））（整段删除）
+
+（1）$\xi$（$\ne0$）是 $A$ 的属于 $\lambda_0$ 的特征向量 $\iff$ $\xi$ 是 $(\lambda_0E-A)x=0$ 的非零解.
+
+% OPD 蓝色标注（原稿）：本行右下方蓝色 →$D_{22}$（转换等价表述）（已删）
+
+（2）重要结论.
+
+% -----------------------------------------------------------
+% PDF p86（印刷页 75）
+% -----------------------------------------------------------
+
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「隐含条件体系块」（方法论模块标签，已删）
+
+①单根恰有 1 个线性无关的特征向量.
+
+% OPD 蓝色标注（原稿）：①右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+已有 $k$ 个线性无关的特征向量时，$\lambda$ 至少是 $k$ 重根.
+\end{fnote}
+
+②$k$ 重特征值 $\lambda$ 至多只有 $k$ 个线性无关的特征向量（$k\ge2$）.
+
+③若 $\xi_1$，$\xi_2$ 是 $A$ 的属于不同特征值 $\lambda_1$，$\lambda_2$ 的特征向量，则 $\xi_1$，$\xi_2$ 线性无关.
+
+% OPD 蓝色标注（原稿）：③右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+$\lambda_1\ne\lambda_2\Rightarrow\xi_1$，$\xi_2$ 线性无关；$\lambda_1=\lambda_2\Rightarrow\xi_1$，$\xi_2$ 可能线性相关，可能线性无关.
+\end{fnote}
+
+④若 $\xi_1$，$\xi_2$ 是 $A$ 的属于同一特征值 $\lambda$ 的特征向量，则当 $k_1k_2\ne0$ 时，非零向量 $k_1\xi_1+k_2\xi_2$ 仍是 $A$ 的属于特征值 $\lambda$ 的特征向量（常考其中一个系数（如 $k_2$）等于 0 的情形）.
+
+⑤若 $\xi_1$，$\xi_2$ 是 $A$ 的属于不同特征值 $\lambda_1$，$\lambda_2$ 的特征向量，则当 $k_1\ne0$，$k_2\ne0$ 时，$k_1\xi_1+k_2\xi_2$ 不是 $A$ 的任何特征值的特征向量（常考 $k_1=k_2=1$ 的情形）.
+
+\begin{fnote}
+【注】证 反证法. 假设 $k_1\xi_1+k_2\xi_2$ 是 $A$ 的特征向量，则存在数 $\lambda$，有
+\fml{A(k_1\xi_1+k_2\xi_2)=\lambda(k_1\xi_1+k_2\xi_2),}
+即
+\fml{k_1A\xi_1+k_2A\xi_2=k_1\lambda\xi_1+k_2\lambda\xi_2,}
+也即
+\fml{k_1\lambda_1\xi_1+k_2\lambda_2\xi_2=k_1\lambda\xi_1+k_2\lambda\xi_2,}
+移项，得
+\fml{k_1(\lambda_1-\lambda)\xi_1+k_2(\lambda_2-\lambda)\xi_2=0.}
+由于 $\xi_1$，$\xi_2$ 线性无关，则
+\fml{\begin{cases}k_1(\lambda_1-\lambda)=0,\\k_2(\lambda_2-\lambda)=0.\end{cases}}
+又 $k_1\ne0$，$k_2\ne0$，则 $\lambda_1=\lambda_2=\lambda$，与 $\lambda_1\ne\lambda_2$ 矛盾，故 $k_1\xi_1+k_2\xi_2$ 不是 $A$ 的任何特征值的特征向量.
+\end{fnote}
+
+⑥若 $\xi$ 是 $A$ 的属于特征值 $\lambda_1$ 的特征向量，$\lambda_1\ne\lambda_2$，则 $\xi$ 不是 $\lambda_2$ 的特征向量.
+
+\begin{fnote}
+【注】证 已知 $A\xi=\lambda_1\xi$，若 $A\xi=\lambda_2\xi$，则有 $(\lambda_1-\lambda_2)\xi=0$，由 $\xi\ne0$，得 $\lambda_1=\lambda_2$，矛盾.
+\end{fnote}
+
+⑦若 $A$ 只有 1 个线性无关的特征向量，即 $\sum\limits_{i=1}^{m}[n-r(\lambda_iE-A)]=1$，$\lambda_i(i=1,2,\dots,m)$ 是 $A$ 的 $m$ 个不同特征值，则只能有一个 $\lambda_k(1\le k\le m)$，使 $r(\lambda_kE-A)=n-1$，而其余 $r(\lambda_iE-A)=n$，这与 $r(\lambda_iE-A)<n$ 矛盾. 故 $A$ 只能有一个 $\lambda_k$，且此 $\lambda_k$ 为 $n$ 重特征值.
+
+% OPD 蓝色标注（原稿）：⑦行下方与右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+其余 $\lambda_i$ 均不是 $A$ 的特征值；若 $\lambda_i$ 是 $A$ 的特征值，则 $\lambda_i$ 至少有一个线性无关的特征向量.
+\end{fnote}
+
+⑧设 $n$ 阶矩阵 $A$，$B$ 满足 $AB=BA$，且 $A$ 有 $n$ 个互不相同的特征值，则 $A$ 的特征向量都是 $B$ 的特征向量.
+
+\begin{fnote}
+【注】证 设 $\alpha$（$\ne0$）是 $A$ 的对应特征值 $\lambda$ 的特征向量，则有 $A\alpha=\lambda\alpha$. 由于 $AB=BA$，则
+\fml{AB\alpha=BA\alpha=\lambda B\alpha,}
+则
+\fml{A(B\alpha)=\lambda(B\alpha).}
+若 $B\alpha\ne0$，则 $B\alpha$ 也是 $A$ 的特征向量，由于 $A$ 的特征值全是单重的，故 $\lambda$ 所对应的特征向量均线性相关，所以 $B\alpha$ 与 $\alpha$ 线性相关，即存在数 $\mu\ne0$，使得 $B\alpha=\mu\alpha$. 这说明 $\alpha$ 也是 $B$ 的特征向量.
+
+若 $B\alpha=0$，则有 $B\alpha=0\alpha$，即 $\alpha$ 也是 $B$ 的特征向量.
+\end{fnote}
+
+\fsec{深化三　速算工具：零化多项式与反求矩阵}
+
+\begin{fdeep}{由特征值、特征向量反求矩阵：$A=P\Lambda P^{-1}$}
+若已知 $A$ 的 $n$ 个特征值 $\lambda_1,\dots,\lambda_n$ 及对应的 $n$ 个线性无关特征向量
+$\xi_1,\dots,\xi_n$，把它们按列排好：
+\fml{P=(\xi_1,\xi_2,\dots,\xi_n),\qquad \Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)}
+由 $AP=P\Lambda$ 且 $P$ 可逆，即得
+\fml{A=P\Lambda P^{-1}}
+口诀是“\textbf{特征向量按列排，特征值按同一顺序放对角线}”，$A$ 由此被唯一确定。
+若题中只给部分特征值与特征向量，则每个 $A\xi_i=\lambda_i\xi_i$ 都是一组\textbf{关于 $A$ 元素的
+方程}，再用补充条件（$\operatorname{tr}A$、$\lvert A\rvert$、对称性或矩阵类型）定出全部元素；
+常用手法是“两边再乘一个矩阵后比较分量”，例如由 $A^{*}\alpha=\lambda_0\alpha$ 与 $AA^{*}=\lvert A\rvert E$
+反推出 $A\alpha=\frac{\lvert A\rvert}{\lambda_0}\alpha$，把伴随矩阵的条件\textbf{换回 $A$ 的条件}。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“会求矩阵的特征值和特征向量”的反向题型。
+“已知特征值/特征向量求 $A$ 中的参数”是高频填空：把 $A\xi=\lambda\xi$ 写成方程组最稳；
+若特征向量给全了，$A=P\Lambda P^{-1}$ 一步到位。
+\end{fdeep}
+
+\begin{fdeep}{Hamilton--Cayley 定理：特征多项式是零化多项式}
+\key{定理} 设 $A$ 为 $n$ 阶矩阵，$f(\lambda)=\lvert\lambda E-A\rvert$ 是它的特征多项式，则
+\fml{f(A)=A^{n}-a_1A^{n-1}+\dots+(-1)^{n}a_nE=O}
+即\textbf{把 $A$ 代入它自己的特征多项式，结果为 $O$}（常数项必须写成 $a_nE$，不能只写数）。
+\textbf{关键证明思路}（注意不能写 $\lvert AE-A\rvert=0$，那是数不是矩阵）：
+设 $B(\lambda)$ 是 $\lambda E-A$ 的伴随矩阵，则 $B(\lambda)(\lambda E-A)=\lvert\lambda E-A\rvert E=f(\lambda)E$。
+把 $B(\lambda)$ 按 $\lambda$ 的幂写成 $B(\lambda)=\lambda^{n-1}B_0+\lambda^{n-2}B_1+\dots+B_{n-1}$
+（$B_i$ 为数矩阵），比较 $\lambda$ 的同次幂得一组矩阵等式：记 $a_0=1$，则第 $k$ 个为
+\fml{B_k-B_{k-1}A=a_kE\qquad(k=0,1,\dots,n)}
+（约定 $B_{-1}=B_n=O$）。把第 $k$ 式两端右乘 $A^{n-k}$ 后\textbf{全部相加}：左端逐项相消为 $O$，
+右端恰为 $\sum_ka_kA^{n-k}=f(A)$，故 $f(A)=O$。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…性质”。
+H-C 是“以特征多项式为桥梁把\textbf{矩阵高次幂降次}”的定理：$k\ge n$ 时 $A^{k}$ 一定能写成
+$E,A,\dots,A^{n-1}$ 的组合。第 8 章的最小多项式、本片后面的求方幂与求逆都由它支撑。
+\end{fdeep}
+
+\begin{fdeep}{零化多项式反推特征值：抽象矩阵的唯一入口}
+\textbf{基本事实} 若 $A\xi=\lambda\xi$（$\xi\ne0$），则对任意 $\varphi$ 有
+$\varphi(A)\xi=\varphi(\lambda)\xi$，于是
+\fml{\varphi(A)=O\ \Rightarrow\ \varphi(\lambda)=0\quad(\lambda\text{ 为 }A\text{ 的特征值})}
+（因 $\xi\ne0$）。于是“求特征值”变成“\textbf{找零化多项式}”，是抽象矩阵的唯一入口。
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item $A^{2}=A$（幂等）$\Rightarrow$ $\lambda^{2}=\lambda$，故 $\lambda\in\{0,1\}$；
+\item $A^{2}=E$ $\Rightarrow$ $\lambda=\pm1$；一般地 $A^{k}=E$ $\Rightarrow$ $\lambda^{k}=1$，即 $|\lambda|=1$；
+\item $A^{k}=O$（幂零）$\Rightarrow$ 特征值全为 $0$；
+\item 秩 $1$ 矩阵 $A=\alpha\beta^{\mathrm T}$：$A^{2}=\alpha(\beta^{\mathrm T}\alpha)\beta^{\mathrm T}=cA$（$c=\operatorname{tr}A$），
+零化多项式 $\lambda^{2}-c\lambda$，故\textbf{特征值只能是 $\operatorname{tr}A$ 与 $0$}；
+全 $1$ 矩阵 $J$ 即 $c=n$ 的特例（特征值 $n$ 与 $0$，$n-1$ 重）。
+\end{itemize}
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“会求矩阵的特征值和特征向量”。
+抽象矩阵列不出特征方程，只能走“零化多项式 $\Rightarrow$ 特征值受限 $\Rightarrow$ 用 $\operatorname{tr}A$、
+$\lvert A\rvert$ 定位”这条路；秩 $1$ 矩阵的特征值可直接秒填。
+\end{fdeep}
+
+\begin{fdeep}{H-C 的两个主力用法：求 $A^{k}$ 与求 $A^{-1}$}
+\textbf{用法一：求方幂（降次）}。设 $f(\lambda)=\lvert\lambda E-A\rvert$（$n$ 次），对 $\varphi(\lambda)=\lambda^{k}$
+作带余除法
+\fml{\lambda^{k}=f(\lambda)q(\lambda)+r(\lambda),\qquad \deg r<n}
+由 $f(A)=O$ 立刻得 $A^{k}=r(A)$，即\textbf{任意高次幂都降到 $n-1$ 次以内}。$r$ 的系数由
+\fml{r^{(j)}(\lambda_i)=\varphi^{(j)}(\lambda_i)\qquad(j=0,1,\dots,m_i-1)}
+唯一确定（$m_i$ 是 $\lambda_i$ 的重数）：\textbf{单根只代函数值，重根还要代各阶导数}。
+\textbf{用法二：求逆}。设 $f(\lambda)=\lambda^{n}+a_{n-1}\lambda^{n-1}+\dots+a_1\lambda+a_0$，
+则 $a_0=f(0)=\lvert-A\rvert=(-1)^{n}\lvert A\rvert$。由 $f(A)=O$ 从左边提出一个 $A$ 即得
+\fml{A^{-1}=-\frac{1}{a_0}\bigl(A^{n-1}+a_{n-1}A^{n-2}+\dots+a_1E\bigr)}
+（$a_0\ne0$ 正是 $A$ 可逆）。也就是说\textbf{$A^{-1}$ 必是 $E,A,\dots,A^{n-1}$ 的线性组合}。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…性质”及矩阵求逆。
+“带余除法 + H-C 求 $A^{k}$”是求高次幂题型里\textbf{不依赖对角化的通法}（对角化只对可对角化
+矩阵有效，H-C 恒有效）；“$A^{-1}$ 由 $E,A,\dots,A^{n-1}$ 线性表示”是抽象矩阵求逆的标准答案形式。
+\end{fdeep}
+
+\fsec{三、利用矩阵方程命题}
+
+\begin{fcard}{（1）}
+$AB=O\Rightarrow A[\beta_1,\beta_2,\cdots,\beta_n]=[0,0,\cdots,0]$，即 $A\beta_i=0\beta_i$（$i=1,2,\cdots,n$），若 $\beta_i$ 均为非零列向量，则 $\beta_i$ 为 $A$ 的属于特征值 $\lambda=0$ 的特征向量．
+% OPD 蓝色标注（原稿）：段末 →$D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（2）}
+若任意 $n$ 维列向量 $\xi$（$\ne0$）均为 $(\lambda E-A)x=0$ 的解，则令 $e_1=\begin{pmatrix}1\\0\\\vdots\\0\end{pmatrix}$，$e_2=\begin{pmatrix}0\\1\\\vdots\\0\end{pmatrix}$，$\cdots$，$e_n=\begin{pmatrix}0\\0\\\vdots\\1\end{pmatrix}$，
+且 $B=[e_1,e_2,\cdots,e_n]$，于是 $(\lambda E-A)B=O$，由于 $B$ 可逆，因此有 $\lambda E-A=O$，即 $A=\lambda E$．
+% OPD 蓝色标注（原稿）：句末 →$D_{23}$（化归经典形式）；句末右侧 $D_{23}$（化归经典形式）←
+\end{fcard}
+
+\begin{fcard}{（3）}
+$AB=C\Rightarrow A[\beta_1,\beta_2,\cdots,\beta_n]=[\gamma_1,\gamma_2,\cdots,\gamma_n]\xrightarrow{\text{若}}[\lambda_1\beta_1,\lambda_2\beta_2,\cdots,\lambda_n\beta_n]$，即 $A\beta_i=\lambda_i\beta_i$（$i=1,2,\cdots,n$），其中 $\gamma_i=\lambda_i\beta_i$，$\beta_i$ 为非零列向量，则 $\beta_i$ 为 $A$ 的属于特征值 $\lambda_i$ 的特征向量．
+% OPD 蓝色标注（原稿）：上式 $\xrightarrow{若}$ 所在行的右侧 $D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（4）}
+$AP=PB$，$P$ 可逆 $\Rightarrow P^{-1}AP=B\Rightarrow A\sim B\Rightarrow \lambda_A=\lambda_B$．
+% OPD 蓝色标注（原稿）：本式左下方蓝色 $D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（5）}
+$A$ 的每行元素之和均为 $k\Rightarrow A\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}=k\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}\Rightarrow k$ 是特征值，$\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}$ 是 $A$ 的属于特征值 $k$ 的特征向量．
+% OPD 蓝色标注（原稿）：本式下方 $D_{22}$（转换等价表述）
+\end{fcard}
+
+\begin{fcard}{（6）}
+若 $A$ 可逆，$A$ 的每行元素之和均为 $k$，则 $A^{-1}$ 的每行元素之和均为 $\frac{1}{k}$．
+% OPD 蓝色标注（原稿）：段末 →$D_{22}$（转换等价表述）
+\end{fcard}
+
+\begin{fcard}{（7）}
+若 $A$ 的每行元素之和均为 $k$，则 $A^n$ 的每行元素之和均为 $k^n$．
+\end{fcard}
+
+\begin{fcard}{例 7.4}
+设 $A$，$B$，$C$ 均是 3 阶矩阵，且满足 $(A+2E)B=O$，$CA^{\mathrm{T}}=2C$，其中
+\fml{B=\begin{pmatrix}1&2&3\\-1&1&0\\2&-1&1\end{pmatrix},\quad C=\begin{pmatrix}1&-2&1\\-2&4&-2\\-1&2&-1\end{pmatrix},}
+求矩阵 $A$ 的特征值与特征向量．
+% OPD 蓝色标注（原稿）：题干右侧 →$D_{23}$（化归经典形式）
+
+【解】由题设条件，①由 $(A+2E)B=O$，得 $AB+2B=O$，即 $AB=-2B$，将 $B$ 按列分块，设 $B=[\beta_1,\beta_2,\beta_3]$，则有
+\fml{A[\beta_1,\beta_2,\beta_3]=-2[\beta_1,\beta_2,\beta_3],}
+即 $A\beta_i=-2\beta_i$，$i=1,2,3$，故 $\beta_i$（$i=1,2,3$）是 $A$ 的属于特征值 $\lambda=-2$ 的特征向量．
+% OPD 蓝色标注（原稿）：上式下方 →$D_{21}$（观察研究对象）
+
+% -----------------------------------------------------------
+% PDF p89（印刷页 78）—— 例 7.4 续（②及结论）
+% -----------------------------------------------------------
+
+又因 $\beta_1$，$\beta_2$ 线性无关，$\beta_3=\beta_1+\beta_2$，故 $\beta_1$，$\beta_2$ 是 $A$ 的属于特征值 $\lambda=-2$ 的线性无关的特征向量，且 $\lambda=-2$ 至少是二重根．因为若 $\lambda=-2$ 是单根，则其恰有一个线性无关的特征向量，矛盾．
+
+② $CA^{\mathrm{T}}=2C$，两边取转置得 $AC^{\mathrm{T}}=2C^{\mathrm{T}}$，将 $C^{\mathrm{T}}$ 按列分块，设 $C^{\mathrm{T}}=[\alpha_1,\alpha_2,\alpha_3]$，则有
+\fml{A[\alpha_1,\alpha_2,\alpha_3]=2[\alpha_1,\alpha_2,\alpha_3],}
+即 $A\alpha_i=2\alpha_i$，$i=1,2,3$，故 $\alpha_i$（$i=1,2,3$）是 $A$ 的属于特征值 $\lambda=2$ 的特征向量．
+% OPD 蓝色标注（原稿）：句末蓝色 $D_{23}$（化归经典形式）
+
+因 $\alpha_1$，$\alpha_2$，$\alpha_3$ 互成比例，故 $\alpha_1$ 是 $A$ 的属于特征值 $\lambda=2$ 的特征向量，于是 $\lambda=-2$ 是二重根．
+
+综上，$A$ 的特征值为 $\lambda_1=\lambda_2=-2$，$\lambda_3=2$，对应于 $\lambda_1=\lambda_2=-2$ 的全部特征向量是 $k_1\begin{pmatrix}1\\-1\\2\end{pmatrix}+k_2\begin{pmatrix}2\\1\\-1\end{pmatrix}$，$k_1$，$k_2$ 不全为 0；对应于 $\lambda_3=2$ 的全部特征向量是 $k_3\begin{pmatrix}1\\-2\\1\end{pmatrix}$，$k_3\ne0$．
+\end{fcard}
+
+\fsec{深化四　特征值与秩、迹的联系及特征值估计}
+
+\begin{fdeep}{特征值与秩、迹的更多联系：$0$ 的重数、$\operatorname{tr}A^{k}$、$AB$ 与 $BA$}
+\textbf{（一）$0$ 的代数重数 $\ge n-r(A)$}。$0$ 是特征值当且仅当 $\lvert A\rvert=0$；此时
+$V_0=N(A)$，几何重数为 $n-r(A)$，再由“几何重数 $\le$ 代数重数”得
+\fml{r(A)=r\ \Rightarrow\ 0\text{ 的代数重数}\ge n-r}
+于是“已知秩求特征值”或“判断 $0$ 是几重根”都\textbf{不必算行列式}。
+\textbf{（二）$\operatorname{tr}A^{k}=\sum_{i=1}^{n}\lambda_i^{k}$}。由“同一特征向量”原理，
+$A^{k}$ 的特征值恰为 $\lambda_1^{k},\dots,\lambda_n^{k}$，对 $A^{k}$ 用“迹 = 特征值之和”即得；
+反过来，若干 $\operatorname{tr}A^{k}$ 的等式可以\textbf{反解出特征值}。
+\textbf{（三）$AB$ 与 $BA$ 有相同的非零特征值}。设 $A$ 为 $m\times n$、$B$ 为 $n\times m$、$m\ge n$，则
+\fml{\lvert\lambda E_m-AB\rvert=\lambda^{m-n}\lvert\lambda E_n-BA\rvert}
+故 $AB$ 与 $BA$ 的\textbf{非零特征值完全相同（连重数也相同）}，差别只是 $AB$ 多出 $m-n$ 个 $0$。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…概念及性质”。
+“由秩读 $0$ 的重数”“$\operatorname{tr}A^{k}=\sum\lambda_i^{k}$”“$AB$ 与 $BA$ 同非零特征值”
+是三条\textbf{不用解方程就能答题}的结论，也是矩阵、秩、特征值三块知识的接口。
+\end{fdeep}
+
+\begin{fdeep}{特征值的估计：行和法、最大分量法与 Gershgorin 圆盘}
+\textbf{（一）行和就是特征值}。若 $A$ 的每一行元素之和都等于 $c$，取 $\xi=(1,1,\dots,1)^{\mathrm T}$，
+则 $A\xi$ 的每个分量都是 $c$，即 $A\xi=c\xi$：\fml{c=\text{行和}\ \Rightarrow\ c\text{ 是 }A\text{ 的特征值}}
+（列和相等同理，因 $A$ 与 $A^{\mathrm T}$ 同特征值。）这是“看行和猜特征值”的全部依据。
+\textbf{（二）最大分量法}。若 $0\le a_{ij}\le1$ 且每行和为 $1$，取特征向量 $\xi$ 中\textbf{模最大的分量}
+$|b_k|$，比较 $A\xi=\lambda\xi$ 的第 $k$ 个分量：
+\fml{|\lambda|\,|b_k|=\Bigl|\sum_j a_{kj}b_j\Bigr|\le\sum_j a_{kj}|b_j|\le|b_k|}
+故 $|\lambda|\le1$。“取模最大分量”是估计特征值上界的标准手法。
+\textbf{（三）Gershgorin 圆盘定理（选读）}：$A$ 的每个特征值至少落在某个圆盘
+$D_i=\{z:|z-a_{ii}|\le\sum_{j\ne i}|a_{ij}|\}$ 内，由此得
+$\lvert\lambda\rvert\le\max_i\sum_j|a_{ij}|$，即最大行绝对和是特征值模的上界。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…概念及性质”。
+“各行元素之和均为 $c$”往往就是题干给的特征值，填空可直接秒答；最大分量法是不求特征值而证
+$|\lambda|\le1$ 的常用证法，也是“特征值估计”这类题唯一可落手的地方。
+\end{fdeep}
+
+\begin{fdeep}{实对称矩阵与正交矩阵的特征值：实对称全为实数，正交全在单位圆上}
+$A$ 为\textbf{实对称}矩阵（$A^{\mathrm T}=A$）且 $A\xi=\lambda\xi$（$\xi\ne0$）时，对等式两端取共轭转置
+再右乘 $\xi$，得
+\fml{\xi^{*}A\xi=\overline{\lambda}\lVert\xi\rVert^{2}}
+而原式两端左乘 $\xi^{*}$ 得 $\xi^{*}A\xi=\lambda\lVert\xi\rVert^{2}$。两式相减：
+$(\lambda-\overline{\lambda})\lVert\xi\rVert^{2}=0$，而 $\lVert\xi\rVert^{2}>0$，故\textbf{$\lambda$ 必为实数}。
+用同一手法（把 $A$ 换成 $A^{\mathrm T}A$，即用 $\xi^{*}A^{\mathrm T}A\xi=\lVert A\xi\rVert^{2}$）可得：
+\textbf{正交矩阵的特征值满足 $|\lambda|=1$}——因为正交时 $\lVert A\xi\rVert=\lVert\xi\rVert$，于是
+$|\lambda|^{2}\lVert\xi\rVert^{2}=\lVert\xi\rVert^{2}$。
+由此还得到一条估计：实对称矩阵的特征值全为实数，故
+\fml{\lambda_{\min}\le\frac{1}{n}\operatorname{tr}A\le\lambda_{\max}}
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…概念及性质”。
+“实对称矩阵的特征值全为实数”是第 9 章用正交变换化二次型为标准形的前提条件；
+“正交矩阵特征值模为 $1$”常与行列式 $\lvert A\rvert=\pm1$ 一起考；
+“$\lambda_{\min}\le\frac{1}{n}\operatorname{tr}A\le\lambda_{\max}$”给出不具体求特征值也能夹出范围的估计。
+\end{fdeep}

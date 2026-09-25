@@ -1,0 +1,627 @@
+% ===========================================================================
+%  深化材料 —— 北大《高等代数》第五版  第二章 行列式
+%  分片名：deep_ch01_beida_b
+% ---------------------------------------------------------------------------
+%  【页码换算·重要】实测  PDF 页 = 印刷页 + 12 （不是 AGENTS.md 所记的 +9）
+%    证据：PDF p59 页脚 = 47；p61 页眉 = §6 行列式按一行(列)展开（印刷 49）；
+%          p67 页眉 = §7 克拉默(Cramer)法则（印刷 55）；
+%          p71 页眉 = §8 拉普拉斯(Laplace)定理（印刷 59）；p76 = 习题（印刷 64）。
+%  本次实际转写来源页（PDF）：
+%    59–64（印刷 47–52，§5 尾 + §6 全部）
+%    65–67（印刷 53–55，§6 尾 + §7 定理 4 陈述）
+%    68–69（印刷 56–57，§7 克拉默法则证明）  ← 任务指定页，实为§7，非补充题
+%    70    （印刷 58，§7 定理 5 与适用边界）
+%    71–73（印刷 59–61，§8 定义 9/10、引理、拉普拉斯定理）
+%    74–75（印刷 62–63，§8 定理 7 行列式的乘法规则）
+%  跳过的页：PDF 76（印刷 64，全为「习题」）；各页中的例题解答（见文末注释）。
+% ---------------------------------------------------------------------------
+%  每条 fdeep 末尾的「【反哺点】」行为本项目元信息（AGENTS.md §2 要求），
+%  不是原书文字；整合时如需纯原文，可直接删除该行。
+% ===========================================================================
+
+\begin{fdeep}{阶梯形矩阵与初等行变换消元法（北大 二.5，印刷页 47）}
+矩阵 $A$ 经过初等行变换变成矩阵 $B$ 时，我们写成
+\fml{A\to B.}
+我们称形式如
+\fml{\begin{pmatrix}0&1&2&-1\\0&0&0&1\\0&0&0&0\end{pmatrix},\qquad
+\begin{pmatrix}1&2&1&-1&2\\0&0&1&0&2\\0&0&0&0&0\end{pmatrix}}
+\fml{\begin{pmatrix}1&0&-1\\0&2&1\\0&0&3\end{pmatrix}}
+的矩阵为\textbf{阶梯形矩阵}。它们的任一行从第一个元素起至该行的第一个非零元素所在的下方全为零；如该行全为零，则它的下面的行也全为零。
+
+可以证明，任意一个矩阵经过一系列初等行变换总能变成阶梯形矩阵。
+
+事实上，设
+\fml{A=\begin{pmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{s1}&a_{s2}&\cdots&a_{sn}
+\end{pmatrix},}
+我们看第 $1$ 列的元素 $a_{11},a_{21},\cdots,a_{s1}$，只要其中有一个不为零，用初等行变换 $3)$，总能使第 $1$ 列的第 $1$ 个元素不为零，然后从第 $2$ 行开始，每一行都加上第 $1$ 行的适当倍数，于是第 $1$ 列除第 $1$ 个元素外就全是零了。这就是说，经过一系列初等行变换后
+\fml{A\to J_1=\begin{pmatrix}
+a'_{11}&a'_{12}&\cdots&a'_{1n}\\
+0&a'_{22}&\cdots&a'_{2n}\\
+\vdots&\vdots&&\vdots\\
+0&a'_{s2}&\cdots&a'_{sn}
+\end{pmatrix}.}
+对于 $J_1$ 中右下角的一块
+\fml{\begin{pmatrix}
+a'_{22}&\cdots&a'_{2n}\\
+\vdots&&\vdots\\
+a'_{s2}&\cdots&a'_{sn}
+\end{pmatrix}}
+再重复以上的做法。如此做下去直到变成阶梯形为止。如果原来矩阵 $A$ 中第 $1$ 列的元素全为零，那么就依次考虑它的第 $2$ 列的元素，等等。
+
+【反哺点】服务考纲「矩阵的秩」「线性方程组」：阶梯形矩阵是初等行变换求秩、消元法解方程组的共同落点。
+\end{fdeep}
+
+\begin{fdeep}{用初等变换计算行列式：$|A|=k|J|$（北大 二.5，印刷页 48）}
+一个 $n$ 阶行列式可看成是由一个 $n$ 阶方阵 $A$ 决定的。对于矩阵可以作初等行变换，而行列式的性质 $2,6,7$ 正是说明了方阵的初等行变换对于行列式的值的影响。每个方阵 $A$ 总可以经过一系列的初等行变换变成阶梯形方阵 $J$。由行列式性质 $2,6,7$，对方阵每作一次初等行变换，相应地，行列式或者不变，或者差一非零的倍数，也就是
+\fml{|A|=k|J|,\qquad k\ne 0.}
+显然，阶梯形方阵的行列式都是上三角形的，因此 $|J|$ 是容易计算的。
+
+不难算出，用这个方法计算一个 $n$ 阶的数字行列式只需要做 $\dfrac{n^3+2n-3}{3}$ 次乘法和除法。特别当 $n$ 比较大的时候，这个方法的优越性就更加明显了。同时还应该看到，这个方法完全是机械的，因而可以用计算机按这个方法来进行行列式的计算。
+
+最后我们指出，对于矩阵我们同样地可以定义\textbf{初等列变换}，即
+1.\ 以数域 $P$ 中一非零的数乘矩阵的某一列；
+
+2.\ 把矩阵的某一列的 $c$ 倍加到另一列，这里 $c$ 是 $P$ 中任意一个数；
+
+3.\ 互换矩阵中两列的位置。
+为了计算行列式，我们也可以对矩阵进行初等列变换。有时候，同时用初等行变换和初等列变换，行列式的计算可以更简单些。
+
+矩阵的初等行变换与初等列变换统称为\textbf{初等变换}。
+
+【反哺点】服务考纲「行列式」：把行列式化成上三角时，每一步「交换变号 / 倍乘提出 / 倍加不变」的合法性都来自这里，避免正负号与倍数出错。
+\end{fdeep}
+
+\begin{fdeep}{余子式与代数余子式（北大 二.6 定义 7、定义 8，印刷页 49、51）}
+\textbf{定义 7}\quad 在行列式
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1j}&\cdots&a_{1n}\\
+\vdots&&\vdots&&\vdots\\
+a_{i1}&\cdots&a_{ij}&\cdots&a_{in}\\
+\vdots&&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{nj}&\cdots&a_{nn}
+\end{vmatrix}}
+中划去元素 $a_{ij}$ 所在的第 $i$ 行与第 $j$ 列，剩下的 $(n-1)^2$ 个元素按原来的排法构成一个 $n-1$ 阶的行列式
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1,j-1}&a_{1,j+1}&\cdots&a_{1n}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{i-1,1}&\cdots&a_{i-1,j-1}&a_{i-1,j+1}&\cdots&a_{i-1,n}\\
+a_{i+1,1}&\cdots&a_{i+1,j-1}&a_{i+1,j+1}&\cdots&a_{i+1,n}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{n,j-1}&a_{n,j+1}&\cdots&a_{nn}
+\end{vmatrix}\qquad(3)}
+称为元素 $a_{ij}$ 的\textbf{余子式}，记为 $M_{ij}$。
+
+\textbf{定义 8}\quad 上面所提到的 $A_{ij}$ 称为元素 $a_{ij}$ 的\textbf{代数余子式}，其中
+\fml{A_{ij}=(-1)^{i+j}M_{ij}.\qquad(4)}
+
+【反哺点】服务考纲「行列式」：代数余子式是 $n$ 阶行列式降阶与「余子式和代数余子式的计算」的唯一入口，符号 $(-1)^{i+j}$ 必须与位置下标严格对应。
+\end{fdeep}
+
+\begin{fdeep}{行列式按一行（列）展开定理（北大 二.6 定理 3，印刷页 49、51）}
+对于 $n$ 阶行列式，有
+\fml{\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+\vdots&\vdots&&\vdots\\
+a_{i1}&a_{i2}&\cdots&a_{in}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix}=a_{i1}A_{i1}+a_{i2}A_{i2}+\cdots+a_{in}A_{in},\quad i=1,2,\cdots,n.\qquad(1)}
+
+三阶行列式可以通过二阶行列式表示：
+\fml{\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}
+=a_{11}\begin{vmatrix}a_{22}&a_{23}\\a_{32}&a_{33}\end{vmatrix}
+-a_{12}\begin{vmatrix}a_{21}&a_{23}\\a_{31}&a_{33}\end{vmatrix}
++a_{13}\begin{vmatrix}a_{21}&a_{22}\\a_{31}&a_{32}\end{vmatrix}.\qquad(2)}
+
+这样，公式 $(1)$ 就是说，行列式等于某一行的元素分别与它们代数余子式的乘积之和。在 $(1)$ 中，如果令第 $i$ 行的元素等于另外一行，譬如说，第 $k$ 行的元素，也就是
+\fml{a_{ij}=a_{kj},\qquad j=1,\cdots,n,\ k\ne i.}
+于是
+\fml{a_{k1}A_{i1}+a_{k2}A_{i2}+\cdots+a_{kn}A_{in}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1n}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kn}&\text{第 } i \text{ 行}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kn}\\
+\vdots&&\vdots\\
+a_{n1}&\cdots&a_{nn}
+\end{vmatrix}.}
+右端的行列式含有两个相同的行，应该为零，这就是说，在行列式中，一行的元素与另一行相应元素的代数余子式的乘积之和为零。
+
+基于行列式中行与列的对称性，在以上的公式和讨论中把行换成列也一样。综上所述，即得
+
+\textbf{定理 3}\quad 设
+\fml{d=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix},}
+$A_{ij}$ 表示元素 $a_{ij}$ 的代数余子式，则下列公式成立：
+\fml{a_{k1}A_{i1}+a_{k2}A_{i2}+\cdots+a_{kn}A_{in}
+=\begin{cases}d,&k=i,\\0,&k\ne i;\end{cases}\qquad(6)}
+\fml{a_{1l}A_{1j}+a_{2l}A_{2j}+\cdots+a_{nl}A_{nj}
+=\begin{cases}d,&l=j,\\0,&l\ne j.\end{cases}\qquad(7)}
+用连加号简写为
+\fml{\sum_{i=1}^{n}a_{ki}A_{ki}=\begin{cases}d,&k=i,\\0,&k\ne i;\end{cases}\qquad
+\sum_{j=1}^{n}a_{lj}A_{lj}=\begin{cases}d,&l=j,\\0,&l\ne j.\end{cases}}
+
+在计算数字行列式时，直接应用展开式 $(6)$ 或 $(7)$ 不一定能简化计算，因为把一个 $n$ 阶行列式的计算换成 $n$ 个 $n-1$ 阶行列式的计算并不减少计算量，只是在行列式中某一行或某一列含较多的零时，应用公式 $(6)$ 或 $(7)$ 才有意义。但这两个公式在理论上是很重要的。
+
+【反哺点】服务考纲「行列式」：这是「降阶法」的定理依据，也是「某行元素乘另一行代数余子式之和为 0」这一常考结论的来源。
+\end{fdeep}
+
+\begin{fdeep}{代数余子式符号 $(-1)^{i+j}$ 的来源（北大 二.6，印刷页 50、51）}
+为证 $A_{ij}=(-1)^{i+j}M_{ij}$（式 $(4)$），先由行列式的定义证明 $n$ 阶与 $n-1$ 阶行列式的下面这个关系：
+\fml{\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1,n-1}&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2,n-1}&a_{2n}\\
+\vdots&\vdots&&\vdots&\vdots\\
+a_{n-1,1}&a_{n-1,2}&\cdots&a_{n-1,n-1}&a_{n-1,n}\\
+0&0&\cdots&0&1
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1,n-1}\\
+a_{21}&a_{22}&\cdots&a_{2,n-1}\\
+\vdots&\vdots&&\vdots\\
+a_{n-1,1}&a_{n-1,2}&\cdots&a_{n-1,n-1}
+\end{vmatrix}.\qquad(5)}
+
+事实上，$(5)$ 式左端行列式的展开式
+\fml{\sum_{j_1j_2\cdots j_n}(-1)^{\tau(j_1j_2\cdots j_n)}a_{1j_1}a_{2j_2}\cdots a_{n-1,j_{n-1}}a_{nj_n}}
+中只有 $j_n=n$ 的项才可能不为零，而 $a_{nn}=1$，因此左端为
+\fml{\sum_{j_1j_2\cdots j_{n-1}}(-1)^{\tau(j_1j_2\cdots j_{n-1}n)}a_{1j_1}a_{2j_2}\cdots a_{n-1,j_{n-1}}.}
+显然 $j_1j_2\cdots j_{n-1}$ 是 $1,2,\cdots,n-1$ 的排列，且
+\fml{\tau(j_1j_2\cdots j_{n-1}n)=\tau(j_1j_2\cdots j_{n-1}).}
+这就证明了 $(5)$。
+
+为了证明 $(4)$，在 $(1)$ 中令
+\fml{a_{i1}=\cdots=a_{i,j-1}=a_{i,j+1}=\cdots=a_{in}=0,\qquad a_{ij}=1,}
+即得 $A_{ij}$ 等于一个第 $i$ 行只有第 $j$ 个元素为 $1$、其余元素全为 $0$ 的 $n$ 阶行列式。证明 $(4)$ 的步骤是：第一步是依次地把第 $i$ 行与它下边的一行对换，直到把它换到第 $n$ 行止，这样一共换了 $n-i$ 次，因之行列式差一个符号 $(-1)^{n-i}$；第二步是同样地把第 $j$ 列换到第 $n$ 列；再利用 $(5)$ 与显然的关系 $(-1)^{2n-(i+j)}=(-1)^{i+j}$ 即得 $(4)$。
+
+【反哺点】服务考纲「行列式」：解释了「为什么偏偏是 $(-1)^{i+j}$」——符号来自把 $a_{ij}$ 对换到右下角的次数，避免代数余子式符号写错。
+\end{fdeep}
+
+\begin{fdeep}{$n=3$ 时展开公式的几何意义（北大 二.6，印刷页 52）}
+在 $n=3$ 时，公式 $(6)$ 有明显的几何意义。如果把行列式的行看作向量在直角坐标系下的坐标，即设
+\fml{\alpha_1=(a_{11},a_{12},a_{13}),\qquad \alpha_2=(a_{21},a_{22},a_{23}),\qquad \alpha_3=(a_{31},a_{32},a_{33}),}
+那么
+\fml{\alpha_2\times\alpha_3=(A_{11},A_{12},A_{13}).}
+于是
+\fml{a_{11}A_{11}+a_{12}A_{12}+a_{13}A_{13}=\alpha_1\cdot(\alpha_2\times\alpha_3),}
+\fml{a_{21}A_{11}+a_{22}A_{12}+a_{23}A_{13}=\alpha_2\cdot(\alpha_2\times\alpha_3)=0,}
+\fml{a_{31}A_{11}+a_{32}A_{12}+a_{33}A_{13}=\alpha_3\cdot(\alpha_2\times\alpha_3)=0.}
+
+【反哺点】服务考纲「行列式」：给「异行（列）代数余子式之和为 0」一个几何图像——混合积中有两个向量相同即为 0。
+\end{fdeep}
+
+\begin{fdeep}{范德蒙德（Vandermonde）行列式（北大 二.6 例 2，印刷页 52、53）}
+\fml{d=\begin{vmatrix}
+1&1&1&\cdots&1\\
+a_1&a_2&a_3&\cdots&a_n\\
+a_1^2&a_2^2&a_3^2&\cdots&a_n^2\\
+\vdots&\vdots&\vdots&&\vdots\\
+a_1^{n-1}&a_2^{n-1}&a_3^{n-1}&\cdots&a_n^{n-1}
+\end{vmatrix}\qquad(8)}
+称为 $n$ 阶的范德蒙德（Vandermonde）行列式。我们来证明，对任意的 $n\ (n\ge 2)$，$n$ 阶范德蒙德行列式等于 $a_1,a_2,\cdots,a_n$ 这 $n$ 个数的所有可能的差 $a_i-a_j\ (1\le j<i\le n)$ 的乘积。
+
+证明思路（对 $n$ 作归纳法）：当 $n=2$ 时，$\begin{vmatrix}1&1\\a_1&a_2\end{vmatrix}=a_2-a_1$，结果是对的。设对于 $n-1$ 阶的范德蒙德行列式结论成立，现在来看 $n$ 阶的情形。
+
+在 $(8)$ 中，第 $n$ 行减去第 $n-1$ 行的 $a_1$ 倍，第 $n-1$ 行减去第 $n-2$ 行的 $a_1$ 倍，也就是由下而上依次地从每一行减去它上一行的 $a_1$ 倍，有
+\fml{\begin{vmatrix}
+1&1&1&\cdots&1\\
+0&a_2-a_1&a_3-a_1&\cdots&a_n-a_1\\
+0&a_2^2-a_1a_2&a_3^2-a_1a_3&\cdots&a_n^2-a_1a_n\\
+\vdots&\vdots&\vdots&&\vdots\\
+0&a_2^{n-1}-a_1a_2^{n-2}&a_3^{n-1}-a_1a_3^{n-2}&\cdots&a_n^{n-1}-a_1a_n^{n-2}
+\end{vmatrix}}
+\fml{=\begin{vmatrix}
+a_2-a_1&a_3-a_1&\cdots&a_n-a_1\\
+a_2^2-a_1a_2&a_3^2-a_1a_3&\cdots&a_n^2-a_1a_n\\
+\vdots&\vdots&&\vdots\\
+a_2^{n-1}-a_1a_2^{n-2}&a_3^{n-1}-a_1a_3^{n-2}&\cdots&a_n^{n-1}-a_1a_n^{n-2}
+\end{vmatrix}}
+\fml{=(a_2-a_1)(a_3-a_1)\cdots(a_n-a_1)
+\begin{vmatrix}
+1&1&\cdots&1\\
+a_2&a_3&\cdots&a_n\\
+a_2^2&a_3^2&\cdots&a_n^2\\
+\vdots&\vdots&&\vdots\\
+a_2^{n-2}&a_3^{n-2}&\cdots&a_n^{n-2}
+\end{vmatrix}.}
+后面这行列式是一个 $n-1$ 阶的范德蒙德行列式，根据归纳法假设，它等于所有可能差 $a_i-a_j\ (2\le j<i\le n)$ 的乘积；而包含 $a_1$ 的差全在前面出现了。因之，结论对 $n$ 阶范德蒙德行列式也成立。根据数学归纳法，完成了证明。
+
+用连乘号，这个结果可以简写为
+\fml{\begin{vmatrix}
+1&1&\cdots&1\\
+a_1&a_2&\cdots&a_n\\
+a_1^2&a_2^2&\cdots&a_n^2\\
+\vdots&\vdots&&\vdots\\
+a_1^{n-1}&a_2^{n-1}&\cdots&a_n^{n-1}
+\end{vmatrix}=\prod_{1\le j<i\le n}(a_i-a_j).}
+由这个结果立即得出，范德蒙德行列式为零的充分必要条件是 $a_1,a_2,\cdots,a_n$ 这 $n$ 个数中至少有两个相等。
+
+【反哺点】服务考纲「行列式」：范德蒙德型行列式是考研高频送分题，尤其「为零 $\Leftrightarrow$ 有重根/有相等数」这一条直接用于含参数行列式与线性相关性的判定。
+\end{fdeep}
+
+\begin{fdeep}{分块三角行列式 $\begin{vmatrix}A&0\\C&B\end{vmatrix}=|A|\,|B|$（北大 二.6 例 3，印刷页 54、55）}
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1k}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kk}&0&\cdots&0\\
+c_{11}&\cdots&c_{1k}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r1}&\cdots&c_{rk}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1k}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kk}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}.\qquad(9)}
+证明思路：对 $k$ 用数学归纳法。当 $k=1$ 时，$(9)$ 的左端为
+\fml{\begin{vmatrix}
+a_{11}&0&\cdots&0\\
+c_{11}&b_{11}&\cdots&b_{1r}\\
+\vdots&\vdots&&\vdots\\
+c_{r1}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix},}
+按第一行展开，就得到所要的结论。
+
+假设 $(9)$ 对 $k=m-1$ 时（即左端行列式的左上角是 $m-1$ 阶时）已经成立，现在来看 $k=m$ 的情形，按第一行展开，有
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1m}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{m1}&\cdots&a_{mm}&0&\cdots&0\\
+c_{11}&\cdots&c_{1m}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r1}&\cdots&c_{rm}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=a_{11}\begin{vmatrix}
+a_{22}&\cdots&a_{2m}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{m2}&\cdots&a_{mm}&0&\cdots&0\\
+c_{12}&\cdots&c_{1m}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r2}&\cdots&c_{rm}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}+\cdots}
+\fml{\cdots+(-1)^{1+m}a_{1m}
+\begin{vmatrix}
+a_{21}&\cdots&a_{2,m-1}\\
+\vdots&&\vdots\\
+a_{m1}&\cdots&a_{m,m-1}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1m}\\
+\vdots&&\vdots\\
+a_{m1}&\cdots&a_{mm}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}.}
+这里第二个等号是用了归纳法假定，最后一步是根据按一行展开的公式。根据归纳法原理，$(9)$ 式普遍成立。
+
+【反哺点】服务考纲「行列式」「矩阵」：分块上（下）三角行列式 $=|A||B|$ 是含零块矩阵行列式、$\begin{vmatrix}A&O\\O&B\end{vmatrix}=|A||B|$ 类考题的直接依据，也是拉普拉斯定理最常见的特例。
+\end{fdeep}
+
+\begin{fdeep}{克拉默（Cramer）法则：定理 4 的陈述（北大 二.7，印刷页 55）}
+现在我们来应用行列式解决线性方程组的问题。在这里只考虑方程个数与未知量的个数相等的情形。以后会看到，这是一个重要的情形。至于更一般的情形留到下一章讨论。
+
+\textbf{定理 4}\quad 如果线性方程组
+\fml{\begin{cases}
+a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=b_1,\\
+a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=b_2,\\
+\qquad\cdots\cdots\cdots\cdots\cdots\cdots\\
+a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=b_n
+\end{cases}\qquad(1)}
+的系数矩阵
+\fml{A=\begin{pmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{pmatrix}\qquad(2)}
+的行列式，即系数行列式
+\fml{d=|A|\ne 0,}
+那么线性方程组 $(1)$ 有解，并且解是唯一的，解可以通过系数表为
+\fml{x_1=\frac{d_1}{d},\quad x_2=\frac{d_2}{d},\quad \cdots,\quad x_n=\frac{d_n}{d},\qquad(3)}
+其中 $d_j$ 是把矩阵 $A$ 中第 $j$ 列换成方程组的常数项 $b_1,b_2,\cdots,b_n$ 所成的矩阵的行列式，即
+\fml{d_j=\begin{vmatrix}
+a_{11}&\cdots&a_{1,j-1}&b_1&a_{1,j+1}&\cdots&a_{1n}\\
+a_{21}&\cdots&a_{2,j-1}&b_2&a_{2,j+1}&\cdots&a_{2n}\\
+\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{n,j-1}&b_n&a_{n,j+1}&\cdots&a_{nn}
+\end{vmatrix},\qquad j=1,2,\cdots,n.\qquad(4)}
+
+定理中包含着三个结论：$1^{\circ}$ 方程组有解；$2^{\circ}$ 解是唯一的；$3^{\circ}$ 解由公式 $(3)$ 给出。这三个结论是有联系的，因此证明的步骤是：
+1.\ 把 $\left(\dfrac{d_1}{d},\dfrac{d_2}{d},\cdots,\dfrac{d_n}{d}\right)$ 代入方程组，验证它确是解。
+
+2.\ 假如方程组有解，证明它的解必由公式 $(3)$ 给出。
+
+【反哺点】服务考纲「线性方程组」：Cramer 法则给出「解 $=$ 行列式之比」的显式公式，是判断解的唯一性、构造反例（$|A|=0$ 时失效）与含参数方程组讨论的出发点。
+\end{fdeep}
+
+\begin{fdeep}{克拉默法则的证明思路：用代数余子式导出解（北大 二.7，印刷页 56、57）}
+在下面的证明中，为了写起来简短些，我们将尽量用连加号 $\sum$。
+
+\textbf{证明}\quad 1.\ 把方程组 $(1)$ 简写为
+\fml{\sum_{j=1}^{n}a_{ij}x_j=b_i,\qquad i=1,2,\cdots,n.\qquad(5)}
+首先来证明 $(3)$ 的确是 $(1)$ 的解。把 $(3)$ 代入第 $i$ 个方程，左端为
+\fml{\sum_{j=1}^{n}a_{ij}\frac{d_j}{d}=\frac{1}{d}\sum_{j=1}^{n}a_{ij}d_j.\qquad(6)}
+因为
+\fml{d_j=b_1A_{1j}+b_2A_{2j}+\cdots+b_nA_{nj}=\sum_{s=1}^{n}b_sA_{sj},}
+所以
+\fml{\frac{1}{d}\sum_{j=1}^{n}a_{ij}d_j=\frac{1}{d}\sum_{j=1}^{n}a_{ij}\sum_{s=1}^{n}b_sA_{sj}
+=\frac{1}{d}\sum_{s=1}^{n}\sum_{j=1}^{n}a_{ij}A_{sj}b_s
+=\frac{1}{d}\sum_{s=1}^{n}\left(\sum_{j=1}^{n}a_{ij}A_{sj}\right)b_s.}
+根据定理 $3$ 中公式 $(6)$，有
+\fml{\frac{1}{d}\left(\sum_{j=1}^{n}a_{ij}A_{ij}\right)b_i=\frac{1}{d}\cdot db_i=b_i.}
+这与第 $i$ 个方程的右端一致。换句话说，把 $(3)$ 代入方程使它们同时变成恒等式，因而 $(3)$ 确为方程组 $(1)$ 的解。
+
+2.\ 设 $(c_1,c_2,\cdots,c_n)$ 是方程组 $(1)$ 的一个解，于是有 $n$ 个恒等式
+\fml{\sum_{j=1}^{n}a_{ij}c_j=b_i,\qquad i=1,2,\cdots,n.\qquad(7)}
+为了证明 $c_k=\dfrac{d_k}{d}$，我们取系数矩阵中第 $k$ 列元素的代数余子式 $A_{1k},A_{2k},\cdots,A_{nk}$，用它们分别乘 $(7)$ 中 $n$ 个恒等式，有
+\fml{A_{ik}\sum_{j=1}^{n}a_{ij}c_j=b_iA_{ik},\qquad i=1,2,\cdots,n,}
+这仍是 $n$ 个恒等式。把它们加起来，即得
+\fml{\sum_{i=1}^{n}A_{ik}\sum_{j=1}^{n}a_{ij}c_j=\sum_{i=1}^{n}b_iA_{ik}.\qquad(8)}
+等式右端等于在行列式 $d$ 按第 $k$ 列的展开式中把 $a_{ik}$ 分别换成 $b_i\ (i=1,2,\cdots,n)$，因此，它等于把行列式 $d$ 中第 $k$ 列换成 $b_1,b_2,\cdots,b_n$ 所得的行列式，也就是 $d_k$。再来看 $(8)$ 的左端，即
+\fml{\sum_{i=1}^{n}A_{ik}\sum_{j=1}^{n}a_{ij}c_j=\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}A_{ik}c_j
+=\sum_{j=1}^{n}\left(\sum_{i=1}^{n}a_{ij}A_{ik}\right)c_j.}
+由上节定理 $3$ 中公式 $(7)$，
+\fml{\sum_{i=1}^{n}a_{ij}A_{ik}=\begin{cases}d,&j=k,\\0,&j\ne k.\end{cases}}
+所以
+\fml{\sum_{j=1}^{n}\left(\sum_{i=1}^{n}a_{ij}A_{ik}\right)c_j=dc_k.}
+于是，$(8)$ 即为
+\fml{dc_k=d_k,\qquad k=1,2,\cdots,n,}
+也就是说
+\fml{c_k=\frac{d_k}{d},\qquad k=1,2,\cdots,n.}
+这就是说，如果 $(c_1,c_2,\cdots,c_n)$ 是方程组的一个解，它必为
+\fml{\left(\frac{d_1}{d},\frac{d_2}{d},\cdots,\frac{d_n}{d}\right),\qquad(9)}
+因而方程组最多有一组解。
+
+定理 $4$ 通常称为\textbf{克拉默法则}。
+
+【反哺点】服务考纲「线性方程组」：证明的两步恰好是两条常考思路——「用代数余子式乘方程再相加」这一技巧，以及「把 $d_j$ 看成第 $j$ 列被替换后的展开式」这一恒等变形。
+\end{fdeep}
+
+\begin{fdeep}{克拉默法则的适用边界与意义（北大 二.7，印刷页 58）}
+应该注意，定理 $4$ 所讨论的只是系数矩阵的行列式不为零的方程组，它只能应用于这种方程组；至于方程组的系数行列式为零的情形，将在下一章的一般情形中一并讨论。
+
+克拉默法则的意义主要在于它给出了解与系数的明显关系，这一点在以后许多问题的讨论中是重要的。但是用克拉默法则进行计算是不方便的，因为按这一法则解一个 $n$ 个未知量 $n$ 个方程的线性方程组就要计算 $n+1$ 个 $n$ 阶行列式，这个计算量是很大的。
+
+【反哺点】服务考纲「线性方程组」：明确「方阵且 $|A|\ne 0$」这一前置条件，避免对方程数 $\ne$ 未知数或 $|A|=0$ 的方程组误用 Cramer 法则；并说明它是理论工具而非计算工具。
+\end{fdeep}
+
+\begin{fdeep}{齐次线性方程组与 $|A|=0$（北大 二.7 定理 5，印刷页 58）}
+常数项全为零的线性方程组称为\textbf{齐次线性方程组}。显然，齐次线性方程组总是有解的，因为 $(0,0,\cdots,0)$ 就是一个解，它称为\textbf{零解}。对于齐次线性方程组，我们关心的问题常常是，它除去零解以外还有没有其他解，或者说，它有没有\textbf{非零解}。对于方程个数与未知量个数相同的齐次线性方程组，应用克拉默法则就有
+
+\textbf{定理 5}\quad 如果齐次线性方程组
+\fml{\begin{cases}
+a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0,\\
+a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0,\\
+\qquad\cdots\cdots\cdots\cdots\cdots\cdots\\
+a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=0
+\end{cases}\qquad(10)}
+的系数矩阵的行列式 $|A|\ne 0$，那么它只有零解。换句话说，如果方程组 $(10)$ 有非零解，那么必有 $|A|=0$。
+
+\textbf{证明}\quad 应用克拉默法则，因为行列式 $d_j$ 中有一列为零，所以
+\fml{d_j=0,\qquad j=1,2,\cdots,n.}
+这就是说，它的唯一的解是
+\fml{\left(\frac{d_1}{d},\frac{d_2}{d},\cdots,\frac{d_n}{d}\right)=(0,0,\cdots,0).}
+
+【反哺点】服务考纲「线性方程组」：$n$ 个方程 $n$ 个未知量的齐次方程组「有非零解 $\Leftrightarrow |A|=0$」是特征值（$|A-\lambda E|=0$）与线性相关判定的公共接口。
+\end{fdeep}
+
+\begin{fdeep}{$k$ 阶子式、余子式与代数余子式（北大 二.8 定义 9、定义 10，印刷页 59、60）}
+这一节介绍行列式的拉普拉斯定理，这个定理可以看成是行列式按一行展开公式的推广。
+
+首先我们把余子式和代数余子式的概念加以推广。
+
+\textbf{定义 9}\quad 在 $n$ 阶行列式 $D$ 中任意选定 $k$ 行 $k$ 列（$k\le n$），位于这些行和列的交点上的 $k^2$ 个元素按原来的次序组成的 $k$ 阶行列式 $M$，称为行列式 $D$ 的 $k$ \textbf{阶子式}。当 $k<n$ 时，在 $D$ 中划去这 $k$ 行 $k$ 列后余下的元素按照原来的次序组成的 $n-k$ 阶行列式 $M'$ 称为 $k$ 阶子式 $M$ 的\textbf{余子式}。
+
+从定义立即可看出，$M$ 也是 $M'$ 的余子式，所以 $M$ 和 $M'$ 可以称为 $D$ 的一对互余的子式。
+
+\textbf{定义 10}\quad 设 $D$ 的 $k$ 阶子式 $M$ 在 $D$ 中所在的行、列指标分别是 $i_1<i_2<\cdots<i_k$，$j_1<j_2<\cdots<j_k$，则 $M$ 的余子式 $M'$ 前面加上符号
+\fml{(-1)^{(i_1+i_2+\cdots+i_k)+(j_1+j_2+\cdots+j_k)}}
+后称为 $M$ 的\textbf{代数余子式}。
+
+【反哺点】服务考纲「行列式」：把「一个元素」的余子式升级为「一块 $k$ 阶子式」的余子式，是理解分块行列式与拉普拉斯展开的概念前提。
+\end{fdeep}
+
+\begin{fdeep}{引理：子式与其代数余子式乘积中的项（北大 二.8，印刷页 60、61）}
+因为 $M$ 与 $M'$ 位于行列式 $D$ 中不同的行和不同的列，所以我们有下述
+
+\textbf{引理}\quad 行列式 $D$ 的任一个子式 $M$ 与它的代数余子式 $A$ 的乘积中的每一项都是行列式 $D$ 的展开式中的一项，而且符号也一致。
+
+\textbf{证明}\quad 我们首先讨论 $M$ 位于行列式 $D$ 的左上方的情形：
+\fml{D=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1k}&a_{1,k+1}&\cdots&a_{1n}\\
+\vdots&\vdots&&\vdots&\vdots&&\vdots\\
+a_{k1}&a_{k2}&\cdots&a_{kk}&a_{k,k+1}&\cdots&a_{kn}\\
+a_{k+1,1}&a_{k+1,2}&\cdots&a_{k+1,k}&a_{k+1,k+1}&\cdots&a_{k+1,n}\\
+\vdots&\vdots&&\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nk}&a_{n,k+1}&\cdots&a_{nn}
+\end{vmatrix}}
+此时 $M$ 的代数余子式
+\fml{A=(-1)^{(1+2+\cdots+k)+(1+2+\cdots+k)}M'=M'.}
+$M$ 的每一项都可写作
+\fml{a_{1\alpha_1}a_{2\alpha_2}\cdots a_{k\alpha_k},}
+其中 $\alpha_1\alpha_2\cdots\alpha_k$ 是 $1,2,\cdots,k$ 的一个排列，所以这一项前面所带的符号为 $(-1)^{\tau(\alpha_1\alpha_2\cdots\alpha_k)}$。$M'$ 中每一项都可写作
+\fml{a_{k+1,\beta_1}a_{k+2,\beta_2}\cdots a_{n\beta_{n-k}},}
+其中 $\beta_1\beta_2\cdots\beta_{n-k}$ 是 $k+1,k+2,\cdots,n$ 的一个排列，这一项前面所带的符号是
+\fml{(-1)^{\tau(\beta_1\beta_2\cdots\beta_{n-k})}.}
+这两项的乘积是
+\fml{a_{1\alpha_1}a_{2\alpha_2}\cdots a_{k\alpha_k}a_{k+1,\beta_1}\cdots a_{n\beta_{n-k}},}
+前面的符号是
+\fml{(-1)^{\tau(\alpha_1\alpha_2\cdots\alpha_k)+\tau(\beta_1\beta_2\cdots\beta_{n-k})}.}
+因为每个 $\beta$ 比每个 $\alpha$ 都大，所以上述符号等于
+\fml{(-1)^{\tau(\alpha_1\alpha_2\cdots\alpha_k\beta_1\beta_2\cdots\beta_{n-k})}.}
+因此这个乘积是行列式 $D$ 中的一项而且符号相同。
+
+下面来证明一般情形。设子式 $M$ 位于 $D$ 的第 $i_1,i_2,\cdots,i_k$ 行，第 $j_1,j_2,\cdots,j_k$ 列，这里 $i_1<i_2<\cdots<i_k$，$j_1<j_2<\cdots<j_k$。
+
+变换 $D$ 中行列的次序使 $M$ 位于 $D$ 的左上角。为此，先把第 $i_1$ 行依次与第 $i_1-1,i_1-2,\cdots,2,1$ 行对换，这样经过了 $i_1-1$ 次对换而将第 $i_1$ 行换到第 $1$ 行。再将 $i_2$ 行依次与第 $i_2-1,i_2-2,\cdots,2$ 行对换而换到第 $2$ 行，一共经过了 $i_2-2$ 次对换。如此继续进行，一共经过了
+\fml{(i_1-1)+(i_2-2)+\cdots+(i_k-k)=(i_1+i_2+\cdots+i_k)-(1+2+\cdots+k)}
+次行对换而把第 $i_1,i_2,\cdots,i_k$ 行依次换到第 $1,2,\cdots,k$ 行。
+
+利用类似的列对换，可以将 $M$ 的列换到第 $1,2,\cdots,k$ 列，一共作了
+\fml{(j_1-1)+(j_2-2)+\cdots+(j_k-k)=(j_1+j_2+\cdots+j_k)-(1+2+\cdots+k)}
+次列对换。
+
+我们用 $D_1$ 表示这样变换后所得的新行列式，那么
+\fml{D_1=(-1)^{[(i_1+\cdots+i_k)-(1+\cdots+k)]+[(j_1+\cdots+j_k)-(1+\cdots+k)]}D
+=(-1)^{(i_1+\cdots+i_k)+(j_1+\cdots+j_k)}D.}
+由此看出，$D_1$ 和 $D$ 的展开式中出现的项是一样的，只是每一项都差符号 $(-1)^{(i_1+\cdots+i_k)+(j_1+\cdots+j_k)}$。
+
+现在 $M$ 位于 $D_1$ 的左上角，它在 $D_1$ 中的余子式与代数余子式都是 $M'$，所以 $MM'$ 中每一项都是 $D_1$ 中的一项而且符号一致。但是
+\fml{MA=(-1)^{(i_1+\cdots+i_k)+(j_1+\cdots+j_k)}MM',}
+所以 $MA$ 中每一项都与 $D$ 中一项相等而且符号一致。
+
+【反哺点】服务考纲「行列式」：这是「子式 $\times$ 代数余子式不重不漏地覆盖 $D$ 的全部 $n!$ 项」的严格说明，也是拉普拉斯定理成立的核心。
+\end{fdeep}
+
+\begin{fdeep}{拉普拉斯（Laplace）定理（北大 二.8 定理 6，印刷页 61）}
+\textbf{定理 6（拉普拉斯定理）}\quad 设在行列式 $D$ 中任意取定了 $k\ (1\le k\le n-1)$ 个行。由这 $k$ 行元素所组成的一切 $k$ 阶子式与它们的代数余子式的乘积的和等于行列式 $D$。
+
+\textbf{证明}\quad 设 $D$ 中取定 $k$ 行后得到的子式为 $M_1,M_2,\cdots,M_t$，它们的代数余子式分别为 $A_1,A_2,\cdots,A_t$，定理要求证明
+\fml{D=M_1A_1+M_2A_2+\cdots+M_tA_t,}
+根据引理，$M_iA_i$ 中每一项都是 $D$ 中一项而且符号相同，而且 $M_iA_i$ 和 $M_jA_j\ (i\ne j)$ 无公共项。因此为了证明定理，只要证明等式两边项数相等就可以了。显然等式左边共有 $n!$ 项，为了计算右边的项数，首先来求出 $t$。根据子式的取法知道
+\fml{t=\mathrm{C}_n^k=\frac{n!}{k!\,(n-k)!}.}
+因为 $M_i$ 中共有 $k!$ 项，$A_i$ 中共有 $(n-k)!$ 项，所以右边共有
+\fml{tk!\,(n-k)!=n!}
+项。定理得证。
+
+利用拉普拉斯定理来计算行列式一般是不方便的，这个定理主要是在理论方面应用。
+
+【反哺点】服务考纲「行列式」：按一行展开只是 $k=1$ 的退化情形；拉普拉斯定理是分块行列式、含大量零块的行列式以及乘法定理证明的统一工具。
+\end{fdeep}
+
+\begin{fdeep}{行列式的乘法规则 $|AB|=|A|\,|B|$（北大 二.8 定理 7，印刷页 62、63）}
+\textbf{定理 7}\quad 两个 $n$ 阶行列式
+\fml{D_1=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix}\qquad\text{和}\qquad
+D_2=\begin{vmatrix}
+b_{11}&b_{12}&\cdots&b_{1n}\\
+b_{21}&b_{22}&\cdots&b_{2n}\\
+\vdots&\vdots&&\vdots\\
+b_{n1}&b_{n2}&\cdots&b_{nn}
+\end{vmatrix}}
+的乘积等于一个 $n$ 阶行列式
+\fml{C=\begin{vmatrix}
+c_{11}&c_{12}&\cdots&c_{1n}\\
+c_{21}&c_{22}&\cdots&c_{2n}\\
+\vdots&\vdots&&\vdots\\
+c_{n1}&c_{n2}&\cdots&c_{nn}
+\end{vmatrix},}
+其中 $c_{ij}$ 是 $D_1$ 的第 $i$ 行元素分别与 $D_2$ 的第 $j$ 列对应元素乘积之和，即
+\fml{c_{ij}=a_{i1}b_{1j}+a_{i2}b_{2j}+\cdots+a_{in}b_{nj}.}
+
+\textbf{证明}\quad 作一个 $2n$ 阶行列式
+\fml{D=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}&0&0&\cdots&0\\
+a_{21}&a_{22}&\cdots&a_{2n}&0&0&\cdots&0\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}&0&0&\cdots&0\\
+-1&0&\cdots&0&b_{11}&b_{12}&\cdots&b_{1n}\\
+0&-1&\cdots&0&b_{21}&b_{22}&\cdots&b_{2n}\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+0&0&\cdots&-1&b_{n1}&b_{n2}&\cdots&b_{nn}
+\end{vmatrix}.}
+根据拉普拉斯定理，将 $D$ 按前 $n$ 行展开。因 $D$ 中前 $n$ 行除去左上角那个 $n$ 阶子式外，其余的 $n$ 阶子式都等于零。所以
+\fml{D=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&b_{12}&\cdots&b_{1n}\\
+b_{21}&b_{22}&\cdots&b_{2n}\\
+\vdots&\vdots&&\vdots\\
+b_{n1}&b_{n2}&\cdots&b_{nn}
+\end{vmatrix}=D_1D_2.}
+
+现在来证 $D=C$。对 $D$ 作初等行变换：将第 $n+1$ 行的 $a_{11}$ 倍，第 $n+2$ 行的 $a_{12}$ 倍，$\cdots$，第 $2n$ 行的 $a_{1n}$ 倍加到第一行，得
+\fml{D=\begin{vmatrix}
+0&0&\cdots&0&c_{11}&c_{12}&\cdots&c_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}&0&0&\cdots&0\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}&0&0&\cdots&0\\
+-1&0&\cdots&0&b_{11}&b_{12}&\cdots&b_{1n}\\
+0&-1&\cdots&0&b_{21}&b_{22}&\cdots&b_{2n}\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+0&0&\cdots&-1&b_{n1}&b_{n2}&\cdots&b_{nn}
+\end{vmatrix}.}
+再依次将第 $n+1$ 行的 $a_{k1}\ (k=2,3,\cdots,n)$ 倍，第 $n+2$ 行的 $a_{k2}$ 倍，$\cdots$，第 $2n$ 行的 $a_{kn}$ 倍加到第 $k$ 行，就得
+\fml{D=\begin{vmatrix}
+0&0&\cdots&0&c_{11}&c_{12}&\cdots&c_{1n}\\
+0&0&\cdots&0&c_{21}&c_{22}&\cdots&c_{2n}\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+0&0&\cdots&0&c_{n1}&c_{n2}&\cdots&c_{nn}\\
+-1&0&\cdots&0&b_{11}&b_{12}&\cdots&b_{1n}\\
+0&-1&\cdots&0&b_{21}&b_{22}&\cdots&b_{2n}\\
+\vdots&\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+0&0&\cdots&-1&b_{n1}&b_{n2}&\cdots&b_{nn}
+\end{vmatrix}.}
+这个行列式的前 $n$ 行也只可能有一个 $n$ 阶子式不为零，因此由拉普拉斯定理
+\fml{D=\begin{vmatrix}
+c_{11}&c_{12}&\cdots&c_{1n}\\
+c_{21}&c_{22}&\cdots&c_{2n}\\
+\vdots&\vdots&&\vdots\\
+c_{n1}&c_{n2}&\cdots&c_{nn}
+\end{vmatrix}\cdot
+(-1)^{(1+2+\cdots+n)+(n+1+n+2+\cdots+2n)}
+\begin{vmatrix}
+-1&0&\cdots&0\\
+0&-1&\cdots&0\\
+\vdots&\vdots&\ddots&\vdots\\
+0&0&\cdots&-1
+\end{vmatrix}=C.}
+定理得证。
+
+上述定理也称为\textbf{行列式的乘法定理}。它的意义到第四章 §3 中就完全清楚了。
+
+【反哺点】服务考纲「矩阵」「行列式」：$|AB|=|A||B|$ 是相似矩阵行列式相等（$|B^{-1}AB|=|A|$）、$|A^{-1}|=|A|^{-1}$、$|A^{*}|=|A|^{n-1}$ 等一连串结论的源头；证明中的 $2n$ 阶行列式构造也是「凑零块 + 拉普拉斯」的范本。
+\end{fdeep}
+
+% ===========================================================================
+%  跳过清单（页码一律为 PDF 页 = 印刷页 + 12）
+% ---------------------------------------------------------------------------
+%  PDF 59（印刷 47）：「第 1 行的 -2 倍加到第 2 行…」「例如，设 A = …」两处为举例演算。
+%  PDF 60（印刷 48）：「例 计算」为数字行列式的完整演算，按例题跳过（其方法已收入
+%                     「用初等变换计算行列式」块）。
+%  PDF 64（印刷 52）：「例 1」为 5 阶行列式降阶的完整演算，跳过。
+%  PDF 65（印刷 53）：「例 3 证明：…」为范德蒙德证明之后的若干例题，正文未收。
+%  PDF 62–63（印刷 50–51）：$A_{ij}=(-1)^{i+j}M_{ij}$ 证明中的大矩阵逐步变形（原文
+%                     整块重排行列后的行列式），已用文字概括其步骤，未逐块照排。
+%  PDF 69（印刷 57）：「例 1 解方程组」、PDF 70（印刷 58）：「例 2 求 λ 在什么条件下
+%                     方程组有非零解」为例题，跳过。
+%  PDF 71（印刷 59）：「例 1」「例 2」仅用于演示 $k$ 阶子式的取法，跳过。
+%  PDF 73–74（印刷 61–62）：「例 3」用拉普拉斯定理算 4 阶行列式的完整演算，跳过；
+%                     但保留了原书结论句「利用拉普拉斯定理来计算行列式一般是不方便的，
+%                     这个定理主要是在理论方面应用」。
+%  PDF 76（印刷 64）：整页为「习 题」（第 1–10 题），按规范跳过。
+%                     该页之后（PDF 77 起）为第二章后续内容，不属本片范围。
+%
+%  注：任务书中「PDF 68–69（印刷 59–60）为补充题」的预判不成立 —— 这两页实为
+%      §7 克拉默法则的证明正文（定理 4 的第二部分），已按深化原则转写。
+% ===========================================================================

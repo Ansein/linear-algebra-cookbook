@@ -1,0 +1,238 @@
+% ===========================================================
+% 《线性代数9讲》第 6 讲  向量组 —— 片段 B（本讲后半，收尾片）
+% 源：线代9讲强化.pdf  PDF p79–p82（印刷页 68–71），共 4 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · PDF p79（68）节标题（$O_2$（盯住目标 2））→ 已删，保留「二、研究抽象型向量关系」
+%        · PDF p79（68）「1.定义法（$D_1$（常规操作））」→ 标题保留「1. 定义法」
+%        · PDF p79（68）正文右侧蓝色小字「传统考查方式」（方法论分类标签）
+%        · PDF p80（69）「2.综合问题（$D_1$（常规操作）$+D_{23}$（化归经典形式））」→ 保留「2. 综合问题」
+%        · PDF p80（69）例 6.5 题干旁「$D_{23}$（化归经典形式）」
+%        · PDF p80（69）节标题（$O_3$（盯住目标 3））→ 已删，保留「三、研究向量组等价」
+%        · PDF p80（69）右侧蓝色竖排模块标签「等价表述体系块」（方法论模块名）
+%        · PDF p81（70）节标题（$O_4$（盯住目标 4））→ 已删，保留「四、向量空间（仅数学一）」
+%        · PDF p81（70）「1.概念（$D_1$（常规操作）$+D_{22}$（转换等价表述））」→ 保留「1. 概念」
+%        · PDF p81（70）「2.过渡矩阵（$D_1$（常规操作）$+D_{42}$（引入符号））」→ 保留「2. 过渡矩阵」
+%        · PDF p81（70）「3.坐标变换（$D_1$（常规操作）$+D_{42}$（引入符号））」→ 保留「3. 坐标变换」
+%   2) **数学旁注照原文排入**：
+%        · PDF p79（68）（$*$）号（右对齐于定义式）与【注】①中的交叉引用“（1）”的（$*$）式；
+%        · PDF p79（68）【注】常用方法 ①②③④ 与定理 1–4；「定理 3 和定理 4 可简单记为」口诀框；
+%        · PDF p79（68）例 6.4（2）右侧蓝色注解「证秩等式：一般用方程组同解」「证秩不等式：一般用定理 2」；
+%        · PDF p80（69）「2. 综合问题」标题右侧数学标注 ①$x=\eta^{*}+k_1\xi_1+\cdots$；②$A\xi_i=0$；③$A\eta^{*}=\beta$；
+%        · PDF p80（69）例 6.5 题干旁「总的方向是确定的」「①找 $Ax=0$ 的通解．②找 $Ax=\beta$ 的特解」；
+%        · PDF p81（70）例 6.6 化简矩阵旁的蓝色行变换旁注「$(-1)$ 倍加至」「2 倍加至」「互换」
+%          （原稿为指向行的箭头旁注，本片以 `\quad(\text{...})` 内联，措辞按数学含义补全行号，
+%           见最终回复「不确定清单」）；
+%        · PDF p81（70）例 6.6 解中蓝色交叉引用「否则由本讲的“三、等价命题（1）”知，…」（照原文排入）。
+%   3) **本片含「四、向量空间（仅数学一）」**（PDF p81–p82，印刷页 70–71）：
+%      考纲三.5/6/7/8 落点——n 维向量空间、基、维数、坐标、过渡矩阵、坐标变换公式，
+%      已逐字完整转写（本讲该部分确实较简略，止于坐标变换公式）。
+%   4) **第 6 讲末尾（PDF p81–p82）无「习题」栏**（已逐页核实）：PDF p82（印刷页 71）
+%      以例 6.7 解答结束，其后整页留白；第 7 讲「特征值与特征向量」自印刷页 72 开始。
+%   5) 本片无页首思维导图，无位图插图，无 `fdeep`（9 讲正文不使用）。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p78（印刷页 67）——「二、研究抽象型向量关系」自本页起；
+%   · 【注】常用方法蓝框跨 PDF p79→p80（定理 2 后半至定理 4 在 p80 首），本片按一个 fcard 排完；
+%   · 例 6.4 题干在 p79 末、（2）的证明续 p80 首，本片按一个 fcard 排完；
+%   · 「3. 坐标变换」公式在 p81 末，其后的「其中 $x=Cy$ 称为坐标变换公式．」在 p82 首。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p79（印刷页 68）
+% -----------------------------------------------------------
+
+\fsec{二、研究抽象型向量关系}
+
+% OPD 蓝色标注（原稿）：（$O_2$（盯住目标 2））（位于本节标题内，已删）
+
+\fsec{1. 定义法}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作））（位于本标题内，已删）
+% OPD 蓝色标注（原稿）：句末蓝色小字「传统考查方式」（方法论分类标签）
+
+已知某些向量关系，研究另一些向量关系.
+
+（1）写定义式 $k_1\alpha_1+k_2\alpha_2+\cdots+k_n\alpha_n=0$. \hfill $(*)$
+
+（2）考查 $k_1=k_2=\cdots=k_n=0$ 是否成立.
+
+\begin{fcard}{【注】常用方法}
+①在“（1）”的（$*$）式两边同乘某些量，重新组合等. 数$\times$向量$=0$，若向量$\ne0$，则数$=0$
+
+②转化为证某齐次线性方程组只有零解.
+
+③常与特征值、基础解系、矩阵正定等综合.
+
+④以下定理亦常用.
+
+定理 1\quad 如果向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 可由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，且 $t>s$，则 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 线性相关.（此定理可简单表述为以少表多，多的相关.）
+
+其等价命题：如果向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 可由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，且 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 线性无关，则 $t\le s$.
+
+定理 2\quad 设向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 能由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，则 $r(\beta_1,\beta_2,\cdots,\beta_t)\le r(\alpha_1,\alpha_2,\cdots,\alpha_s)$.（此定理可简单表述为两向量组中被表示的向量组的秩不大.）
+
+% -----------------------------------------------------------
+% PDF p80（印刷页 69）—— 【注】蓝框续（定理 2 末～定理 4）
+% -----------------------------------------------------------
+
+定理 3\quad 如果向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_m$ 中有一部分向量组线性相关，则整个向量组也线性相关.
+
+其等价命题：如果 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_m$ 线性无关，则其任一部分向量组线性无关.
+
+定理 4\quad 如果 $n$ 维向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性无关，那么把这些向量对应相同位置各任意添加 $m$ 个分量所得到的 $(n+m)$ 维新向量组 $\alpha_1^{*}$，$\alpha_2^{*}$，$\cdots$，$\alpha_s^{*}$ 也线性无关；如果 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性相关，那么它们各去掉相同位置的若干个分量所得到的新向量组也线性相关.
+\end{fcard}
+
+\begin{fkey}{定理 3 和定理 4 可简单记为}
+部分相关，整体相关；\\
+整体无关，部分无关；\\
+原来无关，延长无关；\\
+原来相关，缩短相关
+\end{fkey}
+
+\begin{fcard}{例 6.4}
+设 $A$ 为 $n$ 阶方阵，证明：
+
+（1）若 $A^{k-1}\alpha\ne0$，$A^k\alpha=0$，则 $\alpha$，$A\alpha$，$\cdots$，$A^{k-1}\alpha$（$k$ 为正整数）线性无关；
+
+（2）$r(A^{n+1})=r(A^n)$.（证秩等式：一般用方程组同解. 证秩不等式：一般用定理2）
+
+【证】（1）设存在一组数 $l_0$，$l_1$，$\cdots$，$l_{k-1}$，使得
+\fml{l_0\alpha+l_1A\alpha+\cdots+l_{k-1}A^{k-1}\alpha=0,}
+在上式两端左边乘 $A^{k-1}$，得 $l_0A^{k-1}\alpha+l_1A^k\alpha+\cdots+l_{k-1}A^{2(k-1)}\alpha=0$. 由 $A^k\alpha=0$，得 $l_0A^{k-1}\alpha=0$. 又 $A^{k-1}\alpha\ne0$，于是 $l_0=0$. 同理，得 $l_1=\cdots=l_{k-1}=0$. 故 $\alpha$，$A\alpha$，$\cdots$，$A^{k-1}\alpha$ 线性无关.
+
+% -----------------------------------------------------------
+% PDF p80（印刷页 69）—— 例 6.4（2）续
+% -----------------------------------------------------------
+
+（2）设 $\eta$ 为 $A^n x=0$ 的任一解，则 $A^n\eta=0$，于是 $A^{n+1}\eta=0$，即 $A^n x=0$ 的解均是 $A^{n+1}x=0$ 的解. 设 $\gamma$ 为 $A^{n+1}x=0$ 的任一解，即 $A^{n+1}\gamma=0$. 若 $A^n\gamma\ne0$，则由（1）知，$\gamma$，$A\gamma$，$\cdots$，$A^n\gamma$ 线性无关. 又由于 $n+1$ 个 $n$ 维向量必线性相关，矛盾，故 $A^n\gamma=0$，即 $A^{n+1}x=0$ 的解均是 $A^n x=0$ 的解. 两方程组同解，故 $r(A^{n+1})=r(A^n)$.
+\end{fcard}
+
+\fsec{2. 综合问题}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{23}$（化归经典形式））（位于本标题内，已删）
+% 数学标注保留（原稿蓝色，位于标题右侧）：①$x=\eta^{*}+k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$；②$A\xi_i=0$；③$A\eta^{*}=\beta$
+
+①$x=\eta^{*}+k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$；②$A\xi_i=0$；③$A\eta^{*}=\beta$
+
+这里的综合，一般指与方程组、特征值知识相结合.
+
+\begin{fcard}{例 6.5}
+设矩阵 $A=[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$，若 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性无关，且 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，则方程组 $Ax=\alpha_1+4\alpha_4$ 的通解为 $x=\underline{\hspace{2em}}$.
+
+（总的方向是确定的. ①找 $Ax=0$ 的通解. ②找 $Ax=\beta$ 的特解）
+
+% OPD 蓝色标注（原稿）：$D_{23}$（化归经典形式）（位于上引蓝色旁注「总的方向是确定的」之后）
+
+【解】应填 $k\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}+\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$，$k$ 为任意常数.
+
+由于 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，故 $\alpha_1$，$\alpha_2$，$\alpha_3$，$\alpha_4$ 线性相关，又 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性无关，则 $r(A)=3$.
+
+又 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，即 $\alpha_1+\alpha_2-\alpha_3-\alpha_4=0$，则 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}=0$. 由 $s=n-r(A)=4-3=1$ 得，$\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}$ 是 $Ax=0$ 的一个基础解系.
+
+由 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\begin{bmatrix}1\\0\\0\\4\end{bmatrix}=\alpha_1+4\alpha_4$ 可得，$\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$ 是 $Ax=\alpha_1+4\alpha_4$ 的一个特解.
+
+故 $Ax=\alpha_1+4\alpha_4$ 的通解为 $k\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}+\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$，其中 $k$ 为任意常数.
+\end{fcard}
+
+\fsec{三、研究向量组等价}
+
+% OPD 蓝色标注（原稿）：（$O_3$（盯住目标 3））（位于本节标题内，已删）
+% OPD 蓝色标注（原稿）：右侧蓝色竖排模块标签「等价表述体系块」（方法论模块名，不排入正文）
+
+给出向量组（Ⅰ）：$\alpha_1,\alpha_2,\cdots,\alpha_s$；向量组（Ⅱ）：$\beta_1,\beta_2,\cdots,\beta_t$，其中 $\alpha_i$（$i=1,2,\cdots,s$）与 $\beta_j$（$j=1,2,\cdots,t$）维数相同，若 $\alpha_i$ 均可由 $\beta_1,\beta_2,\cdots,\beta_t$ 线性表示，且 $\beta_j$ 均可由 $\alpha_1,\alpha_2,\cdots,\alpha_s$ 线性表示，则称向量组（Ⅰ）与向量组（Ⅱ）等价.
+
+其等价命题：
+
+（1）$r(\alpha_1,\alpha_2,\cdots,\alpha_s)=r(\beta_1,\beta_2,\cdots,\beta_t)$，且可单方向表示.
+
+\begin{fnote}
+【注】所谓可单方向表示，是指 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 与 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 这两个向量组中的某一个向量组可由另一个向量组线性表示.
+\end{fnote}
+
+（2）$r(\alpha_1,\alpha_2,\cdots,\alpha_s)=r(\beta_1,\beta_2,\cdots,\beta_t)=r(\alpha_1,\alpha_2,\cdots,\alpha_s,\beta_1,\beta_2,\cdots,\beta_t)$.（三秩相等）
+
+% -----------------------------------------------------------
+% PDF p81（印刷页 70）
+% -----------------------------------------------------------
+
+\begin{fcard}{例 6.6}
+求常数 $a$ 的值，使 $\alpha_1=[1,1,a]^{\mathrm T}$，$\alpha_2=[1,a,1]^{\mathrm T}$，$\alpha_3=[a,1,1]^{\mathrm T}$ 能由 $\beta_1=[1,1,a]^{\mathrm T}$，$\beta_2=[-2,a,4]^{\mathrm T}$，$\beta_3=[-2,a,a]^{\mathrm T}$ 线性表示，但 $\beta_1$，$\beta_2$，$\beta_3$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示.
+
+【解】$\alpha_1$，$\alpha_2$，$\alpha_3$ 能由 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，则 $r(\alpha_1,\alpha_2,\alpha_3)\le r(\beta_1,\beta_2,\beta_3)$. 又 $\beta_1$，$\beta_2$，$\beta_3$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示，故 $r(\alpha_1,\alpha_2,\alpha_3)<r(\beta_1,\beta_2,\beta_3)$. 而 $r(\beta_1,\beta_2,\beta_3)\le3$，于是 $r(\alpha_1,\alpha_2,\alpha_3)<3$，从而 $|\alpha_1,\alpha_2,\alpha_3|=0$，解得 $a=1$ 或 $a=-2$.（否则由本讲的“三、等价命题（1）”知，$\alpha_1$，$\alpha_2$，$\alpha_3$ 与 $\beta_1$，$\beta_2$，$\beta_3$ 等价）
+
+当 $a=1$ 时，$\alpha_1=\alpha_2=\alpha_3=\beta_1=[1,1,1]^{\mathrm T}$，显然 $\alpha_1$，$\alpha_2$，$\alpha_3$ 可由 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，而此时 $\beta_2=[-2,1,4]^{\mathrm T}$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示，即 $a=1$ 符合题意.
+
+当 $a=-2$ 时，有
+\fml{[\beta_1,\beta_2,\beta_3,\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}1&-2&-2&1&1&-2\\1&-2&-2&1&-2&1\\-2&4&-2&-2&1&1\end{bmatrix}\quad(\text{第 1 行乘 }(-1)\text{ 加至第 2 行，第 1 行乘 }2\text{ 加至第 3 行})}
+\fml{\to\begin{bmatrix}1&-2&-2&1&1&-2\\0&0&0&-3&3&3\\0&0&-6&0&3&-3\end{bmatrix}\to\begin{bmatrix}1&-2&-2&1&1&-2\\0&0&-6&0&3&-3\\0&0&0&0&-3&3\end{bmatrix}\quad(\text{第 2、3 行互换}),}
+可知 $r(\beta_1,\beta_2,\beta_3)=2$，而 $r(\beta_1,\beta_2,\beta_3,\alpha_2)=3$，故 $\alpha_2$ 不能由向量组 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，所以 $a=-2$ 不符合题意.
+
+综上所述，$a=1$.
+\end{fcard}
+
+\fsec{四、向量空间（仅数学一）}
+
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4））（位于本节标题内，已删）
+
+\fsec{1. 概念}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{22}$（转换等价表述））（位于本标题内，已删）
+% OPD 蓝色标注（原稿）：标题右下方蓝色旁注「→将这里的概念与方程组相应的概念做好等价转化」
+
+设 $V$ 是向量空间，如果 $V$ 中有 $r$ 个向量 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$，满足
+
+① $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 线性无关；
+
+② $V$ 中任一向量都可由 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 线性表示.
+
+则称向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 为向量空间 $V$ 的一个基，称 $r$ 为向量空间 $V$ 的维数，并称 $V$ 为 $r$ 维向量空间.
+
+若 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 是 $r$ 维向量空间 $V$ 的一个基，则 $V$ 中任一向量 $\xi$ 都可由这个基唯一地线性表示：
+\fml{\xi=x_1\alpha_1+x_2\alpha_2+\cdots+x_r\alpha_r,}
+称有序数组 $x_1$，$x_2$，$\cdots$，$x_r$ 为向量 $\xi$ 在基 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 下的坐标. 从而 $V$ 可表示为
+\fml{V=\{\xi=x_1\alpha_1+x_2\alpha_2+\cdots+x_r\alpha_r|x_1,x_2,\cdots,x_r\in\mathbb{R}\}.}
+
+\fsec{2. 过渡矩阵}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{42}$（引入符号））（位于本标题内，已删）
+
+设 $V$ 的两个基 $\eta_1$，$\eta_2$，$\cdots$，$\eta_n$；$\xi_1$，$\xi_2$，$\cdots$，$\xi_n$，若
+\fml{[\eta_1,\eta_2,\cdots,\eta_n]=[\xi_1,\xi_2,\cdots,\xi_n]C,}
+则称 $C$ 为由基 $\xi_1$，$\xi_2$，$\cdots$，$\xi_n$ 到基 $\eta_1$，$\eta_2$，$\cdots$，$\eta_n$ 的过渡矩阵（注意 $C$ 的位置）.
+
+\fsec{3. 坐标变换}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{42}$（引入符号））（位于本标题内，已删）
+
+\fml{\alpha=[\xi_1,\xi_2,\cdots,\xi_n]x=[\eta_1,\eta_2,\cdots,\eta_n]y=[\xi_1,\xi_2,\cdots,\xi_n]Cy,}
+
+% -----------------------------------------------------------
+% PDF p82（印刷页 71）
+% -----------------------------------------------------------
+
+其中 $x=Cy$ 称为坐标变换公式.
+
+\begin{fcard}{例 6.7}
+设 $\mathbb{R}^3$ 中的基（Ⅰ）$\beta_1=[1,0,0]^{\mathrm T}$，$\beta_2=[1,1,0]^{\mathrm T}$，$\beta_3=[1,1,1]^{\mathrm T}$ 到基（Ⅱ）$\alpha_1=[1,a,0]^{\mathrm T}$，$\alpha_2=[0,1,b]^{\mathrm T}$，$\alpha_3=[1,0,1]^{\mathrm T}$ 的过渡矩阵为 $\begin{bmatrix}0&-1&1\\1&0&-1\\0&1&1\end{bmatrix}$.
+
+（1）求 $a$，$b$ 的值；
+
+（2）已知 $\xi$ 在基（Ⅰ）$\beta_1$，$\beta_2$，$\beta_3$ 下的坐标为 $[1,0,2]^{\mathrm T}$，求 $\xi$ 在基（Ⅱ）$\alpha_1$，$\alpha_2$，$\alpha_3$ 下的坐标.
+
+【解】（1）设 $[\alpha_1,\alpha_2,\alpha_3]=[\beta_1,\beta_2,\beta_3]C$，其中 $C$ 是过渡矩阵，则
+\fmll{C=[\beta_1,\beta_2,\beta_3]^{-1}[\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}^{-1}\begin{bmatrix}1&0&1\\a&1&0\\0&b&1\end{bmatrix}}
+\fmll{=\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}\begin{bmatrix}1&0&1\\a&1&0\\0&b&1\end{bmatrix}}
+\fmll{=\begin{bmatrix}1-a&-1&1\\a&1-b&-1\\0&b&1\end{bmatrix}=\begin{bmatrix}0&-1&1\\1&0&-1\\0&1&1\end{bmatrix},}
+故 $a=b=1$.
+
+（2）设 $\xi=[\alpha_1,\alpha_2,\alpha_3]\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=[\beta_1,\beta_2,\beta_3]\begin{bmatrix}1\\0\\2\end{bmatrix}$，则
+\fmll{\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=[\alpha_1,\alpha_2,\alpha_3]^{-1}[\beta_1,\beta_2,\beta_3]\begin{bmatrix}1\\0\\2\end{bmatrix}=\begin{bmatrix}1&0&1\\1&1&0\\0&1&1\end{bmatrix}^{-1}\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1\\0\\2\end{bmatrix}}
+\fmll{=\frac{1}{2}\begin{bmatrix}1&1&-1\\-1&1&1\\1&-1&1\end{bmatrix}\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1\\0\\2\end{bmatrix}=\frac{1}{2}\begin{bmatrix}3\\1\\3\end{bmatrix},}
+得 $\xi$ 在基（Ⅱ）$\alpha_1$，$\alpha_2$，$\alpha_3$ 下的坐标为 $\left[\frac{3}{2},\frac{1}{2},\frac{3}{2}\right]^{\mathrm T}$.
+\end{fcard}
+
+% 第 6 讲至此结束（PDF p82 印刷页 71 下半页整页留白，无「习题」栏）。
+% 第 7 讲「特征值与特征向量」自印刷页 72（PDF p83）开始。

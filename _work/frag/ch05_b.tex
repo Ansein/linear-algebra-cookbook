@@ -1,0 +1,253 @@
+% ===========================================================
+% 《线性代数9讲》第 5 讲  线性方程组 —— 片段 B（本讲中段）
+% 源：线代9讲强化.pdf  PDF p65–p69（印刷页 54–58），共 5 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · PDF p65（54）$\longrightarrow P_2$（反证思路）
+%        · PDF p65（54）节标题后附「（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——仅删 OPD 括号
+%        · PDF p66（55）（2）右侧「$D_{22}$（转换等价表述）」
+%        · PDF p66（55）「$D_1$（常规操作），联立方程组求解是基本方法」
+%        · PDF p67（56）「①、②、③形成新的 $D_{22}$（转换等价表述）——互相转换成彼此形式」
+%        · PDF p67（56）节标题后附「（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——仅删 OPD 括号
+%        · PDF p68（57）例 5.6 选项右侧「$D_{22}$（转换等价表述），同解 $\Longrightarrow$ 上述①$\sim$③均可，
+%          由题干与选项，宜用③」
+%        · PDF p69（58）「$P_4$（逆否思路），"$A\Rightarrow B$" 转化为"$\overline{B}\Rightarrow\overline{A}$"」
+%          及其下方手写蓝色「$A\Rightarrow B$」「$\overline{B}\Rightarrow\overline{A}$」
+%        · PDF p69（58）「$D_{22}$（转换等价表述），若对于一个知识点，有多种等价说法或对于一个命题有多种充要条件，
+%          那么这里的 $D_2$（脱胎换骨）就成了极为重要的考点」
+%        · PDF p65/p67/p68/p69 版心右侧或左侧的竖排蓝色标签「等价表述体系块」（OPD 体系块标记）
+%   2) **数学操作旁注保留**（照原文内联排入）：PDF p65（54）「$(-1)$倍加至」「$(-4)$倍加至」
+%      「$\times\left(-\frac13\right)$」「$(-2)$倍加至」；
+%      交叉引用（（1）、（2）、（Ⅰ）、（Ⅱ）、①、②、③、④）照原文排入；
+%   3) 本片 5 页**无「习题」栏**（已逐页核实）；无插图、无页首思维导图；
+%   4) PDF p66/p67/p68/p69 页眉「第5讲 线性方程组」为每页重复装饰，按规范忽略。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p64（印刷页 53）例 5.3 的题干（该例题 (2) 分句排在本页首），
+%     例 5.3 的解答在本片内以新卡片承接并排完；
+%   · 例 5.4 的解答跨 PDF p65末～PDF p66（题干 (2) 在 p66 首），例 5.5 的解答跨 PDF p66末～PDF p67首，
+%     均按一个卡片排完；
+%   · 本片末【注】框（PDF p69 起）在 PDF p70（印刷页 59）续完，片段 C 已以新 fnote 承接。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p65（印刷页 54）
+% -----------------------------------------------------------
+% 承 PDF p64（印刷页 53）例 5.3 题干；该例题的解答在本页，(2) 分句排在本页首
+\begin{fcard}{例5.3（续）}
+（2）证明：不存在秩为 2 的 3 阶矩阵 $C$，使得 $AC$ 为零矩阵.
+
+（1）【解】设 $a$，$b$，$c$ 不全为 0，且令 $C=\begin{pmatrix}a&a&a\\b&b&b\\c&c&c\end{pmatrix}$. 由 $AC=O$，即 $\begin{pmatrix}2&1&-1\\1&-1&1\\4&5&-5\end{pmatrix}\begin{pmatrix}a\\b\\c\end{pmatrix}=0$，也即 $Ax=0$.
+
+对 $A$ 作初等行变换得
+
+\fmll{\begin{pmatrix}2&1&-1\\1&-1&1\\4&5&-5\end{pmatrix}\xrightarrow{(-1)\text{倍加至}}\begin{pmatrix}1&2&-2\\1&-1&1\\4&5&-5\end{pmatrix}\xrightarrow[(-1)\text{倍加至}]{(-4)\text{倍加至}}\begin{pmatrix}1&2&-2\\0&-3&3\\0&-3&3\end{pmatrix}}
+\fmll{\xrightarrow{(-1)\text{倍加至}}\begin{pmatrix}1&2&-2\\0&-3&3\\0&0&0\end{pmatrix}\underset{\times\left(-\frac13\right)}{\longleftrightarrow}\begin{pmatrix}1&2&-2\\0&1&-1\\0&0&0\end{pmatrix}\xrightarrow{(-2)\text{倍加至}}\begin{pmatrix}1&0&0\\0&1&-1\\0&0&0\end{pmatrix},}
+
+则可取 $[a,b,c]^{\mathrm T}=[0,1,1]^{\mathrm T}$，满足条件，故有 $C=\begin{pmatrix}0&0&0\\1&1&1\\1&1&1\end{pmatrix}$，$r(C)=1$，满足 $AC=O$.
+
+（2）【证】由（1）可知，$r(A)=2$，设存在 3 阶矩阵 $C$，且 $r(C)=2$，满足 $AC=O$，则 $r(A)+r(C)\le3$，得 $r(A)\le1$，与 $r(A)=2$ 矛盾. 于是不存在秩为 2 的 3 阶矩阵 $C$，使得 $AC$ 为零矩阵.
+% OPD 蓝色标注（原稿）：$\longrightarrow P_2$（反证思路）
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：节标题后附「（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——按 §7.1 决定 2，仅删 OPD 括号，保留节名
+\fsec{2. 公共解问题}
+
+（1）齐次线性方程组公共非零解.
+
+① 对于齐次线性方程组 $Ax=0$ 和 $Bx=0$，因其必有公共零解，故要求公共解，主要着眼于求公共非零解，联立方程组求解是基本办法.
+
+② $A_{m\times n}x=0$ 和 $B_{s\times n}x=0$ 有公共非零解的充要条件是 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 有非零解，也即 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)<n$.
+
+（2）非齐次线性方程组公共解.
+
+① 非齐次方程组公共解本质上也是方程组联立解，这个思路一定要记住.
+
+② 设（Ⅰ）$A_{m\times n}x=\beta$ 与（Ⅱ）$B_{s\times n}x=\gamma$ 均有解，则（Ⅰ）与（Ⅱ）有公共解的充要条件是
+
+\fml{r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right).}
+
+\begin{fcard}{例5.4}
+设矩阵 $A=\begin{pmatrix}0&-1&2\\-1&0&2\\-1&-1&a\end{pmatrix}$，已知 1 是 $A$ 的特征多项式的重根.
+
+（1）求 $a$ 的值；
+
+% -----------------------------------------------------------
+% PDF p66（印刷页 55）
+% -----------------------------------------------------------
+（2）求所有满足 $A\alpha=\alpha+\beta$，$A^{2}\alpha=\alpha+2\beta$ 的非零列向量 $\alpha$，$\beta$.% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）（印在（2）右侧）
+
+【解】（1）$f(\lambda)=|\lambda E-A|=(\lambda-1)[(\lambda-a)(\lambda+1)+4]$，因为 1 是 $A$ 的特征多项式的重根，故 $(1-a)(1+1)+4=0$，$a=3$.
+
+（2）\textbf{法一}\quad 由（1）可知 $A=\begin{pmatrix}0&-1&2\\-1&0&2\\-1&-1&3\end{pmatrix}$，由 $A\alpha=\alpha+\beta$，得 $2A\alpha=2\alpha+2\beta$，与 $A^{2}\alpha=\alpha+2\beta$ 联立得 $2A\alpha-A^{2}\alpha=\alpha$，即 $(A-E)^{2}\alpha=0$.
+% OPD 蓝色标注（原稿）：$D_1$（常规操作），联立方程组求解是基本方法（箭头指向「联立得」处）
+
+易求得 $(A-E)^{2}=O$，故 $\alpha$ 为任意的非零列向量，即 $\alpha=[a_1,a_2,a_3]^{\mathrm T}$，$a_1$，$a_2$，$a_3$ 不全为零，则
+
+\fml{\beta=(A-E)\alpha=\begin{pmatrix}-1&-1&2\\-1&-1&2\\-1&-1&2\end{pmatrix}\begin{pmatrix}a_1\\a_2\\a_3\end{pmatrix}=\begin{pmatrix}2a_3-a_1-a_2\\2a_3-a_1-a_2\\2a_3-a_1-a_2\end{pmatrix},}
+
+其中 $a_1+a_2\ne2a_3$.
+
+综上 $\alpha=\begin{pmatrix}a_1\\a_2\\a_3\end{pmatrix}$，$\beta=\begin{pmatrix}2a_3-a_1-a_2\\2a_3-a_1-a_2\\2a_3-a_1-a_2\end{pmatrix}$（$a_1$，$a_2$，$a_3$ 不全为零，$a_1+a_2\ne2a_3$）.
+
+\textbf{法二}\quad 由题设得 $\beta=A\alpha-\alpha$，$A^{2}\alpha-A\alpha=\beta$，于是 $A\beta=A^{2}\alpha-A\alpha=\beta$，即 $(A-E)\beta=0$.
+
+解线性方程组 $(E-A)x=0$，得两个线性无关的解向量 $\alpha_1=\begin{pmatrix}-1\\1\\0\end{pmatrix}$，$\alpha_2=\begin{pmatrix}2\\0\\1\end{pmatrix}$，因此，$\beta=\begin{pmatrix}-k+2l\\k\\l\end{pmatrix}$，其中 $k$，$l$ 不同时为 0.
+
+再由题设，可知 $\alpha$ 为线性方程组 $(A-E)x=\beta$ 的非零解.
+
+对增广矩阵施以初等行变换，得
+
+\fml{[A-E,\beta]\to\left(\begin{array}{ccc|c}-1&-1&2&-k+2l\\0&0&0&2k-2l\\0&0&0&k-l\end{array}\right).}
+
+故 $(A-E)x=\beta$ 当且仅当 $k=l\ne0$ 时有非零解.
+
+综上，满足方程组的非零列向量为 $\beta=\begin{pmatrix}k\\k\\k\end{pmatrix}$，$\alpha=\begin{pmatrix}-k-p+2q\\p\\q\end{pmatrix}$，其中 $k$，$p$，$q\in\mathbb{R}$ 且 $k\ne0$.
+\end{fcard}
+
+\begin{fcard}{例5.5}
+设 3 阶矩阵 $A$，$B$ 满足 $r(AB)=r(BA)+1$，则（\quad）.
+
+（A）方程组 $(A+B)x=0$ 只有零解
+
+（B）方程组 $Ax=0$ 与方程组 $Bx=0$ 均只有零解
+
+（C）方程组 $Ax=0$ 与方程组 $Bx=0$ 没有公共非零解
+
+（D）方程组 $ABx=0$ 与方程组 $BAx=0$ 有公共非零解
+
+% -----------------------------------------------------------
+% PDF p67（印刷页 56）
+% -----------------------------------------------------------
+【解】应选（D）.
+
+因为 $r(AB)=r(BA)+1\le3$，可得 $r(BA)\le2$. 若 $r(BA)=2$，则有 $|BA|=0$，而此时 $r(AB)=3$ 可得 $|AB|\ne0$，又因为 $|BA|=|AB|$，所以矛盾，故 $r(BA)\le1$，进而可得
+
+\fml{r\left(\begin{bmatrix}ABA\\BAB\end{bmatrix}\right)\le r(ABA)+r(BAB)\le r(BA)+r(BA)\le2,}
+
+则 $\begin{bmatrix}ABA\\BAB\end{bmatrix}x=0$ 有非零解，（D）正确.
+
+排除法. 取 $A=\begin{pmatrix}1&0&0\\0&0&0\\0&0&0\end{pmatrix}$，$B=\begin{pmatrix}0&0&1\\0&0&0\\0&0&0\end{pmatrix}$，则 $AB=\begin{pmatrix}0&0&1\\0&0&0\\0&0&0\end{pmatrix}$，$r(AB)=1$.
+
+\fmll{BA=\begin{pmatrix}0&0&0\\0&0&0\\0&0&0\end{pmatrix},\quad r(BA)=0,\ \text{满足}\ r(AB)=r(BA)+1.}
+
+\fmll{A+B=\begin{pmatrix}1&0&1\\0&0&0\\0&0&0\end{pmatrix},\quad r(A+B)=1,\ \text{排除（A）}.}
+
+\fmll{r(A)=r(B)=1,\ \text{排除（B）}.}
+
+因为 $Ax=0$ 与 $Bx=0$ 组成的方程组为 $\begin{cases}x_1=0,\\x_3=0,\end{cases}$ 则非零解为 $k\begin{pmatrix}0\\1\\0\end{pmatrix}(k\ne0)$，排除（C）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：节标题后附「（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{22}$（转换等价表述））」——按 §7.1 决定 2，仅删 OPD 括号，保留节名
+\fsec{3. 同解问题}
+
+（1）齐次线性方程组.
+
+① 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解的充要条件是 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)=r(B)$.
+% OPD 蓝色标注（原稿）：「①、②、③形成新的 $D_{22}$（转换等价表述）——互相转换成彼此形式」（印在①右侧）
+
+\begin{fnote}
+【注】证 设 $Ax=0$ 的基础解系为 $\xi_1$，$\xi_2$，$\cdots$，$\xi_s$，$Bx=0$ 的基础解系为 $\eta_1$，$\eta_2$，$\cdots$，$\eta_t$.
+
+\fml{\begin{gathered}
+Ax=0\ \text{与}\ Bx=0\ \text{同解}\iff\text{（Ⅰ）}\ \xi_1,\xi_2,\cdots,\xi_s\ \text{与（Ⅱ）}\ \eta_1,\eta_2,\cdots,\eta_t\ \text{等价}\\
+\iff r(\text{Ⅰ})=r(\text{Ⅱ})\text{，且（Ⅰ）可由（Ⅱ）线性表示}\\
+\iff r(\text{Ⅰ})=r(\text{Ⅱ})=r(\text{Ⅰ},\text{Ⅱ})\\
+\iff r(A)=r(B)\text{，且}\ Ax=0\ \text{的解均为}\ Bx=0\ \text{的解}\\
+\iff r(A)=r(B)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right).
+\end{gathered}}
+\end{fnote}
+
+② 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解的充要条件是 $A$ 的行向量组与 $B$ 的行向量组等价.
+
+\begin{fnote}
+% OPD 蓝色标注（原稿）：本页版心右侧竖排标签「等价表述体系块」
+【注】显然由①的证明过程即可获得此结论.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p68（印刷页 57）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：本页版心左侧竖排标签「等价表述体系块」
+③ 设矩阵 $A_{m\times n}$，$B_{s\times n}$，则 $Ax=0$ 与 $Bx=0$ 同解的充要条件是存在矩阵 $P$，$Q$，使得 $B=PA$，$A=QB$.
+
+\begin{fnote}
+【注】证 设 $Ax=0$ 与 $Bx=0$ 的通解分别为 $x_A$，$x_B$，先证 $x_A$ 可由 $x_B$ 线性表示的充要条件是存在 $s\times m$ 矩阵 $P$，使得 $PA=B$.
+
+若 $PA=B$，设 $x_A$ 是 $Ax=0$ 的解，则 $Ax_A=0$，于是 $PAx_A=Bx_A=0$，即 $x_A$ 为 $Bx=0$ 的解，$x_A$ 可由 $x_B$ 线性表示.
+
+反过来，若 $Ax=0$ 的解均为 $Bx=0$ 的解，则 $Ax=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解，即 $x_A$ 可由 $x_B$ 线性表示，从而 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)$，即 $B$ 的行向量可由 $A$ 的行向量组线性表示，故存在 $s\times m$ 矩阵 $P$，使得 $PA=B$.
+
+同理可证 $A=QB$.
+\end{fnote}
+
+\begin{fcard}{例5.6}
+设 $A$，$B$ 为 $n$ 阶矩阵，且 $A$ 满足 $A^{2}-A=3E$，则与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 不一定同解的是（\quad）.
+
+\fmll{\text{（A）}\begin{bmatrix}A-B\\A+AB\end{bmatrix}x=0\qquad\text{（B）}\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}x=0}
+\fmll{\text{（C）}\begin{bmatrix}A-B\\2A+B\end{bmatrix}x=0\qquad\text{（D）}\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}x=0}
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述），同解 $\Longrightarrow$ 上述①$\sim$③均可，由题干与选项，宜用③（印在选项右侧）
+
+【解】应选（D）.
+
+由题设可知，$A+E$ 可逆，$A-2E$ 可逆.
+
+对于选项（A），$\begin{bmatrix}A-B\\A+AB\end{bmatrix}=\begin{bmatrix}E&-E\\E&A\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&-E\\E&A\end{bmatrix}\to\begin{bmatrix}E&-E\\O&A+E\end{bmatrix}$，由 $\begin{bmatrix}E&-E\\O&A+E\end{bmatrix}$ 可逆，得 $\begin{bmatrix}E&-E\\E&A\end{bmatrix}$ 可逆，于是
+
+\fml{\begin{bmatrix}A-B\\A+AB\end{bmatrix}x=\begin{bmatrix}E&-E\\E&A\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{与}\ \begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{同解}.}
+
+同理，对于选项（B），$\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}=\begin{bmatrix}E&E\\E&A-E\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&E\\E&A-E\end{bmatrix}\to\begin{bmatrix}E&E\\O&A-2E\end{bmatrix}$，由 $\begin{bmatrix}E&E\\O&A-2E\end{bmatrix}$ 可逆，可知 $\begin{bmatrix}A+B\\A+AB-B\end{bmatrix}x=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解.
+
+对于选项（C），$\begin{bmatrix}A-B\\2A+B\end{bmatrix}=\begin{bmatrix}E&-E\\2E&E\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&-E\\2E&E\end{bmatrix}\to\begin{bmatrix}E&-E\\3E&O\end{bmatrix}$，由 $\begin{bmatrix}E&-E\\3E&O\end{bmatrix}$ 可逆，可知 $\begin{bmatrix}A-B\\2A+B\end{bmatrix}x=0$ 与 $\begin{bmatrix}A\\B\end{bmatrix}x=0$ 同解.
+
+对于选项（D），$\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}=\begin{bmatrix}E&E\\B&B\end{bmatrix}\begin{bmatrix}A\\B\end{bmatrix}$，其中 $\begin{bmatrix}E&E\\B&B\end{bmatrix}\to\begin{bmatrix}E&O\\B&O\end{bmatrix}$，由 $\begin{bmatrix}E&O\\B&O\end{bmatrix}$ 不可逆，可知
+
+\fml{\begin{bmatrix}A+B\\BA+B^{2}\end{bmatrix}x=0\ \text{与}\ \begin{bmatrix}A\\B\end{bmatrix}x=0\ \text{不一定同解}.}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p69（印刷页 58）
+% -----------------------------------------------------------
+\begin{fcard}{例5.7}
+设矩阵 $A=\begin{pmatrix}4&2&-3\\a&3&-4\\b&5&-7\end{pmatrix}$，若方程组 $A^{*}x=0$ 与 $Ax=0$ 不同解，则 $a-b=\underline{\hspace{2.6em}}$.
+
+【解】应填 $-4$.
+
+若 $A^{*}x=0$ 与 $Ax=0$ 同解，则三秩相等，即
+
+\fml{r(A)=r(A^{*})=r\left(\begin{bmatrix}A\\A^{2}\end{bmatrix}\right).}
+% OPD 蓝色标注（原稿）：$P_4$（逆否思路），"$A\Rightarrow B$" 转化为"$\overline{B}\Rightarrow\overline{A}$"（印在公式右侧）
+
+如果 $A$ 可逆，三秩显然相等，则 $A^{*}x=0$ 与 $Ax=0$ 同解，于是要想 $A^{*}x=0$ 与 $Ax=0$ 不同解，即 $A$ 不可逆，于是 $|A|=0$. 根据行列式的倍加性质易得
+% OPD 蓝色标注（原稿）：手写蓝色「$A\Rightarrow B$」（在「如果 $A$ 可逆」上）与「$\overline{B}\Rightarrow\overline{A}$」（在「即 $A$ 不可逆」上）
+
+\fml{|A|=\begin{vmatrix}4&2&-3\\a&3&-4\\b&5&-7\end{vmatrix}=\begin{vmatrix}4&2&-1\\a&3&-1\\b&5&-2\end{vmatrix}=\begin{vmatrix}4&0&-1\\a&1&-1\\b&1&-2\end{vmatrix}=4(-2+1)-(a-b),}
+
+令 $|A|=0$，有 $a-b=-4$.
+\end{fcard}
+
+（2）非齐次线性方程组.
+
+% OPD 蓝色标注（原稿）：「$D_{22}$（转换等价表述），若对于一个知识点，有多种等价说法或对于一个命题有多种充要条件，那么这里的 $D_2$（脱胎换骨）就成了极为重要的考点」（小节引语下的蓝色整段）
+
+设（Ⅰ）$A_{m\times n}x=\beta$ 与（Ⅱ）$B_{s\times n}x=\gamma$ 均有解，则
+
+\fml{\begin{aligned}
+&\text{①（Ⅰ）与（Ⅱ）同解}\iff\text{②}\ A_{m\times n}x=0\ \text{与}\ B_{s\times n}x=0\ \text{同解且（Ⅰ）与（Ⅱ）有公共解}\\
+&\iff\text{③}\ r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r(A)=r(B)\\
+&\iff\text{④}\ [A,\beta]\ \text{与}\ [B,\gamma]\ \text{的行向量组等价}.
+\end{aligned}}
+
+\begin{fnote}
+% OPD 蓝色标注（原稿）：本页版心右侧竖排标签「等价表述体系块」
+【注】证 ①$\Rightarrow$②：当（Ⅰ）与（Ⅱ）同解时，设 $\eta^{*}$ 为其任一解，即 $A\eta^{*}=\beta$，$B\eta^{*}=\gamma$. 又设 $\xi$ 为 $Ax=0$ 的任一解，即 $A\xi=0$，于是 $A(\eta^{*}+\xi)=\beta$，且 $B(\eta^{*}+\xi)=\gamma$，从而 $B\xi=0$，即 $\xi$ 也为 $Bx=0$ 的解. 反过来，同理可证，若 $\alpha$ 为 $Bx=0$ 的任一解，则 $\alpha$ 也为 $Ax=0$ 的解，故 $Ax=0$ 与 $Bx=0$ 同解. 又因（Ⅰ）,（Ⅱ）同解，知（Ⅰ）,（Ⅱ）有公共解. ②成立.
+
+②$\Rightarrow$③：因 $Ax=0$ 与 $Bx=0$ 同解，则有 $r(A)=r(B)=r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)$. 又 $\begin{cases}A_{m\times n}x=\beta,\\B_{s\times n}x=\gamma\end{cases}$ 有解，则 $r\left(\begin{bmatrix}A\\B\end{bmatrix}\right)=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$. ③成立.
+
+③$\Rightarrow$④：由于（Ⅰ）,（Ⅱ）均有解，故 $r([A,\beta])=r(A)$，$r([B,\gamma])=r(B)$，于是 $r([A,\beta])=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$，$r([B,\gamma])=r\left(\begin{array}{cc|c}A&&\beta\\\hline B&&\gamma\end{array}\right)$，故 $[A,\beta]$ 与 $[B,\gamma]$ 的行向量组等价. ④成立.
+
+④$\Rightarrow$①：由④，存在矩阵 $P$，使得 $P[A,\beta]=[B,\gamma]$，即 $PA=B$，$P\beta=\gamma$；存在矩阵 $Q$，使得 $Q[B,\gamma]=$
+% 本【注】框在 PDF p70（印刷页 59）续完（原稿在本页仍画蓝框）；片段 C 已以新 fnote 承接
+\end{fnote}

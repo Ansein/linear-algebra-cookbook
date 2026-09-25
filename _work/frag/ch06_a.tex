@@ -1,0 +1,183 @@
+% ===========================================================
+% 《线性代数9讲》第 6 讲  向量组 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p75–p78（印刷页 64–67），共 4 页
+%
+% 处理说明：
+%   1) 页首「三向解题法」思维导图（PDF p75 = 印刷页 64 整页；续页 PDF p76 = 印刷页 65
+%      页首「4. 向量空间（仅数学一）」分支）按 AGENTS.md §7.1 决定 2 **不转写、不重绘**，
+%      各留 `% FIGURE-OPD:` 一行注释；
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2）：
+%      · \fsec 标题里只删 OPD 括号，保留标题文字（原稿括号全部删去）：
+%        「一、研究具体型向量关系」（$O_1$（盯住目标 1））
+%        「1. $\beta$与$\alpha_1,\alpha_2,\cdots,\alpha_n$」（$D_1$（常规操作））
+%        「2. $\alpha_1,\alpha_2,\cdots,\alpha_n$」（$D_1$（常规操作）$+D_{21}$（观察研究对象））
+%        「3. 求极大线性无关组」（$D_1$（常规操作））
+%      · 正文中的蓝色纯 OPD 代码与蓝色方法提示语一律以 `% OPD 蓝色标注（原稿）：……`
+%        注释留痕，不排入正文：
+%        PDF p76（65）标题 1. 右上蓝色提示语「→熟练掌握步骤」
+%        PDF p77（66）例 6.1 解首「→$D_{22}$（转换等价表述）」
+%        PDF p77（66）右缘蓝色竖排模块标签「隐含条件体系」（方法论模块名）
+%        PDF p78（67）例 6.3 第（2）问右侧「→$D_{22}$（转换等价表述）」
+%      · 数学符号一律照抄（如向量 $\beta$，$k_1\alpha_1+\cdots+k_n\alpha_n=0$）；
+%   3) 数学操作旁注与交叉引用照原文排入：「初等行变换」箭头标注、
+%      「回到"1."即可」、① ② ③ 与（1）（2）（3）编号均按原文；
+%   4) 例 6.1 的【解】跨 PDF p76 末行～PDF p77 首行，例 6.2 的解答跨
+%      PDF p77 末行～PDF p78 首行，本片按一个卡片排完（不拆卡）；
+%   5) **本 4 页无「习题」栏**（已逐页核实）：PDF p78（印刷页 67）以例 6.3 结束，
+%      其后整页留白；第 6 讲习题栏在后续页（PDF p82 前后），不在本片范围；
+%   6) 原稿正文中的向量记号 $\alpha_1,\alpha_2,\cdots$ 在本书字体下形似斜体 "a"，
+%      已按数学含义统一排为 $\alpha$。
+% ===========================================================
+
+\fchap{第6章\quad 向量组}
+
+% ---- 印刷页 64（PDF p75）----
+
+% FIGURE-OPD: 64 三向解题法思维导图（按规则不保留）
+
+% ---- 印刷页 65（PDF p76）----
+
+% FIGURE-OPD: 65 三向解题法思维导图（续，按规则不保留）
+
+\fsec{一、研究具体型向量关系}
+
+% OPD 蓝色标注（原稿）：（$O_1$（盯住目标 1））（\fsec 标题中的 OPD 括号已删）
+
+% OPD 蓝色标注（原稿）：标题 1. 右上蓝色提示语「→熟练掌握步骤」
+
+% 注：标题内含 \cdots 时 hyperref 的 PDF 字符串转换会报错，
+%     故 \fsec 标题一律用 \texorpdfstring{...}{...} 包住（正文中不受影响）。
+\fsec{\texorpdfstring{1. $\beta$与$\alpha_1,\alpha_2,\cdots,\alpha_n$}{1. beta 与 alpha_1,...,alpha_n}}
+
+（1）建立方程组.
+
+\fml{\beta=x_1\alpha_1+\cdots+x_n\alpha_n,}
+
+即
+
+\fml{[\alpha_1,\alpha_2,\cdots,\alpha_n]\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix}=\beta.}
+
+（2）化阶梯形.
+
+\fml{[A,\beta]=[\alpha_1,\alpha_2,\cdots,\alpha_n,\beta]\xrightarrow{\text{初等行变换}}\left[\;\begin{array}{@{}c@{\;\;}c@{\;\;}c@{}}\ulcorner&\vdots&\square\end{array}\;\right].}
+
+（3）讨论.
+
+① $r(A)\ne r([A,\beta])\iff$ 无解 $\iff$ 不能表示.
+
+② $r(A)=r([A,\beta])=n\iff$ 唯一解 $\iff$ 唯一一种表示法.
+
+③ $r(A)=r([A,\beta])<n\iff$ 无穷多解 $\iff$ 无穷多种表示法.
+
+\begin{fnote}
+【注】含未知参数的向量组是常考题型.
+\end{fnote}
+
+\begin{fcard}{例6.1}
+已知向量 $\alpha_1=\begin{bmatrix}1\\2\\3\end{bmatrix}$，$\alpha_2=\begin{bmatrix}2\\1\\1\end{bmatrix}$，$\beta_1=\begin{bmatrix}2\\5\\9\end{bmatrix}$，$\beta_2=\begin{bmatrix}1\\0\\1\end{bmatrix}$. 若 $\gamma$ 既可由 $\alpha_1,\alpha_2$ 线性表示，也可由 $\beta_1,\beta_2$ 线性表示，则 $\gamma=(\quad)$.
+
+（A）$k\begin{bmatrix}3\\3\\4\end{bmatrix},k\in\mathbb{R}$\qquad（B）$k\begin{bmatrix}3\\5\\10\end{bmatrix},k\in\mathbb{R}$\qquad（C）$k\begin{bmatrix}-1\\1\\2\end{bmatrix},k\in\mathbb{R}$\qquad（D）$k\begin{bmatrix}1\\5\\8\end{bmatrix},k\in\mathbb{R}$
+
+【解】应选（D）.
+
+% -----------------------------------------------------------
+% PDF p77（印刷页 66）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）（箭头指向下面一行的「由题意，设……」
+
+由题意，设 $\gamma=k_1\alpha_1+k_2\alpha_2=l_1\beta_1+l_2\beta_2$，即 $k_1\alpha_1+k_2\alpha_2-l_1\beta_1-l_2\beta_2=0$，记 $\begin{cases}x_1=k_1,\\x_2=k_2,\\x_3=-l_1,\\x_4=-l_2,\end{cases}$ 则 $x_1\alpha_1+x_2\alpha_2+x_3\beta_1+x_4\beta_2=0$，解得 $\begin{cases}x_1=3k,\\x_2=-k,\end{cases}k\in\mathbb{R}$，故
+
+\fml{\gamma=3k\begin{bmatrix}1\\2\\3\end{bmatrix}-k\begin{bmatrix}2\\1\\1\end{bmatrix}=k\begin{bmatrix}1\\5\\8\end{bmatrix},k\in\mathbb{R}.}
+
+故选（D）.
+\end{fcard}
+
+\fsec{\texorpdfstring{2. $\alpha_1,\alpha_2,\cdots,\alpha_n$}{2. alpha_1,...,alpha_n}}
+
+（1）若向量个数大于维数，则必线性相关.
+
+（2）若向量个数等于维数，则可用行列式讨论.
+
+① $|\alpha_1,\alpha_2,\cdots,\alpha_n|=0\iff$ 线性相关；
+
+② $|\alpha_1,\alpha_2,\cdots,\alpha_n|\ne0\iff$ 线性无关.
+
+（3）若向量个数小于维数，则化阶梯形 $A=[\alpha_1,\alpha_2,\cdots,\alpha_n]\xrightarrow{\text{初等行变换}}\left[\;\begin{array}{@{}c@{\;\;}c@{\;\;}c@{}}\ulcorner&\vdots&\square\end{array}\;\right]$.
+
+① $r(A)<n\iff$ 线性相关.
+
+② $r(A)=n\iff$ 线性无关.
+
+③ 若线性相关，问 $\alpha_s$ 与 $\alpha_1,\cdots,\alpha_{s-1},\alpha_{s+1},\cdots,\alpha_n$ 的表示关系，回到“1.”即可.
+
+% OPD 蓝色标注（原稿）：本页右缘蓝色竖排模块标签「隐含条件体系」（方法论模块名，不排入正文）
+
+\begin{fnote}
+【注】含未知参数的向量组是常考题型.
+\end{fnote}
+
+\begin{fcard}{例6.2}
+设向量 $\alpha_1=\begin{bmatrix}a\\1\\-1\\1\end{bmatrix}$，$\alpha_2=\begin{bmatrix}1\\1\\b\\a\end{bmatrix}$，$\alpha_3=\begin{bmatrix}1\\a\\-1\\1\end{bmatrix}$. 若 $\alpha_1,\alpha_2,\alpha_3$ 线性相关，且其中任意两个向量均线性无关，则（\quad）.
+
+（A）$a=1$，$b\ne-1$\qquad（B）$a=1$，$b=-1$
+
+（C）$a\ne-2$，$b=2$\qquad（D）$a=-2$，$b=2$
+
+【解】应选（D）.
+
+\fml{[\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}a&1&1\\1&1&a\\-1&b&-1\\1&a&1\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&a-1&1-a\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&0&2-a^2-a\end{bmatrix}.}
+
+因为 $\alpha_1,\alpha_2,\alpha_3$ 线性相关，且其中任意两个向量均线性无关，则 $r(\alpha_1,\alpha_2,\alpha_3)\le2$，又 $r(\alpha_i,\alpha_j)=2(i\ne j)$.
+
+于是 $r(\alpha_1,\alpha_2,\alpha_3)=2$.
+
+①当 $a=1$ 时，$\alpha_1$ 与 $\alpha_3$ 线性相关，不满足题意；
+
+②当 $a\ne1$ 时，
+
+% -----------------------------------------------------------
+% PDF p78（印刷页 67）
+% -----------------------------------------------------------
+\fml{[\alpha_1,\alpha_2,\alpha_3]\to\begin{bmatrix}1&1&a\\0&1&1+a\\0&b+1&a-1\\0&0&a+2\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1&1+a\\0&0&-b(a+1)-2\\0&0&a+2\end{bmatrix},}
+
+要满足题意，则 $a+2=0$ 且 $-b(a+1)-2=0$，故 $\begin{cases}a=-2,\\b=2.\end{cases}$
+\end{fcard}
+
+\fsec{3. 求极大线性无关组}
+
+给出列向量组 $\alpha_1,\alpha_2,\cdots,\alpha_n$，可按以下步骤求其极大线性无关组.
+
+① 构造 $A=[\alpha_1,\alpha_2,\cdots,\alpha_n]$；
+
+② $A\xrightarrow{\text{初等行变换}}B$（行阶梯形）；
+
+③ 算出台阶数 $r$，按列找出一个秩为 $r$ 的子矩阵即可.
+
+\begin{fcard}{例6.3}
+设矩阵 $A=\begin{bmatrix}1&-1&3&0&-1\\-1&0&-2&-a&-1\\1&1&a&2&3\end{bmatrix}$ 的秩为 2.
+
+（1）求 $a$ 的值；
+
+（2）求 $A$ 的列向量组的一个极大线性无关组 $\alpha,\beta$，并求矩阵 $H$，使得 $A=GH$，其中 $G=[\alpha,\beta]$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）（箭头指向下面第（2）问）
+
+【解】（1）对 $A$ 施以初等行变换，得
+
+\fml{A=\begin{bmatrix}1&-1&3&0&-1\\-1&0&-2&-a&-1\\1&1&a&2&3\end{bmatrix}\to\begin{bmatrix}1&-1&3&0&-1\\0&-1&1&-a&-2\\0&0&a-1&2(1-a)&0\end{bmatrix}.}
+
+由 $r(A)=2$，得 $a=1$.
+
+（2）记 $A=[\alpha_1,\alpha_2,\alpha_3,\alpha_4,\alpha_5]$，由（1），对 $A$ 施以初等行变换，得
+
+\fml{A\to\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\\0&0&0&0&0\end{bmatrix}.}
+
+取 $\alpha=\alpha_1$，$\beta=\alpha_2$，则 $\alpha,\beta$ 为 $A$ 的列向量组的一个极大线性无关组.
+
+因为 $\alpha_3=2\alpha_1-\alpha_2$，$\alpha_4=\alpha_1+\alpha_2$，$\alpha_5=\alpha_1+2\alpha_2$，所以
+
+\fmll{A=[\alpha_1,\alpha_2,2\alpha_1-\alpha_2,\alpha_1+\alpha_2,\alpha_1+2\alpha_2]\\
+=[\alpha,\beta]\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\end{bmatrix}.}
+
+取 $H=\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\end{bmatrix}$，则 $A=GH$.
+\end{fcard}

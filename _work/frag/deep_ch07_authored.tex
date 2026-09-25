@@ -1,0 +1,107 @@
+% ===========================================================
+%  第 7 章 特征值与特征向量 —— 高等代数【深化】拓展框（主控撰写）
+%  对应 OUTLINE.md §8「深化清单」7.1 – 7.4
+%  本章是第 8 章「相似理论」的前置：特征子空间是理解可对角化的钥匙
+% ===========================================================
+
+% ---------- 7.1 特征子空间（对应 OUTLINE 7.1）----------
+\begin{fdeep}{特征子空间 $V_{\lambda}=N(\lambda E-A)$：特征向量其实是一个子空间}
+课本说"$\lambda$ 的特征向量是满足 $A\xi=\lambda\xi$（$\xi\ne0$）的向量"。这句话容易让人以为
+特征向量是"一个一个解出来的"。换个写法就清楚了：
+\fml{A\xi=\lambda\xi\iff(\lambda E-A)\xi=0\iff\xi\in N(\lambda E-A)}
+也就是说：\textbf{$\lambda$ 的全部特征向量，就是齐次方程组 $(\lambda E-A)x=0$ 的全部非零解}。
+于是定义
+\fml{V_{\lambda}=N(\lambda E-A)=\{\xi\mid A\xi=\lambda\xi\}}
+它\textbf{是一个子空间}（因为齐次解集是子空间，见第 5 章），称为 $\lambda$ 的\textbf{特征子空间}。
+\textbf{注意 $V_{\lambda}$ 含零向量，但零向量不算特征向量}——特征向量专指 $V_{\lambda}$ 中的非零向量。
+
+\textbf{两条直接推论}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{几何重数可算}：$\dim V_{\lambda}=n-r(\lambda E-A)$（由第 4 章秩-零化度定理）。
+      这就是"特征向量有几个线性无关"的答案，而且\textbf{不必解方程就能先算出来}。
+\item \textbf{同一个特征值的特征向量全体（添上零）自动构成子空间}，
+      所以"特征向量之和仍是特征向量"（同 $\lambda$ 时成立），"特征向量的倍数仍是特征向量"。
+      但\textbf{不同特征值的特征向量之和不再是特征向量}——这是常见错误。
+\end{itemize}
+【反哺点】：服务考纲〔矩阵的特征值和特征向量〕"理解矩阵的特征值和特征向量的概念及性质，会求矩阵的特征值和特征向量"。
+把"求特征向量"还原为"求核空间"，就与第 5 章的解方程组理论完全统一，
+而且立刻得到"几何重数 $=n-r(\lambda E-A)$"这个\textbf{可以先算、不必解方程}的量。
+第 8 章判断能否相似对角化时，用的正是它。
+\end{fdeep}
+
+% ---------- 7.2 代数重数 vs 几何重数（对应 OUTLINE 7.2）----------
+\begin{fdeep}{代数重数 vs 几何重数：一个决定"能否对角化"的比较}
+设 $\lambda_0$ 是 $A$ 的特征值，定义两个"重数"：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{代数重数} $m_{\lambda_0}$：特征多项式 $f(\lambda)=\lvert\lambda E-A\rvert$ 中
+      因式 $(\lambda-\lambda_0)$ 的重数（即 $\lambda_0$ 作为方程 $f(\lambda)=0$ 的根的重数）；
+\item \textbf{几何重数} $g_{\lambda_0}$：特征子空间的维数 $\dim V_{\lambda_0}=n-r(\lambda_0 E-A)$，
+      即"能解出几个线性无关的特征向量"。
+\end{itemize}
+核心不等式是
+\fml{\boxed{\,1\le g_{\lambda_0}\le m_{\lambda_0}\,}}
+\textbf{左边为什么成立}：$\lambda_0$ 既然是特征值，$\lvert\lambda_0 E-A\rvert=0$，
+故 $(\lambda_0 E-A)x=0$ 有非零解，$g_{\lambda_0}\ge1$。
+\textbf{右边为什么成立（思路）}：把几何重数 $g$ 个线性无关的特征向量扩充成整个空间的一组基，
+在这组基下 $A$ 相似于分块上三角阵 $\begin{pmatrix}\lambda_0 E_g&\ast\\ O&B\end{pmatrix}$，
+于是特征多项式含因子 $(\lambda-\lambda_0)^{g}$，故代数重数至少为 $g$。
+
+\medskip
+\textbf{为什么这个比较就是"能否对角化"的答案？}
+对每个特征值，$g_{\lambda}=m_{\lambda}$ 意味着"特征向量够用"；
+把各特征值的特征子空间拼起来，总维数是 $\sum_{\lambda}g_{\lambda}$。
+而 $A$ 可对角化 $\iff$ 有 $n$ 个线性无关特征向量 $\iff\sum_{\lambda}g_{\lambda}=n$。
+又因为 $\sum_{\lambda}m_{\lambda}=n$（特征多项式的次数），所以
+\fml{A\ \text{可对角化}\iff\text{对每个}\ \lambda\ \text{都有}\ g_{\lambda}=m_{\lambda}
+\iff\sum_{\lambda}g_{\lambda}=n}
+\textbf{"不能对角化"就是某个 $\lambda$ 的 $g<m$}。
+
+\textbf{标准反例（必须记住）}：$J=\begin{pmatrix}\lambda&1\\0&\lambda\end{pmatrix}$（Jordan 块）。
+由 $(\lambda E-J)=\begin{pmatrix}0&-1\\0&0\end{pmatrix}$ 得 $r=1$，故
+$g=n-r=2-1=1$，而 $m=2$。于是 $g<m$，\textbf{$J$ 不可对角化}。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…矩阵可相似对角化的充分必要条件"。
+9 讲给出的判据是"有 $n$ 个线性无关特征向量"，这个说法正确但不好用——
+考场上你得先解出所有特征向量才能判断。而 $g_{\lambda}=n-r(\lambda E-A)$ \textbf{只需算秩}，
+所以\textbf{"对每个特征值比较 $g$ 与 $m$"是判断可对角化的最快途径}。
+第 8 章会把它扩展成一张更完整的等价条件网。
+\end{fdeep}
+
+% ---------- 7.3 / 7.4 特征多项式的性质与速算（对应 OUTLINE 7.3 / 7.4）----------
+\begin{fdeep}{特征多项式的"两个系数"与特征值的速算关系}
+设 $A$ 为 $n$ 阶矩阵，特征多项式为
+\fml{f(\lambda)=\lvert\lambda E-A\rvert=\lambda^{n}-(\operatorname{tr}A)\lambda^{n-1}
++\cdots+(-1)^{n}\lvert A\rvert}
+即\textbf{只展开前两项与末项}就能看出：
+\fml{\operatorname{tr}A=\lambda_1+\lambda_2+\cdots+\lambda_n,\qquad
+\lvert A\rvert=\lambda_1\lambda_2\cdots\lambda_n}
+（$\lambda_i$ 按代数重数计，含复根。）
+
+\textbf{这两条是"不算特征值也能求迹与行列式"的捷径，反过来也是"由特征值反求参数"的题眼}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 题目给定全部特征值、要求 $\lvert A\rvert$ 或 $\operatorname{tr}A$：\textbf{直接乘/加，不必算矩阵}；
+\item 题目说"$A$ 的特征值为 $1,2,3$"而 $A$ 中含未知参数：用 $\operatorname{tr}A$ 与 $\lvert A\rvert$ 列方程解参数，
+      \textbf{通常一条就够}。
+\item \textbf{特例}：若 $A$ 的特征值全为 $0$，则 $\lvert A\rvert=0$ 且 $\operatorname{tr}A=0$；
+      若 $A$ 是幂零矩阵（$A^{k}=O$），则它的特征值全为 $0$，从而 $\operatorname{tr}A=\lvert A\rvert=0$。
+\end{itemize}
+
+\medskip
+\textbf{"同一特征向量"原理：一串速算结论的共同来源。}
+若 $A\xi=\lambda\xi$（$\xi\ne0$），则把 $A$ 换成它的各种"函数"，$\xi$ 仍是特征向量，特征值按同样方式变换：
+\fml{A^{k}\xi=\lambda^{k}\xi,\qquad
+f(A)\xi=f(\lambda)\xi}
+由 $A\xi=\lambda\xi$ 与 $A$ 可逆（$\lambda\ne0$）得 $A^{-1}\xi=\tfrac1\lambda\xi$；
+由 $AA^{*}=\lvert A\rvert E$ 得 $A^{*}\xi=\tfrac{\lvert A\rvert}{\lambda}\xi$。
+所以
+\fml{A^{k}\to\lambda^{k},\qquad A^{-1}\to\tfrac1\lambda,\qquad
+A^{*}\to\tfrac{\lvert A\rvert}{\lambda},\qquad f(A)\to f(\lambda)}
+\textbf{不要逐个背}——它们都只是"$A$ 作用在 $\xi$ 上等于乘 $\lambda$"这一句话的推论。
+\textbf{唯一要注意的是 $A^{\mathrm T}$}：$A$ 与 $A^{\mathrm T}$ 有\textbf{相同的特征值}（因为 $\lvert\lambda E-A^{\mathrm T}\rvert=\lvert\lambda E-A\rvert$），
+但\textbf{特征向量一般不同}——这是最容易被误解的一处。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解矩阵的特征值和特征向量的概念及性质"。
+"迹 = 特征值和、行列式 = 特征值积"是\textbf{无需计算就能得分的两条}；
+而"同一特征向量"原理把 $A^{k}$、$A^{-1}$、$A^{*}$、$f(A)$ 的特征值问题\textbf{压缩成一条规则}。
+提醒：$A$ 与 $A^{\mathrm T}$ 同特征值但不同特征向量，这一点常被出成辨析题。
+\end{fdeep}

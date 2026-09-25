@@ -1,0 +1,102 @@
+% ===========================================================
+%  第 8 章 相似理论 —— 高等代数【深化】拓展框（主控撰写）
+%  对应 OUTLINE.md §9「深化清单」8.1 – 8.9（★用户点名的深化示范章）
+%  本章回答的核心问题："为什么有的矩阵不能相似对角化"
+% ===========================================================
+
+% ---------- 8.1 相似的本质（对应 OUTLINE 8.1）----------
+\begin{fdeep}{相似的本质：同一个线性变换换了组基}
+课本定义"若存在可逆 $P$ 使 $P^{-1}AP=B$，则称 $A$ 与 $B$ 相似"。这个定义本身不解释"为什么这样定义"。
+换个看法：把 $A$ 看成某个线性变换 $\sigma$ 在基 $\varepsilon$ 下的矩阵。
+若换到新基 $\eta$（过渡矩阵为 $P$，即 $(\eta)=(\varepsilon)P$），则 $\sigma$ 在新基下的矩阵是
+\fml{B=P^{-1}AP}
+—— 这正是相似的定义。所以
+\fml{\textbf{相似}=\textbf{同一个变换在不同基下的矩阵}}
+$P$ 的几何身份就是\textbf{过渡矩阵}（第 6 章已经讲过它的方向：基用 $P$，坐标用 $P^{-1}$）。
+
+\textbf{这个视角立刻解释了两件事}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{为什么相似矩阵有相同的特征多项式}：特征多项式是"变换本身的属性"
+      （$\lvert\lambda E-A\rvert$ 与基的选取无关），而相似只是换了基。
+      同理，\textbf{迹、行列式、秩也都相同}——它们都是同一个变换的不变量。
+\item \textbf{为什么对角化是"找一组好基"}：$A$ 相似于对角阵 $\Lambda$，
+      就是"存在一组基使这个变换在这组基下只做伸缩、不做旋转"。
+      那组基就是\textbf{特征向量}——这正是"求特征向量"的目的。
+\end{enumerate}
+【反哺点】：服务考纲〔矩阵的特征值和特征向量〕"理解相似矩阵的概念、性质"。
+记住"相似 = 换基"，那么相似不变量（特征多项式、迹、行列式、秩、可对角化性）
+就\textbf{不必逐条背}——它们是不随基改变的量。
+考场上判断"A 与 B 是否相似"时，先比这些不变量排除，再考虑更强的判据。
+\end{fdeep}
+
+% ---------- 8.2 / 8.3 可对角化的等价条件（对应 OUTLINE 8.2 / 8.3）----------
+\begin{fdeep}{可对角化的等价条件：把五种说法串成一张网}
+设 $A$ 为 $n$ 阶矩阵，$V_{\lambda}=N(\lambda E-A)$ 为特征子空间。以下命题\textbf{两两等价}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item $A$ 可对角化（存在可逆 $P$ 使 $P^{-1}AP$ 为对角阵）；
+\item $A$ 有 $n$ 个线性无关的特征向量；（这是 9 讲给的判据）
+\item 对每个特征值 $\lambda$，几何重数等于代数重数，即 $g_{\lambda}=m_{\lambda}$；
+\item 各特征子空间的维数之和等于 $n$：$\sum_{\lambda}\dim V_{\lambda}=n$；（最快的算法判据）
+\item 全空间可分解为特征子空间的直和：$V=V_{\lambda_1}\oplus\cdots\oplus V_{\lambda_s}$；
+\item $A$ 的最小多项式无重根。
+\end{enumerate}
+
+\textbf{它们为什么等价——三条纽带}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{②$\iff$③}：$\sum_{\lambda}m_{\lambda}=n$ 恒成立（特征多项式次数），
+      而 $\sum_{\lambda}g_{\lambda}\le n$。要凑满 $n$ 个线性无关特征向量，
+      必须且只需每个 $\lambda$ 都"取满"，即 $g_{\lambda}=m_{\lambda}$。
+\item \textbf{②$\iff$④$\iff$⑤}：\textbf{不同特征值的特征子空间之和是直和}
+      （若 $\xi_1+\cdots+\xi_s=0$ 且各 $\xi_i$ 属不同特征值，则逐个作用 $A-\lambda_i E$ 可逼出各 $\xi_i=0$）。
+      既然是直和，维数就可加：$\dim(\text{直和})=\sum\dim V_{\lambda}$。
+      于是"有 $n$ 个无关特征向量"就是"这个直和占满整个空间"。
+\item \textbf{③$\iff$⑥}：最小多项式 $m(\lambda)$ 的根恰好是 $A$ 的全部特征值，
+      且 $(\lambda-\lambda_0)$ 在 $m$ 中的重数 $=\lambda_0$ 对应的\textbf{最大 Jordan 块阶数}。
+      故"$m$ 无重根"$\iff$"所有 Jordan 块都是 $1$ 阶"$\iff$"$g_{\lambda}=m_{\lambda}$"。
+\end{itemize}
+
+\textbf{算法上的意义}：判据 ④ 最好用——对每个特征值只算一个秩：
+\fml{\sum_{\lambda}\bigl(n-r(\lambda E-A)\bigr)=n\ ?}
+不必解出特征向量就能判断可对角化性。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…矩阵可相似对角化的充分必要条件，掌握将矩阵化为相似对角矩阵的方法"。
+9 讲只给判据 ②（"$n$ 个线性无关特征向量"），它\textbf{必须先解出特征向量}才能判断；
+而判据 ④ 与 ⑥ \textbf{只需算秩或最小多项式}，含参数矩阵尤其快。
+把这六条看成一张网，选择题问"下列哪个是充要条件"时就不会被"必要性成立、充分性不成立"的选项迷惑。
+\end{fdeep}
+
+% ---------- 8.4 / 8.5 Jordan 块与不可对角化（对应 OUTLINE 8.4 / 8.5）----------
+\begin{fdeep}{为什么 Jordan 块不能相似对角化 —— 以及"不能"时是什么样}
+\textbf{先看最简情形}：$m$ 阶 Jordan 块
+\fml{J_{m}(\lambda)=\begin{pmatrix}\lambda&1&&\\&\lambda&\ddots&\\&&\ddots&1\\&&&\lambda\end{pmatrix}}
+计算它的特征子空间：$\lambda E-J_{m}(\lambda)$ 只在超对角线位置有非零元（全是 $-1$），
+其余全为 $0$，故其秩为 $m-1$（每行至多一个非零元，且非零元互不同行）。
+于是
+\fml{g_{\lambda}=m-r\bigl(\lambda E-J_{m}(\lambda)\bigr)=m-(m-1)=1}
+而显然 $m_{\lambda}=m$。所以 $m\ge2$ 时
+\fml{g_{\lambda}=1<m=m_{\lambda}\quad\Longrightarrow\quad J_{m}(\lambda)\ \text{\textbf{不可对角化}}}
+\textbf{几何直观}：$J_{m}(\lambda)$ 只把整个空间的\textbf{一个方向}（$e_1$）固定为特征向量，
+其余方向都被"链"到前一个方向上（$e_2\mapsto\lambda e_1$ 等），无法凑出 $m$ 个独立的特征方向。
+
+\medskip
+\textbf{"不能对角化"时的完整图像（Jordan 标准形）}：复数域上，
+任何方阵 $A$ 都相似于一个 Jordan 形矩阵
+\fml{J=\operatorname{diag}\bigl(J_{m_1}(\lambda_1),\ J_{m_2}(\lambda_2),\ \dots\bigr)}
+且在不计各块排列顺序的意义下\textbf{唯一}。由此得到三条可用的计数规律：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{阶数}：所有 Jordan 块的阶数之和 $=n$；
+\item \textbf{块的个数}：特征值 $\lambda$ 对应的 Jordan 块个数 $=g_{\lambda}=n-r(\lambda E-A)$；
+\item \textbf{最大块的阶数}：$=(\lambda-\lambda_0)$ 在最小多项式中的重数。
+\end{itemize}
+所以\textbf{"可对角化"就是"所有 Jordan 块都是 1 阶"}；
+一旦出现 $\ge2$ 阶的块，几何重数就"缺"了，无法对角化。
+
+\textbf{【选读说明】}本书只要求\textbf{会判断}能否对角化（用 $\sum g_{\lambda}=n$ 或最小多项式），
+\textbf{不要求会求 Jordan 标准形}。本段的作用是让你知道"不可对角化时矩阵到底长什么样"，
+从而理解为什么 $g_{\lambda}<m_{\lambda}$ 就"没救了"——而不是一个需要背下来的抽象结论。
+
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解…矩阵可相似对角化的充分必要条件"。
+本段直接回答了"为什么有的矩阵不能相似对角化"这个问题：
+\textbf{因为它的特征方向不够多（$g<m$），这在几何上就是"空间被 Jordan 链纠缠了"}。
+考场上遇到"判断下列矩阵能否对角化"，看到 $g_{\lambda}<m_{\lambda}$ 即可\textbf{立刻判定不可对角化}，不必再试。
+\end{fdeep}

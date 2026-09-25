@@ -1,0 +1,120 @@
+% ===========================================================
+%  第 4 章 矩阵的秩 —— 高等代数【深化】拓展框（主控撰写）
+%  对应 OUTLINE.md §5「深化清单」4.1 / 4.2 / 4.4
+%  用法：\begin{fdeep}{标题} 灰底框；由主控插入正文相应考点旁
+%  注意：本文件头部注释提及不算块，提取脚本只认行首的 \begin{fdeep}
+% ===========================================================
+
+% ---------- 4.1 秩的四种等价定义（对应 OUTLINE 4.1）----------
+\begin{fdeep}{秩的四种等价定义：什么时候该用哪一种}
+"秩"在课本里被反复重新定义，初学者容易觉得它们是四件事。其实\textbf{是同一个数的四种刻画}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{子式定义}：$r(A)$ = $A$ 中非零子式的最高阶数。
+      这是最"原始"的定义，好处是\textbf{能直接用于证明不等式}（只要有非零子式就给出秩的下界）。
+\item \textbf{行（列）向量组定义}：$r(A)$ = $A$ 的行向量组的秩 = 列向量组的秩。
+      用于讨论\textbf{线性相关性与极大无关组}。
+\item \textbf{初等变换定义}：$r(A)$ = 用初等变换化成的阶梯形矩阵中\textbf{非零行的个数}。
+      这是\textbf{唯一真正好算}的定义，考试算秩一律用它。
+\item \textbf{线性变换定义}：$r(A)=\dim\operatorname{Im}(A)$（$A$ 作为线性映射的像的维数）。
+      用于理解\textbf{秩的几何意义}，也是秩-零化度定理的一半。
+\end{enumerate}
+\textbf{怎么选}：\textbf{算}秩 → 用 ③；\textbf{证}不等式 → 用 ①；
+\textbf{谈结构}（求极大无关组、判断相关性）→ 用 ②；\textbf{理解定理} → 用 ④。
+【反哺点】服务考纲〔矩阵〕"理解矩阵的秩的概念，掌握用初等变换求矩阵的秩"+
+〔向量〕"理解矩阵的秩与其行（列）向量组的秩之间的关系"。
+考生最常见的困境是"知道秩是几，但不知道这题该用哪种定义去说理"——
+记住上面这句"算/证/谈结构/理解"的对应，题目的证法方向就定了。
+\end{fdeep}
+
+% ---------- 4.4 秩-零化度定理（对应 OUTLINE 4.4）----------
+\begin{fdeep}{秩-零化度定理：$r(A)+\dim N(A)=n$ —— 全书的"守恒律"}
+设 $A$ 为 $m\times n$ 矩阵，$N(A)=\{x\mid Ax=0\}$ 是它的\textbf{零空间（核空间）}，则
+\fml{r(A)+\dim N(A)=n}
+\textbf{它说的是一件非常直观的事}：把一个 $n$ 维空间用 $A$ 映射出去，
+"被压成零"的维度（$\dim N(A)$）加上"活下来的像"的维度（$r(A)$），
+正好等于出发时的总维度 $n$。\textbf{维度不会凭空产生或消失}。
+
+\textbf{为什么成立（一句话）}：取 $N(A)$ 的一组基 $\xi_1,\dots,\xi_{n-r}$，再把它扩充为 $\mathbb{R}^n$ 的基
+$\xi_1,\dots,\xi_{n-r},\eta_1,\dots,\eta_r$。可以证明 $A\eta_1,\dots,A\eta_r$ 恰好构成 $\operatorname{Im}(A)$ 的一组基
+（它们张成像，且线性无关——若 $\sum c_iA\eta_i=0$ 则 $\sum c_i\eta_i\in N(A)$，
+可被 $\xi$ 组表示，由基的无关性得系数全为 $0$）。于是 $\dim\operatorname{Im}(A)=r$，定理得证。
+
+\textbf{三条直接推论}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 齐次方程组 $Ax=0$ 的\textbf{基础解系恰含 $n-r(A)$ 个向量}。
+      这就是"基础解系为什么是 $n-r$ 个"的最终答案——它不是规定，而是维度守恒。
+\item $A$ 为 $n$ 阶方阵时：$r(A)=n\iff\dim N(A)=0\iff Ax=0$ 只有零解 $\iff A$ 可逆。
+      把第 3 章那张"可逆等价刻画网"里的三条串了起来。
+\item $r(A)\le\min\{m,n\}$：因为 $r(A)=\dim\operatorname{Im}(A)\le\dim\mathbb{R}^m=m$，
+      又 $r(A)=n-\dim N(A)\le n$。
+\end{itemize}
+【反哺点】服务考纲〔线性方程组〕"理解齐次线性方程组的基础解系、通解及解空间的概念"。
+这是\textbf{全书最值得记住的一个等式}：它把"秩"（算出来的）与"解空间的维数"（想出来的）锁在一起。
+考场上凡是问"基础解系有几个向量""解空间维数是多少"，答案永远是 $n-r(A)$，不必推导。
+反过来，若题目给出解空间维数，也能反推秩。第 5 章整章都建立在这条定理上。
+\end{fdeep}
+
+% ---------- 4.3 秩不等式为什么成立（对应 OUTLINE 4.3）----------
+\begin{fdeep}{秩的不等式不是"记下来的"，而是"数出来的"}
+本讲开篇那张表里有三条看似要背的不等式。它们其实共用一个想法：
+\textbf{把秩想成"维数"，再用"维数不可能凭空增加"来夹逼。}
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.25em]
+\item $r(AB)\le\min\{r(A),\,r(B)\}$。
+      \textbf{为什么}：$AB$ 的每一列都是 $A$ 的列的线性组合，
+      所以 $AB$ 的列空间 $\subseteq$ $A$ 的列空间，故 $r(AB)\le r(A)$；
+      同理 $AB$ 的每一行都是 $B$ 的行的线性组合，故 $r(AB)\le r(B)$。取小者即得。
+      （这是"用列空间包含关系证秩不等式"的样板。）
+\item $\lvert r(A)-r(B)\rvert\le r(A+B)\le r(A)+r(B)$。
+      \textbf{上界}：$A+B$ 的列空间 $\subseteq$（$A$ 的列空间 $+$ $B$ 的列空间），
+      而"两个空间之和的维数 $\le$ 维数之和"，故 $r(A+B)\le r(A)+r(B)$。
+      \textbf{下界}：由 $A=(A+B)-B$ 对上界式用一次，得 $r(A)\le r(A+B)+r(B)$，
+      即 $r(A+B)\ge r(A)-r(B)$；同理交换 $A,B$ 得 $r(A+B)\ge r(B)-r(A)$，合起来即绝对值形式。
+\item \textbf{Sylvester 不等式} $r(AB)\ge r(A)+r(B)-n$（$A$ 为 $m\times n$，$B$ 为 $n\times s$）。
+      \textbf{它是三条里最不直观的，但推导很干净}：把 $B$ 按列分块 $B=(\beta_1,\dots,\beta_s)$，
+      则 $AB=(A\beta_1,\dots,A\beta_s)$。考虑线性映射
+      \fml{\varphi:\ \operatorname{Im}(B)\longrightarrow\operatorname{Im}(AB),\qquad \xi\mapsto A\xi}
+      它的核是 $\operatorname{Im}(B)\cap N(A)$，而 $\operatorname{Im}(B)\subseteq\mathbb{R}^{n}$、$N(A)\subseteq\mathbb{R}^{n}$，
+      故 $\dim\ker\varphi\le\dim N(A)=n-r(A)$。对 $\varphi$ 用秩-零化度定理：
+      \fml{r(AB)=\dim\operatorname{Im}(AB)=\dim\operatorname{Im}(B)-\dim\ker\varphi\ \ge\ r(B)-\bigl(n-r(A)\bigr)}
+      整理即得 $r(AB)\ge r(A)+r(B)-n$。
+\end{enumerate}
+\textbf{它的最强推论}：取 $AB=O$，即 $r(AB)=0$，得
+\fml{AB=O\ \Longrightarrow\ r(A)+r(B)\le n}
+这一条在考研里出现频率极高（"已知 $AB=O$，求 $r(A)+r(B)$ 的取值范围"）。
+
+【反哺点】：服务考纲〔矩阵〕"理解矩阵的秩的概念"。三条不等式的\textbf{记忆负担可以用"维数夹逼"取代}：
+遇到新的秩不等式，先问"谁的空间包含谁"，再问"维数最多能加到多少"。
+Sylvester 那条尤其值得掌握推导——它是 $AB=O$ 型问题的唯一来源。
+\end{fdeep}
+
+% ---------- 4.5 三个"高频小结论"（对应 OUTLINE 4.5 / 4.6）----------
+\begin{fdeep}{$r(A^{\mathrm T}A)=r(A)$ 与秩 1 矩阵的完全刻画}
+\textbf{一、$r(A^{\mathrm T}A)=r(A)$（$A$ 为实矩阵）}
+这一条把"转置乘积"的秩锁死在原矩阵上，常用它把 $A^{\mathrm T}A$ 的问题化回 $A$。
+\textbf{证明只需证两个方程组同解}：
+\fml{Ax=0\ \Longrightarrow\ A^{\mathrm T}Ax=0}
+反过来若 $A^{\mathrm T}Ax=0$，两边左乘 $x^{\mathrm T}$ 得 $x^{\mathrm T}A^{\mathrm T}Ax=0$，
+即 $\lVert Ax\rVert^{2}=0$，故 $Ax=0$（\textbf{这里用到实矩阵，复数情形要改用共轭转置}）。
+既然 $Ax=0$ 与 $A^{\mathrm T}Ax=0$ 同解，它们的基础解系含同样多的向量，
+由 $s=n-r$ 即得 $r(A^{\mathrm T}A)=r(A)$。同理 $r(AA^{\mathrm T})=r(A)$。
+
+\textbf{二、秩 1 矩阵的完全刻画}
+设 $r(A)=1$（$A$ 为 $n$ 阶），则存在非零列向量 $\alpha,\beta$ 使
+\fml{A=\alpha\beta^{\mathrm T}}
+并且它的全部性质可以一次说清：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{迹就是内积}：$\operatorname{tr}A=\beta^{\mathrm T}\alpha$（是数，不是矩阵）；
+\item \textbf{幂有闭式}：$A^{2}=(\operatorname{tr}A)A$，更一般地 $A^{k}=(\operatorname{tr}A)^{k-1}A$；
+      ——这条让"求 $A^{k}$"对秩 1 矩阵变成一步；
+\item \textbf{特征值全可写出}：$\lambda_{1}=\operatorname{tr}A,\ \lambda_{2}=\cdots=\lambda_{n}=0$
+      （因为 $Ax=\alpha(\beta^{\mathrm T}x)=0$ 的解空间是 $n-1$ 维）；
+\item \textbf{可对角化的判据}：$A$ 可对角化 $\iff \operatorname{tr}A\ne0$。
+      因为 $\operatorname{tr}A\ne0$ 时几何重数 $=1=$ 代数重数（特征值 $0$ 的代数重数是 $n-1$，
+      而 $n-1$ 维解空间正好给出 $n-1$ 个无关特征向量）；
+      $\operatorname{tr}A=0$ 时 $A$ 幂零且 $A\ne O$，几何重数 $n-1<$ 代数重数 $n$，不可对角化。
+\end{itemize}
+【反哺点】：服务考纲〔矩阵〕「秩」与〔特征值〕。
+秩 1 矩阵是考研最爱构造的对象（$A=\alpha\beta^{\mathrm{T}}$ 形式），
+把这四条一起记住，凡是遇到秩 1 的题——求幂、求特征值、判断能否对角化、求迹——
+都能\textbf{直接写答案而不必算}。第 ② 条还可与第 3 章"求 $A^{k}$ 的判据"合看。
+\end{fdeep}

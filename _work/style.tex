@@ -1,0 +1,261 @@
+% ===========================================================
+%  统一排版样式（设计系统） — 由 init_project.py 从 config.json 生成
+%  编译：xelatex  |  引擎：ctexart + xeCJK
+%  改样式请改 config.json 后重跑 init_project.py --force，不要手改本文件
+% ===========================================================
+\usepackage[UTF8, scheme=chinese, fontset=macnew]{ctex}
+\usepackage{amsmath, amssymb, amsfonts, mathrsfs}
+\usepackage{bm}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{array, booktabs, makecell, multicol}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[hidelinks, bookmarksnumbered]{hyperref}
+\usepackage{newunicodechar}
+% 圈码/符号兜底：xeCJK 不把 U+2460.. 归入 CJK，落入 lmroman 会缺字
+% （编译不报错但字是空白 —— 这是最隐蔽的坑，务必保留这段）
+\newunicodechar{①}{\textcircled{1}}
+\newunicodechar{②}{\textcircled{2}}
+\newunicodechar{③}{\textcircled{3}}
+\newunicodechar{④}{\textcircled{4}}
+\newunicodechar{⑤}{\textcircled{5}}
+\newunicodechar{⑥}{\textcircled{6}}
+\newunicodechar{⑦}{\textcircled{7}}
+\newunicodechar{⑧}{\textcircled{8}}
+\newunicodechar{⑨}{\textcircled{9}}
+\newunicodechar{⑩}{\textcircled{10}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{△}{\ensuremath{\triangle}}
+\newunicodechar{★}{\ensuremath{\bigstar}}
+\newunicodechar{☆}{\ensuremath{\star}}
+\newunicodechar{●}{\ensuremath{\bullet}}
+\newunicodechar{○}{\ensuremath{\circ}}
+\newunicodechar{⑪}{\textcircled{\footnotesize 11}}
+\newunicodechar{⑫}{\textcircled{\footnotesize 12}}
+\newunicodechar{⑬}{\textcircled{\footnotesize 13}}
+\newunicodechar{⑭}{\textcircled{\footnotesize 14}}
+\newunicodechar{⑮}{\textcircled{\footnotesize 15}}
+\newunicodechar{⑯}{\textcircled{\footnotesize 16}}
+\newunicodechar{㉑}{\textcircled{\footnotesize 21}}
+\newunicodechar{㉒}{\textcircled{\footnotesize 22}}
+\newunicodechar{㉓}{\textcircled{\footnotesize 23}}
+\newunicodechar{㉔}{\textcircled{\footnotesize 24}}
+\newunicodechar{㉕}{\textcircled{\footnotesize 25}}
+\newunicodechar{㉖}{\textcircled{\footnotesize 26}}
+\newunicodechar{㉗}{\textcircled{\footnotesize 27}}
+\newunicodechar{㉘}{\textcircled{\footnotesize 28}}
+\newunicodechar{㉙}{\textcircled{\footnotesize 29}}
+\newunicodechar{㉚}{\textcircled{\footnotesize 30}}
+% 罗马数字（U+2160+）同样不在 CJK 区，xeCJK 不管，需兜底
+\newunicodechar{Ⅰ}{\textrm{I}}
+\newunicodechar{Ⅱ}{\textrm{II}}
+\newunicodechar{Ⅲ}{\textrm{III}}
+\newunicodechar{Ⅳ}{\textrm{IV}}
+\newunicodechar{Ⅴ}{\textrm{V}}
+\newunicodechar{Ⅵ}{\textrm{VI}}
+% 长箭头兜底：⟹(U+27F9)/⟸(U+27F8) 在 lmroman 缺字（编译不报错，字会空白）
+\newunicodechar{⟹}{\ensuremath{\Longrightarrow}}
+\newunicodechar{⟸}{\ensuremath{\Longleftarrow}}
+\newunicodechar{⟺}{\ensuremath{\Longleftrightarrow}}
+\newunicodechar{⑰}{\textcircled{\footnotesize 17}}
+\newunicodechar{⑱}{\textcircled{\footnotesize 18}}
+\newunicodechar{⑲}{\textcircled{\footnotesize 19}}
+\newunicodechar{⑳}{\textcircled{\footnotesize 20}}
+
+% ---------- 反向省略号 \iddots（副对角线方向）----------
+% ⚠️ 手写补丁，不在 style.tex.tmpl 里；`init_project.py --force` 后需补回。
+% 用途：副对角线分块矩阵/行列式中的反向省略号。mathtools 不含 \iddots，
+% 若不定义，转录代理会用 \ddots 顶替 —— 那是**对角线方向**，数学上标错方向。
+\providecommand{\iddots}{\mathinner{\mkern1mu\raise1pt\vbox{\kern7pt\hbox{.}}%
+  \mkern2mu\raise4pt\hbox{.}\mkern2mu\raise7pt\vbox{\kern1pt\hbox{.}}\mkern1mu}}
+
+\graphicspath{{fig/final/}}
+
+% ---------- 版心 ----------
+\geometry{paper=a4paper, top=2.15cm, bottom=1.9cm, left=1.55cm, right=1.55cm, headsep=3mm, footskip=8mm}
+
+% ---------- 配色 ----------
+\definecolor{cPrimary}{HTML}{1F4E79}
+\definecolor{cPrimaryL}{HTML}{EAF1F8}
+\definecolor{cAccent}{HTML}{C0392B}
+\definecolor{cAccentL}{HTML}{FDECEA}
+\definecolor{cTeal}{HTML}{1F7A6C}
+\definecolor{cGold}{HTML}{B7791F}
+\definecolor{cGoldL}{HTML}{FFF8E6}
+\definecolor{cGray}{HTML}{5A6672}
+\definecolor{cRule}{HTML}{D6DEE7}
+
+% ---------- 标题层级：章 / 节 ----------
+\newtcolorbox{fchapbox}{
+  enhanced, breakable, colback=cPrimary, colframe=cPrimary,
+  boxrule=0pt, arc=1.6mm, left=4mm, right=4mm, top=1.9mm, bottom=1.9mm,
+  width=\linewidth, before skip=6mm, after skip=3mm
+}
+\newtcolorbox{fsecbox}{
+  enhanced, breakable, colback=cPrimaryL, colframe=cPrimary!70,
+  boxrule=0.5pt, left=3mm, right=3mm, top=1.3mm, bottom=1.3mm,
+  arc=1.2mm, width=\linewidth, before skip=4.2mm, after skip=2.4mm,
+  borderline west={1.6mm}{0pt}{cPrimary}
+}
+\newcommand{\fchap}[1]{%
+  \needspace{5\baselineskip}%
+  \begin{fchapbox}{\sffamily\bfseries\color{white}\large #1}\end{fchapbox}%
+  \phantomsection%   ← 必须：否则 hyperref 会把书签挂到上一个 tcolorbox 锚点，导致书签跳错页
+  \addcontentsline{toc}{section}{#1}%
+  \vspace{-1mm}%
+}
+\newcommand{\fsec}[1]{%
+  \needspace{4\baselineskip}%
+  \begin{fsecbox}{\sffamily\bfseries\color{cPrimary}\normalsize #1}\end{fsecbox}%
+  \phantomsection%   ← 同上
+  \addcontentsline{toc}{subsection}{#1}%
+  \vspace{-0.6mm}%
+}
+
+% ---------- 公式卡片 ----------
+\newtcolorbox[auto counter]{fcard}[1]{%
+  enhanced, breakable,
+  colback=white, colframe=cRule, boxrule=0.55pt, arc=1.6mm,
+  left=3.2mm, right=3.2mm, top=1.6mm, bottom=1.8mm, boxsep=0.6mm,
+  colbacktitle=cPrimaryL, coltitle=cPrimary, fonttitle=\sffamily\bfseries\small,
+  title={#1}, titlerule=0.5pt, titlerule style={cPrimary!45},
+  toptitle=0.9mm, bottomtitle=0.9mm,
+  before skip=2.6mm, after skip=2.6mm,
+  borderline west={1.5mm}{0pt}{cPrimary!75}
+}
+\newtcolorbox{fkey}[1]{%
+  enhanced, breakable,
+  colback=cAccentL, colframe=cAccent!65, boxrule=0.55pt, arc=1.6mm,
+  left=3.2mm, right=3.2mm, top=1.6mm, bottom=1.8mm, boxsep=0.6mm,
+  colbacktitle=cAccent!12, coltitle=cAccent, fonttitle=\sffamily\bfseries\small,
+  title={#1}, titlerule=0.5pt, titlerule style={cAccent!40},
+  toptitle=0.9mm, bottomtitle=0.9mm,
+  before skip=2.6mm, after skip=2.6mm,
+  borderline west={1.5mm}{0pt}{cAccent}
+}
+\newtcolorbox{fnote}[1][]{%
+  enhanced, breakable,
+  colback=cGoldL, colframe=cGold!55, boxrule=0.5pt, arc=1.2mm,
+  left=3mm, right=3mm, top=1.3mm, bottom=1.3mm,
+  before skip=2mm, after skip=2mm, fontupper=\small, #1
+}
+\newcommand{\fgroup}[1]{%
+  \par\vspace{1.4mm}\noindent\hspace*{0.5mm}%
+  {\sffamily\bfseries\small\color{cTeal}\raisebox{0.2ex}{\rule{0.8mm}{3.1mm}}\hspace{1.2mm}#1}%
+  \par\vspace{0.4mm}%
+}
+
+% ---------- 【深化】灰底拓展框（本项目专用扩展，见 AGENTS.md §7.1 第 5 条）----------
+% ⚠️ 本段是手写扩展，不在 style.tex.tmpl 里。
+%    若跑 `init_project.py --force` 重新生成 style.tex，**必须把本段补回**，
+%    否则所有 \begin{fdeep} 都会报 undefined environment。
+% 用法：\begin{fdeep}{标题} ... \end{fdeep}   （标题必填；缺省请写「深化」）
+% ---------- 语义化强调宏（第 9 章修缮新增，见 AGENTS.md §4.3d）----------
+% 配色方针：蓝 = 「要记住名字」的地方（术语/定理名）；红 = 「会做错」的地方（易错/必记）
+% ⚠️ 这些宏只用于正文与框体内部，**不要**用在 \fsec/\fcard/\fkey/\fdeep 的标题参数里
+%    （标题已是彩色底条，再叠色会糊；且移动参数里的 \textcolor 有风险）
+\newcommand{\key}[1]{\textcolor{cPrimary}{\textbf{#1}}}   % 蓝：术语、定理/定义/性质名、方法名
+\newcommand{\warn}[1]{\textcolor{cAccent}{\textbf{#1}}}   % 红：易错点、陷阱、否定提醒
+\newcommand{\must}[1]{\textcolor{cAccent}{\textbf{#1}}}   % 红：必记结论、口诀、秒判
+\newcommand{\fbref}{\textcolor{cGold}{\textbf{【反哺点】}}}% 金：【反哺点】标签
+
+\definecolor{cDeep}{HTML}{6B7280}
+\definecolor{cDeepL}{HTML}{F3F4F6}
+\newtcolorbox{fdeep}[1]{%
+  enhanced, breakable,
+  colback=cDeepL, colframe=cDeep!45, boxrule=0.5pt, arc=1.2mm,
+  left=3mm, right=3mm, top=1.5mm, bottom=1.5mm, boxsep=0.7mm,
+  before skip=2.4mm, after skip=2.4mm,
+  colbacktitle=cDeep!14, coltitle=cDeep!92!black,
+  fonttitle=\sffamily\bfseries\small,
+  title={深化拓展\quad·\quad #1},
+  titlerule=0.5pt, titlerule style={cDeep!35},
+  toptitle=0.8mm, bottomtitle=0.8mm,
+  borderline west={1.5mm}{0pt}{cDeep}
+}
+
+% ---------- 公式行 ----------
+\newcommand{\fml}[1]{\par\vspace{0.6mm}\noindent\begin{minipage}{\linewidth}\centering$\displaystyle #1$\end{minipage}\par\vspace{0.6mm}}
+\newcommand{\fmll}[1]{\par\vspace{0.5mm}\noindent\hspace*{1.5mm}$\displaystyle #1$\par\vspace{0.5mm}}
+\renewcommand{\arraystretch}{1.35}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+
+% ---------- 位图插图（原稿示意图按原样裁切后嵌入）----------
+\newcommand{\figimg}[2][3.6cm]{\par\vspace{1mm}\begin{center}%
+  \includegraphics[width=#1]{#2}\end{center}\par\vspace{0.5mm}}
+
+% ---------- 页眉页脚 ----------
+\providecommand{\docmark}{必备公式}
+\newcommand{\docfooter}{%
+  \tikz[baseline]\node[fill=cPrimary, rounded corners=1.1mm, inner sep=1.6pt,
+        text=white, font=\sffamily\bfseries\footnotesize, minimum width=5.6mm]
+        {\thepage};}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\footnotesize\sffamily\color{cGray}考研数学 · 线性代数蓝本}
+\fancyhead[R]{\footnotesize\sffamily\color{cGray}\docmark}
+\fancyfoot[C]{\docfooter}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[C]{\docfooter}%
+  \fancyhead[L]{\footnotesize\sffamily\color{cGray}考研数学 · 线性代数蓝本}%
+  \fancyhead[R]{\footnotesize\sffamily\color{cGray}\docmark}}
+
+% ---------- 封面 ----------
+\newcommand{\coverpage}[3]{%
+  \thispagestyle{empty}%
+  \begin{center}
+  \vspace*{2.4cm}
+  {\sffamily\bfseries\color{cGray}\large 考研数学（一）\quad·\quad 线性代数}
+  \vspace{1.1cm}
+
+  \begin{tcolorbox}[enhanced, colback=cPrimary, colframe=cPrimary, boxrule=0pt,
+      arc=3mm, left=6mm, right=6mm, top=6mm, bottom=6mm, width=0.94\linewidth]
+    \centering
+    {\sffamily\bfseries\color{white}\fontsize{34}{40}\selectfont #1}
+
+    \vspace{4mm}
+    {\sffamily\color{white!88!cPrimary}\large #2}
+  \end{tcolorbox}
+
+  \vspace{0.9cm}
+  {\color{cAccent}\sffamily\bfseries\normalsize #3}
+
+  \vspace{1.6cm}
+  {\color{cRule}\rule{0.62\linewidth}{0.7pt}}
+
+  \vspace{0.8cm}
+  {\sffamily\color{cGray}\normalsize 以《线性代数9讲》为骨架，按考研大纲边界整合\quad·\quad \LaTeX{} 重排}
+  \end{center}
+  \vfill
+  \clearpage
+}
+
+% ---------- 目录 ----------
+\newcommand{\tocpage}{%
+  \par\vspace{5mm}
+  \begin{center}
+    {\sffamily\bfseries\color{cPrimary}\Large 目\quad 录}
+  \end{center}
+  \vspace{2mm}
+  {\color{cRule}\hrule height 0.7pt}
+  \vspace{2mm}
+  \begingroup
+  \renewcommand{\contentsname}{}
+  \vspace{-8mm}
+  \tableofcontents
+  \endgroup
+  \clearpage
+}
+\makeatletter
+\renewcommand{\l@section}[2]{\vspace{0.6mm}\@dottedtocline{1}{0pt}{1.6em}{\sffamily\bfseries\color{cPrimary}#1}{\color{cPrimary}\bfseries #2}}
+\renewcommand{\l@subsection}[2]{\@dottedtocline{2}{1.6em}{2.4em}{\color{cGray}#1}{\color{cGray}#2}}
+\makeatother
+\setcounter{tocdepth}{2}

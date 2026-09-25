@@ -1,0 +1,382 @@
+% ===========================================================
+%  第 8 章 相似理论 —— 樊启斌《高等代数典型问题与方法》【深化】提取
+%  来源：§6.4（印刷 372–384）、§6.5（385–387）、§7.1（418–425）、
+%        §7.2（426–435）、§7.3（436–448）、§7.5（458–474）、§8.4（546–554）
+%  说明：只取"能反哺考研解题"的定义、定理、方法要点与关键思路；
+%        例题只保留可复用的结论与一句话方法，不转写解答。
+%        与主控手写块（deep_ch08_authored.tex）不重复。
+% ===========================================================
+
+% ---------- 最小多项式的定义与性质（樊 7.2，印刷 426–427）----------
+\begin{fdeep}{最小多项式：定义、四条性质与"无重根"判据}
+设 $A\in M_n(K)$。若 $f(A)=O$，称 $f(\lambda)$ 是 $A$ 的\textbf{零化多项式}；
+次数最小的首一零化多项式称为 $A$ 的\textbf{最小多项式}，记作 $m(\lambda)$。
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item \textbf{Hamilton--Cayley 定理}：$\chi_A(\lambda)$ 是零化多项式，故
+      $m(\lambda)\mid\chi_A(\lambda)$；且 $m$ 与 $\chi_A$ 的\textbf{根完全相同}，
+      即 $m$ 的根集就是 $A$ 的特征值集。
+\item $m(\lambda)$ 恰是 $\lambda E-A$ 的\textbf{最大不变因子} $d_n(\lambda)$，
+      也是 $A$ 的全部初等因子的\textbf{最小公倍式}。
+\item \textbf{分块对角阵}：$m_{\operatorname{diag}(A_1,\dots,A_s)}
+      =\bigl[m_{A_1},\dots,m_{A_s}\bigr]$（最小公倍式）。
+\item $A$ \textbf{可逆} $\iff$ $m(\lambda)$ 的\textbf{常数项不为零}。
+\end{itemize}
+\textbf{最关键的一条}：$\lambda_0$ 作为 $m(\lambda)$ 的根的重数恰等于
+$\lambda_0$ 对应的\textbf{最大 Jordan 块阶数}，因此
+\fml{A\ \text{可对角化}\iff m(\lambda)\ \text{无重根}}
+【反哺点】服务考纲〔矩阵的特征值和特征向量〕"理解矩阵可相似对角化的充分必要条件"。
+判断可对角化不必真去解特征向量：只要写得出一个\textbf{无重根的零化多项式}
+（不必是最小多项式），就能立即断定可对角化。
+\end{fdeep}
+
+% ---------- 最小多项式的求法（樊 7.2，印刷 426–434）----------
+\begin{fdeep}{最小多项式怎么求：三条可操作的算法}
+\textbf{方法 1（零化多项式筛选法，最实用）}：先求 $\chi_A(\lambda)$ 并因式分解。
+由 $m\mid\chi_A$ 且同根，把 $\chi_A$ 的因式按次数由低到高逐个试探，
+第一个使 $p(A)=O$ 的 $p$ 就是 $m$。
+若 $g(A)=O$，则每个特征值都是 $g$ 的根；例如秩 $1$ 矩阵 $A=\alpha\beta^{\mathrm T}$
+（$\delta=\beta^{\mathrm T}\alpha$）满足 $A^{2}=\delta A$，故特征值只能是
+$\lambda=0$ 或 $\lambda=\delta$，再由 $\operatorname{tr}A=\sum\lambda_i$ 定出重数即得 $m$。
+
+\textbf{方法 2（秩 / Jordan 结构法）}：设 $\lambda_0$ 的代数重数为 $m_{\lambda_0}$，则
+$(\lambda-\lambda_0)$ 在 $m$ 中的重数 $=k_{\max}$（$\lambda_0$ 对应的最大 Jordan 块阶数），
+而块数 $=g_{\lambda_0}=n-r(\lambda_0E-A)$。若已知 $A\sim J$，可直接读出 $m$。
+
+\textbf{方法 3（分块矩阵）}：由 Taylor 展开得
+$f\!\begin{pmatrix}A&E\\O&A\end{pmatrix}=\begin{pmatrix}f(A)&f'(A)\\O&f(A)\end{pmatrix}$，
+故 $f(M)=O\iff m_A\mid f$ 且 $m_A\mid f'$；于是
+$m_A=\prod_i(\lambda-\lambda_i)^{k_i}$ 时 $m_M(\lambda)=\prod_i(\lambda-\lambda_i)^{k_i+1}$。
+【反哺点】服务"掌握将矩阵化为相似对角矩阵的方法"。
+方法 1 只做矩阵乘法与多项式除法，是考试首选；方法 3 是分块矩阵的定式结论。
+\end{fdeep}
+
+% ---------- 不变因子/初等因子判相似（樊 7.1/7.3，印刷 418–419、436–437）----------
+\begin{fdeep}{不变因子与初等因子：判断"两矩阵是否相似"的充要判据}
+$A\sim B$ 的\textbf{充要条件}是它们有相同的\textbf{初等因子组}
+（等价地：相同的不变因子组或行列式因子组，即 $\lambda E-A$ 与 $\lambda E-B$ 等价）。其中
+\fml{\lambda E-A\ \xrightarrow{\ \text{初等变换}\ }\
+\operatorname{diag}(d_1(\lambda),\dots,d_n(\lambda))\quad(\text{Smith 标准形})}
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $d_1\mid d_2\mid\dots\mid d_n$ 称为\textbf{不变因子}，且
+      $d_1d_2\cdots d_n=\lvert\lambda E-A\rvert=\chi_A(\lambda)$。
+\item \textbf{行列式因子} $D_k(\lambda)$ 是 $\lambda E-A$ 全部 $k$ 阶子式的首一最大公因式；
+      由 $d_1=D_1$、$d_k=D_k/D_{k-1}$ 反求不变因子。
+\item \textbf{初等因子}是各 $d_i$ 分解后出现的不可约因式方幂（相同的保留，不合并）。
+\item \textbf{分块对角阵的初等因子}是各对角块初等因子的并集。
+\item $A$ \textbf{可对角化} $\iff$ $A$ 的初等因子\textbf{全是一次式}。
+\end{itemize}
+\textbf{实操要点}：求数字矩阵的 $D_k$ 时只挑一个 $(n-1)$ 阶子式看它的因式，
+即可迅速定出 $D_{n-1}$，进而定 $d_{n-1},d_n$（樊书反复强调此技巧）。
+【反哺点】服务"理解相似矩阵的概念、性质"。这是"两矩阵是否相似"的\textbf{最终判据}——
+相似不变量只用来\textbf{排除}，要\textbf{确认}相似必须比到不变因子／初等因子这一层。
+\end{fdeep}
+
+% ---------- f 与 m 何时足以定相似类（樊 7.3，印刷 440–441）----------
+\begin{fdeep}{特征多项式 $+$ 最小多项式：什么时候就够判定相似}
+设 $A,B$ 的特征多项式同为 $f(\lambda)=\prod_{i=1}^{s}(\lambda-\lambda_i)^{k_i}$，
+最小多项式同为 $m(\lambda)=\prod_{i=1}^{s}(\lambda-\lambda_i)^{r_i}$（$r_i\le k_i$）。
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item 若对每个 $i$ 都有 $k_i\le 3$，则 $A\sim B$。
+      因为 $k_i=1,2,3$ 时整数分拆分别是 $\{1\}$、$\{1+1,\ 2\}$、$\{1+1+1,\ 2+1,\ 3\}$，
+      与之对应的 $r_i$ 恰为 $1,2,3$，故 $f$ 与 $m$ 已唯一决定 Jordan 标准形。
+\item $k_i\ge 4$ 时\textbf{失效}：同一个 $m$ 可对应多种分拆，
+      于是出现"$f,m$ 全同却不相似"的情形（见下一块的反例 2）。
+\end{itemize}
+\textbf{已知 $f$ 与 $m$ 求 Jordan 标准形的算法}：由 $D_n=\chi_A=f$、$d_n=m$ 得
+\fml{D_{n-1}(\lambda)=\frac{f(\lambda)}{m(\lambda)},\qquad
+d_{n-1}(\lambda)=\frac{D_{n-1}(\lambda)}{d_{n-2}(\lambda)}}
+再由 $d_i\mid d_{i+1}$ 逐层定出全部不变因子，分解得初等因子，拼出 $J$。
+【反哺点】服务"理解…可相似对角化的充分必要条件"。
+考研中"已知特征多项式与最小多项式求 Jordan 标准形"是标准大题，
+上面这条 $d_n=m$、$D_n=f$ 的起点可一步到位，不必先去算 $\lambda E-A$ 的子式。
+\end{fdeep}
+
+% ---------- 相似不变量与反例（樊 6.4/7.3，印刷 372–373、436–439）----------
+\begin{fdeep}{相似不变量：判"是否相似"的第一道筛子}
+\textbf{相似的不变量}（都是必要条件，都不充分）：秩、迹、行列式、
+特征多项式（因而特征值与代数重数）、最小多项式、可对角化性。
+于是判"$A$ 与 $B$ 是否相似"有固定流程：\textbf{先比不变量（排除），再比初等因子（确认）}。
+比的顺序由便宜到昂贵：\textbf{秩} $\to$ \textbf{迹、行列式} $\to$
+\textbf{特征多项式}（顺带得特征值）$\to$ \textbf{最小多项式}
+$\to$ \textbf{几何重数}。只要一项不等即判定不相似，并能\textbf{指出理由}。
+\textbf{两个必记反例}：
+\begin{itemize}[leftmargin=1.8em,itemsep=0.2em]
+\item \textbf{特征多项式相同，秩不同}：
+      $A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$，$B=\begin{pmatrix}0&0\\0&0\end{pmatrix}$，
+      二者 $\lvert\lambda E-A\rvert=\lambda^{2}=\lvert\lambda E-B\rvert$，但 $r(A)=1\ne r(B)=0$。
+\item \textbf{连几何重数都相同，仍不相似}：
+      $A=\operatorname{diag}\bigl(J_2(\lambda_0),J_2(\lambda_0)\bigr)$ 与
+      $B=\operatorname{diag}\bigl(J_3(\lambda_0),J_1(\lambda_0)\bigr)$（$4$ 阶），
+      特征值、最小多项式 $(\lambda-\lambda_0)^{2}$、几何重数 $2$ 全部相同，却不相似。
+\end{itemize}
+【反哺点】服务"理解相似矩阵的概念、性质"。这两个反例说明：
+\textbf{特征多项式 $+$ 几何重数}即使全同也不足以定相似类，
+必须比到 Jordan 块阶数的分布（初等因子）这一层。
+\end{fdeep}
+
+% ---------- 反例：正交相似 / 数域 / 实对称例外（樊 7.3、6.4，印刷 442、443、372）----------
+\begin{fdeep}{三个易错的反例：正交相似、数域、实对称的例外}
+\begin{itemize}[leftmargin=1.8em,itemsep=0.25em]
+\item \textbf{相似但不正交相似}：$A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$，
+      $B=\begin{pmatrix}0&2\\0&0\end{pmatrix}$，$\operatorname{diag}(1,2)$ 给出合同且两矩阵相似，
+      却不存在正交 $Q$ 使 $Q^{\mathrm T}AQ=B$
+      （二阶正交阵只有旋转与反射两种，代入即导出矛盾）。
+      \textbf{所以"相似"与"正交相似"必须分清。}
+\item \textbf{相似性依赖数域}：$A=\begin{pmatrix}1&-3&-1\\2&1&0\\3&1&1\end{pmatrix}$，
+      $\chi_A(\lambda)=\lambda^{3}-3\lambda^{2}+12\lambda-8$，$(\chi_A,\chi_A')=1$ 说明无重根，
+      故 $A$ 在复数域上有 $3$ 个互异特征值、可对角化；
+      但在有理数域上它无有理特征值（可能的有理根 $\pm1,\pm2,\pm4,\pm8$ 逐一检验都不成立），
+      故\textbf{在有理数域上不可对角化}。
+\item \textbf{实对称矩阵是例外}：两个实对称矩阵只要有相同的特征值，
+      就一定\textbf{正交}相似——它们的相似类完全由谱决定。
+\end{itemize}
+【反哺点】服务"理解相似矩阵的概念、性质"与"掌握实对称矩阵的特征值和特征向量的性质"。
+选择题问"下列哪个是相似的充分条件"时，这三个反例正好覆盖三个易错陷阱：
+把相似当成正交相似、忽略数域、以及忘记实对称矩阵的特殊性。
+\end{fdeep}
+
+% ---------- Jordan 标准形的求法（樊 7.5，印刷 458–459、467）----------
+\begin{fdeep}{Jordan 标准形怎么求（选读）：一条秩公式定所有块}
+复方阵 $A$ 必相似于一个 Jordan 矩阵，且不计块的排列次序时\textbf{唯一}。
+设 $\lambda_0$ 是 $A$ 的特征值（$r_k=r\bigl((\lambda_0E-A)^{k}\bigr)$），则
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $\lambda_0$ 的块\textbf{总个数} $=g_{\lambda_0}=n-r_1$；
+      \textbf{最大块阶数} $=$ $(\lambda-\lambda_0)$ 在 $m(\lambda)$ 中的重数；
+\item 阶数\textbf{恰为 $k$} 的块 $J_k(\lambda_0)$ 的个数
+      \fml{\delta_k=r_{k-1}+r_{k+1}-2r_k}
+      （$r_0=n$；$r_k$ 递减，稳定后 $\delta_k$ 全为 $0$）。
+\end{itemize}
+\textbf{操作流程}：① 求 $\chi_A(\lambda)$ 得特征值及代数重数；
+② 对每个 $\lambda_0$ 依次算 $r_1,r_2,\dots$ 直到秩稳定；
+③ 用 $\sum_k k\,\delta_k=m_{\lambda_0}$ 与上式拼出 $J$。
+\textbf{已知 $\chi_A$ 求所有可能的 Jordan 形}：对每个代数重数做整数分拆，
+每种分拆给出一类 $J$（如 $(\lambda-2)^{3}(\lambda-3)^{2}$ 共有 $3\times2=6$ 种）。
+\textbf{若还要矩阵 $P$}：按块排成 Jordan 链 $p_1,p_2,\dots$，解
+$(A-\lambda_0E)p_1=0$，$(A-\lambda_0E)p_2=-p_1$，$\dots$
+【反哺点】服务"掌握将矩阵化为相似对角矩阵的方法"。
+$\delta_k$ 公式补上了"块总数、最大块阶数"之外缺的那一格——
+有了它，"求 Jordan 标准形"这一步才是可算的。
+\end{fdeep}
+
+% ---------- 幂零矩阵与秩序列（樊 7.5，印刷 458、460–463）----------
+\begin{fdeep}{幂零矩阵与秩序列：把"零特征值"那一块单独看透}
+$A$ 称为\textbf{幂零矩阵}，若存在正整数 $p$ 使 $A^{p}=O$；最小的 $p$ 叫\textbf{幂零指数}。
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $A$ 幂零 $\iff$ 特征值全为 $0$ $\iff$ 对一切 $k$ 有 $\operatorname{tr}A^{k}=0$；
+      此时 $A\sim\operatorname{diag}\bigl(J_{n_1}(0),\dots,J_{n_s}(0)\bigr)$，幂零指数 $p=\max_i n_i$。
+\item $n$ 阶幂零矩阵的幂零指数为 $n$ $\iff$ 它相似于 $J_n(0)$（只有一个块）。
+\item \textbf{秩序列}：$r(A^{k})$ 单调不增，必在有限步稳定。设 $0$ 的代数重数为 $k_0$、
+      幂零指数为 $p$，则 $r(A^{p})=n-k_0$；更一般地，
+      $r(A^{k})=r(A^{k+1})\Longrightarrow$ $0$ 对应的 Jordan 块阶数都 $\le k$。
+\item \textbf{最有用的一条}：$r(A)=r(A^{2})\iff A\sim
+      \begin{pmatrix}B&O\\O&O\end{pmatrix}$（$B$ 可逆）$\iff$ $0$ 的 Jordan 块全是一阶
+      $\iff$ $V=\ker A\oplus\operatorname{Im}A$。
+\item \textbf{可对角化的秩判据}（不必求特征向量）：对\textbf{每个}特征值 $\lambda_i$ 都有
+      $r(\lambda_iE-A)=r\bigl((\lambda_iE-A)^{2}\bigr)$。
+\end{itemize}
+【反哺点】服务"理解矩阵可相似对角化的充分必要条件"。
+遇到含参数的秩条件题，直接套用上面两条判据，比解特征向量快得多。
+\end{fdeep}
+
+% ---------- 根子空间分解（樊 7.2/7.5，印刷 445、474）----------
+\begin{fdeep}{根子空间分解：可对角化到底"卡"在哪里}
+设 $\chi_A(\lambda)=\prod_{i=1}^{s}(\lambda-\lambda_i)^{k_i}$（$\lambda_i$ 互异，$\sum k_i=n$），
+令 $W_i=\ker(\lambda_iE-A)^{k_i}$，称为 $\lambda_i$ 的\textbf{根子空间}。则
+\fml{V=W_1\oplus W_2\oplus\cdots\oplus W_s,\qquad \dim W_i=k_i\ (\text{恰为代数重数})}
+且 $A|_{W_i}$ 的最小多项式恰为 $(\lambda-\lambda_i)^{k_i}$。
+用最小多项式写也一样：若 $m(\lambda)=p_1(\lambda)\cdots p_s(\lambda)$（$p_i$ 首一不可约、两两互素），
+取 $W_i=p_i(A)^{-1}(0)$，同样得到 $V$ 的直和分解。由此立刻看清：
+\fml{A\ \text{可对角化}\iff W_i=V_{\lambda_i}\ \text{对一切}\ i
+\iff \ker(\lambda_iE-A)^{k_i}=\ker(\lambda_iE-A)
+\iff m(\lambda)\ \text{无重根}}
+\textbf{也就是说}：不管能不能对角化，$V$ 总能拆成 $s$ 块，每块只归一个特征值管——
+不可对角化的"病灶"完全在\emph{块内部}：块内除了伸缩还夹着幂零的错位。
+【反哺点】服务"理解矩阵可相似对角化的充分必要条件"。
+这是"为什么 $m$ 无重根 $\iff$ 可对角化"的\textbf{真正解释}，
+也让"代数重数之和 $=n$、几何重数之和 $\le n$"这种计数式判据有了几何含义。
+\end{fdeep}
+
+% ---------- Jordan-Chevalley 分解（樊 7.5，印刷 467）----------
+\begin{fdeep}{Jordan--Chevalley 分解：任何矩阵 $=$ 可对角化部分 $+$ 幂零部分}
+对任意复方阵 $A$，必存在可对角化矩阵 $S$ 与幂零矩阵 $N$，使得
+\fml{A=S+N,\qquad SN=NS}
+并且这样的分解是\textbf{唯一}的（$S$ 还可写成 $A$ 的多项式）。
+分解的做法就是按特征值切开：$A=\operatorname{diag}(J_{n_1}(\lambda_1),\dots)$ 时，
+把每个 Jordan 块 $J_{n}(\lambda)=\lambda E+J_n(0)$ 拆成 $\lambda E$ 与 $J_n(0)$ 两部分，
+再把同类的 $\lambda E$ 与 $J_n(0)$ 分别归入 $S$ 与 $N$。
+配合"$A$ 与幂零矩阵 $B$ 可交换 $\Longrightarrow$ $A+B$ 与 $A$ 有相同的特征值"，
+立刻得到常用的行列式结论：$B$ 幂零且 $AB=BA$ 时 $\lvert A+B\rvert=\lvert A\rvert$
+（去掉 $AB=BA$ 结论不成立）。
+【反哺点】服务"理解矩阵可相似对角化的充分必要条件"，并服务于行列式的计算。
+$A=S+N$ 把"不可对角化"的责任精确地推给幂零部分 $N$：
+$N=O$ 就对角化，$N\ne O$ 就不可对角化——这是本章核心问题的最干净答案。
+\end{fdeep}
+
+% ---------- 实对称矩阵的正交对角化（樊 8.4，印刷 546–547）----------
+\begin{fdeep}{实对称矩阵的正交对角化：构造 $Q$ 的四步定式}
+设 $A$ 为 $n$ 阶\textbf{实对称矩阵}，则
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $A$ 的特征值\textbf{全为实数}（从而 $A$ 一定可对角化，不存在"不能对角化"的实对称矩阵）；
+\item 属\textbf{不同}特征值的特征子空间\textbf{互相正交}；
+\item 存在\textbf{正交矩阵} $Q$（$Q^{-1}=Q^{\mathrm T}$）使
+      \fml{Q^{-1}AQ=Q^{\mathrm T}AQ=\operatorname{diag}(\lambda_1,\dots,\lambda_n)}
+      其中 $\lambda_1,\dots,\lambda_n$ 是 $A$ 的全部特征值，$Q$ 的\textbf{列向量}是相应的
+      \textbf{正交规范化}特征向量。
+\end{itemize}
+\textbf{构造 $Q$ 的操作步骤}：① 解 $\lvert\lambda E-A\rvert=0$ 得全部特征值及代数重数；
+② 对每个特征值解 $(\lambda E-A)x=0$ 取基础解系；
+③ 若某特征值的特征向量多于一个，先作 Schmidt 正交化（不同特征值之间\textbf{自动正交}，
+不必再做）；④ 把全部向量单位化，按列排成 $Q$。
+\textbf{对称变换的平行结论}：欧氏空间的线性变换 $\mathcal A$ 满足
+$(\mathcal A\alpha,\beta)=(\alpha,\mathcal A\beta)$ 时称\textbf{对称变换}，
+它等价于"在标准正交基下矩阵为实对称矩阵"；对称变换的不变子空间的\textbf{正交补也是不变子空间}，
+这正是它能正交对角化的几何根源。
+【反哺点】服务考纲"掌握实对称矩阵的特征值和特征向量的性质"。
+记住"不同特征值的特征向量自动正交"，第 ③ 步就只需在\textbf{重根内部}做正交化——
+这是实对称题最容易多做或漏做的一步。
+\end{fdeep}
+
+% ---------- 实对称矩阵的追加结论（樊 8.4/6.4，印刷 553–554、382）----------
+\begin{fdeep}{同时对角化与谱分解：可交换带来的额外红利}
+\textbf{同时对角化定理}：设 $A,B$ 均为 $n$ 阶实对称矩阵，则
+\fml{\text{存在正交矩阵 }Q\text{ 使 }Q^{\mathrm T}AQ\ \text{与}\ Q^{\mathrm T}BQ\ \text{同为对角阵}
+\iff AB=BA}
+（一般数域上亦然。）
+\textbf{证明思路}：取正交 $P$ 使
+$P^{\mathrm T}AP=\operatorname{diag}(\lambda_1E_1,\dots,\lambda_sE_s)$；
+把 $P^{\mathrm T}BP$ 同样分块写成 $(B_{ij})$，代入 $AB=BA$ 得
+$\lambda_iB_{ij}=B_{ij}\lambda_j$，故 $i\ne j$ 时 $B_{ij}=O$；
+最后对每个对角子块 $B_{ii}$（仍实对称）各自正交对角化，拼起来即是 $Q$。
+于是 $A,B,AB$ 都实对称且可交换时，
+若 $\lambda$ 是 $AB$ 的特征值，则存在 $A$ 的特征值 $s$、$B$ 的特征值 $t$ 使 $\lambda=st$。
+
+\textbf{谱分解（可对角化时的幂等分解）}：$m(\lambda)=\prod_{i=1}^{k}(\lambda-\lambda_i)$ 无重根时，
+存在幂等矩阵 $A_1,\dots,A_k$ 使
+\fml{A_iA_j=\begin{cases}A_i,&i=j\\ O,&i\ne j\end{cases},\qquad
+\sum_{i=1}^{k}A_i=E,\qquad A=\sum_{i=1}^{k}\lambda_iA_i}
+它就是按特征值分块 $A=P\operatorname{diag}(\lambda_1E_{n_1},\dots)P^{-1}$ 的产物。
+【反哺点】服务"掌握实对称矩阵的特征值和特征向量的性质"与"将矩阵化为相似对角矩阵"。
+"同时对角化 $\iff$ 可交换"是高频结论；谱分解把相似关系写成不含 $P$ 的等式。
+\end{fdeep}
+
+% ---------- Rayleigh 商（樊 8.4，印刷 550）----------
+\begin{fdeep}{Rayleigh 商：把最大（小）特征值写成最值}
+设 $A$ 为 $n$ 阶实对称矩阵，$\lambda_1\le\lambda_2\le\cdots\le\lambda_n$ 为其特征值，则
+\fml{\lambda_1=\min_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}x},\qquad
+\lambda_n=\max_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}x}}
+更一般地，若 $B$ 正定，$\lambda_0$ 是 $\lvert A-\lambda B\rvert=0$ 的最大根，则
+\fml{\lambda_0=\max_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}Bx}}
+证明只用一步：把 $A,B$ 同时对角化（$P^{\mathrm T}BP=E$、$P^{\mathrm T}AP=\operatorname{diag}(\lambda_i)$），
+令 $x=Py$、$y\ne0$，上式化为加权平均
+$\frac{\sum\lambda_iy_i^{2}}{\sum y_i^{2}}$，其最大值即 $\max\lambda_i$。
+\textbf{常用推论}：对一切 $x\ne0$ 有 $\lambda_1x^{\mathrm T}x\le x^{\mathrm T}Ax\le\lambda_nx^{\mathrm T}x$；
+二次型在单位球面 $\lVert x\rVert=1$ 上的最大值、最小值就是 $\lambda_{\max},\lambda_{\min}$。
+【反哺点】服务考纲"掌握实对称矩阵的特征值和特征向量的性质"。
+遇到"求二次型最大值""估计特征值范围""$\lambda_{\max}=\max x^{\mathrm T}Ax/x^{\mathrm T}x$"这类题，
+写 Rayleigh 商往往一步出结果，不必先把矩阵对角化。
+\end{fdeep}
+
+% ---------- 由特征值/特征向量反求矩阵（樊 6.4/8.4，印刷 374–375、548）----------
+\begin{fdeep}{由特征值、特征向量反求矩阵：三条通路}
+\textbf{通路 1（相似反求）}：已知 $A$ 的 $n$ 个线性无关特征向量 $\xi_1,\dots,\xi_n$
+及对应特征值，令 $P=(\xi_1,\dots,\xi_n)$、$\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)$，则
+\fml{A=P\Lambda P^{-1},\qquad A^{n}\beta=\sum_{i=1}^{n}c_i\lambda_i^{n}\xi_i
+\quad\Bigl(\beta=\sum c_i\xi_i\Bigr)}
+右式是求 $A^{n}\beta$ 的快捷通道（先解出组合系数 $c_i$）。
+若只给了一部分特征向量，用\textbf{秩}补齐：如 $3$ 阶实对称 $A$ 满足 $r(A)=2$、$AB=C$，
+由 $C$ 的列读出两个特征向量，$r(A)=2$ 给出第三个特征值 $0$，
+再由\textbf{不同特征值的特征向量必正交}，令 $\xi_3\perp\xi_1,\xi_2$ 解方程组即得。
+
+\textbf{通路 2（伴随方程反求特征值）}：若已知 $A^{*}\xi=\xi$，两边左乘 $A$ 并用
+$AA^{*}=\lvert A\rvert E$ 得 $A\xi=\lvert A\rvert\xi$，于是\textbf{一次读出}一个特征值 $\lvert A\rvert$
+及特征向量 $\xi$；再用 $\operatorname{tr}A$、$\det A$ 联立定出其余特征值。
+
+\textbf{通路 3（幂等／多项式形式）}：$m(\lambda)$ 无重根时用谱分解 $A=\sum\lambda_iA_i$；
+特别地 $A^{2}=A\Rightarrow A=P\operatorname{diag}(E_r,O)P^{-1}$（$r=r(A)$）。
+【反哺点】服务"掌握将矩阵化为相似对角矩阵的方法"与实对称矩阵的性质。
+"反求矩阵"类大题的条件最终都归结为\textbf{找出特征值与特征向量}。
+\end{fdeep}
+
+% ---------- 与 A 可交换的矩阵（樊 6.4 印刷 377、383–384；7.2 印刷 433–435）----------
+\begin{fdeep}{与 $A$ 可交换的矩阵：什么时候它一定是 $A$ 的多项式}
+\begin{itemize}[leftmargin=1.8em,itemsep=0.2em]
+\item \textbf{同时上三角化}：$AB=BA$ 时存在可逆 $P$ 使 $P^{-1}AP$ 与 $P^{-1}BP$
+      \textbf{同为上三角}（对阶数归纳：先取公共特征向量，再降一阶）。
+      于是 $A+\lambda B$ 的特征值是 $a_i+\lambda b_i$，故
+      \fml{\lvert A+\lambda B\rvert=\prod_{i=1}^{n}(a_i+\lambda b_i)}
+\item \textbf{每个特征子空间都是一维时}（等价于 $m_A=\chi_A$，也等价于有循环向量），
+      与 $A$ 可交换的 $B$ 必为 $A$ 的\textbf{多项式}：
+      \fml{B=c_1E+c_2A+\dots+c_nA^{n-1}}
+      系数由 $\sum_j c_j\lambda_i^{j-1}=b_i$（$b_i$ 是 $B$ 的特征值）唯一确定。
+      $A$ 有 $n$ 个互异特征值只是它的特例：此时 $A$ 的每个特征子空间自动一维。
+\item \textbf{反向}：若任何与 $A$ 可交换的矩阵都是 $A$ 的多项式，则 $m_A=\chi_A$。
+      所以"可交换矩阵全是多项式"与"$m=\chi$"是同一件事的两种说法。
+\item 一般情形：$A$ 可对角化时，$B$ 不必是 $A$ 的多项式，但一定与 $A$
+      \textbf{同时（分块）对角化}——把 $A$ 的特征子空间取作分块即可。
+\end{itemize}
+【反哺点】服务"掌握将矩阵化为相似对角矩阵的方法"。
+"$AB=BA$ $\Rightarrow$ 可同时上三角化／同时（分块）对角化"是处理矩阵方程题的总钥匙；
+"$B=f(A)$"则是"证明某矩阵是 $A$ 的多项式"这类题的固定套路。
+\end{fdeep}
+
+% ---------- 含参数矩阵何时可对角化（樊 6.4/6.91、7.5/7.79）----------
+\begin{fdeep}{含参数矩阵"何时可对角化/相似"：四种可套用的判据}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.2em]
+\item \textbf{零化多项式无重根就够}：若能验证存在\textbf{无重根}多项式 $g$ 使 $g(A)=O$，
+      则 $A$ 可对角化。三个推论：$A^{2}=A$（幂等）、$A^{2}=E$（对合）、$A^{m}=E$
+      $\Longrightarrow$ 可对角化，特征值分别只能是 $\{0,1\}$、$\{1,-1\}$、$m$ 次单位根。
+\item \textbf{秩条件}：$r(A)+r(A-E)=n\iff A^{2}=A$；此时 $A$ 可对角化，
+      $\operatorname{tr}A=r(A)$，$\lvert\lambda E-A\rvert=\lambda^{n-r}(\lambda-1)^{r}$（$r=r(A)$）。
+      同理 $r(A)=r(A^{2})$ 时 $0$ 的 Jordan 块全是一阶。
+\item \textbf{"相似"题按"特征值 $\to$ 最小多项式 $\to$ 初等因子"三层筛}：
+      先用同迹、同行列式定出一部分参数，再用最小多项式筛，最后用初等因子组确认。
+      例：$\begin{pmatrix}1&2&2\\2&a&2\\2&2&1\end{pmatrix}\sim\operatorname{diag}(-1,0,0)$
+      $\Rightarrow 2+a=\operatorname{tr}B$、$-3a+8=\det B$，解得 $a=1$；
+      \textbf{更快的路}是"$A$ 可对角化 $\Rightarrow r(-E-A)=1$"，一个秩条件即定 $a$。
+\end{enumerate}
+【反哺点】服务"理解…可相似对角化的充分必要条件，掌握将矩阵化为相似对角矩阵的方法"。
+含参数题有这四类入口，前两类几乎不必解特征向量，是选填题的秒杀手段。
+\end{fdeep}
+
+
+% ===========================================================================
+%  【主控裁决 · 第 8 章 deep_ch08_fan 取舍】（依据 AGENTS.md §2 决定二）
+%
+%  第 8 章是本蓝本的**深化示范章**，但两份深化料共 28 块 + 手写 3 块 = 31 块，
+%  相对骨架（9 讲 5 页）严重失衡。故按「考纲要求 + 与北大料去重」裁到 8 块。
+%
+%  【保留 8 块】
+%   ✓ 块3　{不变因子与初等因子：判断"两矩阵是否相似"的充要判据
+%   ✓ 块6　{三个易错的反例：正交相似、数域、实对称的例外
+%   ✓ 块7　{Jordan 标准形怎么求（选读）：一条秩公式定所有块
+%   ✓ 块8　{幂零矩阵与秩序列：把"零特征值"那一块单独看透
+%   ✓ 块12　{同时对角化与谱分解：可交换带来的额外红利
+%   ✓ 块13　{Rayleigh 商：把最大（小）特征值写成最值
+%   ✓ 块14　{由特征值、特征向量反求矩阵：三条通路
+%   ✓ 块16　{含参数矩阵"何时可对角化/相似"：四种可套用的判据
+%
+%  【删除 8 块及理由】
+%   ✗ 块1　{最小多项式：定义、四条性质与"无重根"判据
+%   ✗ 块2　{最小多项式怎么求：三条可操作的算法
+%   ✗ 块4　{特征多项式 $+$ 最小多项式：什么时候就够判定相似
+%   ✗ 块5　{相似不变量：判"是否相似"的第一道筛子
+%   ✗ 块9　{根子空间分解：可对角化到底"卡"在哪里
+%   ✗ 块10　{Jordan--Chevalley 分解：任何矩阵 $=$ 可对角化部分 $+$ 幂零部分
+%   ✗ 块11　{实对称矩阵的正交对角化：构造 $Q$ 的四步定式
+%   ✗ 块15　{与 $A$ 可交换的矩阵：什么时候它一定是 $A$ 的多项式
+%
+%   · 块1、块2「最小多项式的定义/性质/求法」→ 北大 deep_ch08_beida 块2-4 已给完整的
+%       定义、四条性质与"无重根⟺可对角化"，樊书此处重复。
+%   · 块4、块5「特征多项式+最小多项式判定相似」「相似不变量」→ 北大块9「相似不变量的
+%       完整清单」已收，且本片块3「不变因子与初等因子」是更强的充要判据，后者已覆盖前者。
+%   · 块9、块10「根子空间分解」「Jordan–Chevalley 分解」→ 北大块7「根子空间分解」已收；
+%       Chevalley 分解属超纲拓展（考纲不涉），删。
+%   · 块11「实对称矩阵的正交对角化四步」→ 北大块10「实对称三性质」+ 块12「求正交矩阵 T
+%       的三步法」已覆盖同一操作，取北大版（与教材编号一致）。
+%   · 块15「与 A 可交换的矩阵何时是 A 的多项式」→ 纯理论拓展，反哺度低，删。
+%
+%  【保留的独有价值】樊书块3（不变因子/初等因子充要判据）、块7（δ_k=r_{k-1}+r_{k+1}-2r_k
+%   一条公式定所有 Jordan 块，标注选读）、块8（幂零与秩序列）、块12（同时对角化与谱分解）、
+%   块13（Rayleigh 商，选读）、块14（反求矩阵三条通路）、块16（含参数矩阵四种判据）、
+%   块6（三个易错反例）——这些是北大料**没有覆盖**的面向。
+% ===========================================================================

@@ -1,0 +1,219 @@
+% ===========================================================
+%  附录 —— 由主控撰写（全书综合，非转录内容）
+%  附录 A：三种关系（相抵/相似/合同）不变量对照表
+%  附录 B：常用结论速查
+%  附录 C：考研数学大纲·线性代数部分原文
+% ===========================================================
+
+\fchap{附录 A\quad 三种关系对照表}
+
+\begin{fdeep}{相抵 / 相似 / 合同：一张表分清三种“等价”}
+全书出现了三种“把矩阵变简单”的关系，它们的形式、要求与不变量各不相同。
+\key{判断题目该用哪一种，看它要求保留什么}：
+
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{@{}p{1.9cm}p{3.0cm}p{2.6cm}p{5.2cm}@{}}
+\toprule
+\textbf{关系} & \textbf{变换形式} & \textbf{要求} & \textbf{不变量（判断依据）} \\
+\midrule
+\textbf{相抵}（等价） & $B=PAQ$ & $P,Q$ 可逆 & \key{秩}（唯一不变量） \\
+\textbf{相似} & $B=P^{-1}AP$ & $P$ 可逆 & 特征多项式、迹、行列式、秩、最小多项式、Jordan 形、可对角化性 \\
+\textbf{合同} & $B=C^{\mathrm T}AC$ & $C$ 可逆 & \key{正负惯性指数}（即秩 $+$ 正定性类型） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{三者的强弱关系}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{相似 $\Rightarrow$ 相抵}：取 $Q=P^{-1}$ 即可；反之不成立。
+\item \textbf{合同 $\Rightarrow$ 相抵}：取 $P=C^{\mathrm T}$、$Q=C$ 即可；反之不成立。
+\item \textbf{相似与合同互不包含}：相似不保证对称性被保持（$P^{-1}AP$ 未必对称），
+      合同不保证特征值不变（$C^{\mathrm T}AC$ 的特征值一般会变）。
+\item \textbf{唯一的交集是正交相似}：若 $C$ 取正交矩阵 $Q$（$Q^{\mathrm T}=Q^{-1}$），
+      则 $Q^{\mathrm T}AQ=Q^{-1}AQ$ \textbf{既是合同又是相似}——
+      这正是“正交对角化”的特殊地位：同时保住惯性指数与特征值。
+\end{itemize}
+
+\textbf{对应的“标准形”}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 相抵标准形：$\begin{pmatrix}E_r&O\\O&O\end{pmatrix}$（$r=r(A)$）；
+\item 相似标准形：$\Lambda$（可对角化时）或 Jordan 形（不可对角化时）；
+\item 合同标准形：$\operatorname{diag}(1,\dots,1,-1,\dots,-1,0,\dots,0)$（规范形，唯一）。
+\end{itemize}
+
+\fbref{}这是全书最该背下的一张表。考场上判断“$A$ 与 $B$ 是相似还是合同”时按表逐项比不变量：
+\must{看特征值就是想相似，看正负惯性指数就是想合同}。
+二次型用合同（因为二次型只关心 $x^{\mathrm T}Ax$ 的值），特征值用相似（因为相似保持特征值）。
+\end{fdeep}
+
+\fchap{附录 B\quad 常用结论速查}
+
+\begin{fdeep}{行列式与矩阵}
+\textbf{行列式}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $|A^{\mathrm T}|=|A|$；$|kA|=k^{n}|A|$（\warn{$n$ 行各出一个 $k$}）；
+\item $|AB|=|A||B|$；$|A^{-1}|=|A|^{-1}$；$|A^{*}|=|A|^{\,n-1}$；
+\item $A\sim B\Rightarrow|A|=|B|$；上（下）三角行列式 $=$ 主对角线乘积。
+\end{itemize}
+\textbf{伴随矩阵}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $AA^{*}=A^{*}A=|A|E$；$A^{-1}=\dfrac{1}{|A|}A^{*}$（$|A|\ne0$）；
+\item $r(A^{*})=n$（$r(A)=n$）、$1$（$r(A)=n-1$）、$0$（$r(A)\le n-2$）；
+\item $(A^{*})^{*}=|A|^{\,n-2}A$（$n\ge3$）；$(kA)^{*}=k^{\,n-1}A^{*}$。
+\end{itemize}
+\textbf{可逆的等价刻画}（$n$ 阶）
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $A$ 可逆 $\iff|A|\ne0\iff r(A)=n\iff$ 列（行）向量组线性无关
+      $\iff Ax=0$ 只有零解 $\iff A\sim E\iff$ 特征值全非零 $\iff$ 可表为初等矩阵之积。
+\item $AB=E\Rightarrow A,B$ 互逆（方阵只需验一边）。
+\end{itemize}
+\fbref{}服务〔行列式〕〔矩阵〕两节。这些是纯速算结论，考场上直接调用。
+\end{fdeep}
+
+\begin{fdeep}{秩与线性方程组}
+\textbf{秩}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $0\le r(A_{m\times n})\le\min\{m,n\}$；$r(A)=r(A^{\mathrm T})=r(AA^{\mathrm T})=r(A^{\mathrm T}A)$（实矩阵）；
+\item $r(AB)\le\min\{r(A),r(B)\}$；$|r(A)-r(B)|\le r(A+B)\le r(A)+r(B)$；
+\item \key{Sylvester}：$r(AB)\ge r(A)+r(B)-n$（$A$ 为 $m\times n$、$B$ 为 $n\times s$）；
+\item $AB=O\Rightarrow r(A)+r(B)\le n$；
+\item $P,Q$ 可逆 $\Rightarrow r(PAQ)=r(A)$；$r(A)=$ 阶梯形非零行数 $=$ 最高阶非零子式阶数。
+\end{itemize}
+\textbf{线性方程组}（$A$ 为 $m\times n$）
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $Ax=b$ 有解 $\iff r(A)=r([A\mid b])$（即 $b$ 落在 $A$ 的列空间中）；
+\item 无解 $\iff r([A\mid b])=r(A)+1$；
+\item 有解时：$r(A)=n$ 唯一解；$r(A)<n$ 无穷多解（$n-r$ 个自由参数）；
+\item 齐次 $Ax=0$：基础解系含 $\boxed{n-r(A)}$ 个向量，通解为 $k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$；
+\item 非齐次通解 $=$ 特解 $+$ 导出组通解（解集是仿射子空间，不是子空间）；
+\item $Ax=\beta$ 有解的等价说法：$\beta$ 可由 $A$ 的列向量组表出 $\iff$ 两向量组等价
+      $\iff L(\alpha)=L(\alpha,\beta)\iff r(A)=r(A,\beta)$。
+\end{itemize}
+\fbref{}服务〔矩阵〕〔向量〕〔线性方程组〕三节。$n-r(A)$ 是全书最高频的量。
+\end{fdeep}
+
+\begin{fdeep}{特征值、相似与二次型}
+\textbf{特征值}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $\displaystyle\sum_i\lambda_i=\operatorname{tr}A$，$\displaystyle\prod_i\lambda_i=|A|$（重数计入）；
+\item 特征子空间 $V_{\lambda}=N(\lambda E-A)$，$\dim V_{\lambda}=n-r(\lambda E-A)$（几何重数）；
+\item $1\le g_{\lambda}\le m_{\lambda}$（几何重数 $\le$ 代数重数）；
+\item 不同特征值的特征向量线性无关；实矩阵的复特征值共轭成对；
+\item $A^{k},A^{-1},A^{*},f(A)$ 的特征值分别为 $\lambda^{k},\frac1\lambda,\frac{|A|}{\lambda},f(\lambda)$（同一特征向量）；
+\item \key{Hamilton--Cayley}：$f(A)=O$，故 $A^{k}=r(A)$（$r$ 为 $f$ 除 $\lambda^{k}$ 的余式，$\deg r<n$）。
+\end{itemize}
+\textbf{相似与可对角化}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item $A$ 可对角化 $\iff$ 有 $n$ 个线性无关特征向量 $\iff$ 每个 $\lambda$ 都有 $g_{\lambda}=m_{\lambda}$
+      $\iff\sum_{\lambda}g_{\lambda}=n\iff$ 最小多项式无重根；
+\item 有 $n$ 个\textbf{互不相同}特征值 $\Rightarrow$ 可对角化（反之不成立）；
+\item 实对称矩阵：特征值全实、不同特征值的特征向量正交、\must{必可正交对角化}
+      （存在正交 $Q$ 使 $Q^{\mathrm T}AQ=\Lambda$）。
+\end{itemize}
+\textbf{二次型}
+\begin{itemize}[leftmargin=2.2em,itemsep=0.2em]
+\item 二次型矩阵必须取\textbf{对称}矩阵（交叉项系数平分）；
+\item \key{惯性定理}：合同变换下正、负惯性指数不变（故规范形唯一）；
+\item 正交变换化标准形：系数\textbf{恰为特征值}；配方法：只保证正负个数相同（系数一般不是特征值）；
+\item \must{自检}：正交变换所得标准形的系数之和 $=\operatorname{tr}A$；
+\item \textbf{正定六条等价}：定义（$x^{\mathrm T}Ax>0$）、顺序主子式全正、特征值全正、
+      正惯性指数 $=n$、与 $E$ 合同、存在可逆 $C$ 使 $A=C^{\mathrm T}C$；
+\item \warn{陷阱}：主对角元全正 \textbf{推不出}正定；
+      半正定要查\textbf{所有}主子式 $\ge0$（顺序主子式不够）。
+\end{itemize}
+\fbref{}服务〔特征值〕〔二次型〕两节。注意“正定”与“半正定”、正交变换与配方的分工。
+\end{fdeep}
+
+\fchap{附录 C\quad 考纲原文（线性代数部分）}
+
+\begin{fnote}
+以下为《全国硕士研究生招生考试数学考试大纲》中\textbf{线性代数}部分的原文，
+是本蓝本范围的\textbf{唯一依据}。原文见大纲 PDF 第 18--20 页（印刷页 14--16）。
+\end{fnote}
+
+\begin{fnote}
+\textbf{一、行列式}
+
+\textbf{考试内容}：行列式的概念和基本性质\quad 行列式按行（列）展开定理。
+
+\textbf{考试要求}：
+1. 了解行列式的概念，掌握行列式的性质。
+2. 会应用行列式的性质和行列式按行（列）展开定理计算行列式。
+\end{fnote}
+
+\begin{fnote}
+\textbf{二、矩阵}
+
+\textbf{考试内容}：矩阵的概念\quad 矩阵的线性运算\quad 矩阵的乘法\quad 方阵的幂\quad
+方阵乘积的行列式\quad 矩阵的转置\quad 逆矩阵的概念和性质\quad 矩阵可逆的充分必要条件\quad
+伴随矩阵\quad 矩阵的初等变换\quad 初等矩阵\quad 矩阵的等价\quad 分块矩阵及其运算。
+
+\textbf{考试要求}：
+1. 理解矩阵的概念，了解单位矩阵、数量矩阵、对角矩阵、三角矩阵、对称矩阵和反对称矩阵以及它们的性质。
+2. 掌握矩阵的线性运算、乘法、转置以及它们的运算规律，了解方阵的幂与方阵乘积的行列式的性质。
+3. 理解逆矩阵的概念，掌握逆矩阵的性质以及矩阵可逆的充分必要条件，理解伴随矩阵的概念，会用伴随矩阵求逆矩阵。
+4. 理解矩阵初等变换的概念，了解初等矩阵的性质和矩阵等价的概念，理解矩阵的秩的概念，
+   掌握用初等变换求矩阵的秩和逆矩阵的方法。
+5. 了解分块矩阵及其运算。
+\end{fnote}
+
+\begin{fnote}
+\textbf{三、向量}
+
+\textbf{考试内容}：向量的概念\quad 向量的线性组合与线性表示\quad 向量组的线性相关与线性无关\quad
+向量组的极大线性无关组\quad 等价向量组\quad 向量组的秩\quad 向量组的秩与矩阵的秩之间的关系\quad
+向量空间及其相关概念\quad $n$ 维向量空间的基变换和坐标变换\quad 过渡矩阵\quad 向量的内积\quad
+线性无关向量组的正交规范化方法\quad 规范正交基\quad 正交矩阵及其性质。
+
+\textbf{考试要求}：
+1. 理解 $n$ 维向量、向量的线性组合与线性表示的概念。
+2. 理解向量组线性相关、线性无关的概念，掌握向量组线性相关、线性无关的有关性质及判别法。
+3. 理解向量组的极大线性无关组和向量组的秩的概念，会求向量组的极大线性无关组及秩。
+4. 理解向量组等价的概念，理解矩阵的秩与其行（列）向量组的秩之间的关系。
+5. 了解 $n$ 维向量空间、子空间、基底、维数、坐标等概念。
+6. 了解基变换和坐标变换公式，会求过渡矩阵。
+7. 了解内积的概念，掌握线性无关向量组正交规范化的施密特（Schmidt）方法。
+8. 了解规范正交基、正交矩阵的概念以及它们的性质。
+\end{fnote}
+
+\begin{fnote}
+\textbf{四、线性方程组}
+
+\textbf{考试内容}：线性方程组的克拉默（Cramer）法则\quad 齐次线性方程组有非零解的充分必要条件\quad
+非齐次线性方程组有解的充分必要条件\quad 线性方程组解的性质和解的结构\quad
+齐次线性方程组的基础解系和通解\quad 解空间\quad 非齐次线性方程组的通解。
+
+\textbf{考试要求}：
+1. 会用克拉默法则。
+2. 理解齐次线性方程组有非零解的充分必要条件及非齐次线性方程组有解的充分必要条件。
+3. 理解齐次线性方程组的基础解系、通解及解空间的概念，掌握齐次线性方程组的基础解系和通解的求法。
+4. 理解非齐次线性方程组解的结构及通解的概念。
+5. 掌握用初等行变换求解线性方程组的方法。
+\end{fnote}
+
+\begin{fnote}
+\textbf{五、矩阵的特征值和特征向量}
+
+\textbf{考试内容}：矩阵的特征值和特征向量的概念、性质\quad 相似变换、相似矩阵的概念及性质\quad
+矩阵可相似对角化的充分必要条件及相似对角矩阵\quad 实对称矩阵的特征值、特征向量及其相似对角矩阵。
+
+\textbf{考试要求}：
+1. 理解矩阵的特征值和特征向量的概念及性质，会求矩阵的特征值和特征向量。
+2. 理解相似矩阵的概念、性质及矩阵可相似对角化的充分必要条件，掌握将矩阵化为相似对角矩阵的方法。
+3. 掌握实对称矩阵的特征值和特征向量的性质。
+\end{fnote}
+
+\begin{fnote}
+\textbf{六、二次型}
+
+\textbf{考试内容}：二次型及其矩阵表示\quad 合同变换与合同矩阵\quad 二次型的秩\quad 惯性定理\quad
+二次型的标准形和规范形\quad 用正交变换和配方法化二次型为标准形\quad 二次型及其矩阵的正定性。
+
+\textbf{考试要求}：
+1. 掌握二次型及其矩阵表示，了解二次型秩的概念，了解合同变换与合同矩阵的概念，
+   了解二次型的标准形、规范形的概念以及惯性定理。
+2. 掌握用正交变换化二次型为标准形的方法，会用配方法化二次型为标准形。
+3. 理解正定二次型、正定矩阵的概念，并掌握其判别法。
+\end{fnote}

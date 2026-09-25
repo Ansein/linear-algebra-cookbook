@@ -1,0 +1,368 @@
+% ===========================================================
+% 《线性代数9讲》第 3 讲  矩阵运算 —— 片段 C（本讲末段）
+% 源：线代9讲强化.pdf  PDF p43–p51（印刷页 32–40），共 9 页
+% 处理说明：
+%   1) 原稿「三向解题法」方法论标记（O / D / P 系列，如 D21、D22、D23）按
+%      AGENTS.md §7.1 决定二剔除，仅以 % OPD 注释留痕，不排入正文；
+%      \fsec 标题中只删 OPD 括号，保留路线 / 方法名；
+%   2) 数学内容与数学操作旁注（如「(1) 倍加至」「(-1) 倍加至」）照原文保留；
+%   3) 交叉引用（见本讲的「一、1.」和「二、2.」）照原文排入；
+%   4) 第 3 讲末尾（PDF p50–p51，印刷页 39–40）**无「习题」栏**，
+%      p51 为【注】（全讲收束语），正文结束后整页留白；
+%      PDF p52（印刷页 41）即第 4 讲「矩阵的秩」标题页。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p43（印刷页 32）
+% -----------------------------------------------------------
+% 承 PDF p42（印刷页 31）★★★例 3.17 的题干（$A=BC$）；本页为（1）（2）两问及【解】
+\begin{fcard}{★★★例 3.17（续）}
+（1）求矩阵 $C$；
+
+（2）计算 $A^{10}$.
+% OPD 蓝色标注（原稿）：（2）计算 $A^{10}$ $\xrightarrow{D_{23}\text{（化归经典形式）}}$
+%   $A=\boxed{B}\boxed{C}$, $A^{2}=BCBC=B\boxed{\square}C$, $\cdots$, $A^{10}=B\boxed{\square^{9}}C$
+%   （方框下另标阶数 $4\times4$、$4\times2$、$2\times4$、$2\times2$）
+
+% 原稿蓝色旁注（带箭头指向「记 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$」）：
+% 线性代数的研究对象是「向量」，这是解本题的突破口，牢牢抓住一个学科的研究对象是基本思考方向，也是「绝招」之一
+
+【解】（1）$A=\begin{pmatrix}1 & 1 & 1 & 1\\ 1 & 1 & 1 & 1\\ 2 & 1 & 0 & -1\\ -1 & 0 & 1 & 2\end{pmatrix}\overset{\text{记}}{=}[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$，对 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$ 进行初等行变换，即
+
+\fmll{[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\xrightarrow{(1)\text{ 倍加至}}\begin{pmatrix}1 & 1 & 1 & 1\\ 0 & 0 & 0 & 0\\ 2 & 1 & 0 & -1\\ -1 & 0 & 1 & 2\end{pmatrix}\xrightarrow{(-2)\text{ 倍加至}}\begin{pmatrix}1 & 1 & 1 & 1\\ 0 & 0 & 0 & 0\\ 0 & -1 & -2 & -3\\ -1 & 0 & 1 & 2\end{pmatrix}\xrightarrow{\text{(1) 倍加至}}\begin{pmatrix}1 & 1 & 1 & 1\\ 0 & 0 & 0 & 0\\ 0 & -1 & -2 & -3\\ 0 & 1 & 2 & 3\end{pmatrix}}
+\fmll{\xrightarrow{(-1)\text{ 倍加至}}\begin{pmatrix}1 & 0 & -1 & -2\\ 0 & 1 & 2 & 3\\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0\end{pmatrix}.}
+
+因为 $B=[\alpha_3,\alpha_2]$，所以取 $\alpha_2$，$\alpha_3$ 作为 $\alpha_1$，$\alpha_2$，$\alpha_3$，$\alpha_4$ 的一个极大线性无关组，且 $\alpha_1=-\alpha_3+2\alpha_2$，$\alpha_4=2\alpha_3-\alpha_2$，故
+
+\fml{A=[\alpha_1,\alpha_2,\alpha_3,\alpha_4]=[\alpha_3,\alpha_2]\begin{bmatrix}-1 & 0 & 1 & 2\\ 2 & 1 & 0 & -1\end{bmatrix}=BC,}
+
+于是 $C=\begin{bmatrix}-1 & 0 & 1 & 2\\ 2 & 1 & 0 & -1\end{bmatrix}$.
+
+% 原稿蓝色旁注（交叉引用）：见本讲的「一、1.」和「二、2.」
+
+（2）由于 $CB=\begin{bmatrix}-1 & 0 & 1 & 2\\ 2 & 1 & 0 & -1\end{bmatrix}\begin{bmatrix}1 & 1\\ 1 & 1\\ 0 & 1\\ 1 & 0\end{bmatrix}=\begin{bmatrix}1 & 0\\ 2 & 3\end{bmatrix}$，则由
+
+\fml{|\lambda E-CB|=\begin{vmatrix}\lambda-1 & 0\\ -2 & \lambda-3\end{vmatrix}=(\lambda-1)(\lambda-3)=0,}
+
+解得 $\lambda_1=1$，$\lambda_2=3$.
+
+当 $\lambda_1=1$ 时，由 $(E-CB)x=0$，解得 $\xi_1=\begin{bmatrix}1\\ -1\end{bmatrix}$；
+
+当 $\lambda_2=3$ 时，由 $(3E-CB)x=0$，解得 $\xi_2=\begin{bmatrix}0\\ 1\end{bmatrix}$.
+
+令 $P=\begin{bmatrix}1 & 0\\ -1 & 1\end{bmatrix}$，使得 $P^{-1}CBP=\begin{bmatrix}1 & 0\\ 0 & 3\end{bmatrix}$，即 $CB=P\begin{bmatrix}1 & 0\\ 0 & 3\end{bmatrix}P^{-1}$.
+
+\fml{(CB)^{9}=P\begin{bmatrix}1 & 0\\ 0 & 3\end{bmatrix}^{9}P^{-1}=\begin{bmatrix}1 & 0\\ -1 & 1\end{bmatrix}\begin{bmatrix}1 & 0\\ 0 & 3^{9}\end{bmatrix}\begin{bmatrix}1 & 0\\ 1 & 1\end{bmatrix}=\begin{bmatrix}1 & 0\\ 3^{9}-1 & 3^{9}\end{bmatrix},}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p44（印刷页 33）
+% -----------------------------------------------------------
+\begin{fcard}{★★★例 3.17（续）}
+故
+\fmll{A^{10}=(BC)^{10}=B(CB)^{9}C=\begin{bmatrix}1 & 1\\ 1 & 1\\ 0 & 1\\ 1 & 0\end{bmatrix}\begin{bmatrix}1 & 0\\ 3^{9}-1 & 3^{9}\end{bmatrix}\begin{bmatrix}-1 & 0 & 1 & 2\\ 2 & 1 & 0 & -1\end{bmatrix}}
+\fmll{=\begin{bmatrix}3^{9} & 3^{9}\\ 3^{9} & 3^{9}\\ 3^{9}-1 & 3^{9}\\ 1 & 0\end{bmatrix}\begin{bmatrix}-1 & 0 & 1 & 2\\ 2 & 1 & 0 & -1\end{bmatrix}=\begin{bmatrix}3^{9} & 3^{9} & 3^{9} & 3^{9}\\ 3^{9} & 3^{9} & 3^{9} & 3^{9}\\ 3^{9}+1 & 3^{9} & 3^{9}-1 & 3^{9}-2\\ -1 & 0 & 1 & 2\end{bmatrix}.}
+\end{fcard}
+
+\fsec{五、分块矩阵}
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{23}$（化归经典形式））
+
+\begin{fcard}{1. 定义}
+用几条横线和纵线把一个矩阵分成若干小块，每一小块称为原矩阵的子块. 把子块看作原矩阵的一个元素，就得到了分块矩阵.
+
+如矩阵 $A$ 按行分块：
+\fml{A=\begin{bmatrix}a_{11} & a_{12} & \cdots & a_{1n}\\ a_{21} & a_{22} & \cdots & a_{2n}\\ \vdots & \vdots & & \vdots\\ a_{m1} & a_{m2} & \cdots & a_{mn}\end{bmatrix}=\begin{bmatrix}A_1\\ A_2\\ \vdots\\ A_m\end{bmatrix},}
+其中 $A_i=[a_{i1},a_{i2},\cdots,a_{in}]$（$i=1,2,\cdots,m$）是 $A$ 的子块.
+
+矩阵 $B$ 按列分块：
+\fml{B=\begin{bmatrix}b_{11} & b_{12} & \cdots & b_{1n}\\ b_{21} & b_{22} & \cdots & b_{2n}\\ \vdots & \vdots & & \vdots\\ b_{m1} & b_{m2} & \cdots & b_{mn}\end{bmatrix}=[B_1,B_2,\cdots,B_n],}
+其中 $B_j=[b_{1j},b_{2j},\cdots,b_{mj}]^{\mathrm{T}}$（$j=1,2,\cdots,n$）是 $B$ 的子块.
+\end{fcard}
+
+\begin{fcard}{2. 运算}
+（1）转置：$\begin{bmatrix}A & B\\ C & D\end{bmatrix}^{\mathrm{T}}=\begin{bmatrix}A^{\mathrm{T}} & C^{\mathrm{T}}\\ B^{\mathrm{T}} & D^{\mathrm{T}}\end{bmatrix}$.
+\end{fcard}
+
+\begin{fnote}
+【注】如 $[A,B]^{\mathrm{T}}=\begin{bmatrix}A^{\mathrm{T}}\\ B^{\mathrm{T}}\end{bmatrix}$.
+\end{fnote}
+
+\begin{fcard}{2. 运算}
+（2）加法：同型，且分法一致，则 $\begin{bmatrix}A_1 & A_2\\ A_3 & A_4\end{bmatrix}+\begin{bmatrix}B_1 & B_2\\ B_3 & B_4\end{bmatrix}=\begin{bmatrix}A_1+B_1 & A_2+B_2\\ A_3+B_3 & A_4+B_4\end{bmatrix}$.
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p45（印刷页 34）
+% -----------------------------------------------------------
+\begin{fcard}{2. 运算}
+（3）数乘：$k\begin{bmatrix}A & B\\ C & D\end{bmatrix}=\begin{bmatrix}kA & kB\\ kC & kD\end{bmatrix}$.
+
+（4）乘法：$\begin{bmatrix}A & B\\ C & D\end{bmatrix}\begin{bmatrix}X & Y\\ Z & W\end{bmatrix}=\begin{bmatrix}AX+BZ & AY+BW\\ CX+DZ & CY+DW\end{bmatrix}$，其中矩阵相乘、相加要满足相应的运算规律.
+% 原稿蓝色旁注（带箭头）：$\to$ 左 $\times$ 右不能交换
+\end{fcard}
+
+\begin{fnote}
+【注】对于（4）的运算要注意，分块矩阵相乘后，左边的仍在左边，右边的仍在右边.
+\end{fnote}
+
+\begin{fcard}{2. 运算}
+（5）若 $A$，$B$ 分别为 $m$，$n$ 阶方阵，则分块对角矩阵的幂为
+\fml{\begin{bmatrix}A & O\\ O & B\end{bmatrix}^{k}=\begin{bmatrix}A^{k} & O\\ O & B^{k}\end{bmatrix}.}
+
+（6）已知 $A=\begin{bmatrix}B & O\\ D & C\end{bmatrix}$，其中 $B$ 是 $r$ 阶可逆矩阵，$C$ 是 $s$ 阶可逆矩阵，则 $A$ 可逆，且
+\fml{A^{-1}=\begin{bmatrix}B^{-1} & O\\ -C^{-1}DB^{-1} & C^{-1}\end{bmatrix}.}
+\end{fcard}
+
+\begin{fnote}
+【注】若
+\fml{A_1=\begin{bmatrix}B & D\\ O & C\end{bmatrix},\quad A_2=\begin{bmatrix}O & B\\ C & D\end{bmatrix},\quad A_3=\begin{bmatrix}D & B\\ C & O\end{bmatrix},}
+其中 $B$，$C$ 可逆，则有
+\fml{A_1^{-1}=\begin{bmatrix}B^{-1} & -B^{-1}DC^{-1}\\ O & C^{-1}\end{bmatrix},\quad A_2^{-1}=\begin{bmatrix}-C^{-1}DB^{-1} & C^{-1}\\ B^{-1} & O\end{bmatrix},\quad A_3^{-1}=\begin{bmatrix}O & C^{-1}\\ B^{-1} & -B^{-1}DC^{-1}\end{bmatrix}.}
+\end{fnote}
+
+\begin{fcard}{2. 运算}
+（7）主对角线分块矩阵 $A=\begin{bmatrix}A_1 & & & \\ & A_2 & & \\ & & \ddots & \\ & & & A_s\end{bmatrix}$，若 $A_i$（$i=1,2,\cdots,s$）均可逆，则 $A$ 可逆，且
+\fml{A^{-1}=\begin{bmatrix}A_1^{-1} & & & \\ & A_2^{-1} & & \\ & & \ddots & \\ & & & A_s^{-1}\end{bmatrix}.}
+
+副对角线分块矩阵 $A=\begin{bmatrix} & & & A_1\\ & & A_2 & \\ & \iddots & & \\ A_s & & & \end{bmatrix}$，若 $A_i$（$i=1,2,\cdots,s$）均可逆，则 $A$ 可逆，且
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p46（印刷页 35）
+% -----------------------------------------------------------
+\begin{fcard}{2. 运算（续，副对角线分块矩阵）}
+\fml{A^{-1}=\begin{bmatrix} & & & A_s^{-1}\\ & & \iddots & \\ & A_2^{-1} & & \\ A_1^{-1} & & & \end{bmatrix}.}
+% 原稿蓝色标注：$\to D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（8）$AB=O$ 的重要结论}
+若 $A_{m\times n}B_{n\times s}=O$，将 $B$，$O$ 按列分块，有
+\fml{AB=A[\beta_1,\beta_2,\cdots,\beta_s]=[A\beta_1,A\beta_2,\cdots,A\beta_s]=[0,0,\cdots,0],}
+则 $A\beta_i=0$（$i=1,2,\cdots,s$），故 $\beta_i$（$i=1,2,\cdots,s$）是 $Ax=0$ 的解，且 $r(A)+r(B)\leqslant n$.
+\end{fcard}
+
+\begin{fcard}{★★★（9）$AB=C$ 的重要结论}
+设矩阵 $A_{m\times n}$，$B_{n\times s}$，若 $AB=C$，则 $C$ 是 $m\times s$ 矩阵. 将 $B$，$C$ 按行分块，有
+\fml{\begin{bmatrix}a_{11} & a_{12} & \cdots & a_{1n}\\ a_{21} & a_{22} & \cdots & a_{2n}\\ \vdots & \vdots & & \vdots\\ a_{m1} & a_{m2} & \cdots & a_{mn}\end{bmatrix}\begin{bmatrix}\beta_1\\ \beta_2\\ \vdots\\ \beta_n\end{bmatrix}=\begin{bmatrix}\gamma_1\\ \gamma_2\\ \vdots\\ \gamma_m\end{bmatrix},}
+则 $\gamma_i=a_{i1}\beta_1+a_{i2}\beta_2+\cdots+a_{in}\beta_n$（$i=1,2,\cdots,m$），故 $C$（也即 $AB$）的行向量是 $B$ 的行向量组的线性组合.
+
+类似地，若 $A$，$C$ 按列分块，则有
+\fml{[\alpha_1,\alpha_2,\cdots,\alpha_n]\begin{bmatrix}b_{11} & b_{12} & \cdots & b_{1s}\\ b_{21} & b_{22} & \cdots & b_{2s}\\ \vdots & \vdots & & \vdots\\ b_{n1} & b_{n2} & \cdots & b_{ns}\end{bmatrix}=[\xi_1,\xi_2,\cdots,\xi_s],}
+则 $\xi_i=b_{1i}\alpha_1+b_{2i}\alpha_2+\cdots+b_{ni}\alpha_n$（$i=1,2,\cdots,s$），故 $C$（也即 $AB$）的列向量是 $A$ 的列向量组的线性组合.
+
+于是，将 $AB$ 看作整体，令 $AB=C$.
+
+① $C$ 的列向量可由 $A$ 的列向量组表示.
+% 原稿旁注（蓝色小字）：（$AB$）
+
+推广：（狗猫）的列可由狗的列表示 $\Rightarrow$ 横拼左同多化零.
+\fml{[AB,A]\to[O,A],\quad [A,AB]\to[A,O],}
+\fml{[AB^{\mathrm{T}},AB^{\mathrm{T}}]\to[O,AB^{\mathrm{T}}],\quad [AB^{\mathrm{T}},AB^{\mathrm{T}}B]\to[AB^{\mathrm{T}},O].}
+% 原稿在 $[AB^{\mathrm{T}},AB^{\mathrm{T}}]\to[O,AB^{\mathrm{T}}]$ 下方标有「狗」「猫」「狗」「O」「狗」
+
+② $C$ 的行向量可由 $B$ 的行向量组表示.
+% 原稿旁注（蓝色小字）：（$AB$）
+
+推广：（狗猫）的行可由猫的行表示 $\Rightarrow$ 竖拼右同多化零.
+\fml{\begin{bmatrix}BA\\ B^{\mathrm{T}}BA\end{bmatrix}\to\begin{bmatrix}BA\\ O\end{bmatrix}.}
+% 原稿在 $\begin{bmatrix}BA\\B^{\mathrm{T}}BA\end{bmatrix}$ 的「BA」左侧标「猫」、「B^{\mathrm{T}}BA」左侧标「狗」，右侧括注「猫」「狗」
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p47（印刷页 36）
+% -----------------------------------------------------------
+\begin{fcard}{★★★（9）$AB=C$ 的重要结论（续）}
+\fml{\begin{bmatrix}ABC\\ BC\end{bmatrix}\to\begin{bmatrix}O\\ BC\end{bmatrix},}
+% 原稿蓝色旁注（带箭头）：$\to A^{\mathrm{T}}A$ 的行向量组与 $A$ 的行向量组等价
+
+\fml{\begin{bmatrix}A^{\mathrm{T}}A\\ B^{\mathrm{T}}A\end{bmatrix}\to\begin{bmatrix}A\\ B^{\mathrm{T}}A\end{bmatrix}\to\begin{bmatrix}A\\ O\end{bmatrix}.}
+
+如
+\fml{\begin{bmatrix}AB\\ B\end{bmatrix}\to\begin{bmatrix}O\\ B\end{bmatrix},}
+故 $r\begin{pmatrix}AB\\ B\end{pmatrix}=r(B)$. 若 $r(AB)=r(B)$，则有 $r(AB)=r(B)=r\begin{pmatrix}AB\\ B\end{pmatrix}$，故 $r(AB)=r(B)$ 为 $ABx=0$ 与 $Bx=0$ 同解的充分必要条件.
+\end{fcard}
+
+\begin{fcard}{★★★（10）分块矩阵是考研的重要命题点，其主要解题思路是}
+① 熟练掌握上述（1）$\sim$（9）的内容；
+
+② 记住：分块矩阵也是矩阵，矩阵若满足的公式（如 $AA^{*}=|A|E$），则分块矩阵亦满足
+\fml{\left(\text{如}\begin{bmatrix}A & B\\ C & D\end{bmatrix}\begin{bmatrix}A & B\\ C & D\end{bmatrix}^{*}=\begin{vmatrix}A & B\\ C & D\end{vmatrix}\begin{bmatrix}E & O\\ O & E\end{bmatrix}\right).}
+
+③ 见到新的分块矩阵，要想到上面的①②，或初等变换.
+\end{fcard}
+
+\begin{fcard}{★★★例 3.18}
+设 $A$，$B$ 为 $n$ 阶矩阵，记 $r(X)$ 为矩阵 $X$ 的秩，$[X,Y]$ 表示分块矩阵，则（\quad）.
+
+（A）$r([A,AB])=r(A)$\qquad\qquad（B）$r([A,BA])=r(A)$
+
+（C）$r([A,B])=\max\{r(A),r(B)\}$\qquad（D）$r([A,B])=r([A^{\mathrm{T}},B^{\mathrm{T}}])$
+
+【解】应选（A）.
+
+法一\quad 一方面，$A$ 是 $[A,AB]$ 的子矩阵，因此 $r([A,AB])\geqslant r(A)$.
+
+另一方面，$[A,AB]$ 是 $A$ 与 $[E,B]$ 的乘积，即 $[A,AB]=A[E,B]$，因此 $r([A,AB])\leqslant r(A)$，故 $r([A,AB])=r(A)$，选（A）.
+
+法二\quad 设 $C=AB$，则 $C$ 的列向量可由 $A$ 的列向量组线性表示，故 $r([A,AB])=r([A,C])=r(A)$，选（A）.
+\end{fcard}
+
+\begin{fnote}
+【注】（1）在法一中，$[A,AB]=A[E,B]$，但是 $[A,BA]\neq[E,B]A$，因为不满足乘法规则.
+
+（2）对于选项（B），（C），（D），可举出反例.
+
+取 $A=\begin{bmatrix}1 & 0\\ 0 & 0\end{bmatrix}$，$B=\begin{bmatrix}0 & 1\\ 1 & 0\end{bmatrix}$，则 $BA=\begin{bmatrix}0 & 1\\ 1 & 0\end{bmatrix}\begin{bmatrix}1 & 0\\ 0 & 0\end{bmatrix}=\begin{bmatrix}0 & 0\\ 1 & 0\end{bmatrix}$，从而 $r(A)=1$，$r([A,BA])=r\begin{pmatrix}\begin{bmatrix}1 & 0 & 0 & 0\\ 0 & 0 & 1 & 0\end{bmatrix}\end{pmatrix}=2$，有 $r(A)\neq r([A,BA])$，知选项（B）错误；
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p48（印刷页 37）
+% -----------------------------------------------------------
+\begin{fnote}
+取 $A=\begin{bmatrix}1 & 0\\ 0 & 0\end{bmatrix}$，$B=\begin{bmatrix}0 & 0\\ 1 & 0\end{bmatrix}$，则 $r(A)=r(B)=1$，而
+\fml{r([A,B])=r\left(\begin{bmatrix}1 & 0 & 0 & 0\\ 0 & 0 & 1 & 0\end{bmatrix}\right)=2\neq\max\{r(A),r(B)\},}
+知选项（C）错误；
+
+取 $A=\begin{bmatrix}1 & 0\\ 0 & 0\end{bmatrix}$，$B=\begin{bmatrix}0 & 1\\ 0 & 0\end{bmatrix}$，则 $r([A,B])=r\left(\begin{bmatrix}1 & 0 & 0 & 1\\ 0 & 0 & 0 & 0\end{bmatrix}\right)=1$，而
+\fml{r([A^{\mathrm{T}},B^{\mathrm{T}}])=r\left(\begin{bmatrix}1 & 0 & 0 & 0\\ 0 & 0 & 1 & 0\end{bmatrix}\right)=2\neq r([A,B]),}
+知选项（D）也错误.
+\end{fnote}
+
+\fsec{六、求解矩阵方程}
+% OPD 蓝色标注（原稿）：（$O_5$（盯住目标 5）$+D_1$（常规操作）$+D_2$（脱胎换骨））
+
+\begin{fcard}{1. 定义}
+含有未知矩阵的方程称为矩阵方程.
+\end{fcard}
+
+\begin{fcard}{2. 化简}
+解矩阵方程，应先根据题设条件和矩阵的运算规则，将方程进行恒等变形，使方程化成 $AX=B$，$XA=B$ 或 $AXB=C$ 的形式，其化简手段如下.
+
+（1）消公因式，即若 $CA=CB$，且 $C$ 可逆，则 $A=B$.
+% 原稿蓝色旁注（交叉引用）：由 $CA=CB$，得 $C(A-B)=O$. $CX=O$ 只有零解，故 $A-B=O$，则 $A=B$
+\end{fcard}
+
+\begin{fnote}
+★★★【注】还有以下结论：
+
+（1）若 $CA=CB$，$C$ 列满秩，则 $A=B$；
+
+（2）若 $AC=BC$，$C$ 行满秩，则 $A=B$.
+\end{fnote}
+
+\begin{fcard}{2. 化简（续）}
+（2）提取公因式，即 $CA+CB=C(A+B)$.
+
+（3）移项：即将已知表达式与未知表达式分别移至方程的两边.
+
+（4）利用公式.
+
+① $AA^{*}=|A|E$，若 $A$ 可逆，则 $A^{*}=|A|A^{-1}$，$(A^{*})^{*}=|A|^{n-2}A$（$n\geqslant2$）.
+
+② $A^{2}-E=(A+E)(A-E)=(A-E)(A+E)$，$A^{3}\pm E=(A\pm E)(A^{2}\mp A+E)$.
+
+③ $A^{\mathrm{T}}B^{\mathrm{T}}=(BA)^{\mathrm{T}}$，$A^{*}B^{*}=(BA)^{*}$，若 $A$，$B$ 可逆，则 $A^{-1}B^{-1}=(BA)^{-1}$.
+
+④ 若 $A$ 可逆，则 $(A^{-1})^{*}=(A^{*})^{-1}$，$(A^{-1})^{\mathrm{T}}=(A^{\mathrm{T}})^{-1}$，$(A^{*})^{\mathrm{T}}=(A^{\mathrm{T}})^{*}$.
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p49（印刷页 38）
+% -----------------------------------------------------------
+\begin{fcard}{3. 求解}
+（1）若 $A$ 可逆，或 $A$，$B$ 均可逆，则可得“2.”中方程的解分别为 $X=A^{-1}B$，$X=BA^{-1}$，$X=A^{-1}CB^{-1}$.
+
+（2）若 $A$ 不可逆，如 $AX=B$，则将 $X$ 和 $B$ 按列分块，得
+\fml{A[\xi_1,\xi_2,\cdots,\xi_n]=[\beta_1,\beta_2,\cdots,\beta_n],\quad\text{即 }A\xi_i=\beta_i,\ i=1,2,\cdots,n.}
+求解上述线性方程组，得解 $\xi_i$，从而得 $X=[\xi_1,\xi_2,\cdots,\xi_n]$.
+
+（3）若无法化成上述几种形式，则应该设未知矩阵为 $X=(x_{ij})$，直接代入方程得到含未知量为 $x_{ij}$ 的线性方程组，求得 $X$ 的元素 $x_{ij}$，从而求得未知矩阵（即用待定元素法求 $X$）.
+
+（4）设 $A$ 为 $m\times n$ 矩阵，$B$ 为 $m\times s$ 矩阵，则矩阵方程 $AX=B$ 有解的充分必要条件为
+\fml{r(A)=r([A,B]).}
+\end{fcard}
+
+\begin{fcard}{★★★例 3.19}
+已知 $a$ 是常数，且矩阵 $A=\begin{bmatrix}1 & 2 & a\\ 1 & 3 & 0\\ 2 & 7 & -a\end{bmatrix}$ 可经初等列变换化为矩阵 $B=\begin{bmatrix}1 & a & 2\\ 0 & 1 & 1\\ -1 & 1 & 1\end{bmatrix}$.
+% 原稿蓝色标注（带箭头指向矩阵 $B$）：$D_{22}$（转换等价表述），初等列变换属于初等变换，这是专业术语上的“翻译”
+% 原稿蓝色旁注：声东击西 $\sim$
+
+（1）求 $a$；
+
+（2）求满足 $AP=B$ 的可逆矩阵 $P$.
+
+【解】（1）对矩阵 $A$，$B$ 分别施以初等行变换，得
+\fmll{A=\begin{pmatrix}1 & 2 & a\\ 1 & 3 & 0\\ 2 & 7 & -a\end{pmatrix}\xrightarrow{(-1)\text{ 倍加至}}\begin{pmatrix}1 & 2 & a\\ 0 & 1 & -a\\ 2 & 7 & -a\end{pmatrix}\xrightarrow{(-2)\text{ 倍加至}}\begin{pmatrix}1 & 2 & a\\ 0 & 1 & -a\\ 0 & 3 & -3a\end{pmatrix}\xrightarrow{(-3)\text{ 倍加至}}\begin{pmatrix}1 & 0 & 3a\\ 0 & 1 & -a\\ 0 & 0 & 0\end{pmatrix},}
+\fmll{B=\begin{pmatrix}1 & a & 2\\ 0 & 1 & 1\\ -1 & 1 & 1\end{pmatrix}\xrightarrow{1\text{ 倍加至}}\begin{pmatrix}1 & a & 2\\ 0 & 1 & 1\\ 0 & a+1 & 3\end{pmatrix}\xrightarrow{(-a)\text{ 倍加至}}\begin{pmatrix}1 & 0 & 2-a\\ 0 & 1 & 1\\ 0 & 0 & 2-a\end{pmatrix}\xrightarrow{(-1)\text{ 倍加至}}\begin{pmatrix}1 & 0 & 0\\ 0 & 1 & 1\\ 0 & 0 & 2-a\end{pmatrix}.}
+
+由题设知 $r(A)=r(B)$，故 $a=2$.
+
+（2）由（1）知 $a=2$. 对矩阵 $[A,B]$ 施以初等行变换，得
+\fmll{[A,B]=\begin{pmatrix}1 & 2 & 2 & 1 & 2 & 2\\ 1 & 3 & 0 & 0 & 1 & 1\\ 2 & 7 & -2 & -1 & 1 & 1\end{pmatrix}\xrightarrow{(-1)\text{ 倍加至}}\begin{pmatrix}1 & 2 & 2 & 1 & 2 & 2\\ 0 & 1 & -2 & -1 & -1 & -1\\ 2 & 7 & -2 & -1 & 1 & 1\end{pmatrix}\xrightarrow{(-2)\text{ 倍加至}}\begin{pmatrix}1 & 2 & 2 & 1 & 2 & 2\\ 0 & 1 & -2 & -1 & -1 & -1\\ 0 & 3 & -6 & -3 & -3 & -3\end{pmatrix}}
+\fmll{\xrightarrow{(-3)\text{ 倍加至}}\begin{pmatrix}1 & 0 & 6 & 3 & 4 & 4\\ 0 & 1 & -2 & -1 & -1 & -1\\ 0 & 0 & 0 & 0 & 0 & 0\end{pmatrix}.}
+% 原稿蓝色旁注（带箭头）：故 $r(A)=r([A,B])$，于是 $AX=B$ 有解
+
+记 $B=[\beta_1,\beta_2,\beta_3]$，由于
+\fml{A\begin{bmatrix}-6\\ 2\\ 1\end{bmatrix}=0,\quad A\begin{bmatrix}3\\ -1\\ 0\end{bmatrix}=\beta_1,\quad A\begin{bmatrix}4\\ -1\\ 0\end{bmatrix}=\beta_2,\quad A\begin{bmatrix}4\\ -1\\ 0\end{bmatrix}=\beta_3,}
+
+故 $AX=B$ 的解为
+\fml{X=\begin{bmatrix}3-6k_1 & 4-6k_2 & 4-6k_3\\ -1+2k_1 & -1+2k_2 & -1+2k_3\\ k_1 & k_2 & k_3\end{bmatrix},}
+
+其中 $k_1$，$k_2$，$k_3$ 为任意常数.
+
+由于 $|X|=k_1-k_2$，因此满足 $AP=B$ 的可逆矩阵为
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p50（印刷页 39）
+% -----------------------------------------------------------
+\begin{fcard}{★★★例 3.19（续）}
+\fml{P=\begin{bmatrix}3-6k_1 & 4-6k_2 & 4-6k_3\\ -1+2k_1 & -1+2k_2 & -1+2k_3\\ k_1 & k_2 & k_3\end{bmatrix},}
+其中 $k_1$，$k_2$，$k_3$ 为任意常数，且 $k_2\neq k_3$.
+\end{fcard}
+
+\begin{fcard}{★★★例 3.20}
+设 $A=\begin{bmatrix}0 & 1 & 2\\ 0 & 0 & 3\\ 0 & 0 & 0\end{bmatrix}$.
+
+（1）求可逆矩阵 $P$，使得 $P^{-1}AP=\begin{bmatrix}0 & 1 & 0\\ 0 & 0 & 1\\ 0 & 0 & 0\end{bmatrix}$.
+% OPD 蓝色标注（原稿）：$D_{21}$（观察研究对象）$+D_{23}$（化归经典形式）
+
+（2）是否存在 3 阶矩阵 $B$，使得 $B^{2}=A$？若存在，求出 $B$；若不存在，说明理由.
+
+【解】（1）令 $P=[\xi_1,\xi_2,\xi_3]$，由于 $AP=\begin{bmatrix}0 & 1 & 0\\ 0 & 0 & 1\\ 0 & 0 & 0\end{bmatrix}$，因此 $A\xi_1=0$，$A\xi_2=\xi_1$，$A\xi_3=\xi_2$.
+
+解方程组 $Ax=0$，得线性无关解向量 $\xi_1=[1,0,0]^{\mathrm{T}}$；解方程组 $Ax=\xi_1$，得线性无关解向量 $\xi_2=[0,1,0]^{\mathrm{T}}$；解方程组 $Ax=\xi_2$，得线性无关解向量 $\xi_3=\left[0,-\dfrac{2}{3},\dfrac{1}{3}\right]^{\mathrm{T}}$.
+
+故 $P=\begin{bmatrix}1 & 0 & 0\\ 0 & 1 & -\dfrac{2}{3}\\ 0 & 0 & \dfrac{1}{3}\end{bmatrix}$，可逆，且使得 $P^{-1}AP=\begin{bmatrix}0 & 1 & 0\\ 0 & 0 & 1\\ 0 & 0 & 0\end{bmatrix}$.
+% 原稿蓝色旁注（带箭头指向上式）：这是试题最难的位置，此时要用好 $D_{21}$（观察研究对象）$+D_{23}$（化归经典形式），做好试一试的准备！且刚开始试的并不一定成功. 对任何应试者均是如此，无须焦虑
+
+（2）若存在 $B=(x_{ij})_{3\times3}$ 满足 $B^{2}=A$，则 $BA=BB^{2}=B^{2}B=AB$，
+
+即
+\fml{\begin{bmatrix}x_{11} & x_{12} & x_{13}\\ x_{21} & x_{22} & x_{23}\\ x_{31} & x_{32} & x_{33}\end{bmatrix}\begin{bmatrix}0 & 1 & 2\\ 0 & 0 & 3\\ 0 & 0 & 0\end{bmatrix}=\begin{bmatrix}0 & 1 & 2\\ 0 & 0 & 3\\ 0 & 0 & 0\end{bmatrix}\begin{bmatrix}x_{11} & x_{12} & x_{13}\\ x_{21} & x_{22} & x_{23}\\ x_{31} & x_{32} & x_{33}\end{bmatrix},}
+
+整理得
+\fml{\begin{bmatrix}0 & x_{11} & 2x_{11}+3x_{12}\\ 0 & x_{21} & 2x_{21}+3x_{22}\\ 0 & x_{31} & 2x_{31}+3x_{32}\end{bmatrix}=\begin{bmatrix}x_{21}+2x_{31} & x_{22}+2x_{32} & x_{23}+2x_{33}\\ 3x_{31} & 3x_{32} & 3x_{33}\\ 0 & 0 & 0\end{bmatrix},}
+
+令各元素对应相等，故
+\fml{B=\begin{bmatrix}x_{11} & x_{12} & x_{13}\\ 0 & x_{11} & 3x_{12}\\ 0 & 0 & x_{11}\end{bmatrix}.}
+
+由 $B^{2}=A$，即
+\fml{\begin{bmatrix}x_{11}^{2} & 2x_{11}x_{12} & 2x_{11}x_{13}+3x_{12}^{2}\\ 0 & x_{11}^{2} & 6x_{11}x_{12}\\ 0 & 0 & x_{11}^{2}\end{bmatrix}=\begin{bmatrix}0 & 1 & 2\\ 0 & 0 & 3\\ 0 & 0 & 0\end{bmatrix},}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p51（印刷页 40）—— 第 3 讲最后一页，正文结束后留白
+% -----------------------------------------------------------
+\begin{fcard}{★★★例 3.20（续）}
+由 $x_{11}^{2}=0$，$x_{11}x_{12}=\dfrac{1}{2}\neq0$，矛盾，可知不存在 3 阶矩阵 $B$，使得 $B^{2}=A$.
+\end{fcard}
+
+\begin{fnote}
+【注】本讲这最后一个例题，是本书作者有意安排的，作为一道难题，命题要求考生能够通过所给条件的这些表象，寻找到其背后的实际考点——也就是对应的知识是什么.
+
+本题中，$B^{2}=A$，由此想到“$B^{n}$”也就是“矩阵的 $n$ 次幂”是合理的，但由于 $A$ 是非正定矩阵，走“$B=\sqrt{A}$”的路子行不通，试着在 $B^{2}=A$ 两边分别乘以等量 $A=B^{2}$，得 $B^{2}A=AB^{2}$，还能试简单一些的形式吗？$BA=AB$ 成立吗？于是有了本题答案.
+\end{fnote}
+
+% 习题栏：按仓库决定不收录（第 3 讲末尾 PDF p50–p51 / 印刷页 39–40 无「习题」栏，
+% p51 整页留白，PDF p52 即第 4 讲「矩阵的秩」标题页）

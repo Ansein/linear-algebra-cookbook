@@ -1,0 +1,250 @@
+% ===========================================================
+% 《线性代数9讲》第 8 讲  相似理论 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p90–p94（印刷页 79–83），共 5 页
+%
+% 处理说明：
+%   1) 页首「三向解题法」思维导图（PDF p90 = 印刷页 79 整页；位于讲标题「第8讲 相似理论」
+%      之下、正文「一、化归相似对角化的基本局面」之上）按 AGENTS.md §7.1 决定 2
+%      **不转写、不重绘**，留 `% FIGURE-OPD: 79 三向解题法思维导图（按规则不保留）` 一行注释；
+%      其上的蓝色小标题「三向解题法」亦属该方法论板块，已随之删除（留痕见下）。
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2 与本片要求）：
+%      · \fsec 标题里只删 OPD 括号，**保留路线/方法名**：
+%        「一、化归相似对角化的基本局面」（$O_1$（盯住目标 1）$+D_1$（常规操作）$+D_{23}$（化归经典形式））
+%        「二、用各种条件判 $A$ 能否相似对角化」（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））
+%        「三、非对称矩阵 $A$ 与实对称矩阵 $A$ 相似对角化的异同」（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{21}$（观察研究对象））
+%      · 正文中的蓝色纯 OPD 代码（带箭头旁注）一律以 `% OPD 蓝色标注（原稿）：……`
+%        注释留痕，不排入正文：
+%        PDF p90（79）正文矩阵下方蓝色提示语「→$D_{23}$（化归经典形式）」
+%        PDF p91（80）例 8.1 题干右侧「→基本局面」
+%        PDF p91（80）例 8.1 题干下方「→$D_{23}$（化归经典形式），化为基本局面」
+%        PDF p91（80）「二、」标题下蓝色 OPD 行「→$D_{22}$（转换等价表述），前一个结论有
+%          "充分""必要""充要"等多种条件，从而构成了一个好的命题点，提示考生注意重点复习方向．」
+%        PDF p93（82）页右缘蓝色竖排模块名「形式化归体系块」
+%      · **数学符号一律照抄**：$\lambda,\ \xi,\ \eta,\ \beta,\ P,\ Q,\ \Lambda$ 等不受影响。
+%   3) **数学操作旁注照原文排入**（`\quad(\text{...})` 内联）：矩阵行变换标注
+%      「互换」「1 倍加至」「$(-1)$ 倍加至」「$\times\frac{1}{3}$」均按原文排入；
+%      交叉引用（「故选（B）」「故（A）」）与①②编号照原文。
+%   4) ⚠️ 文本模式关系符一律写 `$\ne$`/`$\le$`/`$\ge$`；$\fsec$ 标题内不用 `\cdots`。
+%   5) **本 5 页无「习题」栏**（已逐页核实）：PDF p94（印刷页 83）以例 8.5「法一」的
+%      初等行变换中途结束（后续在 PDF p95 = 印刷页 84），其后无习题栏。
+%   6) 本片无位图插图（各页右上角蓝色二维码为装饰，未转写）；无 `fdeep`（9 讲正文不使用）。
+%
+% 接缝说明：
+%   · 本片首行 = 第 8 讲开篇（PDF p90），其上无第 7 讲残余内容；
+%   · 末行 = 例 8.5「法一」求 $P^{-1}$ 的初等行变换序列（PDF p94 末），
+%     该行变换的最终结果与「法二」在 PDF p95（印刷页 84），由后续片段承接；
+%   · 例 8.4 解在 PDF p93（82）末行结束，例 8.5 自 PDF p94（83）首行开始，未跨片。
+% ===========================================================
+
+% OPD 蓝色标注（原稿）：蓝色小标题「三向解题法」（方法论板块，按规则不保留）
+
+\fchap{第8章\quad 相似理论}
+
+% ---- 印刷页 79（PDF p90）----
+
+% FIGURE-OPD: 79 三向解题法思维导图（按规则不保留）
+
+% OPD 蓝色标注（原稿）：（$O_1$（盯住目标 1）$+D_1$（常规操作）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{一、化归相似对角化的基本局面}
+
+若 $n$ 阶矩阵 $A$ 有 $n$ 个线性无关的特征向量，则 $A$ 可相似对角化，且有
+
+\fml{[\xi_1,\xi_2,\dots,\xi_n]^{-1}A[\xi_1,\xi_2,\dots,\xi_n]=\begin{bmatrix}\lambda_1&&&\\&\lambda_2&&\\&&\ddots&\\&&&\lambda_n\end{bmatrix},}
+
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式）
+
+牢记这个形式（手段、结果）.
+
+% OPD 蓝色标注（原稿）：$\lambda$ 的位置与特征向量的位置是对应的．
+
+$\lambda$ 的位置与特征向量的位置是对应的.
+
+\fml{\text{如}\ A_{3\times3}:\ \lambda_1=\lambda_2=3,\ \lambda_3=7}
+
+\fml{\xi_1\quad\ \ \xi_2\quad\ \ \xi_3\ \text{线性无关}}
+
+\fml{\text{则}\ [\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}3&&\\&3&\\&&7\end{bmatrix},\quad[\xi_3,\xi_2,\xi_1]^{-1}A[\xi_3,\xi_2,\xi_1]=\begin{bmatrix}7&&\\&3&\\&&3\end{bmatrix}}
+
+% ---- 印刷页 80（PDF p91）----
+
+\begin{fcard}{例8.1}
+设 $A$ 为 3 阶矩阵，$P$ 为 3 阶可逆矩阵，且 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$. 若 $P=[\alpha_1,\alpha_2,\alpha_3]$，$Q=[\alpha_1+\alpha_2,\alpha_2,\alpha_3]$，则 $Q^{-1}AQ=(\quad)$.
+
+（A）$\begin{bmatrix}1&0&0\\0&2&0\\0&0&1\end{bmatrix}$\qquad（B）$\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（C）$\begin{bmatrix}2&0&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（D）$\begin{bmatrix}2&0&0\\0&2&0\\0&1&1\end{bmatrix}$
+
+【解】应选（B）.
+
+由 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$ 知，矩阵 $A$ 可相似对角化，因而其相似变换矩阵 $P$ 的列向量 $\alpha_1$，$\alpha_2$，$\alpha_3$ 分别是 $A$ 的属于特征值 $\lambda_1=\lambda_2=1$，$\lambda_3=2$ 的特征向量，由于 $\lambda_1=\lambda_2=1$ 是 $A$ 的二重特征值，因而 $\alpha_1+\alpha_2$ 仍是 $A$ 的属于特征值 1 的特征向量，即 $A(\alpha_1+\alpha_2)=1(\alpha_1+\alpha_2)$，且 $\alpha_1+\alpha_2$ 与 $\alpha_3$ 线性无关，从而有
+
+\fml{Q^{-1}AQ=[\alpha_1+\alpha_2,\alpha_2,\alpha_3]^{-1}A[\alpha_1+\alpha_2,\alpha_2,\alpha_3]=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix},}
+
+故选（B）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述），前一个结论有"充分""必要""充要"等多种条件，从而构成了一个好的命题点，提示考生注意重点复习方向．
+
+\fsec{二、用各种条件判 $A$ 能否相似对角化}
+
+% OPD 蓝色标注（原稿）：（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\begin{fcard}{1. 充要条件}
+（1）$A$ 有 $n$ 个线性无关的特征向量 $\iff A\sim\Lambda$.
+
+（2）$n_i=n-r(\lambda_i E-A)\iff A\sim\Lambda$.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$A_{5\times5}:\ \lambda_1=\lambda_2=7,\ \lambda_3=\lambda_4=\lambda_5=2$，$2=5-r(7E-A)$，$3=5-r(2E-A)$
+
+\begin{fcard}{2. 充分条件}
+（1）$A$ 是实对称矩阵 $\Rightarrow A\sim\Lambda$.
+
+（2）$A$ 有 $n$ 个互异特征值 $\Rightarrow A\sim\Lambda$.
+
+（3）$A^k=E$（$k$ 为正整数）$\Rightarrow A\sim\Lambda$.
+
+（4）$A^2-(k_1+k_2)A+k_1k_2E=O$ 且 $k_1\ne k_2\Rightarrow A\sim\Lambda$.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$A$ 实对称 $\begin{cases}\lambda_1\ne\lambda_2\Rightarrow\xi_1\perp\xi_2,\\[2pt]\lambda_1=\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{线性无关}.\end{cases}$
+
+% OPD 蓝色标注（原稿）：$A$ 普通 $\begin{cases}\lambda_1\ne\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{线性无关}.\\[2pt]\lambda_1=\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{可能线性相关，也可能线性无关}.\end{cases}$
+
+\begin{fcard}{3. 必要条件}
+$A\sim\Lambda\Rightarrow r(A)=$ 非零特征值的个数（重根按重数算）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$r(A)=r(P^{-1}AP)=r(\Lambda)$
+
+\begin{fcard}{4. 否定条件}
+（1）$A\ne O$，$A^k=O$（$k$ 为大于 1 的整数）$\Rightarrow A$ 不可相似对角化.
+\end{fcard}
+
+% ---- 印刷页 81（PDF p92）----
+
+（2）$A$ 的特征值全为 $k$，但 $A\ne kE\Rightarrow A$ 不可相似对角化.
+
+\begin{fcard}{例8.2}
+下列矩阵中不能相似于对角矩阵的是（$\quad$）.
+
+（A）$A=\begin{bmatrix}1&1&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（B）$B=\begin{bmatrix}1&0&0\\0&1&1\\0&0&2\end{bmatrix}$
+
+（C）$C=\begin{bmatrix}1&1&0\\0&2&1\\0&0&3\end{bmatrix}$\qquad（D）$D=\begin{bmatrix}1&0&0\\0&1&1\\0&1&2\end{bmatrix}$
+
+【解】应选（A）.
+
+因矩阵 $D$ 是对称矩阵，故必相似于对角矩阵，矩阵 $C$ 有三个不同的特征值，故能相似于对角矩阵. 矩阵 $A$，矩阵 $B$ 的特征值均为 $\lambda=1$（二重），$\lambda=2$（单根），当 $\lambda=1$ 时，
+
+\fmll{r(\lambda E-A)=r\left(\begin{bmatrix}0&-1&0\\0&0&0\\0&0&-1\end{bmatrix}\right)=2,}
+
+只对应一个线性无关的特征向量，故矩阵 $A$ 不能相似于对角矩阵；而当 $\lambda=1$ 时，
+
+\fmll{r(\lambda E-B)=r\left(\begin{bmatrix}0&0&0\\0&0&-1\\0&0&-1\end{bmatrix}\right)=1,}
+
+有两个线性无关的特征向量，故矩阵 $B$ 能相似于对角矩阵，故选（A）.
+\end{fcard}
+
+\begin{fcard}{例8.3}
+设矩阵 $A=\begin{bmatrix}2&1&0\\1&2&0\\1&a&b\end{bmatrix}$ 仅有两个不同的特征值. 若 $A$ 相似于对角矩阵，求 $a$，$b$ 的值，并求可逆矩阵 $P$，使得 $P^{-1}AP$ 为对角矩阵.
+
+【解】因为
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda-2&-1&0\\-1&\lambda-2&0\\-1&-a&\lambda-b\end{vmatrix}=(\lambda-b)(\lambda-1)(\lambda-3),}
+
+所以 $A$ 的特征值为 $\lambda_1=b$，$\lambda_2=1$，$\lambda_3=3$.
+
+因为矩阵 $A$ 仅有两个不同的特征值，所以 $\lambda_1=\lambda_2$ 或 $\lambda_1=\lambda_3$.
+
+①当 $\lambda_1=\lambda_2=1$ 时，有 $b=1$. 因为 $A$ 相似于对角矩阵，所以 $r(E-A)=1$，故 $a=1$.
+
+解方程组 $(E-A)x=0$，得 $A$ 的对应于特征值 1 的线性无关的特征向量 $\xi_1=\begin{bmatrix}-1\\1\\0\end{bmatrix}$，$\xi_2=\begin{bmatrix}0\\0\\1\end{bmatrix}$.
+
+对于 $\lambda_3=3$，解方程组 $(3E-A)x=0$，得 $A$ 的对应于特征值 3 的特征向量 $\xi_3=\begin{bmatrix}1\\1\\1\end{bmatrix}$.
+\end{fcard}
+
+% ---- 印刷页 82（PDF p93）----
+
+令 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}-1&0&1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&3\end{bmatrix}$.
+
+②当 $\lambda_1=\lambda_3=3$ 时，有 $b=3$. 因为 $A$ 相似于对角矩阵，所以 $r(3E-A)=1$，故 $a=-1$.
+
+解方程组 $(3E-A)x=0$，得 $A$ 的对应于特征值 3 的线性无关的特征向量 $\eta_1=\begin{bmatrix}1\\1\\0\end{bmatrix}$，$\eta_2=\begin{bmatrix}0\\0\\1\end{bmatrix}$.
+
+对于 $\lambda_2=1$，解方程组 $(E-A)x=0$，得 $A$ 的对应于特征值 1 的特征向量 $\eta_3=\begin{bmatrix}-1\\1\\1\end{bmatrix}$.
+
+令 $P=[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}1&0&-1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}3&0&0\\0&3&0\\0&0&1\end{bmatrix}$.
+
+% OPD 蓝色标注（原稿）：（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{21}$（观察研究对象））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{三、非对称矩阵 $A$ 与实对称矩阵 $A$ 相似对角化的异同}
+
+% OPD 蓝色标注（原稿）：页右缘蓝色竖排模块名「形式化归体系块」
+
+\begin{fcard}{1. 非对称矩阵 $A$ 不存在正交矩阵 $Q$，使其相似对角化}
+$A\xrightarrow{3\ \text{个线性无关的}\ \xi}A\sim\Lambda\Rightarrow[\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+\end{fcard}
+
+\begin{fcard}{2. 实对称矩阵 $A$ 存在正交矩阵 $Q$，使其相似对角化}
+$A^{\mathrm{T}}=A\xrightarrow{\text{无条件}}A\sim\Lambda\Rightarrow[\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+
+$\xi_1,\xi_2,\xi_3\xrightarrow[\text{单位化}]{\text{正交化}}\eta_1,\eta_2,\eta_3$
+
+$[\eta_1,\eta_2,\eta_3]^{-1}A[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+
+$[\eta_1,\eta_2,\eta_3]^{\mathrm{T}}A[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+\end{fcard}
+
+\begin{fcard}{例8.4}
+设 $A$ 是 3 阶实矩阵，则“$A$ 是实对称矩阵”是“$A$ 有 3 个相互正交的特征向量”的（$\quad$）.
+
+（A）充分非必要条件\qquad（B）必要非充分条件
+
+（C）充要条件\qquad（D）既非充分又非必要条件
+
+【解】应选（C）.
+
+充分性是显然的，实对称矩阵对应不同特征值的特征向量一定是正交的，同一特征值的线性无关的特征向量可进行施密特正交化处理，从而得到 3 个相互正交的特征向量.
+\end{fcard}
+
+% ---- 印刷页 83（PDF p94）----
+
+必要性. 设 $\beta_1$，$\beta_2$，$\beta_3$ 是 3 阶矩阵 $A$ 的 3 个相互正交的特征向量（注意，3 个相互正交的特征向量必是 3 个线性无关的特征向量），则该 3 阶矩阵 $A$ 必可相似对角化，将相互正交的特征向量 $\beta_1$，$\beta_2$，$\beta_3$ 单位化处理成 $\gamma_1$，$\gamma_2$，$\gamma_3$，则 $\gamma_1$，$\gamma_2$，$\gamma_3$ 仍是该 3 阶矩阵 $A$ 的特征向量，且此时 $Q=[\gamma_1,\gamma_2,\gamma_3]$ 就是由特征向量组成的正交矩阵（可逆），于是便有 $Q^{-1}AQ=\Lambda$，从而 $A=Q\Lambda Q^{-1}$，进而
+
+\fml{A^{\mathrm{T}}=(Q\Lambda Q^{-1})^{\mathrm{T}}=(Q^{-1})^{\mathrm{T}}\Lambda^{\mathrm{T}}Q^{\mathrm{T}}=(Q^{\mathrm{T}})^{\mathrm{T}}\Lambda Q^{-1}=Q\Lambda Q^{-1}=A,}
+
+于是 $A$ 是实对称矩阵.
+
+\begin{fcard}{例8.5}
+设 $A$ 是 3 阶实对称矩阵，已知 $A$ 的每行元素之和为 3，且有二重特征值 $\lambda_1=\lambda_2=1$. 求 $A$ 的全部特征值、特征向量，并求 $A^n$.
+
+【解】法一 $A$ 是 3 阶矩阵，每行元素之和为 3，即有
+
+\fml{A\begin{bmatrix}1\\1\\1\end{bmatrix}=\begin{bmatrix}3\\3\\3\end{bmatrix}=3\begin{bmatrix}1\\1\\1\end{bmatrix},}
+
+故知 $A$ 有特征值 $\lambda_3=3$，对应的特征向量为 $\xi_3=[1,1,1]^{\mathrm{T}}$，所以对应于 $\lambda_3=3$ 的全部特征向量为 $k_3\xi_3$（$k_3$ 为任意非零常数）.
+
+又 $A$ 是实对称矩阵，不同特征值对应的特征向量正交，故设 $\lambda_1=\lambda_2=1$ 对应的特征向量为 $\xi=[x_1,x_2,x_3]^{\mathrm{T}}$，于是
+
+\fml{\xi_3^{\mathrm{T}}\xi=x_1+x_2+x_3=0,}
+
+解得 $\lambda_1=\lambda_2=1$ 的线性无关的特征向量为
+
+\fml{\xi_1=[-1,1,0]^{\mathrm{T}},\ \xi_2=[-1,0,1]^{\mathrm{T}}.}
+
+所以对应于 $\lambda_1=\lambda_2=1$ 的全部特征向量为 $k_1\xi_1+k_2\xi_2$（$k_1$，$k_2$ 为不全为零的任意常数）.
+
+取 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}-1&-1&1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}1&&\\&1&\\&&3\end{bmatrix}=\Lambda$，故
+
+\fml{A=P\Lambda P^{-1},\ A^n=P\Lambda P^{-1}\cdots P\Lambda P^{-1}=P\Lambda^nP^{-1},}
+
+其中 $P^{-1}$ 可如下求得：
+
+\fmll{\left[\begin{array}{ccc|ccc}-1&-1&1&1&0&0\\1&0&1&0&1&0\\0&1&1&0&0&1\end{array}\right]\xrightarrow{\text{互换}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\-1&-1&1&1&0&0\\0&1&1&0&0&1\end{array}\right]\xrightarrow{\text{互换}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\-1&-1&1&1&0&0\end{array}\right]}
+
+% OPD 蓝色标注（原稿）：行变换标注「1 倍加至」
+
+\fmll{\xrightarrow{\text{1 倍加至}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&-1&2&1&1&0\end{array}\right]\xrightarrow{\ \times\frac{1}{3}\ }\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&0&3&1&1&1\end{array}\right]\xrightarrow{\text{1 倍加至}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&0&1&\frac{1}{3}&\frac{1}{3}&\frac{1}{3}\end{array}\right]}
+\end{fcard}
+
+% 说明：例 8.5「法一」求 $P^{-1}$ 的初等行变换序列在本页（印刷页 83）末行结束，
+%       其最终结果与「法二」在 PDF p95（印刷页 84），由后续片段承接（本片在卡片处收口）。

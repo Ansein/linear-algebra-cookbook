@@ -1,0 +1,926 @@
+% ===========================================================
+% 《线性代数9讲》第 8 讲  相似理论 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p90–p94（印刷页 79–83），共 5 页
+%
+% 处理说明：
+%   1) 页首「三向解题法」思维导图（PDF p90 = 印刷页 79 整页；位于讲标题「第8讲 相似理论」
+%      之下、正文「一、化归相似对角化的基本局面」之上）按 AGENTS.md §7.1 决定 2
+%      **不转写、不重绘**，留 `% FIGURE-OPD: 79 三向解题法思维导图（按规则不保留）` 一行注释；
+%      其上的蓝色小标题「三向解题法」亦属该方法论板块，已随之删除（留痕见下）。
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2 与本片要求）：
+%      · \fsec 标题里只删 OPD 括号，**保留路线/方法名**：
+%        「一、化归相似对角化的基本局面」（$O_1$（盯住目标 1）$+D_1$（常规操作）$+D_{23}$（化归经典形式））
+%        「二、用各种条件判 $A$ 能否相似对角化」（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））
+%        「三、非对称矩阵 $A$ 与实对称矩阵 $A$ 相似对角化的异同」（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{21}$（观察研究对象））
+%      · 正文中的蓝色纯 OPD 代码（带箭头旁注）一律以 `% OPD 蓝色标注（原稿）：……`
+%        注释留痕，不排入正文：
+%        PDF p90（79）正文矩阵下方蓝色提示语「→$D_{23}$（化归经典形式）」
+%        PDF p91（80）例 8.1 题干右侧「→基本局面」
+%        PDF p91（80）例 8.1 题干下方「→$D_{23}$（化归经典形式），化为基本局面」
+%        PDF p91（80）「二、」标题下蓝色 OPD 行「→$D_{22}$（转换等价表述），前一个结论有
+%          "充分""必要""充要"等多种条件，从而构成了一个好的命题点，提示考生注意重点复习方向．」
+%        PDF p93（82）页右缘蓝色竖排模块名「形式化归体系块」
+%      · **数学符号一律照抄**：$\lambda,\ \xi,\ \eta,\ \beta,\ P,\ Q,\ \Lambda$ 等不受影响。
+%   3) **数学操作旁注照原文排入**（`\quad(\text{...})` 内联）：矩阵行变换标注
+%      「互换」「1 倍加至」「$(-1)$ 倍加至」「$\times\frac{1}{3}$」均按原文排入；
+%      交叉引用（「故选（B）」「故（A）」）与①②编号照原文。
+%   4) ⚠️ 文本模式关系符一律写 `$\ne$`/`$\le$`/`$\ge$`；$\fsec$ 标题内不用 `\cdots`。
+%   5) **本 5 页无「习题」栏**（已逐页核实）：PDF p94（印刷页 83）以例 8.5「法一」的
+%      初等行变换中途结束（后续在 PDF p95 = 印刷页 84），其后无习题栏。
+%   6) 本片无位图插图（各页右上角蓝色二维码为装饰，未转写）；无 `fdeep`（9 讲正文不使用）。
+%
+% 接缝说明：
+%   · 本片首行 = 第 8 讲开篇（PDF p90），其上无第 7 讲残余内容；
+%   · 末行 = 例 8.5「法一」求 $P^{-1}$ 的初等行变换序列（PDF p94 末），
+%     该行变换的最终结果与「法二」在 PDF p95（印刷页 84），由后续片段承接；
+%   · 例 8.4 解在 PDF p93（82）末行结束，例 8.5 自 PDF p94（83）首行开始，未跨片。
+% ===========================================================
+
+% OPD 蓝色标注（原稿）：蓝色小标题「三向解题法」（方法论板块，按规则不保留）
+
+\fchap{第8章\quad 相似理论}
+
+% ---- 印刷页 79（PDF p90）----
+
+% FIGURE-OPD: 79 三向解题法思维导图（按规则不保留）
+
+% OPD 蓝色标注（原稿）：（$O_1$（盯住目标 1）$+D_1$（常规操作）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{深化一　相似的本质与可对角化的充要条件}
+
+\begin{fdeep}{相似的本质：同一个线性变换换了组基}
+课本定义“若存在可逆 $P$ 使 $P^{-1}AP=B$，则称 $A$ 与 $B$ 相似”。这个定义本身不解释“为什么这样定义”。
+换个看法：把 $A$ 看成某个线性变换 $\sigma$ 在基 $\varepsilon$ 下的矩阵。
+若换到新基 $\eta$（过渡矩阵为 $P$，即 $(\eta)=(\varepsilon)P$），则 $\sigma$ 在新基下的矩阵是
+\fml{B=P^{-1}AP}
+—— 这正是相似的定义。所以
+\fml{\textbf{相似}=\textbf{同一个变换在不同基下的矩阵}}
+$P$ 的几何身份就是\textbf{过渡矩阵}（第 6 章已经讲过它的方向：基用 $P$，坐标用 $P^{-1}$）。
+
+\textbf{这个视角立刻解释了两件事}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{为什么相似矩阵有相同的特征多项式}：特征多项式是“变换本身的属性”
+      （$\lvert\lambda E-A\rvert$ 与基的选取无关），而相似只是换了基。
+      同理，\textbf{迹、行列式、秩也都相同}——它们都是同一个变换的不变量。
+\item \textbf{为什么对角化是“找一组好基”}：$A$ 相似于对角阵 $\Lambda$，
+      就是“存在一组基使这个变换在这组基下只做伸缩、不做旋转”。
+      那组基就是\textbf{特征向量}——这正是“求特征向量”的目的。
+\end{enumerate}
+\fbref{}：服务考纲〔矩阵的特征值和特征向量〕“理解相似矩阵的概念、性质”。
+\must{记住}“相似 = 换基”，那么相似不变量（特征多项式、迹、行列式、秩、可对角化性）
+就\textbf{不必逐条背}——它们是不随基改变的量。
+考场上判断“A 与 B 是否相似”时，先比这些不变量排除，再考虑更强的判据。
+\end{fdeep}
+
+\begin{fdeep}{可对角化的等价条件：把五种说法串成一张网}
+设 $A$ 为 $n$ 阶矩阵，$V_{\lambda}=N(\lambda E-A)$ 为特征子空间。以下命题\textbf{两两等价}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item $A$ 可对角化（存在可逆 $P$ 使 $P^{-1}AP$ 为对角阵）；
+\item $A$ 有 $n$ 个线性无关的特征向量；（这是 9 讲给的判据）
+\item 对每个特征值 $\lambda$，几何重数等于代数重数，即 $g_{\lambda}=m_{\lambda}$；
+\item 各特征子空间的维数之和等于 $n$：$\sum_{\lambda}\dim V_{\lambda}=n$；（最快的算法判据）
+\item 全空间可分解为特征子空间的直和：$V=V_{\lambda_1}\oplus\cdots\oplus V_{\lambda_s}$；
+\item $A$ 的最小多项式无重根。
+\end{enumerate}
+
+\textbf{它们为什么等价——三条纽带}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.25em]
+\item \textbf{②$\iff$③}：$\sum_{\lambda}m_{\lambda}=n$ 恒成立（特征多项式次数），
+      而 $\sum_{\lambda}g_{\lambda}\le n$。要凑满 $n$ 个线性无关特征向量，
+      必须且只需每个 $\lambda$ 都“取满”，即 $g_{\lambda}=m_{\lambda}$。
+\item \textbf{②$\iff$④$\iff$⑤}：\textbf{不同特征值的特征子空间之和是直和}
+      （若 $\xi_1+\cdots+\xi_s=0$ 且各 $\xi_i$ 属不同特征值，则逐个作用 $A-\lambda_i E$ 可逼出各 $\xi_i=0$）。
+      既然是直和，维数就可加：$\dim(\text{直和})=\sum\dim V_{\lambda}$。
+      于是“有 $n$ 个无关特征向量”就是“这个直和占满整个空间”。
+\item \textbf{③$\iff$⑥}：最小多项式 $m(\lambda)$ 的根恰好是 $A$ 的全部特征值，
+      且 $(\lambda-\lambda_0)$ 在 $m$ 中的重数 $=\lambda_0$ 对应的\textbf{最大 Jordan 块阶数}。
+      故“$m$ 无重根”$\iff$“所有 Jordan 块都是 $1$ 阶”$\iff$“$g_{\lambda}=m_{\lambda}$”。
+\end{itemize}
+
+\textbf{算法上的意义}：判据 ④ 最好用——对每个特征值只算一个秩：
+\fml{\sum_{\lambda}\bigl(n-r(\lambda E-A)\bigr)=n\ ?}
+不必解出特征向量就能判断可对角化性。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…矩阵可相似对角化的充分必要条件，掌握将矩阵化为相似对角矩阵的方法”。
+9 讲只给判据 ②（“$n$ 个线性无关特征向量”），它\textbf{必须先解出特征向量}才能判断；
+而判据 ④ 与 ⑥ \textbf{只需算秩或最小多项式}，含参数矩阵尤其快。
+把这六条看成一张网，选择题问“下列哪个是充要条件”时就不会被“必要性成立、充分性不成立”的选项迷惑。
+\end{fdeep}
+
+\begin{fdeep}{最小多项式的定义与四条基本性质}
+\key{定义}：数域 $P$ 上使 $f(A)=O$ 的多项式称为以 $A$ 为根的多项式，其中\textbf{次数最低、
+首项系数为 $1$} 的那一个称为 $A$ 的\textbf{最小多项式}，记作 $m(\lambda)$。
+（由哈密顿--凯莱定理，这样的多项式一定存在。）
+
+\textbf{四条基本性质}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.2em]
+\item \textbf{唯一性}：$m(\lambda)$ 唯一。（若 $g_1,g_2$ 都是，由带余除法 $g_1=qg_2+r$ 与
+      $r(A)=O$、$\partial r<\partial g_2$ 得 $r=0$。）
+\item \textbf{整除判据}：$f(A)=O\iff m(\lambda)\mid f(\lambda)$，
+      这是\textbf{计算最小多项式最好用的一条}，只需验证候选多项式是否以 $A$ 为根。
+\item \textbf{整除特征多项式}：$m(\lambda)$ 是特征多项式 $f(\lambda)$ 的因式。
+\item \textbf{相似不变量}：若 $B=T^{-1}AT$，则 $f(B)=T^{-1}f(A)T$，故 $f(B)=O\iff f(A)=O$，
+      \textbf{相似矩阵的最小多项式相同}。
+\end{enumerate}
+\textbf{高频特例}：$kE$ 的是 $\lambda-k$，单位矩阵的是 $\lambda-1$，零矩阵的是 $\lambda$；
+反之\textbf{最小多项式为 1 次多项式 $\Rightarrow$ $A$ 是数量矩阵}。
+
+\fbref{}服务考纲“理解…可相似对角化的充分必要条件”。性质 2 是求 $m(\lambda)$ 的\textbf{操作准则}：
+先分解 $f(\lambda)$，再按次数从低到高逐个试 $f(A)=O$。“相似矩阵最小多项式相同”又给出一个
+相似不变量，可直接用于“是否相似”的判断。
+\end{fdeep}
+
+\begin{fdeep}{最小多项式无重根 $\iff$ 可相似对角化}
+\textbf{定理（北大 §7.9 定理 15 及推论）}：数域 $P$ 上 $n$ 阶矩阵 $A$ 与对角矩阵相似的
+\textbf{充分必要条件}是 $A$ 的最小多项式是 $P$ 上互素的一次因式的乘积；在复数域上即
+\fml{A\sim\Lambda\iff m(\lambda)\text{ 无重根}}
+显式写法为 $m(\lambda)=(\lambda-\lambda_1)(\lambda-\lambda_2)\dots(\lambda-\lambda_s)$，
+其中 $\lambda_1,\dots,\lambda_s$ 是 $A$ 的全部\textbf{互不相同}的特征值。
+
+\textbf{两半的证明思路}：\textbf{必要性}——对角阵的最小多项式是各对角元 $\lambda_i$ 对应的一次
+因式 $(\lambda-\lambda_i)$ 的最小公倍式，互不相同的一次因式其最小公倍式即为乘积，故无重根。
+\textbf{充分性}——设 $g(\lambda)=\prod_{i=1}^{s}(\lambda-a_i)$，由 $g(\mathscr{A})=\mathscr{O}$ 知
+$V=\ker g(\mathscr{A})$；把 $g$ 的 $s$ 个\textbf{互素}一次因式对应的核作直和分解
+$V=V_1\oplus\dots\oplus V_s$，每个基向量都落在某个 $V_i$ 中因而是特征向量。
+关键技术是\textbf{互素}保证贝祖等式 $\sum u_i(\lambda)f_i(\lambda)=1$，
+从而每个向量都能拆成各核中向量之和；而一次因式使 $V_i$ 恰好是特征子空间。
+
+\fbref{}服务考纲“理解…矩阵可相似对角化的充分必要条件”。这是所有判据中\textbf{唯一既不需要
+解特征向量、也不需要数几何重数}的一条：含参数矩阵只要算出 $m(\lambda)$ 看有无重根即可。
+反过来“最小多项式有重根”就是\textbf{不可对角化的判决书}，比逐个特征值算秩更省时间。
+\end{fdeep}
+
+\begin{fdeep}{含参数矩阵“何时可对角化/相似”：四种可套用的判据}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.2em]
+\item \textbf{零化多项式无重根就够}：若能验证存在\textbf{无重根}多项式 $g$ 使 $g(A)=O$，
+      则 $A$ 可对角化。三个推论：$A^{2}=A$（幂等）、$A^{2}=E$（对合）、$A^{m}=E$
+      $\Longrightarrow$ 可对角化，特征值分别只能是 $\{0,1\}$、$\{1,-1\}$、$m$ 次单位根。
+\item \textbf{秩条件}：$r(A)+r(A-E)=n\iff A^{2}=A$；此时 $A$ 可对角化，
+      $\operatorname{tr}A=r(A)$，$\lvert\lambda E-A\rvert=\lambda^{n-r}(\lambda-1)^{r}$（$r=r(A)$）。
+      同理 $r(A)=r(A^{2})$ 时 $0$ 的 Jordan 块全是一阶。
+\item \textbf{“相似”题按“特征值 $\to$ 最小多项式 $\to$ 初等因子”三层筛}：
+      先用同迹、同行列式定出一部分参数，再用最小多项式筛，最后用初等因子组确认。
+      例：$\begin{pmatrix}1&2&2\\2&a&2\\2&2&1\end{pmatrix}\sim\operatorname{diag}(-1,0,0)$
+      $\Rightarrow 2+a=\operatorname{tr}B$、$-3a+8=\det B$，解得 $a=1$；
+      \textbf{更快的路}是“$A$ 可对角化 $\Rightarrow r(-E-A)=1$”，一个秩条件即定 $a$。
+\end{enumerate}
+\fbref{}服务“理解…可相似对角化的充分必要条件，掌握将矩阵化为相似对角矩阵的方法”。
+含参数题有这四类入口，前两类几乎不必解特征向量，是选填题的秒杀手段。
+\end{fdeep}
+
+\fsec{一、化归相似对角化的基本局面}
+
+若 $n$ 阶矩阵 $A$ 有 $n$ 个线性无关的特征向量，则 $A$ 可相似对角化，且有
+
+\fml{[\xi_1,\xi_2,\dots,\xi_n]^{-1}A[\xi_1,\xi_2,\dots,\xi_n]=\begin{bmatrix}\lambda_1&&&\\&\lambda_2&&\\&&\ddots&\\&&&\lambda_n\end{bmatrix},}
+
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式）
+
+\must{牢记}这个形式（手段、结果）.
+
+% OPD 蓝色标注（原稿）：$\lambda$ 的位置与特征向量的位置是对应的．
+
+$\lambda$ 的位置与特征向量的位置是对应的.
+
+\fml{\text{如}\ A_{3\times3}:\ \lambda_1=\lambda_2=3,\ \lambda_3=7}
+
+\fml{\xi_1\quad\ \ \xi_2\quad\ \ \xi_3\ \text{线性无关}}
+
+\fml{\text{则}\ [\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}3&&\\&3&\\&&7\end{bmatrix},\quad[\xi_3,\xi_2,\xi_1]^{-1}A[\xi_3,\xi_2,\xi_1]=\begin{bmatrix}7&&\\&3&\\&&3\end{bmatrix}}
+
+% ---- 印刷页 80（PDF p91）----
+
+\begin{fcard}{例8.1}
+设 $A$ 为 3 阶矩阵，$P$ 为 3 阶可逆矩阵，且 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$. 若 $P=[\alpha_1,\alpha_2,\alpha_3]$，$Q=[\alpha_1+\alpha_2,\alpha_2,\alpha_3]$，则 $Q^{-1}AQ=(\quad)$.
+
+（A）$\begin{bmatrix}1&0&0\\0&2&0\\0&0&1\end{bmatrix}$\qquad（B）$\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（C）$\begin{bmatrix}2&0&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（D）$\begin{bmatrix}2&0&0\\0&2&0\\0&1&1\end{bmatrix}$
+
+【解】应选（B）.
+
+由 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix}$ 知，矩阵 $A$ 可相似对角化，因而其相似变换矩阵 $P$ 的列向量 $\alpha_1$，$\alpha_2$，$\alpha_3$ 分别是 $A$ 的属于特征值 $\lambda_1=\lambda_2=1$，$\lambda_3=2$ 的特征向量，由于 $\lambda_1=\lambda_2=1$ 是 $A$ 的二重特征值，因而 $\alpha_1+\alpha_2$ 仍是 $A$ 的属于特征值 1 的特征向量，即 $A(\alpha_1+\alpha_2)=1(\alpha_1+\alpha_2)$，且 $\alpha_1+\alpha_2$ 与 $\alpha_3$ 线性无关，从而有
+
+\fml{Q^{-1}AQ=[\alpha_1+\alpha_2,\alpha_2,\alpha_3]^{-1}A[\alpha_1+\alpha_2,\alpha_2,\alpha_3]=\begin{bmatrix}1&0&0\\0&1&0\\0&0&2\end{bmatrix},}
+
+故选（B）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述），前一个结论有"充分""必要""充要"等多种条件，从而构成了一个好的命题点，提示考生注意重点复习方向．
+
+\fsec{二、用各种条件判 $A$ 能否相似对角化}
+
+% OPD 蓝色标注（原稿）：（$O_2$（盯住目标 2）$+D_1$（常规操作）$+D_{22}$（转换等价表述））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\begin{fcard}{1. 充要条件}
+（1）$A$ 有 $n$ 个线性无关的特征向量 $\iff A\sim\Lambda$.
+
+（2）$n_i=n-r(\lambda_i E-A)\iff A\sim\Lambda$.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$A_{5\times5}:\ \lambda_1=\lambda_2=7,\ \lambda_3=\lambda_4=\lambda_5=2$，$2=5-r(7E-A)$，$3=5-r(2E-A)$
+
+\begin{fcard}{2. 充分条件}
+（1）$A$ 是实对称矩阵 $\Rightarrow A\sim\Lambda$.
+
+（2）$A$ 有 $n$ 个互异特征值 $\Rightarrow A\sim\Lambda$.
+
+（3）$A^k=E$（$k$ 为正整数）$\Rightarrow A\sim\Lambda$.
+
+（4）$A^2-(k_1+k_2)A+k_1k_2E=O$ 且 $k_1\ne k_2\Rightarrow A\sim\Lambda$.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$A$ 实对称 $\begin{cases}\lambda_1\ne\lambda_2\Rightarrow\xi_1\perp\xi_2,\\[2pt]\lambda_1=\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{线性无关}.\end{cases}$
+
+% OPD 蓝色标注（原稿）：$A$ 普通 $\begin{cases}\lambda_1\ne\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{线性无关}.\\[2pt]\lambda_1=\lambda_2\Rightarrow\xi_1,\ \xi_2\ \text{可能线性相关，也可能线性无关}.\end{cases}$
+
+\begin{fcard}{3. 必要条件}
+$A\sim\Lambda\Rightarrow r(A)=$ 非零特征值的个数（重根按重数算）.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$r(A)=r(P^{-1}AP)=r(\Lambda)$
+
+\begin{fcard}{4. 否定条件}
+（1）$A\ne O$，$A^k=O$（$k$ 为大于 1 的整数）$\Rightarrow A$ 不可相似对角化.
+\end{fcard}
+
+% ---- 印刷页 81（PDF p92）----
+
+（2）$A$ 的特征值全为 $k$，但 $A\ne kE\Rightarrow A$ 不可相似对角化.
+
+\begin{fcard}{例8.2}
+下列矩阵中不能相似于对角矩阵的是（$\quad$）.
+
+（A）$A=\begin{bmatrix}1&1&0\\0&1&0\\0&0&2\end{bmatrix}$\qquad（B）$B=\begin{bmatrix}1&0&0\\0&1&1\\0&0&2\end{bmatrix}$
+
+（C）$C=\begin{bmatrix}1&1&0\\0&2&1\\0&0&3\end{bmatrix}$\qquad（D）$D=\begin{bmatrix}1&0&0\\0&1&1\\0&1&2\end{bmatrix}$
+
+【解】应选（A）.
+
+因矩阵 $D$ 是对称矩阵，故必相似于对角矩阵，矩阵 $C$ 有三个不同的特征值，故能相似于对角矩阵. 矩阵 $A$，矩阵 $B$ 的特征值均为 $\lambda=1$（二重），$\lambda=2$（单根），当 $\lambda=1$ 时，
+
+\fmll{r(\lambda E-A)=r\left(\begin{bmatrix}0&-1&0\\0&0&0\\0&0&-1\end{bmatrix}\right)=2,}
+
+只对应一个线性无关的特征向量，故矩阵 $A$ 不能相似于对角矩阵；而当 $\lambda=1$ 时，
+
+\fmll{r(\lambda E-B)=r\left(\begin{bmatrix}0&0&0\\0&0&-1\\0&0&-1\end{bmatrix}\right)=1,}
+
+有两个线性无关的特征向量，故矩阵 $B$ 能相似于对角矩阵，故选（A）.
+\end{fcard}
+
+\begin{fcard}{例8.3}
+设矩阵 $A=\begin{bmatrix}2&1&0\\1&2&0\\1&a&b\end{bmatrix}$ 仅有两个不同的特征值. 若 $A$ 相似于对角矩阵，求 $a$，$b$ 的值，并求可逆矩阵 $P$，使得 $P^{-1}AP$ 为对角矩阵.
+
+【解】因为
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda-2&-1&0\\-1&\lambda-2&0\\-1&-a&\lambda-b\end{vmatrix}=(\lambda-b)(\lambda-1)(\lambda-3),}
+
+所以 $A$ 的特征值为 $\lambda_1=b$，$\lambda_2=1$，$\lambda_3=3$.
+
+因为矩阵 $A$ 仅有两个不同的特征值，所以 $\lambda_1=\lambda_2$ 或 $\lambda_1=\lambda_3$.
+
+①当 $\lambda_1=\lambda_2=1$ 时，有 $b=1$. 因为 $A$ 相似于对角矩阵，所以 $r(E-A)=1$，故 $a=1$.
+
+解方程组 $(E-A)x=0$，得 $A$ 的对应于特征值 1 的线性无关的特征向量 $\xi_1=\begin{bmatrix}-1\\1\\0\end{bmatrix}$，$\xi_2=\begin{bmatrix}0\\0\\1\end{bmatrix}$.
+
+对于 $\lambda_3=3$，解方程组 $(3E-A)x=0$，得 $A$ 的对应于特征值 3 的特征向量 $\xi_3=\begin{bmatrix}1\\1\\1\end{bmatrix}$.
+\end{fcard}
+
+% ---- 印刷页 82（PDF p93）----
+
+令 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}-1&0&1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}1&0&0\\0&1&0\\0&0&3\end{bmatrix}$.
+
+②当 $\lambda_1=\lambda_3=3$ 时，有 $b=3$. 因为 $A$ 相似于对角矩阵，所以 $r(3E-A)=1$，故 $a=-1$.
+
+解方程组 $(3E-A)x=0$，得 $A$ 的对应于特征值 3 的线性无关的特征向量 $\eta_1=\begin{bmatrix}1\\1\\0\end{bmatrix}$，$\eta_2=\begin{bmatrix}0\\0\\1\end{bmatrix}$.
+
+对于 $\lambda_2=1$，解方程组 $(E-A)x=0$，得 $A$ 的对应于特征值 1 的特征向量 $\eta_3=\begin{bmatrix}-1\\1\\1\end{bmatrix}$.
+
+令 $P=[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}1&0&-1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}3&0&0\\0&3&0\\0&0&1\end{bmatrix}$.
+
+% OPD 蓝色标注（原稿）：（$O_3$（盯住目标 3）$+D_1$（常规操作）$+D_{21}$（观察研究对象））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{三、非对称矩阵 $A$ 与实对称矩阵 $A$ 相似对角化的异同}
+
+% OPD 蓝色标注（原稿）：页右缘蓝色竖排模块名「形式化归体系块」
+
+\begin{fcard}{1. 非对称矩阵 $A$ 不存在正交矩阵 $Q$，使其相似对角化}
+$A\xrightarrow{3\ \text{个线性无关的}\ \xi}A\sim\Lambda\Rightarrow[\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+\end{fcard}
+
+\begin{fcard}{2. 实对称矩阵 $A$ 存在正交矩阵 $Q$，使其相似对角化}
+$A^{\mathrm{T}}=A\xrightarrow{\text{无条件}}A\sim\Lambda\Rightarrow[\xi_1,\xi_2,\xi_3]^{-1}A[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+
+$\xi_1,\xi_2,\xi_3\xrightarrow[\text{单位化}]{\text{正交化}}\eta_1,\eta_2,\eta_3$
+
+$[\eta_1,\eta_2,\eta_3]^{-1}A[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+
+$[\eta_1,\eta_2,\eta_3]^{\mathrm{T}}A[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{bmatrix}$
+\end{fcard}
+
+\begin{fcard}{例8.4}
+设 $A$ 是 3 阶实矩阵，则“$A$ 是实对称矩阵”是“$A$ 有 3 个相互正交的特征向量”的（$\quad$）.
+
+（A）充分非必要条件\qquad（B）必要非充分条件
+
+（C）充要条件\qquad（D）既非充分又非必要条件
+
+【解】应选（C）.
+
+充分性是显然的，实对称矩阵对应不同特征值的特征向量一定是正交的，同一特征值的线性无关的特征向量可进行施密特正交化处理，从而得到 3 个相互正交的特征向量.
+\end{fcard}
+
+% ---- 印刷页 83（PDF p94）----
+
+必要性. 设 $\beta_1$，$\beta_2$，$\beta_3$ 是 3 阶矩阵 $A$ 的 3 个相互正交的特征向量（注意，3 个相互正交的特征向量必是 3 个线性无关的特征向量），则该 3 阶矩阵 $A$ 必可相似对角化，将相互正交的特征向量 $\beta_1$，$\beta_2$，$\beta_3$ 单位化处理成 $\gamma_1$，$\gamma_2$，$\gamma_3$，则 $\gamma_1$，$\gamma_2$，$\gamma_3$ 仍是该 3 阶矩阵 $A$ 的特征向量，且此时 $Q=[\gamma_1,\gamma_2,\gamma_3]$ 就是由特征向量组成的正交矩阵（可逆），于是便有 $Q^{-1}AQ=\Lambda$，从而 $A=Q\Lambda Q^{-1}$，进而
+
+\fml{A^{\mathrm{T}}=(Q\Lambda Q^{-1})^{\mathrm{T}}=(Q^{-1})^{\mathrm{T}}\Lambda^{\mathrm{T}}Q^{\mathrm{T}}=(Q^{\mathrm{T}})^{\mathrm{T}}\Lambda Q^{-1}=Q\Lambda Q^{-1}=A,}
+
+于是 $A$ 是实对称矩阵.
+
+\begin{fcard}{例8.5}
+设 $A$ 是 3 阶实对称矩阵，已知 $A$ 的每行元素之和为 3，且有二重特征值 $\lambda_1=\lambda_2=1$. 求 $A$ 的全部特征值、特征向量，并求 $A^n$.
+
+【解】法一 $A$ 是 3 阶矩阵，每行元素之和为 3，即有
+
+\fml{A\begin{bmatrix}1\\1\\1\end{bmatrix}=\begin{bmatrix}3\\3\\3\end{bmatrix}=3\begin{bmatrix}1\\1\\1\end{bmatrix},}
+
+故知 $A$ 有特征值 $\lambda_3=3$，对应的特征向量为 $\xi_3=[1,1,1]^{\mathrm{T}}$，所以对应于 $\lambda_3=3$ 的全部特征向量为 $k_3\xi_3$（$k_3$ 为任意非零常数）.
+
+又 $A$ 是实对称矩阵，不同特征值对应的特征向量正交，故设 $\lambda_1=\lambda_2=1$ 对应的特征向量为 $\xi=[x_1,x_2,x_3]^{\mathrm{T}}$，于是
+
+\fml{\xi_3^{\mathrm{T}}\xi=x_1+x_2+x_3=0,}
+
+解得 $\lambda_1=\lambda_2=1$ 的线性无关的特征向量为
+
+\fml{\xi_1=[-1,1,0]^{\mathrm{T}},\ \xi_2=[-1,0,1]^{\mathrm{T}}.}
+
+所以对应于 $\lambda_1=\lambda_2=1$ 的全部特征向量为 $k_1\xi_1+k_2\xi_2$（$k_1$，$k_2$ 为不全为零的任意常数）.
+
+取 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}-1&-1&1\\1&0&1\\0&1&1\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}1&&\\&1&\\&&3\end{bmatrix}=\Lambda$，故
+
+\fml{A=P\Lambda P^{-1},\ A^n=P\Lambda P^{-1}\cdots P\Lambda P^{-1}=P\Lambda^nP^{-1},}
+
+其中 $P^{-1}$ 可如下求得：
+
+\fmll{\left[\begin{array}{ccc|ccc}-1&-1&1&1&0&0\\1&0&1&0&1&0\\0&1&1&0&0&1\end{array}\right]\xrightarrow{\text{互换}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\-1&-1&1&1&0&0\\0&1&1&0&0&1\end{array}\right]\xrightarrow{\text{互换}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\-1&-1&1&1&0&0\end{array}\right]}
+
+% OPD 蓝色标注（原稿）：行变换标注「1 倍加至」
+
+\fmll{\xrightarrow{\text{1 倍加至}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&-1&2&1&1&0\end{array}\right]\xrightarrow{\ \times\frac{1}{3}\ }\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&0&3&1&1&1\end{array}\right]\xrightarrow{\text{1 倍加至}}\left[\begin{array}{ccc|ccc}1&0&1&0&1&0\\0&1&1&0&0&1\\0&0&1&\frac{1}{3}&\frac{1}{3}&\frac{1}{3}\end{array}\right]}
+\end{fcard}
+
+% 说明：例 8.5「法一」求 $P^{-1}$ 的初等行变换序列在本页（印刷页 83）末行结束，
+%       其最终结果与「法二」在 PDF p95（印刷页 84），由后续片段承接（本片在卡片处收口）。
+
+\fsec{深化二　为什么有的矩阵不能对角化：根子空间与若尔当形}
+
+\begin{fdeep}{为什么 Jordan 块不能相似对角化 —— 以及“不能”时是什么样}
+\textbf{先看最简情形}：$m$ 阶 Jordan 块
+\fml{J_{m}(\lambda)=\begin{pmatrix}\lambda&1&&\\&\lambda&\ddots&\\&&\ddots&1\\&&&\lambda\end{pmatrix}}
+计算它的特征子空间：$\lambda E-J_{m}(\lambda)$ 只在超对角线位置有非零元（全是 $-1$），
+其余全为 $0$，故其秩为 $m-1$（每行至多一个非零元，且非零元互不同行）。
+于是
+\fml{g_{\lambda}=m-r\bigl(\lambda E-J_{m}(\lambda)\bigr)=m-(m-1)=1}
+而显然 $m_{\lambda}=m$。所以 $m\ge2$ 时
+\fml{g_{\lambda}=1<m=m_{\lambda}\quad\Longrightarrow\quad J_{m}(\lambda)\ \text{\textbf{不可对角化}}}
+\textbf{几何直观}：$J_{m}(\lambda)$ 只把整个空间的\textbf{一个方向}（$e_1$）固定为特征向量，
+其余方向都被“链”到前一个方向上（$e_2\mapsto\lambda e_1$ 等），无法凑出 $m$ 个独立的特征方向。
+
+\medskip
+\textbf{“不能对角化”时的完整图像（Jordan 标准形）}：复数域上，
+任何方阵 $A$ 都相似于一个 Jordan 形矩阵
+\fml{J=\operatorname{diag}\bigl(J_{m_1}(\lambda_1),\ J_{m_2}(\lambda_2),\ \dots\bigr)}
+且在不计各块排列顺序的意义下\textbf{唯一}。由此得到三条可用的计数规律：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{阶数}：所有 Jordan 块的阶数之和 $=n$；
+\item \textbf{块的个数}：特征值 $\lambda$ 对应的 Jordan 块个数 $=g_{\lambda}=n-r(\lambda E-A)$；
+\item \textbf{最大块的阶数}：$=(\lambda-\lambda_0)$ 在最小多项式中的重数。
+\end{itemize}
+所以\textbf{“可对角化”就是“所有 Jordan 块都是 1 阶”}；
+一旦出现 $\ge2$ 阶的块，几何重数就“缺”了，无法对角化。
+
+\textbf{【选读说明】}本书只要求\textbf{会判断}能否对角化（用 $\sum g_{\lambda}=n$ 或最小多项式），
+\textbf{不要求会求 Jordan 标准形}。本段的作用是让你知道“不可对角化时矩阵到底长什么样”，
+从而理解为什么 $g_{\lambda}<m_{\lambda}$ 就“没救了”——而不是一个需要背下来的抽象结论。
+
+\fbref{}服务考纲〔矩阵的特征值和特征向量〕“理解…矩阵可相似对角化的充分必要条件”。
+本段直接回答了“为什么有的矩阵不能相似对角化”这个问题：
+\textbf{因为它的特征方向不够多（$g<m$），这在几何上就是“空间被 Jordan 链纠缠了”}。
+考场上遇到“判断下列矩阵能否对角化”，看到 $g_{\lambda}<m_{\lambda}$ 即可\textbf{立刻判定不可对角化}，不必再试。
+\end{fdeep}
+
+\begin{fdeep}{哈密顿--凯莱定理：最小多项式为什么存在}
+设 $A$ 是 $n$ 阶数字矩阵，$f(\lambda)=|\lambda E-A|=\lambda^{n}+a_{1}\lambda^{n-1}+\dots+a_{n-1}\lambda+a_{n}$，则
+\fml{f(A)=A^{n}+a_{1}A^{n-1}+\dots+a_{n-1}A+a_{n}E=O}
+即\textbf{每个矩阵都满足自己的特征多项式}。对线性变换 $\mathscr{A}$ 同理：$f(\mathscr{A})=\mathscr{O}$。
+
+\warn{证明思路（易错点所在）}：设 $B(\lambda)=\lambda^{n-1}B_{0}+\lambda^{n-2}B_{1}+\dots+B_{n-1}$ 为
+$\lambda E-A$ 的伴随矩阵，则 $B(\lambda)(\lambda E-A)=f(\lambda)E$。比较 $\lambda$ 同次幂的系数得到
+$n+1$ 个矩阵等式，再用 $A^{n},A^{n-1},\dots,A,E$ \textbf{依次从右边乘}第 $1,2,\dots,n+1$ 式，
+把 $n+1$ 式\textbf{相加}，左边两两抵消为 $O$，右边正好是 $f(A)$。
+\fml{\text{不能直接把 }\lambda=A\text{ 代入}}
+因为 $B(\lambda)$ 的元素是 $\lambda$ 的多项式，代入后 $B(\lambda)$ 无法定义。
+
+\fbref{}服务考纲“理解…可相似对角化的充分必要条件”。$f(A)=O$ 保证“以 $A$ 为根的非零多项式”
+至少有一个，最小多项式才有定义；同时立刻得到 $m(\lambda)\mid f(\lambda)$（$m$ 指最小多项式）。
+考场上求 $A^{100}$ 一类题，最省力的解法也是拿 $f(A)=O$ 降次，而非硬算。
+\end{fdeep}
+
+\begin{fdeep}{不变子空间：可对角化的几何解释}
+\key{定义}：设 $\mathscr{A}$ 是数域 $P$ 上线性空间 $V$ 的线性变换，$W\le V$。若对 $W$ 中
+任一向量 $\xi$ 都有 $\mathscr{A}\xi\in W$，则称 $W$ 是 $\mathscr{A}$ 的\textbf{不变子空间}。
+
+\textbf{四类基本例子}：整个空间 $V$ 与零子空间 $\{0\}$ 对任何 $\mathscr{A}$ 都不变；
+$\mathscr{A}$ 的\textbf{值域 $\mathscr{A}V$ 与核 $\mathscr{A}^{-1}(0)$} 都是不变子空间；
+若 $\mathscr{A}$ 与 $\mathscr{B}$ 可交换，则 $\mathscr{B}$ 的核与值域都是 $\mathscr{A}$-子空间
+——更一般地，\textbf{$\mathscr{A}$ 的任何多项式 $f(\mathscr{A})$ 的值域与核}都是 $\mathscr{A}$-子空间；
+任何子空间都是\textbf{数乘变换}的不变子空间。
+
+\textbf{一维不变子空间与特征向量完全是一回事}：设 $W=L(\xi)$ 是一维 $\mathscr{A}$-子空间，
+$\xi\ne0$，则 $\mathscr{A}\xi\in W$ 即 $\mathscr{A}\xi=\lambda_0\xi$——$\xi$ 就是特征向量；
+反之特征向量 $\xi$ 的倍数集合 $L(\xi)$ 是一维 $\mathscr{A}$-子空间。
+
+\fbref{}服务考纲“理解…矩阵可相似对角化的充分必要条件”。本块把“可对角化”翻译成几何语言：
+\textbf{$A$ 可对角化 $\iff$ $V$ 能分解为一维不变子空间的直和}。特征子空间 $V_{\lambda_0}$
+作为整体也是不变子空间，这就是“特征方向”的严格说法——它解释了我们关心的为什么是
+特征向量的\textbf{个数}，而不是特征值的个数。
+\end{fdeep}
+
+\begin{fdeep}{根子空间分解：一般情形下能保证的只是准对角}
+\key{定理 12}：设线性变换 $\mathscr{A}$ 的特征多项式在数域 $P$ 上可分解为一次因式之积
+$f(\lambda)=(\lambda-\lambda_1)^{r_1}\dots(\lambda-\lambda_s)^{r_s}$，则 $V$ 可分解为不变子空间的直和
+\fml{V=V_1\oplus V_2\oplus\dots\oplus V_s,\qquad V_i=\{\xi\in V\mid(\mathscr{A}-\lambda_i\mathscr{E})^{r_i}\xi=0\}}
+称 $V_i$ 为 $\mathscr{A}$ 的属于 $\lambda_i$ 的\textbf{根子空间}（记 $V^{\lambda_i}$）。
+
+\textbf{证明思路（贝祖等式）}：令 $f_i(\lambda)=f(\lambda)/(\lambda-\lambda_i)^{r_i}$，取 $V_i=f_i(\mathscr{A})V$。
+因 $f_1,\dots,f_s$ \textbf{互素}，存在多项式 $u_1,\dots,u_s$ 使 $\sum u_if_i=1$，于是
+$\alpha=\sum u_i(\mathscr{A})f_i(\mathscr{A})\alpha$，每项都落在对应 $V_i$ 中——这就是“每个向量都能拆开”。
+
+\textbf{由此得到的图像}：一般情况下能保证的只是\textbf{准对角}
+（这正是若尔当形的来源）；只有当每个根子空间都恰好等于特征子空间时才退化为对角形。
+
+\fbref{}服务考纲“理解…矩阵可相似对角化的充分必要条件”。本块交代了 $g_\lambda=m_\lambda$ 的
+几何来历：根子空间 $V_i$ 的维数就是\textbf{代数重数} $r_i$，而其中真正被固定住的方向只有
+特征子空间那些（$g_{\lambda_i}$ 个）。两者相等时根子空间就“化”成了特征子空间——这就是可对角化的完整图像。
+\end{fdeep}
+
+\begin{fdeep}{若尔当标准形的存在与唯一性（北大 §7.8 定理 13、14）}
+\textbf{定理 13（存在性）}：设 $\mathscr{A}$ 是复数域上 $n$ 维空间 $V$ 的线性变换，则 $V$ 中一定
+存在一组基，使 $\mathscr{A}$ 在这组基下的矩阵是若尔当形矩阵，称为 $\mathscr{A}$ 的
+\textbf{若尔当标准形}。
+
+\textbf{证明的两步骨架}：先用根子空间分解 $V=V_1\oplus\dots\oplus V_s$ 化归到单个根子空间；
+在 $V_i$ 上 $(\mathscr{A}-\lambda_i\mathscr{E})^{r_i}=\mathscr{O}$，即 $\mathscr{B}=\mathscr{A}-\lambda_i\mathscr{E}$
+是\textbf{幂零变换}。对幂零变换可证：$V$ 中必有一组形如
+$\alpha_1,\mathscr{B}\alpha_1,\dots,\mathscr{B}^{k_1-1}\alpha_1,\ \alpha_2,\mathscr{B}\alpha_2,\dots$
+的\textbf{循环基}（每条链尾满足 $\mathscr{B}^{k_i}\alpha_i=0$），它使 $\mathscr{B}$ 的矩阵为若尔当形；
+再叠加 $\lambda_i\mathscr{E}$ 即得结论。
+
+\textbf{定理 14（唯一性）}：每个 $n$ 阶复矩阵 $A$ 一定与一个若尔当形矩阵相似；这个若尔当形矩阵
+\textbf{除去其中若尔当块的排列顺序外由 $A$ 唯一决定}。即若尔当形是三角形矩阵，
+主对角线上的元素就是特征多项式的全部根，且\textbf{两个复矩阵相似 $\iff$ 它们的若尔当标准形
+只差块的排列顺序}。
+
+\fbref{}服务考纲“理解相似矩阵的概念、性质”。本块回答“不可对角化时矩阵究竟长什么样”：
+不是“没有标准形”，而是标准形里出现了阶数 $\ge2$ 的块。由此也说明相似判定的\textbf{完整}
+不变量是若尔当形，而迹、行列式、特征多项式都只是它的“部分投影”。
+\end{fdeep}
+
+\begin{fdeep}{Jordan 标准形怎么求（选读）：一条秩公式定所有块}
+复方阵 $A$ 必相似于一个 Jordan 矩阵，且不计块的排列次序时\textbf{唯一}。
+设 $\lambda_0$ 是 $A$ 的特征值（$r_k=r\bigl((\lambda_0E-A)^{k}\bigr)$），则
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $\lambda_0$ 的块\textbf{总个数} $=g_{\lambda_0}=n-r_1$；
+      \textbf{最大块阶数} $=$ $(\lambda-\lambda_0)$ 在 $m(\lambda)$ 中的重数；
+\item 阶数\textbf{恰为 $k$} 的块 $J_k(\lambda_0)$ 的个数
+      \fml{\delta_k=r_{k-1}+r_{k+1}-2r_k}
+      （$r_0=n$；$r_k$ 递减，稳定后 $\delta_k$ 全为 $0$）。
+\end{itemize}
+\textbf{操作流程}：① 求 $\chi_A(\lambda)$ 得特征值及代数重数；
+② 对每个 $\lambda_0$ 依次算 $r_1,r_2,\dots$ 直到秩稳定；
+③ 用 $\sum_k k\,\delta_k=m_{\lambda_0}$ 与上式拼出 $J$。
+\textbf{已知 $\chi_A$ 求所有可能的 Jordan 形}：对每个代数重数做整数分拆，
+每种分拆给出一类 $J$（如 $(\lambda-2)^{3}(\lambda-3)^{2}$ 共有 $3\times2=6$ 种）。
+\textbf{若还要矩阵 $P$}：按块排成 Jordan 链 $p_1,p_2,\dots$，解
+$(A-\lambda_0E)p_1=0$，$(A-\lambda_0E)p_2=-p_1$，$\dots$
+\fbref{}服务“掌握将矩阵化为相似对角矩阵的方法”。
+$\delta_k$ 公式补上了“块总数、最大块阶数”之外缺的那一格——
+有了它，“求 Jordan 标准形”这一步才是可算的。
+\end{fdeep}
+
+\begin{fdeep}{幂零矩阵与秩序列：把“零特征值”那一块单独看透}
+$A$ 称为\textbf{幂零矩阵}，若存在正整数 $p$ 使 $A^{p}=O$；最小的 $p$ 叫\textbf{幂零指数}。
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $A$ 幂零 $\iff$ 特征值全为 $0$ $\iff$ 对一切 $k$ 有 $\operatorname{tr}A^{k}=0$；
+      此时 $A\sim\operatorname{diag}\bigl(J_{n_1}(0),\dots,J_{n_s}(0)\bigr)$，幂零指数 $p=\max_i n_i$。
+\item $n$ 阶幂零矩阵的幂零指数为 $n$ $\iff$ 它相似于 $J_n(0)$（只有一个块）。
+\item \textbf{秩序列}：$r(A^{k})$ 单调不增，必在有限步稳定。设 $0$ 的代数重数为 $k_0$、
+      幂零指数为 $p$，则 $r(A^{p})=n-k_0$；更一般地，
+      $r(A^{k})=r(A^{k+1})\Longrightarrow$ $0$ 对应的 Jordan 块阶数都 $\le k$。
+\item \textbf{最有用的一条}：$r(A)=r(A^{2})\iff A\sim
+      \begin{pmatrix}B&O\\O&O\end{pmatrix}$（$B$ 可逆）$\iff$ $0$ 的 Jordan 块全是一阶
+      $\iff$ $V=\ker A\oplus\operatorname{Im}A$。
+\item \textbf{可对角化的秩判据}（不必求特征向量）：对\textbf{每个}特征值 $\lambda_i$ 都有
+      $r(\lambda_iE-A)=r\bigl((\lambda_iE-A)^{2}\bigr)$。
+\end{itemize}
+\fbref{}服务“理解矩阵可相似对角化的充分必要条件”。
+遇到含参数的秩条件题，直接套用上面两条判据，比解特征向量快得多。
+\end{fdeep}
+
+\fsec{四、$A$ 与 $B$ 相似}
+
+\begin{fcard}{（1）}
+若 $A$ 相似于 $B$，则\\
+①$|A|=|B|$；\\
+②$r(A)=r(B)$；\\
+③$\mathrm{tr}(A)=\mathrm{tr}(B)$；\\
+④$\lambda_A=\lambda_B$（或 $|\lambda E-A|=|\lambda E-B|$）；\\
+⑤属于 $\lambda_A$ 的线性无关的特征向量的个数等于属于 $\lambda_B$ 的线性无关的特征向量的个数；\\
+⑥$A$，$B$ 的各阶主子式之和分别相等.
+% OPD 蓝色标注（原稿）：首句「则」右侧 →$D_{22}$（转换等价表述），当一个结论有"充要""充分""必要""否定"等条件，从而构成了一个好的命题点"时，便给考生指出了重点复习的方向
+\end{fcard}
+
+\begin{fcard}{（2）}
+若 $A$ 相似于 $\Lambda$，$B$ 相似于 $\Lambda$，则 $A$ 相似于 $B$.
+
+% 数学旁注（原稿蓝色手写证明）：
+求可逆矩阵 $P$，使 $P^{-1}AP=B$；$\exists P_1$，$P_1^{-1}AP_1=\Lambda$；$\exists P_2$，$P_2^{-1}BP_2=\Lambda\Rightarrow P_1^{-1}AP_1=P_2^{-1}BP_2\Rightarrow$
+\fml{P_2P_1^{-1}AP_1P_2^{-1}=B}
+（原稿在 $P_2P_1^{-1}$ 下方标注 $P^{-1}$，在 $P_1P_2^{-1}$ 下方标注 $P$）
+\end{fcard}
+
+\begin{fcard}{（3）}
+若 $A$ 相似于 $B$，$B$ 相似于 $\Lambda$，则 $A$ 相似于 $\Lambda$.
+
+% 数学旁注（原稿蓝色手写证明）：
+求可逆矩阵 $P$，使 $P^{-1}AP=\Lambda$；$\exists P_1$，$P_1^{-1}AP_1=B$，$\exists P_2$，$P_2^{-1}BP_2=\Lambda$，即 $B=P_2\Lambda P_2^{-1}\Rightarrow P_1^{-1}AP_1=P_2\Lambda P_2^{-1}\Rightarrow$
+\fml{P_2^{-1}P_1^{-1}AP_1P_2=\Lambda}
+（原稿在 $P_2^{-1}P_1^{-1}$ 下方标注 $P^{-1}$，在 $P_1P_2$ 下方标注 $P$）
+\end{fcard}
+
+\begin{fcard}{（4）}
+$A$ 与 $B$ 相似手段的“三同一不同”.
+
+若 $P^{-1}AP=B$，则 $P^{-1}f(A)P=f(B)$，$P^{-1}A^{-1}P=B^{-1}$，$P^{-1}A^{*}P=B^{*}$，即 $f(A)$ 与 $f(B)$，$A^{-1}$ 与 $B^{-1}$，$A^{*}$ 与 $B^{*}$ 相似的手段相同，也即 $P^{-1}[af(A)+bA^{-1}+cA^{*}]P=af(B)+bB^{-1}+cB^{*}$. 但 $A^{\mathrm T}$ 与 $B^{\mathrm T}$ 相似的手段与上面不同.
+\end{fcard}
+
+\begin{fcard}{★★★例8.6}
+若矩阵 $A$ 的伴随矩阵 $A^{*}=\begin{pmatrix}3&2&-2\\0&-1&0\\a&2&-3\end{pmatrix}$ 相似于矩阵 $B=\begin{pmatrix}-1&0&0\\-2&1&0\\0&0&-1\end{pmatrix}$，其中 $|A|>0$.
+
+（1）求 $a$ 的值，并求可逆矩阵 $Q$，使得 $Q^{-1}A^{*}Q=B$；
+
+（2）求 $A^{99}$.
+
+【解】（1）因为矩阵 $A^{*}$ 与矩阵 $B$ 相似，所以它们的特征值相同. 又因为矩阵 $B$ 的特征多项式为
+\fml{|\lambda E-B|=\begin{vmatrix}\lambda+1&0&0\\2&\lambda-1&0\\0&0&\lambda+1\end{vmatrix}=(\lambda+1)^2(\lambda-1),}
+所以 $B$ 的特征值为 $\lambda_1=\lambda_2=-1$，$\lambda_3=1$.
+
+由矩阵 $A^{*}$ 的特征多项式为
+
+% -----------------------------------------------------------
+% PDF p98（印刷页 87）—— 例 8.6 续
+% -----------------------------------------------------------
+\fml{|\lambda E-A^{*}|=\begin{vmatrix}\lambda-3&-2&2\\0&\lambda+1&0\\-a&-2&\lambda+3\end{vmatrix}=(\lambda+1)(\lambda^2-9+2a),}
+则 $\lambda^2-9+2a=(\lambda+1)(\lambda-1)$，解得 $a=4$.
+
+所以 $A^{*}=\begin{pmatrix}3&2&-2\\0&-1&0\\4&2&-3\end{pmatrix}$，设 $A^{*}$ 的特征值为 $\lambda^{*}$，且 $A^{*}$ 的特征值为 $\lambda_1^{*}=\lambda_2^{*}=-1$，$\lambda_3^{*}=1$，分别对应的特征向量为
+\fml{\alpha_1=[1,-2,0]^{\mathrm T},\quad\alpha_2=[1,0,2]^{\mathrm T},\quad\alpha_3=[1,0,1]^{\mathrm T}.}
+
+对 $B=\begin{pmatrix}-1&0&0\\-2&1&0\\0&0&-1\end{pmatrix}$，且 $B$ 的特征值为 $\lambda_1=\lambda_2=-1$，$\lambda_3=1$，分别对应的特征向量为
+\fml{\beta_1=[1,1,0]^{\mathrm T},\quad\beta_2=[0,0,1]^{\mathrm T},\quad\beta_3=[0,1,0]^{\mathrm T}.}
+
+则有
+\fml{P_1^{-1}A^{*}P_1=\Lambda=\begin{pmatrix}-1&&\\&-1&\\&&1\end{pmatrix},\quad P_2^{-1}BP_2=\Lambda=\begin{pmatrix}-1&&\\&-1&\\&&1\end{pmatrix},}
+其中 $P_1=[\alpha_1,\alpha_2,\alpha_3]=\begin{pmatrix}1&1&1\\-2&0&0\\0&2&1\end{pmatrix}$，$P_2=[\beta_1,\beta_2,\beta_3]=\begin{pmatrix}1&0&0\\1&0&1\\0&1&0\end{pmatrix}$，故有 $P_2P_1^{-1}A^{*}P_1P_2^{-1}=B$，即 $(P_1P_2^{-1})^{-1}A^{*}P_1P_2^{-1}=B$，故存在可逆矩阵
+\fml{Q=P_1P_2^{-1}=\begin{pmatrix}1&1&1\\-2&0&0\\0&2&1\end{pmatrix}\begin{pmatrix}1&0&0\\1&0&1\\0&1&0\end{pmatrix}^{-1}=\begin{pmatrix}1&1&1\\-2&0&0\\0&2&1\end{pmatrix}\begin{pmatrix}1&0&0\\0&0&1\\-1&1&0\end{pmatrix}}
+\fml{=\begin{pmatrix}0&1&1\\-2&0&0\\-1&1&2\end{pmatrix},}
+使 $Q^{-1}A^{*}Q=B$.
+
+（2）由（1）知，$|A^{*}|\ne0$，故 $A^{*}$ 可逆，$\lambda^{*}$ 为矩阵 $A^{*}$ 的特征值，对应的特征向量为 $\alpha$，则有 $A^{*}\alpha=\lambda^{*}\alpha$，
+
+等式两端的左边乘矩阵 $A$ 得 $AA^{*}\alpha=\lambda^{*}A\alpha$，即 $A\alpha=\frac{|A|}{\lambda^{*}}\alpha$，故 $\frac{|A|}{\lambda^{*}}$ 是矩阵 $A$ 的特征值，$\alpha$ 是矩阵 $A$ 的对应于特征值 $\frac{|A|}{\lambda^{*}}$ 的特征向量.
+\fml{|A^{*}|=\begin{vmatrix}3&2&-2\\0&-1&0\\4&2&-3\end{vmatrix}=1=|A|^2,}
+% 例 8.6 的（2）问解答在 PDF p99（印刷页 88，属下一分片）续完，此处结束 fcard
+\end{fcard}
+
+\fsec{深化三　判定两个矩阵是否相似}
+
+\begin{fdeep}{相似不变量的完整清单（以及哪一条才够用）}
+把前面各章零散提到的相似不变量汇总，考场按此顺序逐条排除：
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\textbf{相似不变量} & \textbf{作用} \\
+\hline
+特征多项式 $|\lambda E-A|$（含特征值及重数） & 最基础的筛子；不同则必不相似 \\
+行列式 $|A|$、迹 $\operatorname{tr}(A)$ & 分别是特征多项式的常数项与 $n-1$ 次项系数，是推论 \\
+秩 $r(A)$ & 部分反映特征值信息，零特征值个数需另算 \\
+最小多项式 $m(\lambda)$ & 能抓到“最大若尔当块阶数”的信息 \\
+若尔当标准形（不计块序） & \textbf{完全不变量}：同 $\iff$ 相似 \\
+\end{tabular}
+\end{center}
+\textbf{两个必须警惕的点}：行列式、迹、秩单独任意一条或几条相同，都\textbf{不足以}推出相似；
+特征多项式相同\textbf{也不够}——例如三阶矩阵 $\operatorname{diag}(1,1,1)$ 与 $J_3(1)$ 的特征
+多项式都是 $(\lambda-1)^3$，但不相似。判定的\textbf{终点}是比较若尔当标准形，
+或同时比较特征多项式与最小多项式。
+
+\fbref{}服务考纲“理解相似矩阵的概念、性质及矩阵可相似对角化的充分必要条件”。
+选择题常设“$A,B$ 特征值相同 $\Rightarrow$ $A\sim B$”这类陷阱；本清单给出正确的取舍顺序：
+先用\textbf{特征多项式 + 秩}快速排除，再用\textbf{最小多项式}区分同特征多项式的情形，
+最后才动用若尔当形。另外“可对角化性是一个相似不变量”这一条，
+让“A 与 B 相似而 A 可对角化”类判断题可以只看一方。
+\end{fdeep}
+
+\begin{fdeep}{不变因子与初等因子：判断“两矩阵是否相似”的充要判据}
+$A\sim B$ 的\textbf{充要条件}是它们有相同的\textbf{初等因子组}
+（等价地：相同的不变因子组或行列式因子组，即 $\lambda E-A$ 与 $\lambda E-B$ 等价）。其中
+\fml{\lambda E-A\ \xrightarrow{\ \text{初等变换}\ }\
+\operatorname{diag}(d_1(\lambda),\dots,d_n(\lambda))\quad(\text{Smith 标准形})}
+\begin{itemize}[leftmargin=1.8em,itemsep=0.15em]
+\item $d_1\mid d_2\mid\dots\mid d_n$ 称为\textbf{不变因子}，且
+      $d_1d_2\cdots d_n=\lvert\lambda E-A\rvert=\chi_A(\lambda)$。
+\item \textbf{行列式因子} $D_k(\lambda)$ 是 $\lambda E-A$ 全部 $k$ 阶子式的首一最大公因式；
+      由 $d_1=D_1$、$d_k=D_k/D_{k-1}$ 反求不变因子。
+\item \textbf{初等因子}是各 $d_i$ 分解后出现的不可约因式方幂（相同的保留，不合并）。
+\item \textbf{分块对角阵的初等因子}是各对角块初等因子的并集。
+\item $A$ \textbf{可对角化} $\iff$ $A$ 的初等因子\textbf{全是一次式}。
+\end{itemize}
+\textbf{实操要点}：求数字矩阵的 $D_k$ 时只挑一个 $(n-1)$ 阶子式看它的因式，
+即可迅速定出 $D_{n-1}$，进而定 $d_{n-1},d_n$（樊书反复强调此技巧）。
+\fbref{}服务“理解相似矩阵的概念、性质”。这是“两矩阵是否相似”的\textbf{最终判据}——
+相似不变量只用来\textbf{排除}，要\textbf{确认}相似必须比到不变因子／初等因子这一层。
+\end{fdeep}
+
+\begin{fdeep}{三个易错的反例：正交相似、数域、实对称的例外}
+\begin{itemize}[leftmargin=1.8em,itemsep=0.25em]
+\item \textbf{相似但不正交相似}：$A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$，
+      $B=\begin{pmatrix}0&2\\0&0\end{pmatrix}$，$\operatorname{diag}(1,2)$ 给出合同且两矩阵相似，
+      却不存在正交 $Q$ 使 $Q^{\mathrm T}AQ=B$
+      （二阶正交阵只有旋转与反射两种，代入即导出矛盾）。
+      \textbf{所以“相似”与“正交相似”必须分清。}
+\item \textbf{相似性依赖数域}：$A=\begin{pmatrix}1&-3&-1\\2&1&0\\3&1&1\end{pmatrix}$，
+      $\chi_A(\lambda)=\lambda^{3}-3\lambda^{2}+12\lambda-8$，$(\chi_A,\chi_A')=1$ 说明无重根，
+      故 $A$ 在复数域上有 $3$ 个互异特征值、可对角化；
+      但在有理数域上它无有理特征值（可能的有理根 $\pm1,\pm2,\pm4,\pm8$ 逐一检验都不成立），
+      故\textbf{在有理数域上不可对角化}。
+\item \textbf{实对称矩阵是例外}：两个实对称矩阵只要有相同的特征值，
+      就一定\textbf{正交}相似——它们的相似类完全由谱决定。
+\end{itemize}
+\fbref{}服务“理解相似矩阵的概念、性质”与“掌握实对称矩阵的特征值和特征向量的性质”。
+选择题问“下列哪个是相似的充分条件”时，这三个反例正好覆盖三个易错陷阱：
+把相似当成正交相似、忽略数域、以及忘记实对称矩阵的特殊性。
+\end{fdeep}
+
+\fsec{五、相似对角化的应用}
+
+\begin{fcard}{例8.8}
+已知数列 $\{x_n\}$，$\{y_n\}$，$\{z_n\}$ 满足 $x_0=-1$，$y_0=0$，$z_0=2$，且
+
+\fml{\begin{cases}x_n=-2x_{n-1}+2z_{n-1},\\y_n=-2y_{n-1}-2z_{n-1},\\z_n=-6x_{n-1}-3y_{n-1}+3z_{n-1},\end{cases}}
+
+记 $\alpha_n=\begin{bmatrix}x_n\\y_n\\z_n\end{bmatrix}$，写出满足 $\alpha_n=A\alpha_{n-1}$ 的矩阵 $A$，并求 $A^n$ 及 $x_n$，$y_n$，$z_n$（$n=1,2,\dots$）．
+
+% -----------------------------------------------------------
+% PDF p100（印刷页 89）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：解首行上方「→$D_{23}$（化归经典形式），线性组合写成矩阵相乘的形式」（不排入正文）
+
+【解】由题设得
+
+\fml{\begin{bmatrix}x_n\\y_n\\z_n\end{bmatrix}=\begin{bmatrix}-2&0&2\\0&-2&-2\\-6&-3&3\end{bmatrix}\begin{bmatrix}x_{n-1}\\y_{n-1}\\z_{n-1}\end{bmatrix},}
+
+得矩阵 $A=\begin{bmatrix}-2&0&2\\0&-2&-2\\-6&-3&3\end{bmatrix}$ 满足 $\alpha_n=A\alpha_{n-1}$．
+
+因为
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda+2&0&-2\\0&\lambda+2&2\\6&3&\lambda-3\end{vmatrix}=\lambda(\lambda-1)(\lambda+2),}
+
+所以矩阵 $A$ 的特征值为 $\lambda_1=0$，$\lambda_2=1$，$\lambda_3=-2$．
+
+当 $\lambda_1=0$ 时，解方程组 $(0E-A)x=0$，得特征向量 $\xi_1=\begin{bmatrix}1\\-1\\1\end{bmatrix}$；
+
+当 $\lambda_2=1$ 时，解方程组 $(E-A)x=0$，得特征向量 $\xi_2=\begin{bmatrix}2\\-2\\3\end{bmatrix}$；
+
+当 $\lambda_3=-2$ 时，解方程组 $(-2E-A)x=0$，得特征向量 $\xi_3=\begin{bmatrix}-1\\2\\0\end{bmatrix}$．
+
+令 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}1&2&-1\\-1&-2&2\\1&3&0\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}$，即 $A=P\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}P^{-1}$，从而得 $A^n=$
+
+\fml{P\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}^nP^{-1}=\begin{bmatrix}1&2&-1\\-1&-2&2\\1&3&0\end{bmatrix}\begin{bmatrix}0&0&0\\0&1&0\\0&0&(-2)^n\end{bmatrix}\begin{bmatrix}6&3&-2\\-2&-1&1\\1&1&0\end{bmatrix}}
+
+\fml{=\begin{bmatrix}-4-(-2)^n&-2-(-2)^n&2\\4-(-2)^{n+1}&2-(-2)^{n+1}&-2\\-6&-3&3\end{bmatrix}.}
+
+由递推式 $\alpha_n=A\alpha_{n-1}$ 知 $\alpha_n=A^n\alpha_0$，其中 $\alpha_0=\begin{bmatrix}-1\\0\\2\end{bmatrix}$，所以
+
+\fml{\alpha_n=A^n\alpha_0=\begin{bmatrix}-4-(-2)^n&-2-(-2)^n&2\\4-(-2)^{n+1}&2-(-2)^{n+1}&-2\\-6&-3&3\end{bmatrix}\begin{bmatrix}-1\\0\\2\end{bmatrix}}
+
+\fml{=\begin{bmatrix}8+(-2)^n\\-8+(-2)^{n+1}\\12\end{bmatrix},}
+
+故 $x_n=8+(-2)^n$，$y_n=-8+(-2)^{n+1}$，$z_n=12$（$n=1,2,\dots$）．
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p101（印刷页 90）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：（$O_6$（盯住目标 6）$+D_1$（常规操作）$+D_{21}$（观察研究对象））（\fsec 标题中的 OPD 括号已整体删除）
+
+\fsec{六、正交矩阵及其使用}
+
+% OPD 蓝色标注（原稿）：左边栏蓝色提示块「$D_{22}$（转换等价表述）．若对于一个知识点有多种等价说法或对于一个命题有多种充要条件，那么这里的 $D_{22}$（转换等价表述）就成了极为重要的考点」（方法论语句，不排入正文）
+
+（1）若 $A$ 为正交矩阵，则
+
+\fmll{\begin{aligned}
+A^{\mathrm T}A=E &\iff A^{-1}=A^{\mathrm T}\\
+&\iff A\ \text{由规范正交基组成}\\
+&\iff A^{\mathrm T}\ \text{是正交矩阵}\\
+&\iff A^{-1}\ \text{是正交矩阵}\\
+&\iff A^{*}\ \text{是正交矩阵}\\
+&\iff -A\ \text{是正交矩阵}.
+\end{aligned}}
+
+\begin{fnote}
+即组成 $A$ 的每一行（列）均为两两正交的单位向量
+\end{fnote}
+
+（2）若 $A$，$B$ 为同阶正交矩阵，则 $AB$ 为正交矩阵，但 $A+B$ 不一定为正交矩阵．
+
+\begin{fnote}
+若 $A$，$B$ 为同阶正定矩阵，则 $A+B$ 为正定矩阵，$AB$ 不一定为正定矩阵
+\end{fnote}
+
+（3）若 $A$ 为正交矩阵，则其实特征值的取值范围为 $\{-1,1\}$\quad $(\lambda^2=1)$．
+
+【注】证 设 $A\alpha=\lambda\alpha$，$\alpha\ne0$，于是 $\alpha^{\mathrm T}A^{\mathrm T}=(A\alpha)^{\mathrm T}=(\lambda\alpha)^{\mathrm T}=\lambda\alpha^{\mathrm T}$，因为 $A^{\mathrm T}A=E$，所以
+
+\fml{\alpha^{\mathrm T}\alpha=\alpha^{\mathrm T}A^{\mathrm T}A\alpha=(\lambda\alpha^{\mathrm T})\lambda\alpha=\lambda^2\alpha^{\mathrm T}\alpha,}
+
+则 $(1-\lambda^2)\alpha^{\mathrm T}\alpha=0$．因为 $\alpha$ 是实特征向量，所以 $\alpha^{\mathrm T}\alpha=x_1^2+x_2^2+\dots+x_n^2>0$，可知 $\lambda^2=1$，由于 $\lambda$ 是实数，故只能是 $-1$ 或 $1$．
+
+★★★（4）设 $A$ 为 $n$ 阶非零矩阵，
+
+\fml{\begin{cases}\text{若}\ a_{ij}=A_{ij}\text{，则}\ A^{\mathrm T}=A^{*}\text{，}\ AA^{\mathrm T}=E\text{，且}\ |A|=1;\\[4pt]\text{若}\ a_{ij}=-A_{ij}\text{，则}\ A^{\mathrm T}=-A^{*}\text{，}\ AA^{\mathrm T}=E\text{，且}\ |A|=-1.\end{cases}}
+
+% OPD 蓝色标注（原稿）：本式右侧「→$D_{22}$（转换等价表述）」（不排入正文）
+
+【注】证 设 $A$ 为 $n$ 阶非零矩阵，若 $a_{ij}=A_{ij}$，则有 $A^{\mathrm T}=A^{*}$．由 $AA^{*}=|A|E$，有 $AA^{\mathrm T}=|A|E$，$|AA^{\mathrm T}|=\bigl||A|E\bigr|$，得 $|A|^2=|A|^n$，于是 $|A|^2(1-|A|^{n-2})=0$．又存在 $a_{ij}\ne0$，则 $|A|=a_{i1}A_{i1}+\dots+a_{in}A_{in}=a_{i1}^2+\dots+a_{in}^2>0$，故 $|A|=1$．于是有 $AA^{\mathrm T}=E$，$A$ 为正交矩阵．同理可得，若 $a_{ij}=-A_{ij}$，则 $A^{\mathrm T}=-A^{*}$，$AA^{\mathrm T}=E$，且 $|A|=-1$．
+
+% OPD 蓝色标注（原稿）：例 8.9 题干下方「→$D_{22}$（转换等价表述）」（不排入正文）
+
+\begin{fcard}{例8.9}
+设 $A$ 为 3 阶正交矩阵，它的第 1 行、第 1 列位置的元素是 1，又设 $\beta=[1,0,0]^{\mathrm T}$，则方程组 $Ax=\beta$ 的解为 \underline{\hspace{4em}}．
+
+【解】应填 $\begin{bmatrix}1\\0\\0\end{bmatrix}$．
+
+\begin{fnote}
+正交矩阵的几何背景：每一列（行）长度为 1
+\end{fnote}
+
+已知 $A$ 为 3 阶正交矩阵且 $a_{11}=1$，则 $A$ 可逆且 $A=\begin{bmatrix}1&0&0\\0&a_{22}&a_{23}\\0&a_{32}&a_{33}\end{bmatrix}$．根据克拉默法则知，$Ax=\beta$ 有唯一解，且
+
+% -----------------------------------------------------------
+% PDF p102（印刷页 91）
+% -----------------------------------------------------------
+\fml{x=A^{-1}\beta=A^{\mathrm T}\beta=\begin{bmatrix}1&0&0\\0&a_{22}&a_{32}\\0&a_{23}&a_{33}\end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}=\begin{bmatrix}1\\0\\0\end{bmatrix}.}
+\end{fcard}
+
+\begin{fnote}
+命成“求方程组的解”，有可能意为“求矩阵方程的解”；\\
+命成“求矩阵方程的解”，有可能转化为“求方程组的解”．\\
+皆因 $AX=B$ 既是矩阵方程，又是线性方程组，正所谓“项庄舞剑，意在沛公”
+\end{fnote}
+
+\fsec{综合题举例}
+
+\begin{fcard}{例8.10}
+设 $A=\begin{bmatrix}-4&2&10\\-4&3&a\\-3&1&7\end{bmatrix}$，且 $A$ 的所有特征向量中只有一个线性无关的特征向量，$B=\begin{bmatrix}2&1&0\\0&2&1\\0&0&2\end{bmatrix}$．
+
+（1）求 $a$ 的值；
+
+（2）是否存在可逆矩阵 $P$，使 $P^{-1}AP=B$？若存在，求出矩阵 $P$，若不存在，说明理由．
+
+【解】（1）由题意知，$A$ 有三重特征值 $\lambda$．因为
+
+\fmll{|\lambda E-A|=\begin{vmatrix}\lambda+4&-2&-10\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}\xrightarrow{r_1-2r_3}\begin{vmatrix}\lambda-2&0&-2(\lambda-2)\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}}
+
+\fmll{=(\lambda-2)\begin{vmatrix}1&0&-2\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}\xrightarrow{c_3+2c_1}(\lambda-2)\begin{vmatrix}1&0&0\\4&\lambda-3&8-a\\3&-1&\lambda-1\end{vmatrix}}
+
+\fml{=(\lambda-2)\left[(\lambda-3)(\lambda-1)+8-a\right]=(\lambda-2)(\lambda^2-4\lambda+11-a),}
+
+所以对于 $\lambda^2-4\lambda+11-a=0$，有 $\Delta=(-4)^2-4(11-a)=0$，故 $a=7$．
+
+令 $|\lambda E-A|=(\lambda-2)(\lambda^2-4\lambda+4)=(\lambda-2)^3=0$，即 $\lambda_1=\lambda_2=\lambda_3=2$．
+
+（2）令 $P=[x_1,x_2,x_3]$，由 $AP=PB$，得
+
+\fml{[Ax_1,Ax_2,Ax_3]=[2x_1,x_1+2x_2,x_2+2x_3].}
+
+% -----------------------------------------------------------
+% PDF p103（印刷页 92）
+% -----------------------------------------------------------
+由 $(A-2E)x_1=0$，得 $x_1=k_1\begin{bmatrix}2\\1\\1\end{bmatrix}$；由 $(A-2E)x_2=x_1$，得 $x_2=k_2\begin{bmatrix}2\\1\\1\end{bmatrix}+k_1\begin{bmatrix}0\\1\\0\end{bmatrix}=\begin{bmatrix}2k_2\\k_2+k_1\\k_2\end{bmatrix}$；由 $(A-2E)x_3=x_2$，得 $x_3=k_3\begin{bmatrix}2\\1\\1\end{bmatrix}+\begin{bmatrix}-k_1\\k_2-3k_1\\0\end{bmatrix}=\begin{bmatrix}2k_3-k_1\\k_3+k_2-3k_1\\k_3\end{bmatrix}$，故
+
+\fml{P=[x_1,x_2,x_3]=\begin{bmatrix}2k_1&2k_2&2k_3-k_1\\k_1&k_1+k_2&k_3+k_2-3k_1\\k_1&k_2&k_3\end{bmatrix}.}
+
+由 $|P|\ne0$ 得 $k_1\ne0$，$k_2$，$k_3$ 为任意常数．
+\end{fcard}
+
+% 说明：PDF p103（印刷页 92）全页仅上述 4 行内容，其下 3/4 页面为空白；
+%       本讲（第 8 讲 相似理论）至此结束，**无「习题」栏**。
+%       第 9 讲「二次型」自印刷页 93（PDF p104）开始。
+
+\fsec{深化四　实对称矩阵与反求矩阵}
+
+\begin{fdeep}{实对称矩阵：特征值全实、特征向量正交、必可正交对角化}
+对应考纲“掌握实对称矩阵的特征值和特征向量的性质”，北大 §9.6 把三条性质串成一条链：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.2em]
+\item \key{引理 1}：实对称矩阵 $A$ 的\textbf{复特征值皆为实数}；
+\item \key{引理 4}：实对称矩阵\textbf{属于不同特征值的特征向量必正交}；
+\item \key{定理 7}：对任意 $n$ 阶实对称矩阵 $A$，都存在 $n$ 阶\textbf{正交矩阵 $T$}，使
+      $T^{\mathrm{T}}AT=T^{-1}AT$ 成对角形。
+\end{enumerate}
+链的逻辑：引理 1 保证特征值都是实数，才谈得上实数域上的特征向量；引理 4 保证
+“不同特征值的特征子空间已经两两正交”，于是把它们拼起来自动得到正交基，
+再在每个特征子空间内部正交化即可，\textbf{无需整体施密特正交化}。
+
+\fbref{}服务考纲“掌握实对称矩阵的特征值和特征向量的性质”。这三条也是“实对称矩阵为什么
+一定可对角化”的完整答案：它的特征子空间之间\textbf{天然正交}，不会出现 Jordan 链那种
+“几何重数不够”的病态。考场上凡遇实对称矩阵可直接断言必可正交对角化，省掉全部判别步骤；
+而“不同特征值的特征向量正交”是解实对称矩阵题时的\textbf{免费检查手段}。
+\end{fdeep}
+
+\begin{fdeep}{求正交矩阵 $T$ 使 $T^{\mathrm{T}}AT$ 成对角形的三步法}
+北大 §9.6 的算法：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.2em]
+\item 求出 $A$ 的全部不同的特征值 $\lambda_1,\dots,\lambda_s$；
+\item 对每个 $\lambda_i$ 解 $(\lambda_iE-A)x=0$，其基础解系是 $V_{\lambda_i}$ 的一组基；
+      由此求出 $V_{\lambda_i}$ 的一组\textbf{标准正交基} $\eta_{i1},\dots,\eta_{id_i}$；
+\item 引理 4 保证不同特征值的向量两两正交，定理 7 保证向量总个数等于 $n$，
+      于是这些 $\eta$ 构成 $\mathbb{R}^n$ 的标准正交基，且都是 $A$ 的特征向量。
+\end{enumerate}
+把它们按列排成矩阵即得所求正交矩阵
+\fml{T=(\eta_1,\dots,\eta_n),\qquad T^{-1}AT=T^{\mathrm{T}}AT=\operatorname{diag}(\lambda_1,\dots,\lambda_n)}
+\textbf{两个实用补丁}：① \textbf{正交化只需在同一特征子空间内部做}——不同特征值的特征向量
+已自动正交，把整组 $n$ 个向量从头做施密特正交化是纯粹的浪费。② \textbf{总可要求 $|T|=1$}：
+若 $|T|=-1$，取 $S=\operatorname{diag}(-1,1,\dots,1)$，则 $T_1=TS$ 仍正交、$|T_1|=1$
+且 $T_1^{\mathrm{T}}AT_1=T^{\mathrm{T}}AT$ 仍为对角形。
+
+\fbref{}服务考纲“掌握将矩阵化为相似对角矩阵的方法”与“掌握实对称矩阵…的性质”。
+\textbf{正交化只在每个特征子空间内部做}，能省掉大量根式运算——这是实对称矩阵正交对角化
+与一般矩阵相似对角化在操作上的最大差别；$T^{-1}=T^{\mathrm{T}}$ 也是唯一能“免费求逆”的场景。
+\end{fdeep}
+
+\begin{fdeep}{同时对角化与谱分解：可交换带来的额外红利}
+\textbf{同时对角化定理}：设 $A,B$ 均为 $n$ 阶实对称矩阵，则
+\fml{\text{存在正交矩阵 }Q\text{ 使 }Q^{\mathrm T}AQ\ \text{与}\ Q^{\mathrm T}BQ\ \text{同为对角阵}
+\iff AB=BA}
+（一般数域上亦然。）
+\textbf{证明思路}：取正交 $P$ 使
+$P^{\mathrm T}AP=\operatorname{diag}(\lambda_1E_1,\dots,\lambda_sE_s)$；
+把 $P^{\mathrm T}BP$ 同样分块写成 $(B_{ij})$，代入 $AB=BA$ 得
+$\lambda_iB_{ij}=B_{ij}\lambda_j$，故 $i\ne j$ 时 $B_{ij}=O$；
+最后对每个对角子块 $B_{ii}$（仍实对称）各自正交对角化，拼起来即是 $Q$。
+于是 $A,B,AB$ 都实对称且可交换时，
+若 $\lambda$ 是 $AB$ 的特征值，则存在 $A$ 的特征值 $s$、$B$ 的特征值 $t$ 使 $\lambda=st$。
+
+\textbf{谱分解（可对角化时的幂等分解）}：$m(\lambda)=\prod_{i=1}^{k}(\lambda-\lambda_i)$ 无重根时，
+存在幂等矩阵 $A_1,\dots,A_k$ 使
+\fml{A_iA_j=\begin{cases}A_i,&i=j\\ O,&i\ne j\end{cases},\qquad
+\sum_{i=1}^{k}A_i=E,\qquad A=\sum_{i=1}^{k}\lambda_iA_i}
+它就是按特征值分块 $A=P\operatorname{diag}(\lambda_1E_{n_1},\dots)P^{-1}$ 的产物。
+\fbref{}服务“掌握实对称矩阵的特征值和特征向量的性质”与“将矩阵化为相似对角矩阵”。
+“同时对角化 $\iff$ 可交换”是高频结论；谱分解把相似关系写成不含 $P$ 的等式。
+\end{fdeep}
+
+\begin{fdeep}{Rayleigh 商：把最大（小）特征值写成最值}
+设 $A$ 为 $n$ 阶实对称矩阵，$\lambda_1\le\lambda_2\le\cdots\le\lambda_n$ 为其特征值，则
+\fml{\lambda_1=\min_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}x},\qquad
+\lambda_n=\max_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}x}}
+更一般地，若 $B$ 正定，$\lambda_0$ 是 $\lvert A-\lambda B\rvert=0$ 的最大根，则
+\fml{\lambda_0=\max_{x\ne0}\frac{x^{\mathrm T}Ax}{x^{\mathrm T}Bx}}
+证明只用一步：把 $A,B$ 同时对角化（$P^{\mathrm T}BP=E$、$P^{\mathrm T}AP=\operatorname{diag}(\lambda_i)$），
+令 $x=Py$、$y\ne0$，上式化为加权平均
+$\frac{\sum\lambda_iy_i^{2}}{\sum y_i^{2}}$，其最大值即 $\max\lambda_i$。
+\textbf{常用推论}：对一切 $x\ne0$ 有 $\lambda_1x^{\mathrm T}x\le x^{\mathrm T}Ax\le\lambda_nx^{\mathrm T}x$；
+二次型在单位球面 $\lVert x\rVert=1$ 上的最大值、最小值就是 $\lambda_{\max},\lambda_{\min}$。
+\fbref{}服务考纲“掌握实对称矩阵的特征值和特征向量的性质”。
+遇到“求二次型最大值”“估计特征值范围”“$\lambda_{\max}=\max x^{\mathrm T}Ax/x^{\mathrm T}x$”这类题，
+写 Rayleigh 商往往一步出结果，不必先把矩阵对角化。
+\end{fdeep}
+
+\begin{fdeep}{由特征值、特征向量反求矩阵：三条通路}
+\textbf{通路 1（相似反求）}：已知 $A$ 的 $n$ 个线性无关特征向量 $\xi_1,\dots,\xi_n$
+及对应特征值，令 $P=(\xi_1,\dots,\xi_n)$、$\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)$，则
+\fml{A=P\Lambda P^{-1},\qquad A^{n}\beta=\sum_{i=1}^{n}c_i\lambda_i^{n}\xi_i
+\quad\Bigl(\beta=\sum c_i\xi_i\Bigr)}
+右式是求 $A^{n}\beta$ 的快捷通道（先解出组合系数 $c_i$）。
+若只给了一部分特征向量，用\textbf{秩}补齐：如 $3$ 阶实对称 $A$ 满足 $r(A)=2$、$AB=C$，
+由 $C$ 的列读出两个特征向量，$r(A)=2$ 给出第三个特征值 $0$，
+再由\textbf{不同特征值的特征向量必正交}，令 $\xi_3\perp\xi_1,\xi_2$ 解方程组即得。
+
+\textbf{通路 2（伴随方程反求特征值）}：若已知 $A^{*}\xi=\xi$，两边左乘 $A$ 并用
+$AA^{*}=\lvert A\rvert E$ 得 $A\xi=\lvert A\rvert\xi$，于是\textbf{一次读出}一个特征值 $\lvert A\rvert$
+及特征向量 $\xi$；再用 $\operatorname{tr}A$、$\det A$ 联立定出其余特征值。
+
+\textbf{通路 3（幂等／多项式形式）}：$m(\lambda)$ 无重根时用谱分解 $A=\sum\lambda_iA_i$；
+特别地 $A^{2}=A\Rightarrow A=P\operatorname{diag}(E_r,O)P^{-1}$（$r=r(A)$）。
+\fbref{}服务“掌握将矩阵化为相似对角矩阵的方法”与实对称矩阵的性质。
+“反求矩阵”类大题的条件最终都归结为\textbf{找出特征值与特征向量}。
+\end{fdeep}

@@ -1,0 +1,127 @@
+% ===========================================================
+% 《线性代数9讲》第 2 讲  余子式和代数余子式的计算
+% 源：线代9讲强化.pdf  PDF p21–p24（印刷页 10–13），本讲全部 4 页
+% 处理说明：
+%   1) 原稿「三向解题法」方法论标记（O / D / P 系列）按 AGENTS.md §7.1 决定二剔除；
+%   2) 数学内容与数学操作旁注（如「按第 1 行展开」「2 倍加至」）照原文保留；
+%   3) 第 2 讲末尾无「习题」栏（印刷页 13 正文结束后留白，PDF p25 即第 3 讲标题页）。
+% ===========================================================
+
+\fchap{第2章\quad 余子式和代数余子式的计算}
+
+% FIGURE-OPD: 10 三向解题法思维导图（按规则不保留）
+
+\fsec{一、用行列式}
+
+由
+\fml{a_{i1}A_{i1}+a_{i2}A_{i2}+\cdots+a_{in}A_{in}=
+\begin{vmatrix}*&*&\cdots&*\\ a_{i1}&a_{i2}&\cdots&a_{in}\\ *&*&\cdots&*\end{vmatrix},}
+得
+\fml{k_1A_{i1}+k_2A_{i2}+\cdots+k_nA_{in}=
+\begin{vmatrix}*&*&\cdots&*\\ k_1&k_2&\cdots&k_n\\ *&*&\cdots&*\end{vmatrix},}
+
+其中 $*$ 处表示元素不变. 上面两式的区别仅在于第 $i$ 行的元素 $a_{i1}$，$a_{i2}$，$\cdots$，$a_{in}$ 换成了 $k_1$，$k_2$，$\cdots$，$k_n$，这样，给出不同的系数 $k_1$，$k_2$，$\cdots$，$k_n$，就得到不同的行列式.
+
+\begin{fnote}
+【注】若要求 $k_1M_{i1}+k_2M_{i2}+\cdots+k_nM_{in}$，只需用 $M_{ij}=(-1)^{i+j}A_{ij}$ 化为关于 $A_{ij}$ 的线性组合即可.
+\end{fnote}
+
+\begin{fcard}{例 2.1}
+设 $\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-3&5&0\end{vmatrix}=A_{41}-A_{42}+A_{43}+10$，其中 $A_{ij}$ 为元素 $a_{ij}$ 的代数余子式，则 $a$，$b$ 的值为（　）.
+
+（A）$a=4$，$b=1$\qquad（B）$a=1$，$b=4$\qquad（C）$a=4$，$b$ 为任意常数\qquad（D）$a=1$，$b$ 为任意常数
+\end{fcard}
+
+【解】应选（C）.
+
+\fmll{A_{41}-A_{42}+A_{43}=1\cdot A_{41}+(-1)\cdot A_{42}+1\cdot A_{43}+0\cdot A_{44}
+=\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-1&1&0\end{vmatrix},}
+
+故
+\fmll{\begin{aligned}
+&\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-3&5&0\end{vmatrix}-\left(A_{41}-A_{42}+A_{43}\right)\\
+&\quad=\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-3&5&0\end{vmatrix}
+-\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-1&1&0\end{vmatrix}
+=\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\0&-2&4&0\end{vmatrix}\quad(\text{第 4 行对应元素相减})\\
+&\quad=\begin{vmatrix}2&1&2&-1\\-1&2&-1&3\\3&0&a&b\\0&-2&0&0\end{vmatrix}\quad(\text{2 倍加至})
+=(-2)\begin{vmatrix}2&2&-1\\-1&-1&3\\3&a&b\end{vmatrix}\quad(\text{按第 4 行展开})\\
+&\quad=(-2)\begin{vmatrix}0&0&5\\-1&-1&3\\0&a-3&b+9\end{vmatrix}\quad(\text{2 倍加至、3 倍加至、按第 1 行展开})
+=10(a-3)=10,
+\end{aligned}}
+
+所以 $a=4$，$b$ 为任意常数. 故选（C）.
+
+\fsec{二、用矩阵}
+
+当 $|A|\ne0$ 时，
+\fml{A^{*}=|A|A^{-1}.}
+
+由于 $A^{*}$ 由 $A_{ij}$ 组成，用上式求出 $A^{*}$，即得到所有的 $A_{ij}$. 但要注意，此方法要求 $|A|\ne0$，这既是前提，也是一种限制.
+
+\begin{fcard}{例 2.2}
+设 $A=\begin{bmatrix}0&0&0&5&6\\0&0&0&7&8\\1&2&3&0&0\\0&1&4&0&0\\0&0&1&0&0\end{bmatrix}$，则 $|A|$ 中所有元素的代数余子式之和为\underline{\hspace{2.6em}}.
+\end{fcard}
+
+【解】应填 $-4$.
+
+令 $B=\begin{bmatrix}5&6\\7&8\end{bmatrix}$，$C=\begin{bmatrix}1&2&3\\0&1&4\\0&0&1\end{bmatrix}$，则
+
+由第 3 讲的“五、2.（6）中的注”知
+\fml{A=\begin{bmatrix}O&B\\C&O\end{bmatrix},\qquad
+A^{-1}=\begin{bmatrix}O&C^{-1}\\B^{-1}&O\end{bmatrix},}
+
+其中 $B^{-1}=\begin{bmatrix}-4&3\\ \dfrac{7}{2}&-\dfrac{5}{2}\end{bmatrix}$，$C^{-1}=\begin{bmatrix}1&-2&5\\0&1&-4\\0&0&1\end{bmatrix}$，于是 $|A|=(-1)^{2\times3}|B||C|=(-2)\times1=-2$，且
+\fml{A^{*}=|A|A^{-1}=-2\begin{bmatrix}O&C^{-1}\\B^{-1}&O\end{bmatrix}
+=-2\begin{bmatrix}0&0&1&-2&5\\0&0&0&1&-4\\0&0&0&0&1\\-4&3&0&0&0\\ \dfrac{7}{2}&-\dfrac{5}{2}&0&0&0\end{bmatrix},}
+
+故 $|A|$ 中所有元素的代数余子式之和（即 $A^{*}$ 中元素之和）为
+\fml{\sum_{i=1}^{5}\sum_{j=1}^{5}A_{ij}=-2\times2=-4.}
+
+\fsec{三、用特征值}
+
+设 $A$ 为 3 阶方阵，当 $A$ 为可逆矩阵时，记其特征值为 $\lambda_1$，$\lambda_2$，$\lambda_3$，则 $A^{-1}$ 的特征值为 $\lambda_1^{-1}$，$\lambda_2^{-1}$，$\lambda_3^{-1}$，
+
+且由 $A^{*}=|A|A^{-1}=\lambda_1\lambda_2\lambda_3A^{-1}$，可知 $A^{*}$ 的特征值为
+\fml{\lambda_1^{*}=\lambda_1\lambda_2\lambda_3\cdot\lambda_1^{-1}=\lambda_2\lambda_3,\qquad
+\lambda_2^{*}=\lambda_1\lambda_2\lambda_3\cdot\lambda_2^{-1}=\lambda_1\lambda_3,\qquad
+\lambda_3^{*}=\lambda_1\lambda_2\lambda_3\cdot\lambda_3^{-1}=\lambda_1\lambda_2,}
+
+第 7 讲的“一、（3）①”表格
+
+故由 $A^{*}=\begin{bmatrix}A_{11}&A_{21}&A_{31}\\A_{12}&A_{22}&A_{32}\\A_{13}&A_{23}&A_{33}\end{bmatrix}$，
+
+知 $A_{11}+A_{22}+A_{33}=\mathrm{tr}\,(A^{*})=\lambda_1^{*}+\lambda_2^{*}+\lambda_3^{*}=\lambda_2\lambda_3+\lambda_1\lambda_3+\lambda_1\lambda_2$.
+
+这些公式易记、好用，考生应熟知.
+
+\begin{fcard}{例 2.3}
+已知 3 阶方阵 $A$ 的特征值为 $-1$，$2$，$3$，则 $A_{11}+A_{22}+A_{33}=$\underline{\hspace{2.6em}}.
+\end{fcard}
+
+【解】应填 1.
+
+记 $\lambda_1=-1$，$\lambda_2=2$，$\lambda_3=3$，由上述公式，有
+\fmll{\begin{aligned}
+A_{11}+A_{22}+A_{33}&=\mathrm{tr}\,(A^{*})=\lambda_1^{*}+\lambda_2^{*}+\lambda_3^{*}\\
+&=\lambda_2\lambda_3+\lambda_1\lambda_3+\lambda_1\lambda_2\\
+&=2\times3+(-1)\times3+(-1)\times2\\
+&=6-3-2=1.
+\end{aligned}}
+
+\begin{fcard}{例 2.4}
+设 $A=(a_{ij})$ 为 3 阶矩阵，$A_{ij}$ 为元素 $a_{ij}$ 的代数余子式. 若 $A^{-1}$ 的每行元素之和均为 2，且 $|A|=3$，则 $A_{13}+A_{23}+A_{33}=$\underline{\hspace{2.6em}}.
+\end{fcard}
+
+【解】应填 6.
+
+由 $A^{-1}\begin{bmatrix}1\\1\\1\end{bmatrix}=2\begin{bmatrix}1\\1\\1\end{bmatrix}$，得 $A^{-1}$ 的一个特征值为 2，故 $A$ 的一个特征值为 $\lambda=\dfrac{1}{2}$，其对应的特征向量为 $\boldsymbol{\alpha}=\begin{bmatrix}1\\1\\1\end{bmatrix}$，
+
+则 $A^{*}$ 的一个特征值为 $\dfrac{|A|}{\lambda}=6$，其对应的特征向量也为 $\boldsymbol{\alpha}=\begin{bmatrix}1\\1\\1\end{bmatrix}$. 由 $A^{*}\boldsymbol{\alpha}=\dfrac{|A|}{\lambda}\boldsymbol{\alpha}$，$A^{*}=\begin{bmatrix}A_{11}&A_{21}&A_{31}\\A_{12}&A_{22}&A_{32}\\A_{13}&A_{23}&A_{33}\end{bmatrix}$，得
+\fmll{A^{*}\begin{bmatrix}1\\1\\1\end{bmatrix}
+=\begin{bmatrix}A_{11}+A_{21}+A_{31}\\A_{12}+A_{22}+A_{32}\\A_{13}+A_{23}+A_{33}\end{bmatrix}
+=6\begin{bmatrix}1\\1\\1\end{bmatrix}=\begin{bmatrix}6\\6\\6\end{bmatrix},}
+
+即 $A_{13}+A_{23}+A_{33}=6$.
+
+% 第 2 讲正文至印刷页 13（PDF p24）3 分之 1 处结束，其余留白；
+% 本讲无「习题」栏（PDF p25 已是第 3 讲「矩阵运算」标题页）。

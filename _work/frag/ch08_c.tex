@@ -1,0 +1,244 @@
+% ===========================================================
+% 《线性代数9讲》第 8 讲  相似理论 —— 片段 C（本讲末片，收尾）
+% 源：线代9讲强化.pdf  PDF p99–p103（印刷页 88–92），共 5 页
+%
+% 处理说明：
+%   1) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2 及其中「OPD 标记的统一处理口径」）：
+%      · \fsec 标题里的 OPD 括号**连同其中的词组整段删除**：
+%        PDF p99（88）「五、相似对角化的应用」（$O_5$（盯住目标 5）$+D_1$（常规操作）$+D_{22}$（转换等价表述））
+%        PDF p101（90）「六、正交矩阵及其使用」（$O_6$（盯住目标 6）$+D_1$（常规操作）$+D_{21}$（观察研究对象））
+%      · 正文中的蓝色纯 OPD 代码旁注一律以 `% OPD 蓝色标注（原稿）：……` 注释留痕，不排入正文：
+%        PDF p99（88）例 8.7 解首行「→$P_4$（逆否思路）」
+%        PDF p100（89）例 8.8 解首行「→$D_{23}$（化归经典形式），线性组合写成矩阵相乘的形式」
+%        PDF p101（90）左边栏蓝色提示块「$D_{22}$（转换等价表述）．若对于一个知识点有多种等价说法或对于一个命题
+%          有多种充要条件，那么这里的 $D_{22}$（转换等价表述）就成了极为重要的考点」
+%        PDF p101（90）★★★（4）右侧「→$D_{22}$（转换等价表述）」
+%        PDF p101（90）例 8.9 题干下方「→$D_{22}$（转换等价表述）」
+%      · **数学符号一律照抄**：$\lambda,\ \mu,\ \xi,\ \alpha,\ \beta,\ P,\ \Lambda,\ A^*$ 等不受影响。
+%   2) **数学内容旁注照原文排入**（原稿蓝色但属数学内容，非方法论）：
+%        PDF p99（88）例 8.7 解首行右侧「$(P^{-1}AP)^{\mathrm T}=B^{\mathrm T}\Rightarrow P^{\mathrm T}A^{\mathrm T}(P^{\mathrm T})^{-1}=B^{\mathrm T}$」
+%        PDF p101（90）等价条件链右侧「即组成 $A$ 的每一行（列）均为两两正交的单位向量」
+%        PDF p101（90）右侧蓝色注「若 $A$，$B$ 为同阶正定矩阵，则 $A+B$ 为正定矩阵，$AB$ 不一定为正定矩阵」
+%        PDF p101（90）（3）下方蓝色注「$\lambda^2=1$」
+%        PDF p102（91）例 8.9 解下方蓝色注「正交矩阵的几何背景：每一列（行）长度为 1」
+%        PDF p102（91）蓝色注（三行）「命成"求方程组的解"…正所谓"项庄舞剑，意在沛公"」
+%   3) ⚠️ 文本模式关系符一律写 `$\ne$`/`$\le$`/`$\ge$`（本片出现 $|P|\ne0$、$k_1\ne0$、$\alpha\ne0$、
+%      $a_{ij}\ne0$、$A\ne kE$ 等）；$\fsec$ 标题内不用 `\cdots`（本片标题无省略号）。
+%   4) ⚠️ **第 8 讲末尾（PDF p102–p103，印刷页 91–92）无「习题」栏**（已逐页核实）：
+%      PDF p103（印刷页 92）全页只有例 8.10 第（2）问解答的 4 行（自「由 $(A-2E)x_1=0$…」至
+%      「由 $|P|\ne0$ 得 $k_1\ne0$，$k_2$，$k_3$ 为任意常数．」），其下 3/4 页面为空白，
+%      无任何「习题」「练习」字样；第 9 讲「二次型」自印刷页 93（PDF p104）开始。
+%   5) **本片无位图插图**：各页右上角蓝色二维码为装饰性二维码（非正文，未转写）；
+%      PDF p101（90）蓝色框左下角有扫描水印「课程顾问微信：1097128063」，非正文，未转写。
+%      页眉「线性代数9讲」/「第8讲 相似理论」为每页重复装饰，按规范忽略。
+%   6) **本片不含实对称矩阵的相似对角化专题**：该专题（$Q^{-1}AQ=\Lambda$、$A=Q\Lambda Q^{-1}$、
+%      $A^{\mathrm T}=A$）在 PDF p93–p98（印刷页 82–87，即「三、非对称矩阵…异同」与例 8.5、例 8.6），
+%      不在本片页码内；本片仅含正交矩阵的性质（PDF p101–p102）与其在例题中的应用。
+%   7) 本片无 `fdeep`（9 讲正文不使用）。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p98（印刷页 87）——例 8.6 的解答自本页续（「又 $|A|>0$…」），
+%     该例题干与前半解答在 PDF p95–p98，由片段 B 负责；本片首行无节标题。
+%   · 例 8.7（PDF p99）自成一片；例 8.8 题干起于 PDF p99 末行、解答跨 PDF p100，本片一个 fcard 排完；
+%   · 例 8.9 题干与解答起于 PDF p101（90）末、结束于 PDF p102（91）首行，本片一个 fcard 排完；
+%   · 例 8.10 题干与（1）在 PDF p102（91），（2）的解答在 PDF p103（92），本片一个 fcard 排完；
+%   · 本片为第 8 讲末片，其后第 9 讲「二次型」自 PDF p104（印刷页 93）开始。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p99（印刷页 88）
+% -----------------------------------------------------------
+% 承 PDF p98（印刷页 87）——例 8.6 的解答续（题干与前半解答见片段 B）
+
+又 $|A|>0$，故 $|A|=1$，从而 $A$ 的特征值为 $\mu_1=\mu_2=-1$，$\mu_3=1$．
+
+由（1）得属于 $\lambda_1^{*}=\lambda_2^{*}=-1$ 的线性无关的特征向量为 $\alpha_1=[1,-2,0]^{\mathrm T}$，$\alpha_2=[1,0,2]^{\mathrm T}$，属于 $\lambda_3^{*}=1$ 的特征向量为 $\alpha_3=[1,0,1]^{\mathrm T}$，因此，矩阵 $A$ 对应于特征值 $\mu_1=\mu_2=-1$ 的线性无关的特征向量为 $\xi_1=[1,-2,0]^{\mathrm T}$，$\xi_2=[1,0,2]^{\mathrm T}$，对应于特征值 $\mu_3=1$ 的特征向量为 $\xi_3=[1,0,1]^{\mathrm T}$．
+
+令 $P=[\xi_1,\xi_2,\xi_3]$，则有
+
+\fml{P^{-1}AP=\begin{bmatrix}-1&0&0\\0&-1&0\\0&0&1\end{bmatrix}=\Lambda,}
+
+于是 $A=P\Lambda P^{-1}$，故
+
+\fmll{A^{99}=P\Lambda^{99}P^{-1}=\begin{bmatrix}1&1&1\\-2&0&0\\0&2&1\end{bmatrix}\begin{bmatrix}(-1)^{99}&0&0\\0&(-1)^{99}&0\\0&0&1^{99}\end{bmatrix}\begin{bmatrix}1&1&1\\-2&0&0\\0&2&1\end{bmatrix}^{-1}}
+
+\fml{=\begin{bmatrix}3&2&-2\\0&-1&0\\4&2&-3\end{bmatrix}.}
+
+\begin{fcard}{例8.7}
+设 $A$，$B$ 是可逆矩阵，且 $A$ 与 $B$ 相似，则下列结论错误的是（$\quad$）．
+
+（A）$A^{\mathrm T}$ 与 $B^{\mathrm T}$ 相似
+
+（B）$A^2+A^{-1}$ 与 $B^2+B^{-1}$ 相似
+
+（C）$A+A^{\mathrm T}$ 与 $B+B^{\mathrm T}$ 相似
+
+（D）$A^{*}-A^{-1}$ 与 $B^{*}-B^{-1}$ 相似
+
+【解】应选（C）．\quad$\to$\ $(P^{-1}AP)^{\mathrm T}=B^{\mathrm T}\Rightarrow P^{\mathrm T}A^{\mathrm T}(P^{\mathrm T})^{-1}=B^{\mathrm T}$
+
+% OPD 蓝色标注（原稿）：解首行蓝色旁注「→$P_4$（逆否思路）」（不排入正文）
+
+因为 $A\sim B$，所以 $A^{\mathrm T}\sim B^{\mathrm T}$，$A^{*}\sim B^{*}$，$A^{-1}\sim B^{-1}$．当 $P^{-1}AP=B$ 且 $A$ 可逆时，若 $L(A)=af(A)+bA^{-1}+cA^{*}$，则 $P^{-1}L(A)P=L(B)$，即 $L(A)\sim L(B)$，故（A），（B），（D）均正确．
+
+对于选项（C），可举反例，设 $A=\begin{bmatrix}1&0\\0&2\end{bmatrix}$，$B=\begin{bmatrix}1&1\\0&2\end{bmatrix}$，则 $A+A^{\mathrm T}=\begin{bmatrix}2&0\\0&4\end{bmatrix}$，$B+B^{\mathrm T}=\begin{bmatrix}2&1\\1&4\end{bmatrix}$，显然 $A+A^{\mathrm T}$ 和 $B+B^{\mathrm T}$ 特征值不同，不相似，故（C）错误．
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：（$O_5$（盯住目标 5）$+D_1$（常规操作）$+D_{22}$（转换等价表述））（\fsec 标题中的 OPD 括号已整体删除）
+
+\fsec{五、相似对角化的应用}
+
+\begin{fcard}{例8.8}
+已知数列 $\{x_n\}$，$\{y_n\}$，$\{z_n\}$ 满足 $x_0=-1$，$y_0=0$，$z_0=2$，且
+
+\fml{\begin{cases}x_n=-2x_{n-1}+2z_{n-1},\\y_n=-2y_{n-1}-2z_{n-1},\\z_n=-6x_{n-1}-3y_{n-1}+3z_{n-1},\end{cases}}
+
+记 $\alpha_n=\begin{bmatrix}x_n\\y_n\\z_n\end{bmatrix}$，写出满足 $\alpha_n=A\alpha_{n-1}$ 的矩阵 $A$，并求 $A^n$ 及 $x_n$，$y_n$，$z_n$（$n=1,2,\dots$）．
+
+% -----------------------------------------------------------
+% PDF p100（印刷页 89）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：解首行上方「→$D_{23}$（化归经典形式），线性组合写成矩阵相乘的形式」（不排入正文）
+
+【解】由题设得
+
+\fml{\begin{bmatrix}x_n\\y_n\\z_n\end{bmatrix}=\begin{bmatrix}-2&0&2\\0&-2&-2\\-6&-3&3\end{bmatrix}\begin{bmatrix}x_{n-1}\\y_{n-1}\\z_{n-1}\end{bmatrix},}
+
+得矩阵 $A=\begin{bmatrix}-2&0&2\\0&-2&-2\\-6&-3&3\end{bmatrix}$ 满足 $\alpha_n=A\alpha_{n-1}$．
+
+因为
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda+2&0&-2\\0&\lambda+2&2\\6&3&\lambda-3\end{vmatrix}=\lambda(\lambda-1)(\lambda+2),}
+
+所以矩阵 $A$ 的特征值为 $\lambda_1=0$，$\lambda_2=1$，$\lambda_3=-2$．
+
+当 $\lambda_1=0$ 时，解方程组 $(0E-A)x=0$，得特征向量 $\xi_1=\begin{bmatrix}1\\-1\\1\end{bmatrix}$；
+
+当 $\lambda_2=1$ 时，解方程组 $(E-A)x=0$，得特征向量 $\xi_2=\begin{bmatrix}2\\-2\\3\end{bmatrix}$；
+
+当 $\lambda_3=-2$ 时，解方程组 $(-2E-A)x=0$，得特征向量 $\xi_3=\begin{bmatrix}-1\\2\\0\end{bmatrix}$．
+
+令 $P=[\xi_1,\xi_2,\xi_3]=\begin{bmatrix}1&2&-1\\-1&-2&2\\1&3&0\end{bmatrix}$，则 $P^{-1}AP=\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}$，即 $A=P\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}P^{-1}$，从而得 $A^n=$
+
+\fml{P\begin{bmatrix}0&0&0\\0&1&0\\0&0&-2\end{bmatrix}^nP^{-1}=\begin{bmatrix}1&2&-1\\-1&-2&2\\1&3&0\end{bmatrix}\begin{bmatrix}0&0&0\\0&1&0\\0&0&(-2)^n\end{bmatrix}\begin{bmatrix}6&3&-2\\-2&-1&1\\1&1&0\end{bmatrix}}
+
+\fml{=\begin{bmatrix}-4-(-2)^n&-2-(-2)^n&2\\4-(-2)^{n+1}&2-(-2)^{n+1}&-2\\-6&-3&3\end{bmatrix}.}
+
+由递推式 $\alpha_n=A\alpha_{n-1}$ 知 $\alpha_n=A^n\alpha_0$，其中 $\alpha_0=\begin{bmatrix}-1\\0\\2\end{bmatrix}$，所以
+
+\fml{\alpha_n=A^n\alpha_0=\begin{bmatrix}-4-(-2)^n&-2-(-2)^n&2\\4-(-2)^{n+1}&2-(-2)^{n+1}&-2\\-6&-3&3\end{bmatrix}\begin{bmatrix}-1\\0\\2\end{bmatrix}}
+
+\fml{=\begin{bmatrix}8+(-2)^n\\-8+(-2)^{n+1}\\12\end{bmatrix},}
+
+故 $x_n=8+(-2)^n$，$y_n=-8+(-2)^{n+1}$，$z_n=12$（$n=1,2,\dots$）．
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p101（印刷页 90）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：（$O_6$（盯住目标 6）$+D_1$（常规操作）$+D_{21}$（观察研究对象））（\fsec 标题中的 OPD 括号已整体删除）
+
+\fsec{六、正交矩阵及其使用}
+
+% OPD 蓝色标注（原稿）：左边栏蓝色提示块「$D_{22}$（转换等价表述）．若对于一个知识点有多种等价说法或对于一个命题有多种充要条件，那么这里的 $D_{22}$（转换等价表述）就成了极为重要的考点」（方法论语句，不排入正文）
+
+（1）若 $A$ 为正交矩阵，则
+
+\fmll{\begin{aligned}
+A^{\mathrm T}A=E &\iff A^{-1}=A^{\mathrm T}\\
+&\iff A\ \text{由规范正交基组成}\\
+&\iff A^{\mathrm T}\ \text{是正交矩阵}\\
+&\iff A^{-1}\ \text{是正交矩阵}\\
+&\iff A^{*}\ \text{是正交矩阵}\\
+&\iff -A\ \text{是正交矩阵}.
+\end{aligned}}
+
+\begin{fnote}
+即组成 $A$ 的每一行（列）均为两两正交的单位向量
+\end{fnote}
+
+（2）若 $A$，$B$ 为同阶正交矩阵，则 $AB$ 为正交矩阵，但 $A+B$ 不一定为正交矩阵．
+
+\begin{fnote}
+若 $A$，$B$ 为同阶正定矩阵，则 $A+B$ 为正定矩阵，$AB$ 不一定为正定矩阵
+\end{fnote}
+
+（3）若 $A$ 为正交矩阵，则其实特征值的取值范围为 $\{-1,1\}$\quad $(\lambda^2=1)$．
+
+【注】证 设 $A\alpha=\lambda\alpha$，$\alpha\ne0$，于是 $\alpha^{\mathrm T}A^{\mathrm T}=(A\alpha)^{\mathrm T}=(\lambda\alpha)^{\mathrm T}=\lambda\alpha^{\mathrm T}$，因为 $A^{\mathrm T}A=E$，所以
+
+\fml{\alpha^{\mathrm T}\alpha=\alpha^{\mathrm T}A^{\mathrm T}A\alpha=(\lambda\alpha^{\mathrm T})\lambda\alpha=\lambda^2\alpha^{\mathrm T}\alpha,}
+
+则 $(1-\lambda^2)\alpha^{\mathrm T}\alpha=0$．因为 $\alpha$ 是实特征向量，所以 $\alpha^{\mathrm T}\alpha=x_1^2+x_2^2+\dots+x_n^2>0$，可知 $\lambda^2=1$，由于 $\lambda$ 是实数，故只能是 $-1$ 或 $1$．
+
+★★★（4）设 $A$ 为 $n$ 阶非零矩阵，
+
+\fml{\begin{cases}\text{若}\ a_{ij}=A_{ij}\text{，则}\ A^{\mathrm T}=A^{*}\text{，}\ AA^{\mathrm T}=E\text{，且}\ |A|=1;\\[4pt]\text{若}\ a_{ij}=-A_{ij}\text{，则}\ A^{\mathrm T}=-A^{*}\text{，}\ AA^{\mathrm T}=E\text{，且}\ |A|=-1.\end{cases}}
+
+% OPD 蓝色标注（原稿）：本式右侧「→$D_{22}$（转换等价表述）」（不排入正文）
+
+【注】证 设 $A$ 为 $n$ 阶非零矩阵，若 $a_{ij}=A_{ij}$，则有 $A^{\mathrm T}=A^{*}$．由 $AA^{*}=|A|E$，有 $AA^{\mathrm T}=|A|E$，$|AA^{\mathrm T}|=\bigl||A|E\bigr|$，得 $|A|^2=|A|^n$，于是 $|A|^2(1-|A|^{n-2})=0$．又存在 $a_{ij}\ne0$，则 $|A|=a_{i1}A_{i1}+\dots+a_{in}A_{in}=a_{i1}^2+\dots+a_{in}^2>0$，故 $|A|=1$．于是有 $AA^{\mathrm T}=E$，$A$ 为正交矩阵．同理可得，若 $a_{ij}=-A_{ij}$，则 $A^{\mathrm T}=-A^{*}$，$AA^{\mathrm T}=E$，且 $|A|=-1$．
+
+% OPD 蓝色标注（原稿）：例 8.9 题干下方「→$D_{22}$（转换等价表述）」（不排入正文）
+
+\begin{fcard}{例8.9}
+设 $A$ 为 3 阶正交矩阵，它的第 1 行、第 1 列位置的元素是 1，又设 $\beta=[1,0,0]^{\mathrm T}$，则方程组 $Ax=\beta$ 的解为 \underline{\hspace{4em}}．
+
+【解】应填 $\begin{bmatrix}1\\0\\0\end{bmatrix}$．
+
+\begin{fnote}
+正交矩阵的几何背景：每一列（行）长度为 1
+\end{fnote}
+
+已知 $A$ 为 3 阶正交矩阵且 $a_{11}=1$，则 $A$ 可逆且 $A=\begin{bmatrix}1&0&0\\0&a_{22}&a_{23}\\0&a_{32}&a_{33}\end{bmatrix}$．根据克拉默法则知，$Ax=\beta$ 有唯一解，且
+
+% -----------------------------------------------------------
+% PDF p102（印刷页 91）
+% -----------------------------------------------------------
+\fml{x=A^{-1}\beta=A^{\mathrm T}\beta=\begin{bmatrix}1&0&0\\0&a_{22}&a_{32}\\0&a_{23}&a_{33}\end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}=\begin{bmatrix}1\\0\\0\end{bmatrix}.}
+\end{fcard}
+
+\begin{fnote}
+命成“求方程组的解”，有可能意为“求矩阵方程的解”；\\
+命成“求矩阵方程的解”，有可能转化为“求方程组的解”．\\
+皆因 $AX=B$ 既是矩阵方程，又是线性方程组，正所谓“项庄舞剑，意在沛公”
+\end{fnote}
+
+\fsec{综合题举例}
+
+\begin{fcard}{例8.10}
+设 $A=\begin{bmatrix}-4&2&10\\-4&3&a\\-3&1&7\end{bmatrix}$，且 $A$ 的所有特征向量中只有一个线性无关的特征向量，$B=\begin{bmatrix}2&1&0\\0&2&1\\0&0&2\end{bmatrix}$．
+
+（1）求 $a$ 的值；
+
+（2）是否存在可逆矩阵 $P$，使 $P^{-1}AP=B$？若存在，求出矩阵 $P$，若不存在，说明理由．
+
+【解】（1）由题意知，$A$ 有三重特征值 $\lambda$．因为
+
+\fmll{|\lambda E-A|=\begin{vmatrix}\lambda+4&-2&-10\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}\xrightarrow{r_1-2r_3}\begin{vmatrix}\lambda-2&0&-2(\lambda-2)\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}}
+
+\fmll{=(\lambda-2)\begin{vmatrix}1&0&-2\\4&\lambda-3&-a\\3&-1&\lambda-7\end{vmatrix}\xrightarrow{c_3+2c_1}(\lambda-2)\begin{vmatrix}1&0&0\\4&\lambda-3&8-a\\3&-1&\lambda-1\end{vmatrix}}
+
+\fml{=(\lambda-2)\left[(\lambda-3)(\lambda-1)+8-a\right]=(\lambda-2)(\lambda^2-4\lambda+11-a),}
+
+所以对于 $\lambda^2-4\lambda+11-a=0$，有 $\Delta=(-4)^2-4(11-a)=0$，故 $a=7$．
+
+令 $|\lambda E-A|=(\lambda-2)(\lambda^2-4\lambda+4)=(\lambda-2)^3=0$，即 $\lambda_1=\lambda_2=\lambda_3=2$．
+
+（2）令 $P=[x_1,x_2,x_3]$，由 $AP=PB$，得
+
+\fml{[Ax_1,Ax_2,Ax_3]=[2x_1,x_1+2x_2,x_2+2x_3].}
+
+% -----------------------------------------------------------
+% PDF p103（印刷页 92）
+% -----------------------------------------------------------
+由 $(A-2E)x_1=0$，得 $x_1=k_1\begin{bmatrix}2\\1\\1\end{bmatrix}$；由 $(A-2E)x_2=x_1$，得 $x_2=k_2\begin{bmatrix}2\\1\\1\end{bmatrix}+k_1\begin{bmatrix}0\\1\\0\end{bmatrix}=\begin{bmatrix}2k_2\\k_2+k_1\\k_2\end{bmatrix}$；由 $(A-2E)x_3=x_2$，得 $x_3=k_3\begin{bmatrix}2\\1\\1\end{bmatrix}+\begin{bmatrix}-k_1\\k_2-3k_1\\0\end{bmatrix}=\begin{bmatrix}2k_3-k_1\\k_3+k_2-3k_1\\k_3\end{bmatrix}$，故
+
+\fml{P=[x_1,x_2,x_3]=\begin{bmatrix}2k_1&2k_2&2k_3-k_1\\k_1&k_1+k_2&k_3+k_2-3k_1\\k_1&k_2&k_3\end{bmatrix}.}
+
+由 $|P|\ne0$ 得 $k_1\ne0$，$k_2$，$k_3$ 为任意常数．
+\end{fcard}
+
+% 说明：PDF p103（印刷页 92）全页仅上述 4 行内容，其下 3/4 页面为空白；
+%       本讲（第 8 讲 相似理论）至此结束，**无「习题」栏**。
+%       第 9 讲「二次型」自印刷页 93（PDF p104）开始。

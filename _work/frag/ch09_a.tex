@@ -1,0 +1,444 @@
+% ===========================================================
+% 《线性代数9讲》第 9 讲  二次型 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p104–p112（印刷页 93–101），共 9 页
+%
+% 处理说明：
+%   1) PDF p104（印刷页 93）页首「三向解题法」思维导图（位于讲标题「第9讲 二次型」
+%      之下、正文「一、$f=x^{\mathrm T}Ax$ 中 $A$ 的表示」之上）按 AGENTS.md §7.1 决定 2
+%      **不转写、不重绘**，只留一行 `% FIGURE-OPD: 93 三向解题法思维导图（按规则不保留）`；
+%      其上的蓝色小标题「三向解题法」随之删除（留痕见下）。
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2 与本片要求）：
+%      · \fsec 标题里只删 OPD 括号，**保留方法名**：
+%        「一、$f=x^{\mathrm T}Ax$ 中 $A$ 的表示」（$O_1$（盯住目标 1）$+D_1$（常规操作）
+%          $+D_{23}$（化归经典形式））
+%        「二、配方法与正交变换法的异同」（$O_2$（盯住目标 2）$+D_{23}$（化归经典形式））
+%        「三、伪配方法」（$O_3$（盯住目标 3）$+D_{23}$（化归经典形式））
+%        「四、正交变换法的传递性」（$O_4$（盯住目标 4）$+D_1$（常规操作）
+%          $+D_{23}$（化归经典形式））
+%        「五、合同的判定与手段」（$O_5$（盯住目标 5）$+D_1$（常规操作）
+%          $+D_{23}$（化归经典形式））
+%      · 正文蓝色纯 OPD 代码（带箭头旁注）与蓝色方法论提示语一律以
+%        `% OPD 蓝色标注（原稿）：……` 注释留痕，不排入正文：
+%        PDF p104（93）节标题上方蓝色小标签「小题考法」
+%        PDF p105（94）式下蓝色提示语「目的：凑二次型定义」、「按 $f=x^{\mathrm T}Ax$ 的方向走」
+%          及其 OPD 码「$D_{23}$（化归经典形式）」
+%        PDF p106（95）四处「→$D_{22}$（转换等价表述）」及蓝色提示语
+%          「要掌握这两个等价的语言表达并能相互转化」（2 处）、
+%          「两种方法一定要搞清，不要只会套公式」
+%        PDF p107（96）「→$D_{22}$（转换等价表述）」
+%        PDF p108（97）「$D_{23}$（化归经典形式）」及其蓝色提示语
+%          「没有平方项，创造平方项」
+%        PDF p110（99）例 9.7 题干右侧「→基本局面」（原稿蓝色）
+%        PDF p111（100）「$D_{23}$（化归经典形式）」
+%        PDF p112（101）例 9.9 题干右侧「→变换手段」
+%      · 页边竖排模块名「形式化归体系块」（PDF p104、p106 页右缘，PDF p109 页左缘）
+%        为 OPD 体系块标记，删除并留痕。
+%      · **数学符号一律照抄**：$A,\ x,\ \Lambda,\ \lambda,\ p_A,\ q_A$ 等不受影响。
+%   3) **数学操作旁注照原文排入**（`\quad(\text{...})` 内联或行内）：包括
+%      「主对角线元素不变」「利用内积定义 $(\alpha,\beta)=(\beta,\alpha)$」
+%      「$1$ 和 $\frac34$ 不一定是特征值」「$(-1)$ 倍加至」
+%      「$C$ 不一定由 $A$ 的特征向量拼成，$\Lambda$ 也不一定是由 $A$ 的特征值拼成的」
+%      「实对称矩阵不同特征值对应的特征向量正交，故只需单位化」
+%      「$B$ 的特征值为 $k,6,0$，$|B|=k\cdot6\cdot0=0$，$A,B$ 合同，故 $A$ 有一个特征值 $0$」
+%      「因为其行列式为 $0$，所以此矩阵不可逆……把整个问题的性质改变了」
+%      「配方时，不一定要先配 $x_1$……就先配哪个」「盯着 $A$ 的对角线元素，平方项分别提出 2，3，1」。
+%      原稿的笔误、错别字、编号一律照抄。
+%   4) ⚠️ 文本模式关系符一律写 `$\ne$`/`$\le$`/`$\ge$`；$\fsec$ 标题内不用 `\cdots`。
+%   5) **本 9 页无「习题」栏**（已逐页核实）：全部为知识点正文 + 例 9.1～例 9.9 的例题与解答。
+%   6) 本片无位图插图（各页右上角蓝色二维码为装饰，未转写）；无 `fdeep`（9 讲正文不使用）。
+%   7) 版式还原说明：PDF p106（95）原稿把「①配方法」「②正交变换法」两条并排收在一个左大括号内
+%      （左侧竖排提示语即第 2) 条所列已删提示语），单栏宽度无法并排，故按原编号顺序改为
+%      顺序段落，先①后②；同页 $f(x)=x^{\mathrm T}Ax=$ 以 \fmll 单独成行，随后接①②两条。
+%      PDF p111（100）例 9.8 的两条页缘蓝色说明（「配方时……」与「盯着 $A$ 的对角线元素……」）
+%      按数学操作旁注内联排入，位置由版心左缘/公式下方移到公式之后。
+%
+% 接缝说明：
+%   · 本片首行 = 第 9 讲开篇（PDF p104），其上无第 8 讲残余内容；
+%   · 末行 = 例 9.9「③令 $D_1x=D_2y$，求 $D_2^{-1}D_1$」的 $D$ 矩阵计算结果
+%     （PDF p112 末，行末为逗号），该例的收尾结论「故 $A=D^{\mathrm T}BD$」在
+%     PDF p113（印刷页 102），由后续片段承接；例 9.9 自 PDF p112 首行起，未跨片前结束。
+%   · 例 9.1 题面在 PDF p104（93）末，其解答在 PDF p105（94）首，跨页但同片，已在同一张
+%     `fcard` 内承接。
+% ===========================================================
+
+\fchap{第9章\quad 二次型}
+
+% -----------------------------------------------------------
+% PDF p104（印刷页 93）
+% -----------------------------------------------------------
+
+% FIGURE-OPD: 93 三向解题法思维导图（按规则不保留）
+
+% OPD 蓝色标注（原稿）：页首蓝色小标题「三向解题法」（方法论板块，按规则不保留）
+% OPD 蓝色标注（原稿）：节标题上方蓝色小标签「小题考法」（方法论标签，已删）
+% OPD 蓝色标注（原稿）：（$O_1$（盯住目标 1）$+D_1$（常规操作）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「形式化归体系块」（OPD 体系块标记，已删）
+
+\fsec{一、$f=x^{\mathrm T}Ax$ 中 $A$ 的表示}
+
+（1）给出非对称矩阵 $B$，令 $A=\dfrac{B+B^{\mathrm T}}{2}$，则 $A=A^{\mathrm T}$.
+
+（2）通过题设或基本变形显化出 $A$.
+
+\begin{fcard}{例9.1}
+已知三元二次型表示为 $f(x)=x^{\mathrm T}\begin{bmatrix}1&1&0\\0&1&1\\0&0&1\end{bmatrix}x$，则 $f$ 的规范形为（$\quad$）.
+
+（A）$y_1^2-y_2^2+y_3^2$\qquad（B）$y_1^2+y_2^2+y_3^2$
+
+（C）$-y_1^2-y_2^2-y_3^2$\qquad（D）$y_1^2-y_2^2-y_3^2$
+
+% ---- PDF p105（印刷页 94）----
+
+【解】应选（B）.
+
+二次型的矩阵为 $A=\begin{bmatrix}1&\frac12&0\\[2pt]\frac12&1&\frac12\\[2pt]0&\frac12&1\end{bmatrix}$ $\quad(\text{主对角线元素不变})$，其各阶顺序主子式为
+
+\fml{\Delta_1=1>0,\qquad \Delta_2=\begin{vmatrix}1&\frac12\\[2pt]\frac12&1\end{vmatrix}=\frac34>0,\qquad \Delta_3=\begin{vmatrix}1&\frac12&0\\[2pt]\frac12&1&\frac12\\[2pt]0&\frac12&1\end{vmatrix}=\frac12>0.}
+
+所以 $A$ 是正定矩阵，其正惯性指数 $p=3$，因此二次型的规范形为 $y_1^2+y_2^2+y_3^2$.
+\end{fcard}
+
+\begin{fcard}{例9.2}
+已知
+\fml{\alpha_1=\begin{bmatrix}1\\2\end{bmatrix},\qquad \alpha_2=\begin{bmatrix}a\\1\end{bmatrix},\qquad x=\begin{bmatrix}x_1\\x_2\end{bmatrix},}
+若二次型 $f(x_1,x_2)=\sum\limits_{i=1}^{2}(\alpha_i,x)^2$ 正定，其中 $(\alpha_i,x)$ 表示向量 $\alpha_i$，$x$ 的内积，则 $a$ 的取值范围是 \underline{\hspace{2.5em}}.
+
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式），下方蓝色提示语「目的：凑二次型定义」、「按 $f=x^{\mathrm T}Ax$ 的方向走」（方法论提示语，已删）
+
+【解】应填 $a\ne\dfrac12$.
+
+\fmll{f(x_1,x_2)=(\alpha_1,x)^2+(\alpha_2,x)^2}
+\fmll{\phantom{f(x_1,x_2)}=(x,\alpha_1)(\alpha_1,x)+(x,\alpha_2)(\alpha_2,x)\qquad(\text{利用内积定义}(\alpha,\beta)=(\beta,\alpha))}
+\fmll{\phantom{f(x_1,x_2)}=x^{\mathrm T}\alpha_1\alpha_1^{\mathrm T}x+x^{\mathrm T}\alpha_2\alpha_2^{\mathrm T}x=x^{\mathrm T}(\alpha_1\alpha_1^{\mathrm T}+\alpha_2\alpha_2^{\mathrm T})x}
+\fmll{\phantom{f(x_1,x_2)}=x^{\mathrm T}\left(\begin{bmatrix}1\\2\end{bmatrix}[1,2]+\begin{bmatrix}a\\1\end{bmatrix}[a,1]\right)x}
+\fmll{\phantom{f(x_1,x_2)}=x^{\mathrm T}\left(\begin{bmatrix}1&2\\2&4\end{bmatrix}+\begin{bmatrix}a^2&a\\a&1\end{bmatrix}\right)x}
+\fmll{\phantom{f(x_1,x_2)}=x^{\mathrm T}\begin{bmatrix}1+a^2&2+a\\2+a&5\end{bmatrix}x.}
+
+由题意知，$f$ 正定，故 $1+a^2>0$，$\begin{vmatrix}1+a^2&2+a\\2+a&5\end{vmatrix}>0$，即 $(2a-1)^2>0$，于是当且仅当 $a\ne\dfrac12$ 时，$f$ 正定.
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p106（印刷页 95）
+% -----------------------------------------------------------
+
+% OPD 蓝色标注（原稿）：（$O_2$（盯住目标 2）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{二、配方法与正交变换法的异同}
+
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「形式化归体系块」（OPD 体系块标记，已删）
+
+1. 命题语言
+
+（1）配方法.
+
+二次型语言：将 $f=x^{\mathrm T}Ax$ 通过配方法化为标准形，并求出可逆变换矩阵 $C$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）
+
+矩阵语言：求可逆矩阵 $C$，使得 $C^{\mathrm T}AC=\Lambda$. $\quad(\Lambda\ \text{与}\ A\ \text{合同})$
+
+% OPD 蓝色标注（原稿）：蓝色提示语「要掌握这两个等价的语言表达并能相互转化」（方法论提示语，已删）
+
+\begin{fnote}
+【注】考研数学中的配方法指“拉格朗日配方法”，约定简称为配方法.
+\end{fnote}
+
+（2）正交变换法.
+
+二次型语言：将 $f=x^{\mathrm T}Ax$ 通过正交变换法化为标准形，并求出正交矩阵 $Q$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）
+
+矩阵语言：求正交矩阵 $Q$，使得 $Q^{\mathrm T}AQ=\Lambda$. $\quad(\Lambda\ \text{与}\ A\ \text{既合同又相似})$
+
+% OPD 蓝色标注（原稿）：蓝色提示语「要掌握这两个等价的语言表达并能相互转化」（方法论提示语，已删）
+
+2. 过程与结果的异同
+
+% OPD 蓝色标注（原稿）：版心左侧蓝色提示语「两种方法一定要搞清，不要只会套公式」（方法论提示语，已删）
+
+$A^{\mathrm T}=A$ 条件下，
+
+\fmll{f(x)=x^{\mathrm T}Ax=}
+
+①配方法（可逆线性变换）：$x=Cy$，$C$ 可逆.
+
+使得 $f\overset{x=Cy}{=}y^{\mathrm T}\Lambda y$，其中 $C^{\mathrm T}AC=\Lambda$（使 $A$ 合同于对角矩阵）.
+
+$C$ 不一定由 $A$ 的特征向量拼成，$\Lambda$ 也不一定是由 $A$ 的特征值拼成的.
+
+②正交变换法（可逆线性变换）：$x=Qy$（这里的 $Q$ 不仅可逆，还满足 $Q^{-1}=Q^{\mathrm T}$），使得 $f\overset{x=Qy}{=}y^{\mathrm T}\Lambda y$，其中 $Q^{\mathrm T}AQ=Q^{-1}AQ=\Lambda$.
+
+二者区别：在配方法中，$C$ 只满足可逆，所以 $C^{-1}$ 不一定等于 $C^{\mathrm T}$，但是在正交变换法中，变换手段 $Q$ 满足 $Q^{-1}=Q^{\mathrm T}$.
+
+二者相同点：它们的正、负惯性指数是对应相等的.
+
+\begin{fcard}{例9.3}
+已知矩阵 $A=\begin{bmatrix}4&1&-2\\1&1&1\\-2&1&a\end{bmatrix}$ 与 $B=\begin{bmatrix}k&0&0\\0&6&0\\0&0&0\end{bmatrix}$ 合同.
+
+（1）求 $a$ 的值及 $k$ 的取值范围；
+
+（2）若存在正交矩阵 $Q$ 使得 $Q^{\mathrm T}AQ=B$，求 $k$ 及 $Q$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述），准确写出定义
+
+【解】（1）由已知，存在可逆矩阵 $P$ 使得 $P^{\mathrm T}BP=A$，又 $|B|=0$，故 $|A|=3a-12=0$，解得 $a=4$.
+
+$A$ 对应的二次型为
+
+\fmll{f(x_1,x_2,x_3)=4x_1^2+x_2^2+4x_3^2+2x_1x_2-4x_1x_3+2x_2x_3}
+\fmll{\phantom{f(x_1,x_2,x_3)}=\left(2x_1+\frac12x_2-x_3\right)^2+\frac34(x_2+2x_3)^2,}
+
+% OPD 蓝色标注（原稿）：蓝色提示语「$B$ 的特征值为 $k,6,0$，$|B|=k\cdot6\cdot0=0$；$A,B$ 合同，故 $A$ 有一个特征值 $0$」（数学说明，已按数学旁注排入正文）
+
+% ---- PDF p107（印刷页 96）----
+
+故经可逆线性变换 $\begin{cases}y_1=2x_1+\frac12x_2-x_3,\\[2pt]y_2=x_2+2x_3,\\[2pt]y_3=x_3,\end{cases}$ 得 $f=y_1^2+\frac34y_2^2$.
+
+$\quad(1\ \text{和}\ \frac34\ \text{不一定是特征值})$
+
+故 $f$ 的正惯性指数为 2. 因为 $A$ 与 $B$ 合同，所以 $B$ 对应二次型的正惯性指数为 2. 因此，$k$ 的取值范围是 $(0,+\infty)$.
+
+（2）因为
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda-4&-1&2\\-1&\lambda-1&-1\\2&-1&\lambda-4\end{vmatrix}=\lambda(\lambda-3)(\lambda-6),}
+
+所以 $A$ 的特征值为 $\lambda_1=3$，$\lambda_2=6$，$\lambda_3=0$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述），由 $Q^{\mathrm T}=Q^{-1}$，得相似的定义
+
+因为存在正交矩阵 $Q$ 使得 $Q^{\mathrm T}AQ=B$，所以 $A$ 与 $B$ 相似，它们有相同的特征值，于是 $k=3$.
+
+当 $\lambda_1=3$ 时，解方程组 $(3E-A)x=0$，得单位特征向量 $\eta_1=\dfrac{1}{\sqrt3}[1,1,1]^{\mathrm T}$；
+
+当 $\lambda_2=6$ 时，解方程组 $(6E-A)x=0$，得单位特征向量 $\eta_2=\dfrac{1}{\sqrt2}[-1,0,1]^{\mathrm T}$；
+
+当 $\lambda_3=0$ 时，解方程组 $(0E-A)x=0$，得单位特征向量 $\eta_3=\dfrac{1}{\sqrt6}[1,-2,1]^{\mathrm T}$.
+
+% OPD 蓝色标注（原稿）：蓝色旁注「实对称矩阵不同特征值对应的特征向量正交，故只需单位化」（与上方正文说明重复，留痕即可）
+
+令
+
+\fml{Q=[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}\dfrac{1}{\sqrt3}&-\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt6}\\[8pt]\dfrac{1}{\sqrt3}&0&-\dfrac{2}{\sqrt6}\\[8pt]\dfrac{1}{\sqrt3}&\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt6}\end{bmatrix},}
+
+则 $Q$ 是正交矩阵，且 $Q^{\mathrm T}AQ=\begin{bmatrix}3&0&0\\0&6&0\\0&0&0\end{bmatrix}=B$.
+\end{fcard}
+
+3. 惯性指数
+
+\begin{fcard}{例9.4}
+$f(x_1,x_2,x_3)=-2x_1x_2-2x_1x_3+6x_2x_3$ 的正惯性指数为（$\quad$）.
+
+（A）3\qquad（B）2\qquad（C）1\qquad（D）0
+
+【解】应选（C）.
+
+令 $\begin{cases}x_1=y_1+y_2,\\[2pt]x_2=y_1-y_2,\\[2pt]x_3=y_3,\end{cases}$ 则
+
+% OPD 蓝色标注（原稿）：$D_{23}$（化归经典形式），蓝色提示语「没有平方项，创造平方项」（方法论提示语，已删）
+
+\fmll{f=-2y_1^2+2y_2^2+4y_1y_3-8y_2y_3}
+\fmll{\phantom{f}=-2(y_1-y_3)^2+2(y_2-2y_3)^2-6y_3^2,}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p108（印刷页 97）
+% -----------------------------------------------------------
+
+再令 $\begin{cases}z_1=y_1-y_3,\\[2pt]z_2=y_2-2y_3,\\[2pt]z_3=y_3,\end{cases}$ 则
+
+\fml{f=-2z_1^2+2z_2^2-6z_3^2,}
+
+故 $f$ 的正惯性指数为 1.
+
+\begin{fcard}{例9.5}
+（仅数学一）$f(x_1,x_2,x_3)=x_1x_2+x_1x_3-3x_2x_3=1$ 表示（$\quad$）.
+
+（A）椭球面\qquad（B）双曲柱面
+
+（C）双叶双曲面\qquad（D）单叶双曲面
+
+【解】应选（D）.
+
+法一\quad 令 $\begin{cases}y_1=x_2+x_3,\\[2pt]y_2=x_2-x_3,\\[2pt]y_3=x_1,\end{cases}$ 则
+
+\fmll{f(x_1,x_2,x_3)=y_3y_1-3\dfrac{y_1+y_2}{2}\times\dfrac{y_1-y_2}{2}}
+\fmll{\phantom{f(x_1,x_2,x_3)}=-\dfrac34\left(y_1^2-y_2^2\right)+y_1y_3}
+\fmll{\phantom{f(x_1,x_2,x_3)}=\dfrac34y_2^2-\dfrac34\left(y_1^2-\dfrac43y_1y_3\right)}
+\fmll{\phantom{f(x_1,x_2,x_3)}=\dfrac34y_2^2-\dfrac34\left(y_1-\dfrac23y_3\right)^2+\dfrac13y_3^2=1,}
+
+令 $\begin{cases}z_1=\dfrac{\sqrt3}{2}y_2,\\[8pt]z_2=\dfrac{1}{\sqrt3}y_3,\\[8pt]z_3=\dfrac{\sqrt3}{2}\left(y_1-\dfrac23y_3\right),\end{cases}$ 则 $f(x_1,x_2,x_3)=z_1^2+z_2^2-z_3^2=1$，且作的两次变换均为可逆线性变换.
+
+故 $f(x_1,x_2,x_3)=x_1x_2+x_1x_3-3x_2x_3=1$ 表示的是单叶双曲面.
+
+法二\quad 二次型 $f(x_1,x_2,x_3)=x_1x_2+x_1x_3-3x_2x_3$ 的矩阵
+
+\fml{A=\begin{bmatrix}0&\dfrac12&\dfrac12\\[8pt]\dfrac12&0&-\dfrac32\\[8pt]\dfrac12&-\dfrac32&0\end{bmatrix},}
+
+% ---- PDF p109（印刷页 98）----
+
+由
+
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda&-\dfrac12&-\dfrac12\\[8pt]-\dfrac12&\lambda&\dfrac32\\[8pt]-\dfrac12&\dfrac32&\lambda\end{vmatrix}=0.}
+
+得 $A$ 的特征值为 $\lambda_1=\dfrac32$，$\lambda_2=\dfrac{-3+\sqrt{17}}{4}$，$\lambda_3=\dfrac{-3-\sqrt{17}}{4}$，即 $\lambda_1>0$，$\lambda_2>0$，$\lambda_3<0$，故 $f(x_1,x_2,x_3)=\dfrac32y_1^2+\dfrac{-3+\sqrt{17}}{4}y_2^2+\dfrac{-3-\sqrt{17}}{4}y_3^2=1$ 表示的是单叶双曲面.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：（$O_3$（盯住目标 3）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+% OPD 蓝色标注（原稿）：版心左缘竖排模块名「形式化归体系块」（OPD 体系块标记，已删）
+
+\fsec{三、伪配方法}
+
+“平方和式 $A^2+B^2+C^2$” 未必就是（拉格朗日）配方法得来的结果，故若非拉格朗日配方法，则称伪配方法. 要注意伪配方法的变换矩阵是否可逆.
+
+①如果变换没有可逆性，则有可能改变表达式的几何性质，如封闭性，此时不能得出平方和式正定；
+
+②如果变换是可逆的，则平方和式正定.
+
+\begin{fcard}{例9.6}
+设二次型 $f(x_1,x_2,x_3)=(x_1+x_2)^2+(x_2+x_3)^2+(ax_1+x_3)^2$ 正定，则 $a$ 的取值范围是 \underline{\hspace{2.5em}}.
+
+【解】应填 $a\ne-1$.
+
+由于 $f(x_1,x_2,x_3)\ge 0$，且 $f(x_1,x_2,x_3)=0\iff\begin{cases}x_1+x_2=0,\\[2pt]x_2+x_3=0,\\[2pt]ax_1+x_3=0,\end{cases}$ 则方程组的系数行列式为
+
+\fml{(-1)\ \text{倍加至}\quad\begin{vmatrix}1&1&0\\0&1&1\\a&0&1\end{vmatrix}=\begin{vmatrix}1&1&0\\0&1&1\\0&-1&a\end{vmatrix}=a+1.}
+
+①当 $a+1\ne0$ 时，$f(x_1,x_2,x_3)=0\iff x_1=x_2=x_3=0$，故当 $a\ne-1$ 时，$f(x_1,x_2,x_3)$ 正定.（$f>0\iff\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\ne 0$）
+
+②当 $a=-1$ 时，存在 $\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\ne 0$，使得 $f$ 等于 0（与正定的定义相悖）.
+
+% OPD 蓝色标注（原稿）：本页右缘蓝色行外注（承接下式）「当 $a=-1$ 时」（数学推导，保留）
+
+当 $a=-1$ 时，
+
+$f=(x_1+x_2)^2+(x_2+x_3)^2+(x_1-x_3)^2$，
+
+令 $\begin{cases}x_1+x_2=y_1,\\[2pt]x_2+x_3=y_2,\\[2pt]x_1-x_3=y_3,\end{cases}$ 即 $\begin{bmatrix}1&1&0\\0&1&1\\1&0&-1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}$
+
+因为其行列式为 $0$，所以此矩阵不可逆，故此变换为不可逆线性变换，会改变原变量间的性质，也即原图形为非封闭的图形，但是通过这种不可逆的线性变换图形变成封闭的了，也是把整个问题的性质改变了
+\end{fcard}
+
+% ---- PDF p110（印刷页 99）----
+
+% 原稿此处的青色【注】框自 PDF p109 末页起、跨页至 PDF p110 首，为独立于例 9.6 的注释框
+
+\begin{fnote}
+【注】对于 $f(x_1,x_2,x_3)=(a_1x_1+a_2x_2+a_3x_3)^2+(b_1x_1+b_2x_2+b_3x_3)^2+(c_1x_1+c_2x_2+c_3x_3)^2$ 的情形，可总结如下做题方法：
+
+令 $f=0$，即 $\begin{cases}a_1x_1+a_2x_2+a_3x_3=0,\\[2pt]b_1x_1+b_2x_2+b_3x_3=0,\\[2pt]c_1x_1+c_2x_2+c_3x_3=0,\end{cases}$ 计算 $|A|=\begin{vmatrix}a_1&a_2&a_3\\b_1&b_2&b_3\\c_1&c_2&c_3\end{vmatrix}$，若 $|A|\ne 0$，则 $f$ 正定；若 $|A|=0$，则 $f$ 不正定.
+\end{fnote}
+
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{四、正交变换法的传递性}
+
+若 $A$ 相似于 $B$，$B$ 相似于 $C$，则 $A$ 相似于 $C$. 这里 $B$ 常为 $\Lambda$.
+
+\begin{fcard}{例9.7}
+二次型 $f(x_1,x_2,x_3)=x_1^2-x_2x_3$ 经正交变换 $x=Qy$ 化为二次型
+
+\fml{g(y_1,y_2,y_3)=y_1y_2+ay_3^2.}
+
+（1）求 $a$ 的值；
+
+（2）求正交矩阵 $Q$.
+
+% OPD 蓝色标注（原稿）：例 9.7 题干右侧「→基本局面」（方法论旁注，已删）
+
+【解】（1）二次型 $f(x_1,x_2,x_3)$ 与 $g(y_1,y_2,y_3)$ 的矩阵分别为
+
+\fml{A=\begin{bmatrix}1&0&0\\[4pt]0&0&-\dfrac12\\[8pt]0&-\dfrac12&0\end{bmatrix},\qquad B=\begin{bmatrix}0&\dfrac12&0\\[8pt]\dfrac12&0&0\\[4pt]0&0&a\end{bmatrix},}
+
+且 $Q^{\mathrm T}AQ=B$. 因为 $Q$ 为正交矩阵，所以矩阵 $A$ 与 $B$ 相似，故 $\operatorname{tr}(A)=\operatorname{tr}(B)$，从而 $a=1$.
+
+（2）由于 $|\lambda E-A|=(\lambda-1)\left(\lambda-\dfrac12\right)\left(\lambda+\dfrac12\right)$，因此矩阵 $A$ 与 $B$ 的特征值均为 1，$\dfrac12$，$-\dfrac12$，易求得矩阵 $A$ 对应于特征值 1，$\dfrac12$，$-\dfrac12$ 的特征向量依次为 $\begin{bmatrix}1\\0\\0\end{bmatrix}$，$\begin{bmatrix}0\\-1\\1\end{bmatrix}$，$\begin{bmatrix}0\\1\\1\end{bmatrix}$，又因为实对称矩阵属于不同特征值的特征向量相互正交，故单位化即可，依次为 $\begin{bmatrix}1\\0\\0\end{bmatrix}$，$\begin{bmatrix}0\\-\dfrac{1}{\sqrt2}\\[6pt]\dfrac{1}{\sqrt2}\end{bmatrix}$，$\begin{bmatrix}0\\\dfrac{1}{\sqrt2}\\[6pt]\dfrac{1}{\sqrt2}\end{bmatrix}$
+
+令 $Q_1=\begin{bmatrix}1&0&0\\[4pt]0&-\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt2}\\[8pt]0&\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt2}\end{bmatrix}$，则 $Q_1$ 为正交矩阵，且 $Q_1^{\mathrm T}AQ_1=\begin{bmatrix}1&0&0\\[4pt]0&\dfrac12&0\\[4pt]0&0&-\dfrac12\end{bmatrix}$.
+
+% ---- PDF p111（印刷页 100）----
+
+同理，可求得矩阵 $B$ 对应于特征值 1，$\dfrac12$，$-\dfrac12$ 的单位特征向量依次为 $\begin{bmatrix}0\\0\\1\end{bmatrix}$，$\begin{bmatrix}\dfrac{1}{\sqrt2}\\[6pt]\dfrac{1}{\sqrt2}\\[6pt]0\end{bmatrix}$，$\begin{bmatrix}-\dfrac{1}{\sqrt2}\\[6pt]\dfrac{1}{\sqrt2}\\[6pt]0\end{bmatrix}$，
+
+令 $Q_2=\begin{bmatrix}0&\dfrac{1}{\sqrt2}&-\dfrac{1}{\sqrt2}\\[8pt]0&\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt2}\\[8pt]1&0&0\end{bmatrix}$，则 $Q_2$ 为正交矩阵，且
+
+\fml{Q_2^{\mathrm T}BQ_2=\begin{bmatrix}1&0&0\\[4pt]0&\dfrac12&0\\[4pt]0&0&-\dfrac12\end{bmatrix}.}
+
+% OPD 蓝色标注（原稿）：$D_{23}$（化归经典形式）
+
+由于 $Q_1^{\mathrm T}AQ_1=Q_2^{\mathrm T}BQ_2$，因此 $Q_2Q_1^{\mathrm T}AQ_1Q_2^{\mathrm T}=B$，从而 $Q=Q_1Q_2^{\mathrm T}=\begin{bmatrix}0&0&1\\-1&0&0\\0&1&0\end{bmatrix}$ 为所求正交矩阵.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：（$O_5$（盯住目标 5）$+D_1$（常规操作）$+D_{23}$（化归经典形式））（\fsec 标题中的 OPD 括号已删，保留方法名）
+
+\fsec{五、合同的判定与手段}
+
+1. 同阶实对称矩阵 $A$，$B$ 合同的判定
+
+用正、负惯性指数：$A$，$B$ 合同 $\iff p_A=p_B$，$q_A=q_B$（相同的正、负惯性指数）.
+
+2. 已知 $A$，$\Lambda$（$\Lambda$ 是对角矩阵），求可逆矩阵 $C$，使得 $C^{\mathrm T}AC=\Lambda$
+
+\begin{fcard}{例9.8}
+已知 $A=\begin{bmatrix}3&2&1\\2&2&1\\1&1&1\end{bmatrix}$，$\Lambda=\begin{bmatrix}2&0&0\\0&3&0\\0&0&1\end{bmatrix}$，求可逆矩阵 $C$，使得 $C^{\mathrm T}AC=\Lambda$.
+
+【解】①配方.
+
+\fmll{f=x^{\mathrm T}Ax=3x_1^2+2x_2^2+x_3^2+4x_1x_2+2x_1x_3+2x_2x_3}
+\fmll{\phantom{f}=(x_1^2+2x_1x_2+x_2^2+2x_1x_3+2x_2x_3+x_3^2)+(x_1^2+2x_1x_2+x_2^2)+x_1^2}
+\fmll{\phantom{f}=x_1^2+(x_1+x_2)^2+(x_1+x_2+x_3)^2}
+\fmll{\phantom{f}=2\cdot\left(\frac{x_1}{\sqrt2}\right)^2+3\cdot\left(\frac{x_1+x_2}{\sqrt3}\right)^2+1\cdot(x_1+x_2+x_3)^2.}
+
+% OPD 蓝色标注（原稿）：版心左缘蓝色提示语「配方时，不一定要先配 $x_1$，再配 $x_2$，看哪个最容易配，就先配哪个」（数学方法说明，已按下行内联排入正文）
+% OPD 蓝色标注（原稿）：蓝色提示语「盯着 $A$ 的对角线元素，平方项分别提出 $2,3,1$」（数学方法说明，已按下行内联排入正文）
+
+$\quad(\text{配方时，不一定要先配}\ x_1\ \text{，再配}\ x_2\ \text{，看哪个最容易配，就先配哪个})$
+
+$\quad(\text{盯着}\ A\ \text{的对角线元素，平方项分别提出}\ 2,3,1)$
+
+% -----------------------------------------------------------
+% PDF p112（印刷页 101）
+% -----------------------------------------------------------
+
+②换元.
+
+令 $\begin{cases}y_1=\dfrac{x_1}{\sqrt2},\\[8pt]y_2=\dfrac{x_1+x_2}{\sqrt3},\\[8pt]y_3=x_1+x_2+x_3,\end{cases}$ 于是有 $\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}=\begin{bmatrix}\dfrac{1}{\sqrt2}&0&0\\[8pt]\dfrac{1}{\sqrt3}&\dfrac{1}{\sqrt3}&0\\[8pt]1&1&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}$.
+
+③求逆.
+
+记 $x=Cy$，其中 $C=\begin{bmatrix}\dfrac{1}{\sqrt2}&0&0\\[8pt]\dfrac{1}{\sqrt3}&\dfrac{1}{\sqrt3}&0\\[8pt]1&1&1\end{bmatrix}^{-1}=\begin{bmatrix}\sqrt2&0&0\\-\sqrt2&\sqrt3&0\\0&-\sqrt3&1\end{bmatrix}$，则 $f=x^{\mathrm T}Ax=(Cy)^{\mathrm T}A(Cy)=y^{\mathrm T}C^{\mathrm T}ACy=y^{\mathrm T}\Lambda y$，
+
+即矩阵 $C$ 可使 $C^{\mathrm T}AC=\Lambda$.
+\end{fcard}
+
+3. 已知 $A$，$B$（$B$ 不是对角矩阵），求可逆矩阵 $C$，使得 $C^{\mathrm T}AC=B$
+
+\begin{fcard}{例9.9}
+已知实矩阵 $A=\begin{bmatrix}2&2\\2&1\end{bmatrix}$，$B=\begin{bmatrix}4&3\\3&1\end{bmatrix}$，且 $A$ 与 $B$ 合同. 求可逆矩阵 $D$，使得 $A=D^{\mathrm T}BD$.
+
+% OPD 蓝色标注（原稿）：例 9.9 题干右侧「→变换手段」（方法论旁注，已删）
+
+【解】①对 $f$ 配方、换元，写 $D_1$.
+
+对于
+
+\fml{f(x_1,x_2)=x^{\mathrm T}Ax=2(x_1+x_2)^2-x_2^2,}
+
+令 $\begin{cases}z_1=x_1+x_2,\\[2pt]z_2=x_2,\end{cases}$ 即 $\begin{bmatrix}z_1\\z_2\end{bmatrix}=\begin{bmatrix}1&1\\0&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=D_1\begin{bmatrix}x_1\\x_2\end{bmatrix}$，则 $f(x_1,x_2)=2z_1^2-z_2^2$.
+
+②对 $g$ 配方、换元，写 $D_2$.
+
+对于
+
+\fml{g(y_1,y_2)=y^{\mathrm T}By=4\left(y_1+\dfrac34y_2\right)^2-\dfrac54y_2^2,}
+
+令 $\begin{cases}z_1=\sqrt2y_1+\dfrac{3\sqrt2}{4}y_2,\\[8pt]z_2=\dfrac{\sqrt5}{2}y_2,\end{cases}$ 即 $\begin{bmatrix}z_1\\z_2\end{bmatrix}=\begin{bmatrix}\sqrt2&\dfrac{3\sqrt2}{4}\\[8pt]0&\dfrac{\sqrt5}{2}\end{bmatrix}\begin{bmatrix}y_1\\y_2\end{bmatrix}=D_2\begin{bmatrix}y_1\\y_2\end{bmatrix}$，则 $g(y_1,y_2)=2z_1^2-z_2^2$.
+
+③令 $D_1x=D_2y$，求 $D_2^{-1}D_1$.
+
+于是有 $D_1\begin{bmatrix}x_1\\x_2\end{bmatrix}=D_2\begin{bmatrix}y_1\\y_2\end{bmatrix}$，故 $\begin{bmatrix}y_1\\y_2\end{bmatrix}=D_2^{-1}D_1\begin{bmatrix}x_1\\x_2\end{bmatrix}=D\begin{bmatrix}x_1\\x_2\end{bmatrix}$，即
+
+\fml{D=\begin{bmatrix}\sqrt2&\dfrac{3\sqrt2}{4}\\[8pt]0&\dfrac{\sqrt5}{2}\end{bmatrix}^{-1}\begin{bmatrix}1&1\\0&1\end{bmatrix}=\begin{bmatrix}\dfrac{1}{\sqrt2}&-\dfrac{3\sqrt5}{10}\\[8pt]0&\dfrac{2}{\sqrt5}\end{bmatrix}\begin{bmatrix}1&1\\0&1\end{bmatrix}=\begin{bmatrix}\dfrac{1}{\sqrt2}&\dfrac{1}{\sqrt2}-\dfrac{3\sqrt5}{10}\\[8pt]0&\dfrac{2}{\sqrt5}\end{bmatrix},}
+
+% 例 9.9 的收尾结论（「故 $A=D^{\mathrm T}BD$」）在 PDF p113（印刷页 102），由后续片段承接。
+\end{fcard}

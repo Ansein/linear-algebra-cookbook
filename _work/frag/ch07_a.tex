@@ -1,0 +1,261 @@
+% ===========================================================
+% 《线性代数9讲》第 7 讲  特征值与特征向量 —— 片段 A
+% 源：线代9讲强化.pdf  PDF p83–p86（印刷页 72–75），共 4 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2 及 2026-xx 统一口径）：
+%      **纯 OPD 代码 / 方法论语句 / 页边模块名**一律以 `% OPD 蓝色标注（原稿）`
+%      注释留痕，**不排入正文**；**节标题及其下的 OPD 路线行整段删除**
+%      （连其中的中文词组一起删），标题只留数学方法名：
+%        · PDF p83（72）节标题「一、利用特征值命题」下方蓝色路线行
+%          （$D_1$（常规操作）$+D_{22}$（转换等价表述））→ 整段删除
+%        · PDF p83（72）【注】框下方蓝色 →$D_{23}$（化归经典形式）→ 只删 D 代码
+%        · PDF p83（72）表右侧蓝色「多项式形式是重点，见到它们要立即想到
+%          $f(A)\leftrightarrow f(\lambda)$」→ 方法论提示语，删除
+%        · PDF p83（72）～p84（73）、p86（75）页右缘竖排模块名「隐含条件体系块」
+%          → 方法论模块标签，删除留痕
+%        · PDF p85（74）例 7.2 题干上方蓝色「→见到相似，想到 $\xi\to P^{-1}\xi$」
+%          与「→见到 $f(A)$，想到 $\lambda\to f(\lambda)$」→ 方法论提示语，删除
+%        · PDF p85（74）「（2）重要结论.」下方蓝色 →$D_{22}$（转换等价表述）→ 删除
+%        · PDF p85（74）节标题「二、利用特征向量命题」下方蓝色路线行
+%          （$D_1$（常规操作）$+D_{22}$（转换等价表述））→ 整段删除
+%   2) **数学内容一律不受影响**：蓝色批注中的**数学推导与数学结论**照原文排入
+%      （以 `\fml` / `fnote` 呈现），仅删其 OPD 代码标签：
+%        · PDF p83（72）$|bE-(-aA)|=(-a)^{n}\left|-\frac{b}{a}E-A\right|=0$，
+%          则 $\lambda_0=-\frac{b}{a}$（承上【注】的推导）
+%        · PDF p83（72）如 $f(A)=A^{3}+2A^{2}-A+5E$，则 $f(\lambda)=\lambda^{3}+2\lambda^{2}-\lambda+5$
+%        · PDF p84（73）①$|\lambda E-A|=|(\lambda E-A)^{T}|=|\lambda E-A^{T}|$，
+%          故特征值相同；②但 $(\lambda E-A)x=0$ 与 $(\lambda E-A^{T})x=0$
+%          不是同解方程组，故特征向量不同
+%        · PDF p86（75）①右侧「已有 $k$ 个线性无关的特征向量时，$\lambda$ 至少是 $k$ 重根」
+%        · PDF p86（75）③右侧「$\lambda_1\ne\lambda_2\Rightarrow\xi_1$，$\xi_2$ 线性无关；
+%          $\lambda_1=\lambda_2\Rightarrow\xi_1$，$\xi_2$ 可能线性相关，可能线性无关」
+%        · PDF p86（75）⑦右侧「其余 $\lambda_i$ 均不是 $A$ 的特征值」
+%          与「若 $\lambda_i$ 是 $A$ 的特征值，则 $\lambda_i$ 至少有一个线性无关的特征向量」
+%   3) **数学操作旁注保留**：交叉引用（如「由本讲的"一、（3）①"知」「一、（2）」）
+%      与「由题设知」「又」「因」「故」等推导连接词全部照原文排入.
+%   4) **卡片类型**：原稿蓝色【注】框（含 ★★★【注】）→ `fnote`；
+%      有编号的表格类「①记住下表」→ `fkey`；例题 → `fcard`.
+%   5) **页首思维导图不转写**：PDF p83（印刷页 72）页首「三向解题法」思维导图
+%      （利用特征值命题 / 利用特征向量命题 / 利用矩阵方程命题 三分支）按规则不保留，
+%      仅留 `% FIGURE-OPD:` 一行.
+%   6) **本片无位图插图、无 fdeep**（9 讲正文不使用 fdeep）；原稿右上角蓝色二维码
+%      为装饰性内容，非正文，未转写.
+%   7) **本片范围内无「习题」栏**（PDF p83–p86 = 印刷页 72–75 已逐页核实）：
+%      PDF p86（印刷页 75）以第 ⑧ 条结论及其【注】证结束，其后为页脚页码；
+%      编号结论第 ⑨ 条在 PDF p87（印刷页 76），由片段 B 负责.
+%
+% 接缝说明：
+%   · 本片首行即第 7 讲章首（PDF p83 = 印刷页 72）；
+%   · PDF p83（72）尾「表中 $\lambda$ 在分母上的，设 $\lambda\ne0$.」结束于该页，
+%     PDF p84（73）自【注】（1）起，本片按页序连续转录；
+%   · PDF p85（74）末「（2）重要结论.」在本片，其下 ①～⑧ 条结论在 PDF p86（75），
+%     本片连续排入；第 ⑨ 条（PDF p87）属片段 B.
+% ===========================================================
+
+\fchap{第7章\quad 特征值与特征向量}
+
+% -----------------------------------------------------------
+% PDF p83（印刷页 72）
+% -----------------------------------------------------------
+
+% FIGURE-OPD: 72 三向解题法思维导图（利用特征值命题 / 利用特征向量命题 / 利用矩阵方程命题，按规则不保留）
+
+\fsec{一、利用特征值命题}
+
+% OPD 蓝色标注（原稿）：节标题下方蓝色路线行（$D_1$（常规操作）$+D_{22}$（转换等价表述））（整段删除）
+
+（1）$\lambda_0$ 是 $A$ 的特征值 $\iff$ $|\lambda_0E-A|=0$（建立方程求参数或证明行列式 $|\lambda_0E-A|=0$）；
+$\lambda_0$ 不是 $A$ 的特征值 $\iff$ $|\lambda_0E-A|\ne0$（矩阵可逆，满秩）.
+
+% OPD 蓝色标注（原稿）：页右缘起自本行的竖排模块名「隐含条件体系块」（方法论模块标签，已删）
+
+\begin{fnote}
+【注】这里常见的命题方法：若 $|aA+bE|=0$（或 $aA+bE$ 不可逆），$a\ne0$，则 $-\dfrac{b}{a}$ 是 $A$ 的特征值.
+\end{fnote}
+
+% OPD 蓝色标注（原稿）：$\to D_{23}$（化归经典形式）（箭头指向下行推导式；D 代码已删，数学推导保留）
+\fml{|bE-(-aA)|=(-a)^{n}\left|-\frac{b}{a}E-A\right|=0,\qquad \text{则}\ \lambda_0=-\frac{b}{a}.}
+
+（2）若 $\lambda_1$，$\lambda_2$，$\dots$，$\lambda_n$ 是 $A$ 的 $n$ 个特征值，则
+\fml{\begin{cases}|A|=\lambda_1\lambda_2\cdots\lambda_n,\\\operatorname{tr}(A)=\lambda_1+\lambda_2+\cdots+\lambda_n.\end{cases}}
+
+★★★（3）重要结论.
+
+% OPD 蓝色标注（原稿）：表右侧蓝色提示语「多项式形式是重点，见到它们要立即想到 $f(A)\leftrightarrow f(\lambda)$」（方法论提示语，已删）
+% OPD 蓝色标注（原稿）：$\to$ 如 $f(A)=A^{3}+2A^{2}-A+5E$（数学例子，保留）
+\fml{f(A)=A^{3}+2A^{2}-A+5E,\qquad \text{则}\ f(\lambda)=\lambda^{3}+2\lambda^{2}-\lambda+5.}
+
+\begin{fkey}{① 记住下表}
+\fml{\begin{array}{|c|c|c|c|c|c|c|c|c|}\hline
+\text{矩阵} & A & kA & A^{k} & f(A) & A^{-1} & A^{*} & P^{-1}AP\xrightarrow{\text{记}}B & P^{-1}f(A)P\xrightarrow{\text{记}}f(B)\\ \hline
+\text{特征值} & \lambda & k\lambda & \lambda^{k} & f(\lambda) & \dfrac{1}{\lambda} & \dfrac{|A|}{\lambda} & \lambda & f(\lambda)\\ \hline
+\text{对应的特征向量} & \xi & \xi & \xi & \xi & \xi & \xi & P^{-1}\xi & P^{-1}\xi\\ \hline
+\end{array}}
+\end{fkey}
+
+表中 $\lambda$ 在分母上的，设 $\lambda\ne0$.
+
+% -----------------------------------------------------------
+% PDF p84（印刷页 73）
+% -----------------------------------------------------------
+
+\begin{fnote}
+【注】（1）若 $\alpha$ 是 $A$ 的属于特征值 $\lambda$ 的特征向量，则 $A^{n}\alpha=\lambda^{n}\alpha$，见到求 $A^{n}\alpha$，可想到此式；
+（2）进一步地，当 $\lambda\ne0$ 时，$af(A)\pm bA^{-1}\pm cA^{*}$ 的特征值为 $af(\lambda)\pm b\dfrac{1}{\lambda}\pm c\dfrac{|A|}{\lambda}$，特征向量仍为 $\xi$. 但 $f(A)$，$A^{-1}$，$A^{*}$ 与 $A^{T}$，$B$ 的线性组合因特征向量不同，无上述规律.
+\end{fnote}
+
+②虽然 $A^{T}$ 的特征值与 $A$ 相同，但特征向量不再是 $\xi$，要单独计算才能得出.
+
+% OPD 蓝色标注（原稿）：①②（蓝色数学推导，保留）
+\begin{fnote}
+①$|\lambda E-A|=|(\lambda E-A)^{T}|=|\lambda E-A^{T}|$，故特征值相同；
+②但 $(\lambda E-A)x=0$ 与 $(\lambda E-A^{T})x=0$ 不是同解方程组，故特征向量不同.
+\end{fnote}
+
+\begin{fnote}
+★★★【注】$A^{T}$ 和 $A$ 属于不同特征值的特征向量正交.
+
+证 设 $A$ 有特征值 $\lambda_1$，对应的特征向量为 $\alpha$；$A^{T}$ 有特征值 $\lambda_2$，对应的特征向量为 $\beta$，且 $\lambda_1\ne\lambda_2$，则
+\fml{A\alpha=\lambda_1\alpha,\qquad A^{T}\beta=\lambda_2\beta,}
+\fml{\lambda_1\lambda_2\alpha^{T}\beta=\lambda_1\alpha^{T}\lambda_2\beta=\lambda_1\alpha^{T}A^{T}\beta=\lambda_1(A\alpha)^{T}\beta=\lambda_1(\lambda_1\alpha)^{T}\beta=\lambda_1^{2}\alpha^{T}\beta,}
+即 $\lambda_1(\lambda_2-\lambda_1)\alpha^{T}\beta=0$.
+
+同理可得 $\lambda_2(\lambda_1-\lambda_2)\beta^{T}\alpha=0$，其中 $\beta^{T}\alpha=\alpha^{T}\beta$. 两式相加得
+\fml{(\lambda_1-\lambda_2)^{2}\alpha^{T}\beta=0,}
+由于 $\lambda_1\ne\lambda_2$，故 $\alpha^{T}\beta=0$，即 $\alpha$，$\beta$ 正交.
+\end{fnote}
+
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「隐含条件体系块」（续 PDF p83，方法论模块标签，已删）
+
+③归零准则.
+
+a. 归零准则一：设 $f(x)$ 为多项式，若矩阵 $A$ 满足 $f(A)=O$，$\lambda$ 是 $A$ 的任一特征值，则 $\lambda$ 满足 $f(\lambda)=0$.
+
+\begin{fnote}
+★★★【注】解得的 $\lambda$ 的值只代表范围，如 $A^{2}-E=O$，则 $\lambda^{2}=1$，$\lambda=\pm1$，只能说 $A$ 的特征值的取值范围是 $\{1,-1\}$，即 $A$ 的特征值可能全为 1，可能为 1 和 $-1$，也可能全为 $-1$，如
+\fml{\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix},\qquad \begin{bmatrix}1&0&0\\0&-1&0\\0&0&1\end{bmatrix},\qquad \begin{bmatrix}-1&0&0\\0&-1&0\\0&0&-1\end{bmatrix}}
+都满足 $A^{2}-E=O$. 故考生一定不要因为 $\lambda^{2}=1$，就武断地说 $\lambda_1=1$，$\lambda_2=-1$. 这是典型的错误.
+\end{fnote}
+
+b. 归零准则二：设 $n$ 阶方阵 $A$ 的特征多项式为 $f(\lambda)=|\lambda E-A|=\lambda^{n}+a_{n-1}\lambda^{n-1}+\dots+a_1\lambda+a_0$，则 $A$ 的多项式 $f(A)$ 为零矩阵，即 $f(A)=A^{n}+a_{n-1}A^{n-1}+\dots+a_1A+a_0E=O$.
+
+\begin{fnote}
+【注】如 $A=\begin{bmatrix}3&0&1\\0&4&0\\1&0&3\end{bmatrix}$，因 $f(\lambda)=|\lambda E-A|=(\lambda-2)(\lambda-4)^{2}$，则有 $f(A)=(A-2E)(A-4E)^{2}=O$.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p85（印刷页 74）
+% -----------------------------------------------------------
+
+\begin{fcard}{例 7.1}
+设 $A$ 是 3 阶矩阵，$|A|=3$，且满足 $|A^{2}+2A|=0$，$|2A^{2}+A|=0$，则 $A_{11}+A_{22}+A_{33}=\underline{\hspace{2em}}$.
+
+【解】应填 $-\dfrac{13}{2}$.
+
+由题设知，$|A^{2}+2A|=|A(A+2E)|=|A||A+2E|=0$，因 $|A|=3\ne0$，则 $|A+2E|=0$，故 $A$ 有特征值 $\lambda_1=-2$.
+
+又 $|2A^{2}+A|=|A(2A+E)|=8|A|\left|A+\dfrac{1}{2}E\right|=0$，即 $\left|A+\dfrac{1}{2}E\right|=0$，得 $A$ 有特征值 $\lambda_2=-\dfrac{1}{2}$.
+
+因 $|A|=3=\lambda_1\lambda_2\lambda_3$，故 $\lambda_3=3$.
+
+由本讲的“一、（3）①”知，$A^{*}$ 的特征值为 $\dfrac{|A|}{\lambda}$，故 $A^{*}$ 有特征值 $\mu_1=-\dfrac{3}{2}$，$\mu_2=-6$，$\mu_3=1$，由本讲的“一、（2）”知，
+\fml{A_{11}+A_{22}+A_{33}=\operatorname{tr}(A^{*})=\mu_1+\mu_2+\mu_3=-\frac{3}{2}-6+1=-\frac{13}{2}.}
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：例 7.2 题干上方两根蓝色箭头提示语「→见到相似，想到 $\xi\to P^{-1}\xi$」「→见到 $f(A)$，想到 $\lambda\to f(\lambda)$」（方法论提示语，已删）
+
+\begin{fcard}{例 7.2}
+设 $A=\begin{bmatrix}1&2\\5&4\end{bmatrix}$，$P=\begin{bmatrix}1&1\\0&1\end{bmatrix}$，$B=P^{-1}A^{100}P$，则 $B+E$ 的线性无关的特征向量可以为（\quad）.
+
+（A）$\begin{bmatrix}0\\1\end{bmatrix}$，$\begin{bmatrix}7\\5\end{bmatrix}$
+
+（B）$\begin{bmatrix}-2\\1\end{bmatrix}$，$\begin{bmatrix}-3\\5\end{bmatrix}$
+
+（C）$\begin{bmatrix}1\\-1\end{bmatrix}$，$\begin{bmatrix}2\\5\end{bmatrix}$
+
+（D）$\begin{bmatrix}0\\1\end{bmatrix}$，$\begin{bmatrix}3\\2\end{bmatrix}$
+
+【解】应选（B）.
+
+设 $A$ 的特征向量为 $\alpha$，因 $B=P^{-1}f(A)P$，故由本讲的“一、（3）①”知，$P^{-1}\alpha$ 是 $B$ 的特征向量，从而也是 $B+E$ 的特征向量.
+
+由于 $|\lambda E-A|=\begin{vmatrix}\lambda-1&-2\\-5&\lambda-4\end{vmatrix}=(\lambda+1)(\lambda-6)=0$，故 $A$ 的特征值为 $\lambda_1=-1$，$\lambda_2=6$，容易求得 $A$ 的对应于特征值 $\lambda_1=-1$ 与 $\lambda_2=6$ 的线性无关的特征向量分别为 $\begin{bmatrix}-1\\1\end{bmatrix}$ 与 $\begin{bmatrix}2\\5\end{bmatrix}$. 由于 $P^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}$，故
+\fml{P^{-1}\begin{bmatrix}-1\\1\end{bmatrix}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}\begin{bmatrix}-1\\1\end{bmatrix}=\begin{bmatrix}-2\\1\end{bmatrix},\qquad P^{-1}\begin{bmatrix}2\\5\end{bmatrix}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}\begin{bmatrix}2\\5\end{bmatrix}=\begin{bmatrix}-3\\5\end{bmatrix},}
+于是，$B+E$ 的线性无关的特征向量可以为 $\begin{bmatrix}-2\\1\end{bmatrix}$，$\begin{bmatrix}-3\\5\end{bmatrix}$.
+\end{fcard}
+
+\fsec{二、利用特征向量命题}
+
+% OPD 蓝色标注（原稿）：节标题下方蓝色路线行（$D_1$（常规操作）$+D_{22}$（转换等价表述））（整段删除）
+
+（1）$\xi$（$\ne0$）是 $A$ 的属于 $\lambda_0$ 的特征向量 $\iff$ $\xi$ 是 $(\lambda_0E-A)x=0$ 的非零解.
+
+% OPD 蓝色标注（原稿）：本行右下方蓝色 →$D_{22}$（转换等价表述）（已删）
+
+（2）重要结论.
+
+% -----------------------------------------------------------
+% PDF p86（印刷页 75）
+% -----------------------------------------------------------
+
+% OPD 蓝色标注（原稿）：页右缘竖排模块名「隐含条件体系块」（方法论模块标签，已删）
+
+①单根恰有 1 个线性无关的特征向量.
+
+% OPD 蓝色标注（原稿）：①右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+已有 $k$ 个线性无关的特征向量时，$\lambda$ 至少是 $k$ 重根.
+\end{fnote}
+
+②$k$ 重特征值 $\lambda$ 至多只有 $k$ 个线性无关的特征向量（$k\ge2$）.
+
+③若 $\xi_1$，$\xi_2$ 是 $A$ 的属于不同特征值 $\lambda_1$，$\lambda_2$ 的特征向量，则 $\xi_1$，$\xi_2$ 线性无关.
+
+% OPD 蓝色标注（原稿）：③右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+$\lambda_1\ne\lambda_2\Rightarrow\xi_1$，$\xi_2$ 线性无关；$\lambda_1=\lambda_2\Rightarrow\xi_1$，$\xi_2$ 可能线性相关，可能线性无关.
+\end{fnote}
+
+④若 $\xi_1$，$\xi_2$ 是 $A$ 的属于同一特征值 $\lambda$ 的特征向量，则当 $k_1k_2\ne0$ 时，非零向量 $k_1\xi_1+k_2\xi_2$ 仍是 $A$ 的属于特征值 $\lambda$ 的特征向量（常考其中一个系数（如 $k_2$）等于 0 的情形）.
+
+⑤若 $\xi_1$，$\xi_2$ 是 $A$ 的属于不同特征值 $\lambda_1$，$\lambda_2$ 的特征向量，则当 $k_1\ne0$，$k_2\ne0$ 时，$k_1\xi_1+k_2\xi_2$ 不是 $A$ 的任何特征值的特征向量（常考 $k_1=k_2=1$ 的情形）.
+
+\begin{fnote}
+【注】证 反证法. 假设 $k_1\xi_1+k_2\xi_2$ 是 $A$ 的特征向量，则存在数 $\lambda$，有
+\fml{A(k_1\xi_1+k_2\xi_2)=\lambda(k_1\xi_1+k_2\xi_2),}
+即
+\fml{k_1A\xi_1+k_2A\xi_2=k_1\lambda\xi_1+k_2\lambda\xi_2,}
+也即
+\fml{k_1\lambda_1\xi_1+k_2\lambda_2\xi_2=k_1\lambda\xi_1+k_2\lambda\xi_2,}
+移项，得
+\fml{k_1(\lambda_1-\lambda)\xi_1+k_2(\lambda_2-\lambda)\xi_2=0.}
+由于 $\xi_1$，$\xi_2$ 线性无关，则
+\fml{\begin{cases}k_1(\lambda_1-\lambda)=0,\\k_2(\lambda_2-\lambda)=0.\end{cases}}
+又 $k_1\ne0$，$k_2\ne0$，则 $\lambda_1=\lambda_2=\lambda$，与 $\lambda_1\ne\lambda_2$ 矛盾，故 $k_1\xi_1+k_2\xi_2$ 不是 $A$ 的任何特征值的特征向量.
+\end{fnote}
+
+⑥若 $\xi$ 是 $A$ 的属于特征值 $\lambda_1$ 的特征向量，$\lambda_1\ne\lambda_2$，则 $\xi$ 不是 $\lambda_2$ 的特征向量.
+
+\begin{fnote}
+【注】证 已知 $A\xi=\lambda_1\xi$，若 $A\xi=\lambda_2\xi$，则有 $(\lambda_1-\lambda_2)\xi=0$，由 $\xi\ne0$，得 $\lambda_1=\lambda_2$，矛盾.
+\end{fnote}
+
+⑦若 $A$ 只有 1 个线性无关的特征向量，即 $\sum\limits_{i=1}^{m}[n-r(\lambda_iE-A)]=1$，$\lambda_i(i=1,2,\dots,m)$ 是 $A$ 的 $m$ 个不同特征值，则只能有一个 $\lambda_k(1\le k\le m)$，使 $r(\lambda_kE-A)=n-1$，而其余 $r(\lambda_iE-A)=n$，这与 $r(\lambda_iE-A)<n$ 矛盾. 故 $A$ 只能有一个 $\lambda_k$，且此 $\lambda_k$ 为 $n$ 重特征值.
+
+% OPD 蓝色标注（原稿）：⑦行下方与右侧蓝色批注（数学结论，保留）
+\begin{fnote}
+其余 $\lambda_i$ 均不是 $A$ 的特征值；若 $\lambda_i$ 是 $A$ 的特征值，则 $\lambda_i$ 至少有一个线性无关的特征向量.
+\end{fnote}
+
+⑧设 $n$ 阶矩阵 $A$，$B$ 满足 $AB=BA$，且 $A$ 有 $n$ 个互不相同的特征值，则 $A$ 的特征向量都是 $B$ 的特征向量.
+
+\begin{fnote}
+【注】证 设 $\alpha$（$\ne0$）是 $A$ 的对应特征值 $\lambda$ 的特征向量，则有 $A\alpha=\lambda\alpha$. 由于 $AB=BA$，则
+\fml{AB\alpha=BA\alpha=\lambda B\alpha,}
+则
+\fml{A(B\alpha)=\lambda(B\alpha).}
+若 $B\alpha\ne0$，则 $B\alpha$ 也是 $A$ 的特征向量，由于 $A$ 的特征值全是单重的，故 $\lambda$ 所对应的特征向量均线性相关，所以 $B\alpha$ 与 $\alpha$ 线性相关，即存在数 $\mu\ne0$，使得 $B\alpha=\mu\alpha$. 这说明 $\alpha$ 也是 $B$ 的特征向量.
+
+若 $B\alpha=0$，则有 $B\alpha=0\alpha$，即 $\alpha$ 也是 $B$ 的特征向量.
+\end{fnote}

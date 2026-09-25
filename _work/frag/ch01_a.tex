@@ -1,0 +1,194 @@
+% ===========================================================
+%  ch01_a —— 《线性代数9讲》第 1 讲「行列式」 印刷页 1–5（PDF p12–p16）
+%  说明：原稿的「三向解题法」标记（O/O₁/O₂、D_xx、P_x 蓝色小字旁注与思维导图）
+%        按 AGENTS.md §7.1 决定 2「不保留方法论」已全部剔除，只保留数学内容。
+% ===========================================================
+
+\fchap{第1讲\quad 行列式}
+
+\fsec{一、具体型行列式的计算：$a_{ij}$ 已给出}
+
+\begin{fcard}{1. 化为基本形行列式}
+所谓基本形行列式，是指化至此行列式即可得到结果.
+
+（1）主对角线行列式.
+\fmll{\begin{aligned}
+&\begin{vmatrix}a_{11}&a_{12}&\cdots&a_{1n}\\0&a_{22}&\cdots&a_{2n}\\\vdots&\vdots&&\vdots\\0&0&\cdots&a_{nn}\end{vmatrix}
+=\begin{vmatrix}a_{11}&0&\cdots&0\\a_{21}&a_{22}&\cdots&0\\\vdots&\vdots&&\vdots\\a_{n1}&a_{n2}&\cdots&a_{nn}\end{vmatrix}\\
+&=\begin{vmatrix}a_{11}&0&\cdots&0\\0&a_{22}&\cdots&0\\\vdots&\vdots&&\vdots\\0&0&\cdots&a_{nn}\end{vmatrix}=\prod_{i=1}^{n}a_{ii}.
+\end{aligned}}
+
+（2）副对角线行列式.
+\fmll{\begin{aligned}
+&\begin{vmatrix}a_{11}&a_{12}&\cdots&a_{1,n-1}&a_{1n}\\a_{21}&a_{22}&\cdots&a_{2,n-1}&0\\\vdots&\vdots&&\vdots&\vdots\\a_{n1}&0&\cdots&0&0\end{vmatrix}
+=\begin{vmatrix}0&\cdots&0&a_{1n}\\0&\cdots&a_{2,n-1}&a_{2n}\\\vdots&&\vdots&\vdots\\a_{n1}&\cdots&a_{n,n-1}&a_{nn}\end{vmatrix}\\
+&=\begin{vmatrix}0&\cdots&0&a_{1n}\\0&\cdots&a_{2,n-1}&0\\\vdots&&\vdots&\vdots\\a_{n1}&\cdots&0&0\end{vmatrix}
+=(-1)^{\frac{n(n-1)}{2}}a_{1n}a_{2,n-1}\cdots a_{n1}.
+\end{aligned}}
+
+（3）拉普拉斯展开式.
+设 $A$ 为 $m$ 阶矩阵，$B$ 为 $n$ 阶矩阵，则
+\fml{\begin{vmatrix}A&O\\O&B\end{vmatrix}=\begin{vmatrix}A&C\\O&B\end{vmatrix}=\begin{vmatrix}A&O\\C&B\end{vmatrix}=|A||B|,}
+\fml{\begin{vmatrix}O&A\\B&O\end{vmatrix}=\begin{vmatrix}C&A\\B&O\end{vmatrix}=\begin{vmatrix}O&A\\B&C\end{vmatrix}=(-1)^{mn}|A||B|.}
+
+（4）范德蒙德行列式.
+\fml{\begin{vmatrix}1&1&\cdots&1\\x_1&x_2&\cdots&x_n\\x_1^2&x_2^2&\cdots&x_n^2\\\vdots&\vdots&&\vdots\\x_1^{n-1}&x_2^{n-1}&\cdots&x_n^{n-1}\end{vmatrix}=\prod_{1\le i<j\le n}(x_j-x_i)\,,\ n\ge2.}
+\end{fcard}
+
+\begin{fnote}
+【注】（1）若所给行列式就是基本形或接近基本形，则直接套公式或经过简单处理化成基本形后套公式.
+
+（2）简单处理的手段.这是具体型行列式解题的要诀
+
+①按零元素多的行或列展开；
+
+②用行列式的性质对差别最小的“对应位置元素”进行处理，尽可能多地化出零元素，再按此行或列展开；
+
+③对于行和或列和相等的情形，将所有列加到第1列或将所有行加到第1行，提出公因式，再用②，等等.
+
+（3）具体型行列式的元素中若含 $x$，则其为 $x$ 的多项式.
+\end{fnote}
+
+\begin{fcard}{例1.1}
+已知 $f(x)=\begin{vmatrix}2x+1&3&2x+1&1\\2x&-3&4x&-2\\2x+1&2&2x+1&1\\2x&-4&4x&-2\end{vmatrix}$，$g(x)=\begin{vmatrix}2x+1&1&2x+1&3\\5x+1&-2&4x&-3\\0&1&2x+1&2\\2x&-2&4x&-4\end{vmatrix}$，则方程 $f(x)=g(x)$ 的不同的根的个数为\underline{\hspace{2.6em}}.
+
+\end{fcard}
+
+【解】应填2.
+
+\fmll{\begin{aligned}
+f(x)&=\begin{vmatrix}2x+1&3&2x+1&1\\2x&-3&4x&-2\\0&-1&0&0\\2x&-4&4x&-2\end{vmatrix}
+=\begin{vmatrix}2x+1&3&2x+1&1\\2x&-3&4x&-2\\0&-1&0&0\\0&-1&0&0\end{vmatrix}\\
+&=\begin{vmatrix}2x+1&3&2x+1&1\\2x&-3&4x&-2\\0&-1&0&0\\0&0&0&0\end{vmatrix}=0,
+\end{aligned}}
+
+\fmll{\begin{aligned}
+g(x)&=\begin{vmatrix}2x+1&1&2x+1&3\\9x+3&0&8x+2&3\\-2x-1&0&0&-1\\6x+2&0&8x+2&2\end{vmatrix}
+=-\begin{vmatrix}9x+3&8x+2&3\\-2x-1&0&-1\\6x+2&8x+2&2\end{vmatrix}\\
+&=-\begin{vmatrix}3x+1&0&1\\-2x-1&0&-1\\6x+2&8x+2&2\end{vmatrix}=-x(8x+2),
+\end{aligned}}
+
+
+所以 $-x(8x+2)=0$，有两个不相等的根.
+
+\begin{fcard}{例1.2}
+已知线性方程组 $\begin{cases}ax_1+x_3=1,\\x_1+ax_2+x_3=0,\\x_1+2x_2+ax_3=0,\\ax_1+bx_2=2\end{cases}$ 有解，其中 $a$，$b$ 为常数.若 $\begin{vmatrix}a&0&1\\1&a&1\\1&2&a\end{vmatrix}=4$，则 $\begin{vmatrix}1&a&1\\1&2&a\\a&b&0\end{vmatrix}=$\underline{\hspace{2.6em}}.
+
+\end{fcard}
+
+【分析】$Ax=b$ 有解 $\Leftrightarrow r(A)=r([A,b])=3<4\Rightarrow|[A,b]|=0$.
+
+【解】应填 8.
+
+由于 $\begin{vmatrix}a&0&1\\1&a&1\\1&2&a\end{vmatrix}=4\ne0$，则 $r\left(\begin{pmatrix}a&0&1\\1&a&1\\1&2&a\\a&b&0\end{pmatrix}\right)=3$，又已知方程组有解，则 $r\left(\begin{pmatrix}a&0&1&1\\1&a&1&0\\1&2&a&0\\a&b&0&2\end{pmatrix}\right)=3$，即
+\fml{\begin{vmatrix}a&0&1&1\\1&a&1&0\\1&2&a&0\\a&b&0&2\end{vmatrix}=0,}
+
+
+有
+\fml{-\begin{vmatrix}1&a&1\\1&2&a\\a&b&0\end{vmatrix}+2\begin{vmatrix}a&0&1\\1&a&1\\1&2&a\end{vmatrix}=0,}
+
+
+故
+\fml{\begin{vmatrix}1&a&1\\1&2&a\\a&b&0\end{vmatrix}=8.}
+
+\begin{fnote}
+【注】本题为什么不用常规思路呢？若本题按“含参数方程组”的常规思路讨论参数 $a$，$b$，最后进行行列式的计算，会十分烦琐，与命题考查的意图南辕北辙.读者可以想到常规的“含参数方程组”求解的是通解或参数，而本题求的是 $\begin{vmatrix}1&a&1\\1&2&a\\a&b&0\end{vmatrix}$ 的值，显然，可以从具体型行列式计算的角度入手.
+\end{fnote}
+
+\begin{fcard}{2. 加边法}
+
+对于某些一开始不宜使用“互换”“倍乘”“倍加”性质的行列式，可以考虑使用加边法：$n$ 阶行列式中添加一行、一列升至 $n+1$ 阶行列式.若添加在第1列，且添加的是 $[\,1,\,0,\,\cdots,\,0\,]^{\mathrm{T}}$，则第1行其余元素可以任意添加，行列式的值不变，即
+\fml{D_n=\begin{vmatrix}a_{11}&a_{12}&\cdots&a_{1n}\\a_{21}&a_{22}&\cdots&a_{2n}\\\vdots&\vdots&&\vdots\\a_{n1}&a_{n2}&\cdots&a_{nn}\end{vmatrix}=\begin{vmatrix}1&*&*&\cdots&*\\0&a_{11}&a_{12}&\cdots&a_{1n}\\0&a_{21}&a_{22}&\cdots&a_{2n}\\\vdots&\vdots&\vdots&&\vdots\\0&a_{n1}&a_{n2}&\cdots&a_{nn}\end{vmatrix},}
+
+其中 $*$ 处元素可以任意添加.观察原行列式元素的规律性，选择合适的元素填入 $*$ 处，可以使行列式的计算更为简便.
+\end{fcard}
+
+\begin{fcard}{例1.3}
+设 $\boldsymbol{a}=[\,x_1,\,x_2,\,\cdots,\,x_n\,]^{\mathrm{T}}\ne\boldsymbol{0}$，则 $|\boldsymbol{aa}^{\mathrm{T}}+E|=$\underline{\hspace{2.6em}}.
+\end{fcard}
+
+【解】应填 $1+\sum\limits_{i=1}^{n}x_i^2$.
+
+法一
+\fmll{\begin{aligned}
+|\boldsymbol{aa}^{\mathrm{T}}+E|&=\begin{vmatrix}1+x_1^2&x_1x_2&\cdots&x_1x_n\\x_2x_1&1+x_2^2&\cdots&x_2x_n\\\vdots&\vdots&&\vdots\\x_nx_1&x_nx_2&\cdots&1+x_n^2\end{vmatrix}_n
+\overset{(*)}{=}\begin{vmatrix}1&x_1&x_2&\cdots&x_n\\0&1+x_1^2&x_1x_2&\cdots&x_1x_n\\0&x_2x_1&1+x_2^2&\cdots&x_2x_n\\\vdots&\vdots&\vdots&&\vdots\\0&x_nx_1&x_nx_2&\cdots&1+x_n^2\end{vmatrix}_{n+1}\\
+&=\begin{vmatrix}1&x_1&x_2&\cdots&x_n\\-x_1&1&0&\cdots&0\\-x_2&0&1&\cdots&0\\\vdots&\vdots&\vdots&&\vdots\\-x_n&0&0&\cdots&1\end{vmatrix}
+=\begin{vmatrix}1+\sum\limits_{i=1}^{n}x_i^2&x_1&\cdots&x_n\\0&1&\cdots&0\\\vdots&\vdots&&\vdots\\0&0&\cdots&1\end{vmatrix}
+=1+\sum\limits_{i=1}^{n}x_i^2.
+\end{aligned}}
+
+
+法二\ 因为 $\boldsymbol{aa}^{\mathrm{T}}$ 的特征值为 $\sum\limits_{i=1}^{n}x_i^2$，$0$，$0$，$\cdots$，$0$，这里有 $n-1$ 个特征值 $0$，于是 $\boldsymbol{aa}^{\mathrm{T}}+E$ 的特征值为 $1+\sum\limits_{i=1}^{n}x_i^2$，$1$，$1$，$\cdots$，$1$，这里有 $n-1$ 个特征值 $1$.再由第7讲的“一、（2）”知，$|\boldsymbol{aa}^{\mathrm{T}}+E|=\left(1+\sum\limits_{i=1}^{n}x_i^2\right)\times1\times1\times\cdots\times1=1+\sum\limits_{i=1}^{n}x_i^2$.
+
+\begin{fnote}
+【注】（$*$）处来自加边法.
+\end{fnote}
+
+\begin{fcard}{3. 递推法（高阶$\to$低阶）}
+
+（1）建立递推公式，即建立 $D_n$ 与 $D_{n-1}$ 的关系，有些复杂的题甚至要建立 $D_n$，$D_{n-1}$ 与 $D_{n-2}$ 的关系.
+
+（2）$D_{n-1}$ 与 $D_n$ 要有完全相同的元素分布规律，只是 $D_{n-1}$ 比 $D_n$ 低了一阶.
+\end{fcard}
+
+\begin{fcard}{4. 数学归纳法（低阶$\to$高阶）}
+
+涉及 $n$ 阶行列式的\underline{证明型计算问题}，即告知行列式计算结果，让考生证明之，可考虑数学归纳法.
+
+（1）第一数学归纳法（适用于 $F(\,D_n,\,D_{n-1}\,)=0$）：
+
+①验证当 $n=1$ 时，命题成立；
+
+②假设当 $n=k$（$\ge2$）时，命题成立；
+
+③证明当 $n=k+1$ 时，命题成立.
+
+则命题对任意正整数 $n$ 成立.
+
+（2）第二数学归纳法（适用于 $F(\,D_n,\,D_{n-1},\,D_{n-2}\,)=0$）：
+
+①验证当 $n=1$ 和 $n=2$ 时，命题成立；
+
+②假设当 $n<k$ 时，命题成立；
+
+③证明当 $n=k$（$\ge3$）时，命题成立.
+
+则命题对任意正整数 $n$ 成立.
+\end{fcard}
+
+\begin{fcard}{例1.4}
+$D_n=\begin{vmatrix}b&-1&0&\cdots&0&0\\0&b&-1&\cdots&0&0\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&b&-1\\a_n&a_{n-1}&a_{n-2}&\cdots&a_2&b+a_1\end{vmatrix}=$\underline{\hspace{2.6em}}.
+
+（异爪形行列式）
+\end{fcard}
+
+【解】应填 $b^n+a_1b^{n-1}+a_2b^{n-2}+\cdots+a_{n-1}b+a_n$.
+
+递推法.按第1列展开，得
+\fmll{\begin{aligned}
+D_n&=b\begin{vmatrix}b&-1&0&\cdots&0&0\\0&b&-1&\cdots&0&0\\\vdots&\vdots&\vdots&&\vdots&\vdots\\a_{n-1}&a_{n-2}&a_{n-3}&\cdots&a_2&b+a_1\end{vmatrix}_{n-1}
++(-1)^{n+1}a_n\begin{vmatrix}-1&0&\cdots&0&0\\b&-1&\cdots&0&0\\\vdots&\vdots&&\vdots&\vdots\\0&0&\cdots&b&-1\end{vmatrix}_{n-1}\\
+&=bD_{n-1}+a_n.
+\end{aligned}}
+
+
+下面做递推，得
+\fmll{\begin{aligned}
+D_n&=bD_{n-1}+a_n=b\left(bD_{n-2}+a_{n-1}\right)+a_n=b^2D_{n-2}+a_{n-1}b+a_n\\
+&=b^2\left(bD_{n-3}+a_{n-2}\right)+a_{n-1}b+a_n\\
+&=\cdots=b^{n-1}D_1+a_2b^{n-2}+\cdots+a_{n-1}b+a_n,
+\end{aligned}}
+
+其中 $D_1\overset{(*)}{=}b+a_1$，故 $D_n=b^n+a_1b^{n-1}+a_2b^{n-2}+\cdots+a_{n-1}b+a_n$.
+
+\begin{fnote}
+【注】（1）（$*$）处提醒考生注意，$D_n$ 的元素分布规律应从右下角往左上看，写出 $D_k$（$k=1,\,2,\,\cdots,\,n-1$，$n$）供考生参考：
+\fml{D_k=\begin{vmatrix}b&-1&0&\cdots&0&0\\0&b&-1&\cdots&0&0\\\vdots&\vdots&\vdots&&\vdots&\vdots\\0&0&0&\cdots&b&-1\\a_k&a_{k-1}&a_{k-2}&\cdots&a_2&b+a_1\end{vmatrix}_k}
+
+事实上，选第1列展开是基于 $D_n$ 的这种元素分布规律，若选第 $n$ 列展开，余子式便不是 $D_{n-1}$，破坏了元素分布规律，无法建立递推公式.
+
+（2）本题也可用第一数学归纳法做.由
+\fml{D_1=b+a_1,}
+\fml{D_2=\begin{vmatrix}b&-1\\a_2&b+a_1\end{vmatrix}=b^2+a_1b+a_2,}
+\end{fnote}

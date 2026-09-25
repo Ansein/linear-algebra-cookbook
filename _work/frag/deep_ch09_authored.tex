@@ -1,0 +1,149 @@
+% ===========================================================
+%  第 9 章 二次型 —— 高等代数【深化】拓展框（主控撰写）
+%  对应 OUTLINE.md §10「深化清单」9.1 – 9.7
+% ===========================================================
+
+% ---------- 9.1 二次型与对称矩阵的对应（对应 OUTLINE 9.1）----------
+\begin{fdeep}{二次型的矩阵为什么必须取对称的}
+二次型是二次齐次多项式，例如
+\fml{f(x_1,x_2)=x_1^{2}+4x_1x_2+3x_2^{2}}
+把它写成矩阵形式时，交叉项的系数要"平分"到两个位置上：
+\fml{f=\begin{pmatrix}x_1&x_2\end{pmatrix}
+\begin{pmatrix}1&2\\2&3\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=x^{\mathrm T}Ax}
+\textbf{关键规定}：$A$ 必须取\textbf{对称矩阵}（$a_{ij}=a_{ji}=\frac12\times$ 交叉项系数）。
+原因不是"习惯"，而是有必然性：
+\fml{x^{\mathrm T}Ax=x^{\mathrm T}\Bigl(\frac{A+A^{\mathrm T}}{2}\Bigr)x}
+（因为 $x^{\mathrm T}Ax$ 是 $1\times1$ 矩阵，等于自身的转置，故 $x^{\mathrm T}Ax=x^{\mathrm T}A^{\mathrm T}x$）。
+也就是说\textbf{只有对称部分对二次型有贡献}，反对称部分被自动消掉。
+于是"二次型 $\leftrightarrow$ 对称矩阵"是\textbf{一一对应}——每个二次型唯一确定一个对称矩阵，
+反之亦然。这就是为什么讲二次型时永远先取对称矩阵。
+
+【反哺点】：服务考纲〔二次型〕"掌握二次型及其矩阵表示"。
+考场上最常见的失分是\textbf{把交叉项系数直接填进矩阵}（写成 $a_{12}=4$ 而不是 $2$），
+或者填出一个不对称的矩阵。记住"系数平分、矩阵对称"即可避免，
+而"反对称部分对二次型无贡献"（第 4 章已证）正是这条规定的理论根据。
+\end{fdeep}
+
+% ---------- 9.2 合同与相似的区别（对应 OUTLINE 9.2）----------
+\begin{fdeep}{合同 vs 相似：两种变换、两套不变量}
+二次型换到新变量下，矩阵的变化是\textbf{合同}：
+\fml{x=Cy\ \Longrightarrow\ x^{\mathrm T}Ax=y^{\mathrm T}(C^{\mathrm T}AC)y,
+\qquad B=C^{\mathrm T}AC}
+把三种关系统一对照（这是全书最该背下的一张表）：
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+关系 & 变换形式 & 要求 & 不变量 \\
+\midrule
+等价（相抵） & $B=PAQ$ & $P,Q$ 可逆 & 秩 \\
+相似 & $B=P^{-1}AP$ & $P$ 可逆 & 特征值、迹、行列式、秩 \\
+合同 & $B=C^{\mathrm T}AC$ & $C$ 可逆 & 正负惯性指数（秩 + 定性） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{三者的强弱关系}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{相似 $\Rightarrow$ 等价}（取 $Q=P^{-1}$ 即可），但反之不成立；
+\item \textbf{合同 $\Rightarrow$ 等价}（取 $P=C^{\mathrm T}$、$Q=C$），但反之不成立；
+\item \textbf{相似与合同互不包含}：相似不保证对称性保持（$P^{-1}AP$ 未必对称），
+      合同不保证特征值不变（$C^{\mathrm T}AC$ 的特征值一般会变）。
+\end{itemize}
+\textbf{唯一的交集}：若 $C$ 取\textbf{正交矩阵} $Q$（$Q^{\mathrm T}=Q^{-1}$），则
+$Q^{\mathrm T}AQ=Q^{-1}AQ$ \textbf{既是合同又是相似}——这就是"正交对角化"的特殊地位：
+它同时保住了惯性指数和特征值。
+
+【反哺点】：服务考纲〔二次型〕"了解合同变换与合同矩阵的概念"，并与〔矩阵的特征值和特征向量〕的"相似"对照。
+考场上判断题"A 与 B 是相似还是合同"时，按上表逐项比不变量：
+\textbf{看特征值就是想相似，看正负惯性指数就是想合同}。
+用错关系会导致整题方向错误——这是二次型部分最根本的一个辨析点。
+\end{fdeep}
+
+% ---------- 9.4 正定的六条等价刻画（对应 OUTLINE 9.4 / 9.5）----------
+\begin{fdeep}{正定的六条等价判别：按题目给的条件挑最省事的一条}
+设 $A$ 为 $n$ 阶实对称矩阵，以下命题\textbf{两两等价}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{定义}：对任意 $x\ne0$ 都有 $x^{\mathrm T}Ax>0$；
+\item \textbf{顺序主子式}全为正：$\lvert A_k\rvert>0\ (k=1,2,\dots,n)$，$A_k$ 为左上角 $k$ 阶子阵；
+\item \textbf{特征值}全为正：$\lambda_i>0$；
+\item \textbf{正惯性指数} $p=n$（即规范形为 $y_1^{2}+\cdots+y_n^{2}$）；
+\item $A$ 与单位矩阵\textbf{合同}：存在可逆 $C$ 使 $A=C^{\mathrm T}EC=C^{\mathrm T}C$；
+\item 存在\textbf{可逆}矩阵 $C$ 使 $A=C^{\mathrm T}C$。
+\end{enumerate}
+
+\textbf{怎么选（考场动作）}：题目给什么就用哪条——
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 给的是\textbf{具体数字矩阵} → 用 ②（算顺序主子式，最快，只需算 $n$ 个行列式）；
+\item 给的是\textbf{特征值}或需要求特征值 → 用 ③；
+\item 给的是\textbf{抽象条件}（如 $A=B^{\mathrm T}B$、$A$ 可逆）→ 用 ⑥ 或 ⑤；
+\item 证明题要"说明某个二次型正定" → 从 ① 出发（配方或直接估计）最稳。
+\end{itemize}
+
+\textbf{两条必须区分的"否命题"}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{"主对角元全正"不能推出正定}。反例：$A=\begin{pmatrix}1&2\\2&1\end{pmatrix}$
+      对角元全为 $1>0$，但特征值为 $3$ 与 $-1$，\textbf{不正定}。
+      正确方向只有"正定 $\Rightarrow$ 主对角元全正"（取 $x=e_i$ 即得 $a_{ii}>0$）。
+\item \textbf{"所有主子式全正"才是正定}（不只是顺序主子式）；
+      而"顺序主子式全正"与"所有主子式全正"对\textbf{对称矩阵}是等价的——
+      这就是为什么判正定只需算顺序主子式。
+\end{itemize}
+
+\textbf{半正定的相应判别（这里有个必须注意的差别）}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{正定}：只需查\textbf{顺序}主子式（因为对称性使"所有主子式全正"与"顺序主子式全正"等价）；
+\item \textbf{半正定}：必须查\textbf{所有}主子式 $\ge0$（含非顺序的），
+      只查顺序主子式\textbf{会漏判}。
+\end{itemize}
+\textbf{反例（务必记住）}：$A=\begin{pmatrix}1&1&0\\1&1&0\\0&0&-1\end{pmatrix}$。
+它的顺序主子式为 $1,\ 0,\ 0$，\textbf{全部 $\ge0$}；但特征值为 $-1,\ 0,\ 2$，含负值，
+故\textbf{不是半正定}（它连正定都不是）。原因在于"所有主子式"中还含有负的那个
+（取第 3 行第 3 列的单元素主子式 $\lvert A_{33}\rvert=-1<0$）。
+\textbf{所以判半正定的口诀是："所有主子式非负"，而不是"顺序主子式非负"。}
+
+【反哺点】服务考纲〔二次型〕"理解正定二次型、正定矩阵的概念，并掌握其判别法"。
+六条要\textbf{整体记住}，因为选择题常问"下列哪个是 $A$ 正定的充要条件"；
+而"按题目条件挑一条"能显著省时间（数字矩阵用主子式、抽象条件用 $C^{\mathrm T}C$）。
+两个否命题（对角元正 $\ne$ 正定、顺序主子式要配合对称性）是最常见的陷阱。
+\end{fdeep}
+
+% ---------- 9.6 两种化标准形方法的分工（对应 OUTLINE 9.6）----------
+\begin{fdeep}{正交变换 vs 配方法：结论不同，别用错}
+把二次型化为标准形有两条路，\textbf{它们给出的标准形一般不同}：
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+方法 & 变换类型 & 标准形系数 \\
+\midrule
+正交变换 $x=Qy$ & 正交矩阵（$Q^{\mathrm T}Q=E$） & \textbf{恰为 $A$ 的全部特征值} \\
+配方法 $x=Cy$ & 一般可逆矩阵 & 只保证\textbf{正负惯性指数相同}，系数不是特征值 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{关键区别}：正交变换是\textbf{合同且相似}，所以系数必须是特征值；
+配方法\textbf{只是合同}，系数可以任意（只要正负个数对）。
+因此：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item 题目问"\textbf{求 }$A$\textbf{ 的特征值}"，或要求"正交变换"→ \textbf{必须用正交变换法}，
+      系数就是特征值，算错说明特征值算错了；
+\item 题目只说"\textbf{化二次型为标准形}"（未指明方法）→ \textbf{两种都可以}，
+      此时用配方法通常更快（不必求特征向量、不必正交化）；
+\item 题目问"\textbf{求正负惯性指数}"→ 配方法足够（本来就是不变量）。
+\end{itemize}
+\textbf{一个有用的自检}：若用正交变换算出的标准形系数之和 $\ne\operatorname{tr}A$，
+说明特征值算错了（因为 $\sum\lambda_i=\operatorname{tr}A$，第 7 章）。
+这个自检几乎不花时间，却能拦住大部分计算失误。
+
+\textbf{规范形是唯一的}：无论用哪种方法，继续把系数化为 $\pm1$
+（正系数变 $+1$、负系数变 $-1$），得到的\textbf{规范形唯一}——这正是惯性定理的内容。
+
+【反哺点】服务考纲〔二次型〕"掌握用正交变换化二次型为标准形的方法，会用配方法化二次型为标准形"。
+考纲要求\textbf{两种方法都会}，而它们的适用场合不同：
+\textbf{要特征值就必须用正交变换}（配方法给不出特征值），
+\textbf{只要标准形/惯性指数就优先配方法}（更快）。
+混用会导致"算出漂亮的系数却不是特征值"这类隐性错误，
+用 $\sum\text{系数}=\operatorname{tr}A$ 自检即可当场发现。
+\end{fdeep}

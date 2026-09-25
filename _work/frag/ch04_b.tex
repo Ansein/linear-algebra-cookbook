@@ -1,0 +1,238 @@
+% ===========================================================
+% 《线性代数9讲》第 4 讲  矩阵的秩 —— 片段 B（本讲后半）
+% 源：线代9讲强化.pdf  PDF p56–p59（印刷页 45–48），共 4 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · $D_{41}$（试取特殊情形）
+%        · $P_{12}$（反向思维）（代码 $P_{12}$ 作为块交换矩阵记号保留，仅剔除方法名）
+%        · 「见到 $f(A)$，想 $f(\lambda)$，故 $\lambda=0$ 或 1」
+%        · 「涉及幂的命题，考虑数学归纳法」
+%   2) 蓝色**数学**旁注（公式8 / 三秩相等！ / $AB=O\Rightarrow r(A)+r(B)\le n$ /
+%      $AA^{*}=|A|E$ / 用 $r(A)$ 与 $r(A^{*})$ 的关系 / $\alpha_i$ 为矩阵 $A$ 的行向量 /
+%      $|A+E|\ne0$，因 $-1$ 不是特征值）照原文内联排入；
+%   3) 数学操作旁注（「左边乘 $A$ 加至」「右边乘 $(-B)$ 加至」「右边乘 $(-C)$ 加至」
+%      「$\times(-E)$」）照原文排入；交叉引用（公式8 等）照原文排入；
+%   4) 第 4 讲末尾（PDF p58–p59，印刷页 47–48）**无「习题」栏**（已逐页核实）：
+%      PDF p59（印刷页 48）以第 17 条结论结束，其后整页留白；
+%   5) PDF p59（印刷页 48）为本讲最后一页；第 5 讲「线性方程组」自印刷页 49 开始；
+%   6) 本片无插图、无页首思维导图。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p55（印刷页 44）第 7 题【注】框的余下部分（该框在本页续完）；
+%   · 例4.6 的题干在 PDF p56 末、①②③④与解答在 PDF p57 首，本片按一个卡片排完；
+%   · 第 12 题【注】框在 PDF p58 末起、PDF p59 首另起同内容框续写，本片拆为两张 fnote。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p56（印刷页 45）
+% -----------------------------------------------------------
+% 承 PDF p55（印刷页 44）第 7 题【注】框的余下部分（该框在本页续完）
+\begin{fnote}
+\fml{\hfill -r(B-A)\le r(A)-r(B).\hfill(\ast\ast)}
+又 $r(A-B)=r(B-A)$，结合（$\ast$）（$\ast\ast$）可得 $-r(A-B)\le r(A)-r(B)\le r(A-B)$，即 $|r(A)-r(B)|\le r(A-B)$.
+\end{fnote}
+
+\begin{fcard}{例4.5}
+设 $A$，$B$ 分别为 $m\times n$ 与 $n\times m$ 矩阵，$C$ 为 $n$ 阶可逆矩阵，且 $r(A)=r<n$，$A(C+BA)=O$，则 $r(C+BA)=$\underline{\hspace{2.6em}}.
+
+【解】应填 $n-r$.
+
+因 $A(C+BA)=O$，故 $r(A)+r(C+BA)\le n$. 又 $r(A)=r$，于是
+
+\fml{r(C+BA)\le n-r,}
+
+且
+
+\fml{r(C+BA)=r[C-(-BA)]\ge r(C)-r(BA)\ge r(C)-r(A)=n-r,}
+
+故 $r(C+BA)=n-r$.
+\end{fcard}
+
+8. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，则 $r(AB)\ge r(A)+r(B)-n$.
+
+\begin{fnote}
+【注】证 左边乘 $A$ 加至
+
+\fmll{\begin{bmatrix}E&O\\O&AB\end{bmatrix}\xrightarrow{\text{左边乘} A\text{加至}}\begin{bmatrix}E&O\\A&AB\end{bmatrix}\xrightarrow{\text{右边乘}(-B)\text{加至}}\begin{bmatrix}E&-B\\A&O\end{bmatrix}\xrightarrow{P_{12}}\begin{bmatrix}-B&E\\O&A\end{bmatrix}\xrightarrow{\times(-E)}\begin{bmatrix}B&E\\O&A\end{bmatrix},}
+
+% OPD 蓝色标注（原稿）：$P_{12}$（反向思维）（原稿该标签印在第 3、4 个矩阵上方；按数学含义，块交换对应第 3→4 步，×(-E) 对应第 4→5 步）
+
+故 $r(AB)+n=r\left(\begin{bmatrix}E&O\\O&AB\end{bmatrix}\right)=r\left(\begin{bmatrix}B&E\\O&A\end{bmatrix}\right)\ge r(A)+r(B)$. 证毕.
+
+注意：①当 $AB=O$ 时，有 $r(A)+r(B)\le n$.
+
+②当 $AB$ 为 $n$ 阶可逆矩阵时，$r(AB)=n$，有 $r(A)+r(B)\le 2n$.
+
+③当 $B$ 的列向量均为 $Ax=0$ 的解，即 $AB=O$ 时，有 $r(A)+r(B)\le n$.
+
+④当 $B\ne O$，且其列向量均为 $Ax=0$ 的解，即 $AB=O$ 时，有 $r(A)+r(B)\le n$，$r(B)\ge1$，$r(A)\le n-1$，则 $A$ 列不满秩，即 $A$ 的列向量组线性相关.
+
+⑤记 $A=\begin{bmatrix}\alpha_1\\\alpha_2\\\vdots\\\alpha_m\end{bmatrix}$（$\alpha_i$ 为矩阵 $A$ 的行向量），$B=[\beta_1,\beta_2,\cdots,\beta_s]$，当 $(\alpha_i,\beta_j)=0$，$i=1,2,\cdots,m$；$j=1,2,\cdots,s$，即 $A$ 的任一行向量均与 $B$ 的任一列向量正交时，有
+
+\fmll{AB=\begin{bmatrix}(\alpha_1,\beta_1)&(\alpha_1,\beta_2)&\cdots&(\alpha_1,\beta_s)\\ (\alpha_2,\beta_1)&(\alpha_2,\beta_2)&\cdots&(\alpha_2,\beta_s)\\ \vdots&\vdots&&\vdots\\ (\alpha_m,\beta_1)&(\alpha_m,\beta_2)&\cdots&(\alpha_m,\beta_s)\end{bmatrix}=O,}
+
+故 $r(A)+r(B)\le n$.
+
+⑥由 $AB=O$，便得 $B^{\mathrm{T}}A^{\mathrm{T}}=O$，可将①\textasciitilde{}⑤再研究一遍，加深理解.
+\end{fnote}
+
+% 承 PDF p57（印刷页 46）：★例4.6 的①②③④与解答在次页首
+\begin{fcard}{例4.6}
+设 $n$ 阶矩阵 $A$，$B$，$C$ 满足 $r(A)+r(B)+r(C)=r(ABC)+2n$，给出下列四个结论：
+
+①$r(ABC)+n=r(AB)+r(C)$；
+
+②$r(AB)+n=r(A)+r(B)$；
+
+③$r(A)=r(B)=r(C)=n$；
+
+④$r(AB)=r(BC)=n$.
+
+所有正确结论的序号是（\quad）.
+
+（A）①②\qquad（B）①③\qquad（C）②④\qquad（D）③④
+
+【解】应选（A）.
+
+法一 由于
+
+% 原稿蓝色旁注（数学交叉引用，箭头指向上式右端）：公式8
+\fmll{r(A)+r(B)+r(C)=r(ABC)+2n\ge r(AB)+r(C)-n+2n\quad(\text{公式8})}
+\fmll{\phantom{r(A)+r(B)+r(C)}\ge r(A)+r(B)-n+r(C)-n+2n=r(A)+r(B)+r(C),}
+
+故 $r(ABC)+2n=r(AB)+r(C)+n$，$r(A)+r(B)+r(C)=r(AB)+r(C)+n$，可得 $r(ABC)+n=r(AB)+r(C)$，$r(A)+r(B)=r(AB)+n$，则①，②正确.
+
+综上，选（A）.
+
+法二 排除法. 取 $A=\begin{bmatrix}1&0\\0&0\end{bmatrix}$，$B=\begin{bmatrix}0&0\\0&1\end{bmatrix}$，$C=E$，则 $r(A)=1$，$r(B)=1$，$r(C)=2$，满足 $r(A)+r(B)+r(C)=r(ABC)+2n$，代入可排除③，④，故选（A）.
+% OPD 蓝色标注（原稿）：$D_{41}$（试取特殊情形）（箭头指向「法二」所取的 $A$，$B$）
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p57（印刷页 46）
+% -----------------------------------------------------------
+9. 设 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵，$C$ 是 $s\times t$ 矩阵，则 $r(ABC)\ge r(AB)+r(BC)-r(B)$.
+
+\begin{fnote}
+【注】证 左边乘 $A$ 加至
+
+\fmll{\begin{bmatrix}ABC&O\\O&B\end{bmatrix}\xrightarrow{\text{左边乘} A\text{加至}}\begin{bmatrix}ABC&AB\\O&B\end{bmatrix}\xrightarrow{\text{右边乘}(-C)\text{加至}}\begin{bmatrix}O&AB\\-BC&B\end{bmatrix}\xrightarrow{\ \ \ \ }\begin{bmatrix}AB&O\\B&-BC\end{bmatrix}\xrightarrow{\times(-E)}\begin{bmatrix}AB&O\\B&BC\end{bmatrix},}
+
+% 原稿蓝色标注（块交换示意）：第 3、4 个矩阵之间以蓝色椭圆圈出两个列块（无文字标签），此处保留空标签箭头
+
+故 $r(ABC)+r(B)=r\left(\begin{bmatrix}ABC&O\\O&B\end{bmatrix}\right)=r\left(\begin{bmatrix}AB&O\\B&BC\end{bmatrix}\right)\ge r(AB)+r(BC)$. 证毕.
+\end{fnote}
+
+\begin{fcard}{例4.7}
+设矩阵 $A_{m\times n}$，$B_{n\times s}$ 满足 $r(AB)=r(B)$，证明：对任意矩阵 $C_{s\times t}$，有 $r(ABC)=r(BC)$.
+
+【证】由 $r(ABC)\ge r(AB)+r(BC)-r(B)$，且 $r(AB)=r(B)$，有 $r(ABC)\ge r(BC)$. 又 $r(ABC)\le r(BC)$，故 $r(ABC)=r(BC)$.
+\end{fcard}
+
+\begin{fnote}
+【注】此证法极简. 若研究 $ABCx=0$ 与 $BCx=0$ 同解，亦可得证，但不如此证法简便.
+\end{fnote}
+
+10. 设 $A$ 是 $m\times n$ 实矩阵，则 $r(A)=r(A^{\mathrm{T}})=r(AA^{\mathrm{T}})=r(A^{\mathrm{T}}A)$.
+
+\begin{fnote}
+【注】$A^{\mathrm{T}}Ax=0$ 与 $Ax=0$ 同解，$AA^{\mathrm{T}}x=0$ 与 $A^{\mathrm{T}}x=0$ 同解，故 $A^{\mathrm{T}}A$ 与 $A$ 的行向量组等价，$AA^{\mathrm{T}}$ 与 $A^{\mathrm{T}}$ 的行向量组等价：
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p58（印刷页 47）
+% -----------------------------------------------------------
+\begin{fcard}{例4.8}
+设 $A$，$B$ 为 $n$ 阶实矩阵，下列结论不成立的是（\quad）.
+
+\fmll{\text{（A）}\ r\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}=2r(A)\qquad\text{（B）}\ r\begin{bmatrix}A&O\\O&A^{\mathrm{T}}A\end{bmatrix}=2r(A)}
+\fmll{\text{（C）}\ r\begin{bmatrix}A&BA\\O&AA^{\mathrm{T}}\end{bmatrix}=2r(A)\qquad\text{（D）}\ r\begin{bmatrix}A&O\\BA&A^{\mathrm{T}}\end{bmatrix}=2r(A)}
+
+【解】应选（C）.
+
+由矩阵的秩的性质知，$r(A)=r(A^{\mathrm{T}})=r(AA^{\mathrm{T}})=r(A^{\mathrm{T}}A)$.
+
+故 $r\begin{bmatrix}A&O\\O&A^{\mathrm{T}}A\end{bmatrix}=2r(A)$，选项（B）成立.
+
+在 $\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}$ 中，$AB$ 的列向量组可由 $A$ 的列向量组线性表示，故 $\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}\to\begin{bmatrix}A&O\\O&A^{\mathrm{T}}\end{bmatrix}$，故 $r\begin{bmatrix}A&AB\\O&A^{\mathrm{T}}\end{bmatrix}=2r(A)$，选项（A）成立.
+
+同理，选项（D）也成立.
+
+而选项（C），取 $A=\begin{bmatrix}0&1\\0&1\end{bmatrix}$，$B=\begin{bmatrix}0&0\\1&1\end{bmatrix}$，
+
+\fml{r\begin{bmatrix}A&BA\\O&AA^{\mathrm{T}}\end{bmatrix}=r\begin{bmatrix}0&1&0&0\\0&1&0&2\\0&0&1&1\\0&0&1&1\end{bmatrix}\ne2r(A).}
+
+故选（C）.
+\end{fcard}
+
+11. 设 $A$ 是 $n$ 阶方阵，$A^{*}$ 是 $A$ 的伴随矩阵，则
+
+\fml{r(A^{*})=\begin{cases}n,&r(A)=n,\\1,&r(A)=n-1,\\0,&r(A)<n-1.\end{cases}}
+
+\begin{fcard}{例4.9}
+设 $A$ 为 4 阶矩阵，$A^{*}$ 为 $A$ 的伴随矩阵，若 $A(A-A^{*})=O$ 且 $A\ne A^{*}$，则 $r(A)$ 取值为（\quad）.
+
+（A）0 或 1\qquad（B）1 或 3\qquad（C）2 或 3\qquad（D）1 或 2
+
+【解】应选（D）.
+
+由题意可知 $A(A-A^{*})=O$，故 $r(A)+r(A-A^{*})\le4$\quad($AB=O\Rightarrow r(A)+r(B)\le n$). 又 $A\ne A^{*}$，故 $A-A^{*}\ne O$，即 $r(A-A^{*})\ge1$，因此 $r(A)\le3$.
+
+又 $A(A-A^{*})=A^2-AA^{*}=A^2-|A|E=A^2=O$\quad($AA^{*}=|A|E$)，则 $r(A)+r(A)\le4$\quad($AB=O\Rightarrow r(A)+r(B)\le n$)，于是 $r(A)\le2$，此时 $r(A^{*})=0$，故 $A^{*}=O$，又 $A\ne A^{*}$，所以 $r(A)\ge1$，故 $r(A)=1$ 或 2.\quad(用 $r(A)$ 与 $r(A^{*})$ 的关系)
+\end{fcard}
+
+12. 设 $n$ 阶矩阵 $A$ 满足 $A^2-(k_1+k_2)A+k_1k_2E=O$，$k_1\ne k_2$，则 $r(A-k_1E)+r(A-k_2E)=n$.
+
+\begin{fnote}
+【注】(1) 证 由 $A^2-(k_1+k_2)A+k_1k_2E=O$，得 $(A-k_1E)(A-k_2E)=O$，于是
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p59（印刷页 48）—— 本讲最后一页
+% -----------------------------------------------------------
+% 承 PDF p58（印刷页 47）第 12 题【注】框；原稿在本页另起同内容框续写
+\begin{fnote}
+\fml{r(A-k_1E)+r(A-k_2E)\le n.}
+
+又
+
+\fmll{r(A-k_1E)+r(A-k_2E)=r(k_1E-A)+r(A-k_2E)}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}\ge r(k_1E-A+A-k_2E)}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}=r[(k_1-k_2)E]}
+\fmll{\phantom{r(A-k_1E)+r(A-k_2E)}=r(E)=n,}
+
+故 $r(A-k_1E)+r(A-k_2E)=n$.
+
+(2) 设 $A$ 为 $n$ 阶方阵，则由上述结论可知：
+
+①若 $A^2=A$，则
+% OPD 蓝色标注（原稿）：见到 $f(A)$，想 $f(\lambda)$，故 $\lambda=0$ 或 1
+
+a. $r(A)+r(A-E)=n$；
+
+b. $A$ 可相似对角化；
+
+c. $A+E$ 可逆；\quad($|A+E|\ne0$，因 $-1$ 不是特征值)
+
+d. $(A+E)^{*}=E+(2^n-1)A$.
+% OPD 蓝色标注（原稿）：涉及幂的命题，考虑数学归纳法
+
+②若 $A^2=E$，则 $r(A+E)+r(A-E)=n$.
+\end{fnote}
+
+13. 设 $A$ 是 $m\times n$ 矩阵，则 $Ax=0$ 的基础解系所含向量的个数为 $s=n-r(A)$.
+
+14. 方程组 $A_{m\times n}x=0$ 与 $B_{s\times n}x=0$ 同解 $\Leftrightarrow r(A)=r\begin{pmatrix}A\\B\end{pmatrix}=r(B)$.\quad(三秩相等！)
+
+15. 设两个向量组：（Ⅰ）$\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$，（Ⅱ）$\beta_1$，$\beta_2$，$\cdots$，$\beta_t$，则 $\underline{r(\text{Ⅰ})=r(\text{Ⅱ})=r(\text{Ⅰ},\text{Ⅱ})}\Leftrightarrow$ 向量组（Ⅰ）与向量组（Ⅱ）等价.
+
+16. 若 $A\sim\Lambda$，则 $\underline{n_i=n-r(\lambda_iE-A)}$，其中 $\lambda_i$ 是 $n_i$ 重特征根.
+
+17. 若 $A\sim\Lambda$，则 $r(A)$ 等于非零特征值的个数，重根按重数算.
+
+% ===========================================================
+% 本讲（第 4 讲）正文至此结束。PDF p59（印刷页 48）第 17 条之后整页留白，
+% 未见「习题」栏；第 5 讲「线性方程组」自印刷页 49（PDF p60）开始。
+% ===========================================================

@@ -1,0 +1,495 @@
+% ===========================================================
+%  第 1 章 行列式 —— 高等代数【深化】拓展集（精选）
+%  来源：北大《高等代数》第五版 第二章（自 deep_ch01_beida_a/b.tex 精选）
+%  筛选依据：AGENTS.md §2 决定二「只补能加深理解、反哺解题的深化知识」
+% ===========================================================
+%
+%  【保留 13 块】
+%   深化一·记法与基本性质：项的两种记法与符号一致性 / 按列指标的转置定义 /
+%                         性质4 两行相同为零（配对相消证明）/ 性质7 对换反号（三步凑 −1）/
+%                         §5 化上三角形法
+%   深化二·展开定理：      余子式与代数余子式（定义）/ 按一行(列)展开定理 /
+%                         n=3 展开公式的几何意义 / 分块三角行列式
+%   深化三·克拉默法则：    Cramer 定理陈述 / 用代数余子式导出解的证明思路 /
+%                         适用边界与意义 / 齐次方程组与 |A|=0
+%
+%  【删除及理由】
+%   · 性质 2·3·5·6 → 已被自撰块「行列式的本质：反对称多重线性函数」作为三条公理的
+%                    推论统一覆盖，单独立块属重复。
+%   · 矩阵的概念(定义5)、矩阵的初等行变换(定义6)、阶梯形矩阵与消元法、|A|=k|J|
+%                  → **越界**：属第 3 讲「矩阵运算」，不应出现在第 1 章。
+%   · 按第 i 行提取公因子 → 与「余子式与代数余子式」重复。
+%   · 代数余子式符号 (−1)^{i+j} → 自撰块已从「换行换列的代价」角度讲透，取一即可。
+%   · Vandermonde 行列式 → 自撰块已含标准式 + 缺项型 + 现推法。
+%   · 行列式的乘法规则 |AB|=|A||B| → 自撰块已给证明（det[[E,A],[B,O]]=(−1)^n det(AB)，
+%                    已数值验证）；此处仅留其前置「分块三角行列式」。
+%   · 拉普拉斯定理组（k阶子式定义 / 引理 / 定理6）→ 考纲中标为选学(§8 *)，属纯理论拓展；
+%                    其唯一考纲内推论（乘法定理）已被自撰块覆盖，故整组移除。
+% ===========================================================
+
+\fsec{深化一　行列式的记法与基本性质（证明思路）}
+
+\begin{fdeep}{行列式项的两种记法与符号的一致性}
+\fsec{§3\quad n 阶行列式}
+
+容易看出，当行列式的元素全是数域 $P$ 中的数时，它的值也是数域 $P$ 中的一个数.
+
+在行列式的定义中，为了决定每一项的正负号，我们把 $n$ 个元素按行指标排起来.事实上，数的乘法是交换的，因而这 $n$ 个元素的次序是可以任意写的，一般地，$n$ 阶行列式中的项可以写成
+\fml{a_{i_1j_1}a_{i_2j_2}\cdots a_{i_nj_n},\qquad (11)}
+其中 $i_1i_2\cdots i_n$，$j_1j_2\cdots j_n$ 是两个 $n$ 阶排列.利用排列的性质，不难证明，(11) 的符号等于
+\fml{(-1)^{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}.\qquad (12)}
+
+事实上，为了根据定义来决定 (11) 的符号，就要把这 $n$ 个元素重新排一下，使得它们的行指标成自然顺序，也就是排成
+\fml{a_{1j_1'}a_{2j_2'}\cdots a_{nj_n'},\qquad (13)}
+于是它的符号是
+\fml{(-1)^{\tau(j_1'j_2'\cdots j_n')}.\qquad (14)}
+
+现在来证明，(12) 与 (14) 是一致的.我们知道，由 (11) 变到 (13) 可以经过一系列元素的对换来实现.每作一次对换，元素的行指标与列指标所成的排列 $i_1i_2\cdots i_n$ 与 $j_1j_2\cdots j_n$ 就都同时作一次对换，也就是 $\tau(i_1i_2\cdots i_n)$ 与 $\tau(j_1j_2\cdots j_n)$ 同时改变奇偶性，因而它们的和
+\fml{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}
+的奇偶性不改变.这就是说，对 (11) 作一次元素的对换不改变 (12) 的值.因此，在一系列对换之后有
+\fml{(-1)^{\tau(i_1i_2\cdots i_n)+\tau(j_1j_2\cdots j_n)}=(-1)^{\tau(12\cdots n)+\tau(j_1'j_2'\cdots j_n')}=(-1)^{\tau(j_1'j_2'\cdots j_n')}.}
+这就证明了 (12) 与 (14) 是一致的.
+
+例如，$a_{21}a_{32}a_{14}a_{43}$ 是 4 阶行列式中一项，$\tau(2314)=2$，$\tau(1243)=1$，于是它的符号应为 $(-1)^{2+1}=-1$.如按行指标排列起来，就是 $a_{14}a_{21}a_{32}a_{43}$，$\tau(4123)=3$，因而它的符号也是 $(-1)^{3}=-1$.
+【反哺点】服务考纲〔行列式〕"了解行列式的概念"。考研里用定义算行列式时，
+最常见错法是\textbf{只看行指标或只看列指标算逆序数}。本块证明了
+$(-1)^{\tau(i_1\cdots i_n)+\tau(j_1\cdots j_n)}=(-1)^{\tau(j_1'\cdots j_n')}$ 二者等价，
+所以	extbf{任选一种排列方式算都对，但不能把两种混着用}。
+\end{fdeep}
+
+\begin{fdeep}{按列指标排列的定义式与转置行列式}
+按 (12) 来决定行列式中每一项的符号的好处在于，行指标与列指标的地位是对称的，因而为了决定每一项的符号，我们同样可以把每一项按列指标排起来，于是定义又可写成
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\sum_{j_1j_2\cdots j_n}(-1)^{\tau(j_1j_2\cdots j_n)}a_{1j_1}a_{2j_2}\cdots a_{nj_n}.\qquad (15)}
+
+由此即得行列式的下列性质.
+
+\textbf{性质 1}\quad 行列互换，行列式不变.即
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{21} & \cdots & a_{n1}\\
+a_{12} & a_{22} & \cdots & a_{n2}\\
+\vdots & \vdots & & \vdots\\
+a_{1n} & a_{2n} & \cdots & a_{nn}
+\end{vmatrix}.\qquad (16)}
+
+\textbf{证明思路}\quad 元素 $a_{ij}$ 在 (16) 的右端位于第 $j$ 行第 $i$ 列，这就是说，$i$ 是它的列指标，$j$ 是它的行指标.因之，把右端按 (15) 展开就等于
+\fml{\sum_{j_1j_2\cdots j_n}(-1)^{\tau(j_1j_2\cdots j_n)}a_{1j_1}a_{2j_2}\cdots a_{nj_n},}
+它正是左端按 (6) 的展开式.
+
+(16) 中等式右边的行列式称为左边行列式的转置行列式.性质 1 说明行列式转置，值不变.
+
+性质 1 表明，在行列式中行与列的地位是对称的，因之凡是有关行的性质，对列也同样成立.例如，由 (8) 即得下三角形的行列式
+\fml{\begin{vmatrix}
+a_{11} & 0 & 0 & \cdots & 0\\
+a_{21} & a_{22} & 0 & \cdots & 0\\
+\vdots & \vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
+\end{vmatrix}
+=a_{11}a_{22}\cdots a_{nn}.\qquad (17)}
+
+下面我们所谈的行列式的性质大多是对行来说的，对于列也有相同的性质，就不重复了.
+【反哺点】服务考纲〔行列式〕"掌握行列式的性质"。$|A^{\mathrm T}|=|A|$ 是	extbf{一切性质对行对列都成立}的根据——
+考纲只写了"按行（列）展开"，但正因这条，凡是对行成立的性质对列自动成立，
+不必把每条性质记两遍。判断题"某性质对列是否成立"可直接答是。
+\end{fdeep}
+
+\begin{fdeep}{性质 4\quad 两行相同，行列式为零}
+再根据排列的性质，我们有：
+
+\textbf{性质 4}\quad 如果行列式中有两行相同，那么行列式为零.所谓两行相同就是说两行的对应元素都相等.
+
+\textbf{证明}\quad 设行列式
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\sum_{j_1\cdots j_n}(-1)^{\tau(j_1\cdots j_{i-1}j_ij_{i+1}\cdots j_{k-1}j_kj_{k+1}\cdots j_n)}
+a_{1j_1}\cdots a_{ij_i}\cdots a_{kj_k}\cdots a_{nj_n}\qquad (2)}
+中第 $i$ 行与第 $k$ 行相同，即
+\fml{a_{ij}=a_{kj},\qquad j=1,2,\cdots,n.\qquad (3)}
+
+为了证明 (2) 为零，只需证明 (2) 的右端所出现的项全能两两相消就行了.事实上，与项
+\fml{(-1)^{\tau(j_1\cdots j_i\cdots j_k\cdots j_n)}a_{1j_1}\cdots a_{ij_i}\cdots a_{kj_k}\cdots a_{nj_n}}
+同时出现的还有
+\fml{(-1)^{\tau(j_1\cdots j_k\cdots j_i\cdots j_n)}a_{1j_1}\cdots a_{ij_k}\cdots a_{kj_i}\cdots a_{nj_n}.}
+比较这两项，由 (3) 有
+\fml{a_{ij_i}=a_{kj_i},\qquad a_{ij_k}=a_{kj_k}.}
+也就是说，这两项有相同的数值.但是排列
+\fml{j_1\cdots j_i\cdots j_k\cdots j_n\quad\text{与}\quad j_1\cdots j_k\cdots j_i\cdots j_n}
+相差一个对换，因而有相反的奇偶性，所以这两项的符号相反.易知，全部 $n$ 阶排列可以按上述形式两两配对.因之，在 (2) 的右端，对于每一项都有一数值相同但符号相反的项与之成对出现，从而行列式为零.
+【反哺点】服务考纲〔行列式〕"掌握行列式的性质"。这条的证明用	extbf{配对相消}：
+把 $n!$ 个排列按"交换第 $i,j$ 个下标"两两配对，每对数值相同、符号相反。
+理解了这个证法，就能自己推出"两行成比例也为零"（先提公因子再归到本性质），不必单记。
+\end{fdeep}
+
+\begin{fdeep}{性质 7\quad 对换行列式中两行的位置，行列式反号}
+\textbf{性质 7}\quad 对换行列式中两行的位置，行列式反号.
+
+\textbf{证明}
+\fml{\begin{aligned}
+&\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1}+a_{k1} & a_{i2}+a_{k2} & \cdots & a_{in}+a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{i1}+a_{k1} & a_{i2}+a_{k2} & \cdots & a_{in}+a_{kn}\\
+\vdots & \vdots & & \vdots\\
+-a_{i1} & -a_{i2} & \cdots & -a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}\\[1mm]
+&\quad=\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+-a_{i1} & -a_{i2} & \cdots & -a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}
+=-\begin{vmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+\vdots & \vdots & & \vdots\\
+a_{k1} & a_{k2} & \cdots & a_{kn}\\
+\vdots & \vdots & & \vdots\\
+a_{i1} & a_{i2} & \cdots & a_{in}\\
+\vdots & \vdots & & \vdots\\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{vmatrix}.
+\end{aligned}}
+这里，第一步是把第 $k$ 行加到第 $i$ 行，第二步是把第 $i$ 行的 $-1$ 倍加到第 $k$ 行，第三步是把第 $k$ 行加到第 $i$ 行，最后再把第 $k$ 行的公因子 $-1$ 提出.
+【反哺点】服务考纲〔行列式〕"掌握行列式的性质"。这里给出的	extbf{三步凑 $-1$} 证明很值得记：
+先加到第 $i$ 行、再把第 $i$ 行的 $-1$ 倍加到第 $k$ 行、最后加回——
+只用"倍加不变"就推出了"对换反号"。这说明	extbf{倍加变换是最基本的手段}，
+考场上遇到只允许倍加的情形也能推对换，不必依赖直接交换。
+\end{fdeep}
+
+\begin{fdeep}{§5 行列式的计算：化上三角形法}
+\fsec{§5\quad 行列式的计算}
+
+下面我们利用行列式的性质给出一个计算行列式的方法.
+
+在 §3 我们看到，一个上三角形行列式
+\fml{\begin{vmatrix}
+a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\
+0 & a_{22} & a_{23} & \cdots & a_{2n}\\
+0 & 0 & a_{33} & \cdots & a_{3n}\\
+\vdots & \vdots & \vdots & & \vdots\\
+0 & 0 & 0 & \cdots & a_{nn}
+\end{vmatrix}}
+就等于它主对角线上元素的乘积
+\fml{a_{11}a_{22}\cdots a_{nn}.}
+这个计算是很简单的.下面我们想办法把任意的 $n$ 阶行列式化为上三角形行列式来计算.
+【反哺点】服务考纲〔行列式〕"会应用行列式的性质和按行（列）展开定理计算行列式"。
+上三角形行列式等于主对角线乘积，而任意行列式都可用	extbf{初等行变换}化为上三角——
+这就是计算高阶行列式的	extbf{标准算法}（比直接展开快得多）。
+注意只需"倍加"与"交换"两类变换，因为提公因子会把数字变得难算。
+\end{fdeep}
+
+\fsec{深化二　余子式与行列式展开定理}
+
+\begin{fdeep}{余子式与代数余子式（北大 二.6 定义 7、定义 8，印刷页 49、51）}
+\textbf{定义 7}\quad 在行列式
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1j}&\cdots&a_{1n}\\
+\vdots&&\vdots&&\vdots\\
+a_{i1}&\cdots&a_{ij}&\cdots&a_{in}\\
+\vdots&&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{nj}&\cdots&a_{nn}
+\end{vmatrix}}
+中划去元素 $a_{ij}$ 所在的第 $i$ 行与第 $j$ 列，剩下的 $(n-1)^2$ 个元素按原来的排法构成一个 $n-1$ 阶的行列式
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1,j-1}&a_{1,j+1}&\cdots&a_{1n}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{i-1,1}&\cdots&a_{i-1,j-1}&a_{i-1,j+1}&\cdots&a_{i-1,n}\\
+a_{i+1,1}&\cdots&a_{i+1,j-1}&a_{i+1,j+1}&\cdots&a_{i+1,n}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{n,j-1}&a_{n,j+1}&\cdots&a_{nn}
+\end{vmatrix}\qquad(3)}
+称为元素 $a_{ij}$ 的\textbf{余子式}，记为 $M_{ij}$。
+
+\textbf{定义 8}\quad 上面所提到的 $A_{ij}$ 称为元素 $a_{ij}$ 的\textbf{代数余子式}，其中
+\fml{A_{ij}=(-1)^{i+j}M_{ij}.\qquad(4)}
+
+【反哺点】服务考纲「行列式」：代数余子式是 $n$ 阶行列式降阶与「余子式和代数余子式的计算」的唯一入口，符号 $(-1)^{i+j}$ 必须与位置下标严格对应。
+\end{fdeep}
+
+\begin{fdeep}{行列式按一行（列）展开定理（北大 二.6 定理 3，印刷页 49、51）}
+对于 $n$ 阶行列式，有
+\fml{\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+\vdots&\vdots&&\vdots\\
+a_{i1}&a_{i2}&\cdots&a_{in}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix}=a_{i1}A_{i1}+a_{i2}A_{i2}+\cdots+a_{in}A_{in},\quad i=1,2,\cdots,n.\qquad(1)}
+
+三阶行列式可以通过二阶行列式表示：
+\fml{\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}
+=a_{11}\begin{vmatrix}a_{22}&a_{23}\\a_{32}&a_{33}\end{vmatrix}
+-a_{12}\begin{vmatrix}a_{21}&a_{23}\\a_{31}&a_{33}\end{vmatrix}
++a_{13}\begin{vmatrix}a_{21}&a_{22}\\a_{31}&a_{32}\end{vmatrix}.\qquad(2)}
+
+这样，公式 $(1)$ 就是说，行列式等于某一行的元素分别与它们代数余子式的乘积之和。在 $(1)$ 中，如果令第 $i$ 行的元素等于另外一行，譬如说，第 $k$ 行的元素，也就是
+\fml{a_{ij}=a_{kj},\qquad j=1,\cdots,n,\ k\ne i.}
+于是
+\fml{a_{k1}A_{i1}+a_{k2}A_{i2}+\cdots+a_{kn}A_{in}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1n}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kn}&\text{第 } i \text{ 行}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kn}\\
+\vdots&&\vdots\\
+a_{n1}&\cdots&a_{nn}
+\end{vmatrix}.}
+右端的行列式含有两个相同的行，应该为零，这就是说，在行列式中，一行的元素与另一行相应元素的代数余子式的乘积之和为零。
+
+基于行列式中行与列的对称性，在以上的公式和讨论中把行换成列也一样。综上所述，即得
+
+\textbf{定理 3}\quad 设
+\fml{d=\begin{vmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{vmatrix},}
+$A_{ij}$ 表示元素 $a_{ij}$ 的代数余子式，则下列公式成立：
+\fml{a_{k1}A_{i1}+a_{k2}A_{i2}+\cdots+a_{kn}A_{in}
+=\begin{cases}d,&k=i,\\0,&k\ne i;\end{cases}\qquad(6)}
+\fml{a_{1l}A_{1j}+a_{2l}A_{2j}+\cdots+a_{nl}A_{nj}
+=\begin{cases}d,&l=j,\\0,&l\ne j.\end{cases}\qquad(7)}
+用连加号简写为
+\fml{\sum_{i=1}^{n}a_{ki}A_{ki}=\begin{cases}d,&k=i,\\0,&k\ne i;\end{cases}\qquad
+\sum_{j=1}^{n}a_{lj}A_{lj}=\begin{cases}d,&l=j,\\0,&l\ne j.\end{cases}}
+
+在计算数字行列式时，直接应用展开式 $(6)$ 或 $(7)$ 不一定能简化计算，因为把一个 $n$ 阶行列式的计算换成 $n$ 个 $n-1$ 阶行列式的计算并不减少计算量，只是在行列式中某一行或某一列含较多的零时，应用公式 $(6)$ 或 $(7)$ 才有意义。但这两个公式在理论上是很重要的。
+
+【反哺点】服务考纲「行列式」：这是「降阶法」的定理依据，也是「某行元素乘另一行代数余子式之和为 0」这一常考结论的来源。
+\end{fdeep}
+
+\begin{fdeep}{$n=3$ 时展开公式的几何意义（北大 二.6，印刷页 52）}
+在 $n=3$ 时，公式 $(6)$ 有明显的几何意义。如果把行列式的行看作向量在直角坐标系下的坐标，即设
+\fml{\alpha_1=(a_{11},a_{12},a_{13}),\qquad \alpha_2=(a_{21},a_{22},a_{23}),\qquad \alpha_3=(a_{31},a_{32},a_{33}),}
+那么
+\fml{\alpha_2\times\alpha_3=(A_{11},A_{12},A_{13}).}
+于是
+\fml{a_{11}A_{11}+a_{12}A_{12}+a_{13}A_{13}=\alpha_1\cdot(\alpha_2\times\alpha_3),}
+\fml{a_{21}A_{11}+a_{22}A_{12}+a_{23}A_{13}=\alpha_2\cdot(\alpha_2\times\alpha_3)=0,}
+\fml{a_{31}A_{11}+a_{32}A_{12}+a_{33}A_{13}=\alpha_3\cdot(\alpha_2\times\alpha_3)=0.}
+
+【反哺点】服务考纲「行列式」：给「异行（列）代数余子式之和为 0」一个几何图像——混合积中有两个向量相同即为 0。
+\end{fdeep}
+
+\begin{fdeep}{分块三角行列式 $\begin{vmatrix}A&0\\C&B\end{vmatrix}=|A|\,|B|$（北大 二.6 例 3，印刷页 54、55）}
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1k}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kk}&0&\cdots&0\\
+c_{11}&\cdots&c_{1k}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r1}&\cdots&c_{rk}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1k}\\
+\vdots&&\vdots\\
+a_{k1}&\cdots&a_{kk}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}.\qquad(9)}
+证明思路：对 $k$ 用数学归纳法。当 $k=1$ 时，$(9)$ 的左端为
+\fml{\begin{vmatrix}
+a_{11}&0&\cdots&0\\
+c_{11}&b_{11}&\cdots&b_{1r}\\
+\vdots&\vdots&&\vdots\\
+c_{r1}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix},}
+按第一行展开，就得到所要的结论。
+
+假设 $(9)$ 对 $k=m-1$ 时（即左端行列式的左上角是 $m-1$ 阶时）已经成立，现在来看 $k=m$ 的情形，按第一行展开，有
+\fml{\begin{vmatrix}
+a_{11}&\cdots&a_{1m}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{m1}&\cdots&a_{mm}&0&\cdots&0\\
+c_{11}&\cdots&c_{1m}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r1}&\cdots&c_{rm}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=a_{11}\begin{vmatrix}
+a_{22}&\cdots&a_{2m}&0&\cdots&0\\
+\vdots&&\vdots&\vdots&&\vdots\\
+a_{m2}&\cdots&a_{mm}&0&\cdots&0\\
+c_{12}&\cdots&c_{1m}&b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots&\vdots&&\vdots\\
+c_{r2}&\cdots&c_{rm}&b_{r1}&\cdots&b_{rr}
+\end{vmatrix}+\cdots}
+\fml{\cdots+(-1)^{1+m}a_{1m}
+\begin{vmatrix}
+a_{21}&\cdots&a_{2,m-1}\\
+\vdots&&\vdots\\
+a_{m1}&\cdots&a_{m,m-1}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}
+=\begin{vmatrix}
+a_{11}&\cdots&a_{1m}\\
+\vdots&&\vdots\\
+a_{m1}&\cdots&a_{mm}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11}&\cdots&b_{1r}\\
+\vdots&&\vdots\\
+b_{r1}&\cdots&b_{rr}
+\end{vmatrix}.}
+这里第二个等号是用了归纳法假定，最后一步是根据按一行展开的公式。根据归纳法原理，$(9)$ 式普遍成立。
+
+【反哺点】服务考纲「行列式」「矩阵」：分块上（下）三角行列式 $=|A||B|$ 是含零块矩阵行列式、$\begin{vmatrix}A&O\\O&B\end{vmatrix}=|A||B|$ 类考题的直接依据，也是拉普拉斯定理最常见的特例。
+\end{fdeep}
+
+\fsec{深化三　克拉默法则与方程组的行列式判据}
+
+\begin{fdeep}{克拉默（Cramer）法则：定理 4 的陈述（北大 二.7，印刷页 55）}
+现在我们来应用行列式解决线性方程组的问题。在这里只考虑方程个数与未知量的个数相等的情形。以后会看到，这是一个重要的情形。至于更一般的情形留到下一章讨论。
+
+\textbf{定理 4}\quad 如果线性方程组
+\fml{\begin{cases}
+a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=b_1,\\
+a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=b_2,\\
+\qquad\cdots\cdots\cdots\cdots\cdots\cdots\\
+a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=b_n
+\end{cases}\qquad(1)}
+的系数矩阵
+\fml{A=\begin{pmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&&\vdots\\
+a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{pmatrix}\qquad(2)}
+的行列式，即系数行列式
+\fml{d=|A|\ne 0,}
+那么线性方程组 $(1)$ 有解，并且解是唯一的，解可以通过系数表为
+\fml{x_1=\frac{d_1}{d},\quad x_2=\frac{d_2}{d},\quad \cdots,\quad x_n=\frac{d_n}{d},\qquad(3)}
+其中 $d_j$ 是把矩阵 $A$ 中第 $j$ 列换成方程组的常数项 $b_1,b_2,\cdots,b_n$ 所成的矩阵的行列式，即
+\fml{d_j=\begin{vmatrix}
+a_{11}&\cdots&a_{1,j-1}&b_1&a_{1,j+1}&\cdots&a_{1n}\\
+a_{21}&\cdots&a_{2,j-1}&b_2&a_{2,j+1}&\cdots&a_{2n}\\
+\vdots&&\vdots&\vdots&\vdots&&\vdots\\
+a_{n1}&\cdots&a_{n,j-1}&b_n&a_{n,j+1}&\cdots&a_{nn}
+\end{vmatrix},\qquad j=1,2,\cdots,n.\qquad(4)}
+
+定理中包含着三个结论：$1^{\circ}$ 方程组有解；$2^{\circ}$ 解是唯一的；$3^{\circ}$ 解由公式 $(3)$ 给出。这三个结论是有联系的，因此证明的步骤是：
+1.\ 把 $\left(\dfrac{d_1}{d},\dfrac{d_2}{d},\cdots,\dfrac{d_n}{d}\right)$ 代入方程组，验证它确是解。
+
+2.\ 假如方程组有解，证明它的解必由公式 $(3)$ 给出。
+
+【反哺点】服务考纲「线性方程组」：Cramer 法则给出「解 $=$ 行列式之比」的显式公式，是判断解的唯一性、构造反例（$|A|=0$ 时失效）与含参数方程组讨论的出发点。
+\end{fdeep}
+
+\begin{fdeep}{克拉默法则的证明思路：用代数余子式导出解（北大 二.7，印刷页 56、57）}
+在下面的证明中，为了写起来简短些，我们将尽量用连加号 $\sum$。
+
+\textbf{证明}\quad 1.\ 把方程组 $(1)$ 简写为
+\fml{\sum_{j=1}^{n}a_{ij}x_j=b_i,\qquad i=1,2,\cdots,n.\qquad(5)}
+首先来证明 $(3)$ 的确是 $(1)$ 的解。把 $(3)$ 代入第 $i$ 个方程，左端为
+\fml{\sum_{j=1}^{n}a_{ij}\frac{d_j}{d}=\frac{1}{d}\sum_{j=1}^{n}a_{ij}d_j.\qquad(6)}
+因为
+\fml{d_j=b_1A_{1j}+b_2A_{2j}+\cdots+b_nA_{nj}=\sum_{s=1}^{n}b_sA_{sj},}
+所以
+\fml{\frac{1}{d}\sum_{j=1}^{n}a_{ij}d_j=\frac{1}{d}\sum_{j=1}^{n}a_{ij}\sum_{s=1}^{n}b_sA_{sj}
+=\frac{1}{d}\sum_{s=1}^{n}\sum_{j=1}^{n}a_{ij}A_{sj}b_s
+=\frac{1}{d}\sum_{s=1}^{n}\left(\sum_{j=1}^{n}a_{ij}A_{sj}\right)b_s.}
+根据定理 $3$ 中公式 $(6)$，有
+\fml{\frac{1}{d}\left(\sum_{j=1}^{n}a_{ij}A_{ij}\right)b_i=\frac{1}{d}\cdot db_i=b_i.}
+这与第 $i$ 个方程的右端一致。换句话说，把 $(3)$ 代入方程使它们同时变成恒等式，因而 $(3)$ 确为方程组 $(1)$ 的解。
+
+2.\ 设 $(c_1,c_2,\cdots,c_n)$ 是方程组 $(1)$ 的一个解，于是有 $n$ 个恒等式
+\fml{\sum_{j=1}^{n}a_{ij}c_j=b_i,\qquad i=1,2,\cdots,n.\qquad(7)}
+为了证明 $c_k=\dfrac{d_k}{d}$，我们取系数矩阵中第 $k$ 列元素的代数余子式 $A_{1k},A_{2k},\cdots,A_{nk}$，用它们分别乘 $(7)$ 中 $n$ 个恒等式，有
+\fml{A_{ik}\sum_{j=1}^{n}a_{ij}c_j=b_iA_{ik},\qquad i=1,2,\cdots,n,}
+这仍是 $n$ 个恒等式。把它们加起来，即得
+\fml{\sum_{i=1}^{n}A_{ik}\sum_{j=1}^{n}a_{ij}c_j=\sum_{i=1}^{n}b_iA_{ik}.\qquad(8)}
+等式右端等于在行列式 $d$ 按第 $k$ 列的展开式中把 $a_{ik}$ 分别换成 $b_i\ (i=1,2,\cdots,n)$，因此，它等于把行列式 $d$ 中第 $k$ 列换成 $b_1,b_2,\cdots,b_n$ 所得的行列式，也就是 $d_k$。再来看 $(8)$ 的左端，即
+\fml{\sum_{i=1}^{n}A_{ik}\sum_{j=1}^{n}a_{ij}c_j=\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}A_{ik}c_j
+=\sum_{j=1}^{n}\left(\sum_{i=1}^{n}a_{ij}A_{ik}\right)c_j.}
+由上节定理 $3$ 中公式 $(7)$，
+\fml{\sum_{i=1}^{n}a_{ij}A_{ik}=\begin{cases}d,&j=k,\\0,&j\ne k.\end{cases}}
+所以
+\fml{\sum_{j=1}^{n}\left(\sum_{i=1}^{n}a_{ij}A_{ik}\right)c_j=dc_k.}
+于是，$(8)$ 即为
+\fml{dc_k=d_k,\qquad k=1,2,\cdots,n,}
+也就是说
+\fml{c_k=\frac{d_k}{d},\qquad k=1,2,\cdots,n.}
+这就是说，如果 $(c_1,c_2,\cdots,c_n)$ 是方程组的一个解，它必为
+\fml{\left(\frac{d_1}{d},\frac{d_2}{d},\cdots,\frac{d_n}{d}\right),\qquad(9)}
+因而方程组最多有一组解。
+
+定理 $4$ 通常称为\textbf{克拉默法则}。
+
+【反哺点】服务考纲「线性方程组」：证明的两步恰好是两条常考思路——「用代数余子式乘方程再相加」这一技巧，以及「把 $d_j$ 看成第 $j$ 列被替换后的展开式」这一恒等变形。
+\end{fdeep}
+
+\begin{fdeep}{克拉默法则的适用边界与意义（北大 二.7，印刷页 58）}
+应该注意，定理 $4$ 所讨论的只是系数矩阵的行列式不为零的方程组，它只能应用于这种方程组；至于方程组的系数行列式为零的情形，将在下一章的一般情形中一并讨论。
+
+克拉默法则的意义主要在于它给出了解与系数的明显关系，这一点在以后许多问题的讨论中是重要的。但是用克拉默法则进行计算是不方便的，因为按这一法则解一个 $n$ 个未知量 $n$ 个方程的线性方程组就要计算 $n+1$ 个 $n$ 阶行列式，这个计算量是很大的。
+
+【反哺点】服务考纲「线性方程组」：明确「方阵且 $|A|\ne 0$」这一前置条件，避免对方程数 $\ne$ 未知数或 $|A|=0$ 的方程组误用 Cramer 法则；并说明它是理论工具而非计算工具。
+\end{fdeep}
+
+\begin{fdeep}{齐次线性方程组与 $|A|=0$（北大 二.7 定理 5，印刷页 58）}
+常数项全为零的线性方程组称为\textbf{齐次线性方程组}。显然，齐次线性方程组总是有解的，因为 $(0,0,\cdots,0)$ 就是一个解，它称为\textbf{零解}。对于齐次线性方程组，我们关心的问题常常是，它除去零解以外还有没有其他解，或者说，它有没有\textbf{非零解}。对于方程个数与未知量个数相同的齐次线性方程组，应用克拉默法则就有
+
+\textbf{定理 5}\quad 如果齐次线性方程组
+\fml{\begin{cases}
+a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0,\\
+a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0,\\
+\qquad\cdots\cdots\cdots\cdots\cdots\cdots\\
+a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=0
+\end{cases}\qquad(10)}
+的系数矩阵的行列式 $|A|\ne 0$，那么它只有零解。换句话说，如果方程组 $(10)$ 有非零解，那么必有 $|A|=0$。
+
+\textbf{证明}\quad 应用克拉默法则，因为行列式 $d_j$ 中有一列为零，所以
+\fml{d_j=0,\qquad j=1,2,\cdots,n.}
+这就是说，它的唯一的解是
+\fml{\left(\frac{d_1}{d},\frac{d_2}{d},\cdots,\frac{d_n}{d}\right)=(0,0,\cdots,0).}
+
+【反哺点】服务考纲「线性方程组」：$n$ 个方程 $n$ 个未知量的齐次方程组「有非零解 $\Leftrightarrow |A|=0$」是特征值（$|A-\lambda E|=0$）与线性相关判定的公共接口。
+\end{fdeep}

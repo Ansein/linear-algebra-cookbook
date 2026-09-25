@@ -1,0 +1,84 @@
+{
+  "_comment": "高等代数 → 考研线代 蓝本。单册。init_project.py 与 build.py 都读这个文件。",
+
+  "project": "考研线性代数蓝本",
+  "workdir": "_work",
+  "engine": "xelatex",
+  "compile_passes": 3,
+  "tocdepth": 2,
+
+  "theme": {
+    "primary":      "1F4E79",
+    "primaryLight": "EAF1F8",
+    "accent":       "C0392B",
+    "accentLight":  "FDECEA",
+    "teal":         "1F7A6C",
+    "gold":         "B7791F",
+    "goldLight":    "FFF8E6",
+    "gray":         "5A6672",
+    "rule":         "D6DEE7"
+  },
+
+  "fonts": {
+    "fontset": "macnew"
+  },
+
+  "geometry": {
+    "paper": "a4paper",
+    "top": "2.15cm", "bottom": "1.9cm", "left": "1.55cm", "right": "1.55cm",
+    "headsep": "3mm", "footskip": "8mm"
+  },
+
+  "cover": {
+    "kicker": "考研数学（一）\\quad·\\quad 线性代数",
+    "footer": "以《线性代数9讲》为骨架，按考研大纲边界整合\\quad·\\quad \\LaTeX{} 重排"
+  },
+
+  "header": {
+    "left": "考研数学 · 线性代数蓝本"
+  },
+
+  "docs": [
+    {
+      "key": "xiandai",
+      "source": "线代9讲强化.pdf",
+      "output": "考研线性代数蓝本.pdf",
+      "mark": "线性代数蓝本",
+      "cover": {
+        "title": "考研线性代数蓝本",
+        "subtitle": "以《线性代数9讲》为骨架的高等代数整合版",
+        "tagline": "考研数学（一）  ·  大纲范围内  ·  深化理解"
+      },
+      "toc": true,
+      "preface": "本蓝本以《线性代数9讲》的知识结构为骨架，严格按《全国硕士研究生招生考试数学考试大纲》线性代数部分（六节）划定范围，并从《高等代数》（北大第五版）与《高等代数典型问题与方法》（樊启斌）中选取能加深理解、反哺解题的深化内容。全书按讲分章，每章含考纲边界、知识正文与深化拓展（灰底框）。",
+      "content_pages": "12-121",
+      "skip_pages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      "chunks": [
+        {"name": "ch01_a", "pages": "12-16"},
+        {"name": "ch01_b", "pages": "17-20"}
+      ],
+      "toc_entries": [
+        "第 1 章 行列式",
+        "第 2 章 余子式和代数余子式的计算",
+        "第 3 章 矩阵运算",
+        "第 4 章 矩阵的秩",
+        "第 5 章 线性方程组",
+        "第 6 章 向量组与向量空间",
+        "第 7 章 特征值与特征向量",
+        "第 8 章 相似理论",
+        "第 9 章 二次型"
+      ]
+    }
+  ],
+
+  "_notes": [
+    "单册：docs 只有一项。章节 = 9讲的一讲，但第6章扩充为「向量组与向量空间」（补考纲三.5/6/8 的缺口）。",
+    "chunks 目前只登记第1章（当前施工章）；每开新章时追加，并重跑 init_project.py（不带 --force）。",
+    "深化材料另从北大《高等代数》与樊启斌书渲染，前缀为 beida_ / fanqibin_，不进 chunks 表，由主控手工拼进 frag/。",
+    "【页码换算】四本书统一：北大/樊启斌 PDF 页 = 印刷页 + 9；大纲 = +4；9讲 = +11。",
+    "第1章深化页：beida PDF 51-64（=印刷页42-55，§3性质/§4计算/§5展开/§6 Cramer）、beida PDF 68-69（§8 Laplace）。",
+    "第2章深化页：fan PDF 76-104（=印刷页67-95，第2章行列式：§2.1计算/§2.2 Vandermonde/§2.3代数余子式）。",
+    "注意：樊书 PDF p4-p5 是前言，不是正文；早前曾误把 p4 当深化来源，已作废。",
+    "toc_entries 用于 verify_structure.py 核对是否漏章。"
+  ]
+}

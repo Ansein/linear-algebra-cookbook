@@ -1,0 +1,756 @@
+% ===========================================================
+% 《线性代数9讲》第 6 讲  向量组 —— 片段 A（本讲开头）
+% 源：线代9讲强化.pdf  PDF p75–p78（印刷页 64–67），共 4 页
+%
+% 处理说明：
+%   1) 页首「三向解题法」思维导图（PDF p75 = 印刷页 64 整页；续页 PDF p76 = 印刷页 65
+%      页首「4. 向量空间（仅数学一）」分支）按 AGENTS.md §7.1 决定 2 **不转写、不重绘**，
+%      各留 `% FIGURE-OPD:` 一行注释；
+%   2) OPD 方法论标记剔除（依 AGENTS.md §7.1 决定 2）：
+%      · \fsec 标题里只删 OPD 括号，保留标题文字（原稿括号全部删去）：
+%        「一、研究具体型向量关系」（$O_1$（盯住目标 1））
+%        「1. $\beta$与$\alpha_1,\alpha_2,\cdots,\alpha_n$」（$D_1$（常规操作））
+%        「2. $\alpha_1,\alpha_2,\cdots,\alpha_n$」（$D_1$（常规操作）$+D_{21}$（观察研究对象））
+%        「3. 求极大线性无关组」（$D_1$（常规操作））
+%      · 正文中的蓝色纯 OPD 代码与蓝色方法提示语一律以 `% OPD 蓝色标注（原稿）：……`
+%        注释留痕，不排入正文：
+%        PDF p76（65）标题 1. 右上蓝色提示语「→熟练掌握步骤」
+%        PDF p77（66）例 6.1 解首「→$D_{22}$（转换等价表述）」
+%        PDF p77（66）右缘蓝色竖排模块标签「隐含条件体系」（方法论模块名）
+%        PDF p78（67）例 6.3 第（2）问右侧「→$D_{22}$（转换等价表述）」
+%      · 数学符号一律照抄（如向量 $\beta$，$k_1\alpha_1+\cdots+k_n\alpha_n=0$）；
+%   3) 数学操作旁注与交叉引用照原文排入：「初等行变换」箭头标注、
+%      「回到"1."即可」、① ② ③ 与（1）（2）（3）编号均按原文；
+%   4) 例 6.1 的【解】跨 PDF p76 末行～PDF p77 首行，例 6.2 的解答跨
+%      PDF p77 末行～PDF p78 首行，本片按一个卡片排完（不拆卡）；
+%   5) **本 4 页无「习题」栏**（已逐页核实）：PDF p78（印刷页 67）以例 6.3 结束，
+%      其后整页留白；第 6 讲习题栏在后续页（PDF p82 前后），不在本片范围；
+%   6) 原稿正文中的向量记号 $\alpha_1,\alpha_2,\cdots$ 在本书字体下形似斜体 "a"，
+%      已按数学含义统一排为 $\alpha$。
+% ===========================================================
+
+\fchap{第6章\quad 向量组}
+
+% ---- 印刷页 64（PDF p75）----
+
+% FIGURE-OPD: 64 三向解题法思维导图（按规则不保留）
+
+% ---- 印刷页 65（PDF p76）----
+
+% FIGURE-OPD: 65 三向解题法思维导图（续，按规则不保留）
+
+\fsec{深化一　向量空间与子空间}
+
+\begin{fdeep}{线性空间：从具体对象到八条公理}
+设 $V$ 是一个非空集合，$P$ 是一个数域。在 $V$ 的元素之间定义了加法，在 $P$ 与 $V$ 之间定义了数量乘法。若这两种运算满足下面八条规则，就称 $V$ 是数域 $P$ 上的\textbf{线性空间}（也叫向量空间），$V$ 的元素统称\textbf{向量}。
+
+\textbf{加法四条}：$\alpha+\beta=\beta+\alpha$；$(\alpha+\beta)+\gamma=\alpha+(\beta+\gamma)$；$V$ 中存在零元素 $\mathbf{0}$，使 $\mathbf{0}+\alpha=\alpha$；每个 $\alpha$ 存在负元素 $-\alpha$，使 $\alpha+(-\alpha)=\mathbf{0}$。
+
+\textbf{数乘与分配四条}：$1\alpha=\alpha$；$k(l\alpha)=(kl)\alpha$；$(k+l)\alpha=k\alpha+l\alpha$；$k(\alpha+\beta)=k\alpha+k\beta$。
+
+\textbf{公理化的意义}：$P$ 上全体 $n$ 元有序数组、全体 $m\times n$ 矩阵、次数小于 $n$ 的多项式、闭区间上的连续函数，都满足这八条，于是关于线性空间证明的每一条结论可以\textbf{一次性地}适用于全部这些对象。
+
+\textbf{三条可直接推出的简单性质}：零元素唯一；负元素唯一；$0\alpha=\mathbf{0}$，$k\mathbf{0}=\mathbf{0}$，$(-1)\alpha=-\alpha$；并且若 $k\alpha=\mathbf{0}$，则必有 $k=0$ 或 $\alpha=\mathbf{0}$。
+\fbref{}服务考纲〔向量〕“理解 $n$ 维向量空间的概念”。它解释了考研中“向量”为什么不必是箭头：凡是带这两种运算且满足八条规则的对象都是向量，所以矩阵、多项式、函数都能当向量处理，矩阵的秩、方程组的解才能用“维数、基、坐标”统一叙述。判断某集合能否构成线性空间，只看加法与数乘是否封闭、零元与负元是否在集合内。
+\end{fdeep}
+
+\begin{fdeep}{子空间的判别：两条封闭性就够}
+数域 $P$ 上线性空间 $V$ 的一个\textbf{非空子集} $W$ 称为 $V$ 的\textbf{线性子空间}（简称子空间），如果 $W$ 对 $V$ 的两种运算也构成数域 $P$ 上的线性空间。
+
+由于八条公理中其余六条是从 $V$ 原样继承的，判别时只需验证两条封闭性：
+\fml{\alpha,\beta\in W\ \Longrightarrow\ \alpha+\beta\in W,\qquad k\in P,\ \alpha\in W\ \Longrightarrow\ k\alpha\in W}
+等价地可合并成一条：$W$ 非空，且对任意 $k,l\in P$、$\alpha,\beta\in W$ 都有 $k\alpha+l\beta\in W$。又因为取 $k=l=0$ 即得 $\mathbf{0}\in W$，实际做题时\textbf{先看零向量在不在 $W$ 里}——不含零向量的子集一定不是子空间。
+
+\textbf{典型子空间}：只含零向量的零子空间 $\{\mathbf{0}\}$ 与 $V$ 本身（合称平凡子空间）；齐次线性方程组的全部解组成的\textbf{解空间}；由向量组生成的子空间 $L(\alpha_1,\dots,\alpha_s)$。任何子空间的维数都不超过整个空间的维数。
+\fbref{}服务考纲〔向量〕“了解子空间的概念”。选择题常直接问“下列集合是否构成子空间”：先用“$\mathbf{0}$ 是否属于该集合”快速排除，再用一条 $k\alpha+l\beta$ 验证。高频陷阱是“平面上不过原点的直线”“满足 $|x|=1$ 的向量集”这类不含零向量的集合。
+\end{fdeep}
+
+\fsec{一、研究具体型向量关系}
+
+% OPD 蓝色标注（原稿）：（$O_1$（盯住目标 1））（\fsec 标题中的 OPD 括号已删）
+
+% OPD 蓝色标注（原稿）：标题 1. 右上蓝色提示语「→熟练掌握步骤」
+
+% 注：标题内含 \cdots 时 hyperref 的 PDF 字符串转换会报错，
+%     故 \fsec 标题一律用 \texorpdfstring{...}{...} 包住（正文中不受影响）。
+
+\fsec{\texorpdfstring{1. $\beta$与$\alpha_1,\alpha_2,\cdots,\alpha_n$}{1. beta 与 alpha_1,...,alpha_n}}
+
+（1）建立方程组.
+
+\fml{\beta=x_1\alpha_1+\cdots+x_n\alpha_n,}
+
+即
+
+\fml{[\alpha_1,\alpha_2,\cdots,\alpha_n]\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix}=\beta.}
+
+（2）化阶梯形.
+
+\fml{[A,\beta]=[\alpha_1,\alpha_2,\cdots,\alpha_n,\beta]\xrightarrow{\text{初等行变换}}\left[\;\begin{array}{@{}c@{\;\;}c@{\;\;}c@{}}\ulcorner&\vdots&\square\end{array}\;\right].}
+
+（3）讨论.
+
+① $r(A)\ne r([A,\beta])\iff$ 无解 $\iff$ 不能表示.
+
+② $r(A)=r([A,\beta])=n\iff$ 唯一解 $\iff$ 唯一一种表示法.
+
+③ $r(A)=r([A,\beta])<n\iff$ 无穷多解 $\iff$ 无穷多种表示法.
+
+\begin{fnote}
+【注】含未知参数的向量组是常考题型.
+\end{fnote}
+
+\begin{fcard}{例6.1}
+已知向量 $\alpha_1=\begin{bmatrix}1\\2\\3\end{bmatrix}$，$\alpha_2=\begin{bmatrix}2\\1\\1\end{bmatrix}$，$\beta_1=\begin{bmatrix}2\\5\\9\end{bmatrix}$，$\beta_2=\begin{bmatrix}1\\0\\1\end{bmatrix}$. 若 $\gamma$ 既可由 $\alpha_1,\alpha_2$ 线性表示，也可由 $\beta_1,\beta_2$ 线性表示，则 $\gamma=(\quad)$.
+
+（A）$k\begin{bmatrix}3\\3\\4\end{bmatrix},k\in\mathbb{R}$\qquad（B）$k\begin{bmatrix}3\\5\\10\end{bmatrix},k\in\mathbb{R}$\qquad（C）$k\begin{bmatrix}-1\\1\\2\end{bmatrix},k\in\mathbb{R}$\qquad（D）$k\begin{bmatrix}1\\5\\8\end{bmatrix},k\in\mathbb{R}$
+
+【解】应选（D）.
+
+% -----------------------------------------------------------
+% PDF p77（印刷页 66）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）（箭头指向下面一行的「由题意，设……」
+
+由题意，设 $\gamma=k_1\alpha_1+k_2\alpha_2=l_1\beta_1+l_2\beta_2$，即 $k_1\alpha_1+k_2\alpha_2-l_1\beta_1-l_2\beta_2=0$，记 $\begin{cases}x_1=k_1,\\x_2=k_2,\\x_3=-l_1,\\x_4=-l_2,\end{cases}$ 则 $x_1\alpha_1+x_2\alpha_2+x_3\beta_1+x_4\beta_2=0$，解得 $\begin{cases}x_1=3k,\\x_2=-k,\end{cases}k\in\mathbb{R}$，故
+
+\fml{\gamma=3k\begin{bmatrix}1\\2\\3\end{bmatrix}-k\begin{bmatrix}2\\1\\1\end{bmatrix}=k\begin{bmatrix}1\\5\\8\end{bmatrix},k\in\mathbb{R}.}
+
+故选（D）.
+\end{fcard}
+
+\fsec{深化二　线性相关性、极大无关组与秩}
+
+\begin{fdeep}{生成子空间 $L(\alpha_1,\dots,\alpha_s)$：极大无关组就是它的基}
+向量组 $\alpha_1,\dots,\alpha_s$ 的所有线性组合组成的集合
+\fml{L(\alpha_1,\dots,\alpha_s)=\{k_1\alpha_1+k_2\alpha_2+\cdots+k_s\alpha_s\mid k_i\in P\}}
+是 $V$ 的一个子空间，称为由这组向量\textbf{生成}的子空间；它同时也是 $V$ 中一切包含 $\alpha_1,\dots,\alpha_s$ 的子空间里最小的那个。
+
+两条关键结论（北大 六.5 定理 3）：
+（1）$L(\alpha_1,\dots,\alpha_s)=L(\beta_1,\dots,\beta_t)$ 的充分必要条件是这两个向量组\textbf{等价}（能互相线性表出）；
+（2）$\dim L(\alpha_1,\dots,\alpha_s)$ 等于向量组 $\alpha_1,\dots,\alpha_s$ 的\textbf{秩}。
+
+第（2）条的证明只有一句话：取该向量组的一个极大线性无关组，它既线性无关，又能表出原组每个向量，因而是 $L$ 的一组基，而极大无关组的向量个数正是秩。
+\fbref{}服务考纲〔向量〕“理解向量组的秩、极大线性无关组的概念”“了解子空间、基底、维数”。这一条把“向量组的秩”“极大线性无关组”“空间的基与维数”三个概念焊成一体：求 $L$ 的维数与基，就是求向量组的秩与一个极大无关组——把向量按列拼成矩阵、初等行变换化阶梯形，主元所在列对应的\textbf{原}向量组就是基，主元个数就是维数。
+\end{fdeep}
+
+\begin{fdeep}{线性相关性的判定网：五条入口殊途同归}
+设 $\alpha_1,\dots,\alpha_s$ 是 $n$ 维向量，把它们按列拼成 $n\times s$ 矩阵 $A=(\alpha_1,\dots,\alpha_s)$，则以下说法\textbf{两两等价}：
+1）$\alpha_1,\dots,\alpha_s$ 线性相关；
+2）齐次线性方程组 $x_1\alpha_1+x_2\alpha_2+\cdots+x_s\alpha_s=\mathbf{0}$ 有\textbf{非零解}；
+3）$\operatorname{rank}A<s$；
+4）其中至少有一个向量可由其余向量线性表出；
+5）它的极大线性无关组所含向量个数小于 $s$。
+当向量个数等于维数（$s=n$）时再添一条：$|A|=0$。此时“线性无关 $\iff$ $|A|\ne0$ $\iff$ $A$ 可逆”，三个说法可以随时互换。
+
+另有两条只比“个数”的结论：$n+1$ 个 $n$ 维向量必线性相关；若 $\alpha_1,\dots,\alpha_r$ 可由 $\beta_1,\dots,\beta_s$ 线性表出，而 $\alpha_1,\dots,\alpha_r$ 线性无关，则必有 $r\le s$——这就是“以少表多必相关”。
+\fbref{}服务考纲〔向量〕“掌握向量组线性相关、线性无关的有关性质及判别法”。这张网把行列式、秩、方程组、子空间维数四条路打通：考场上不必挑“正确”的一条，哪条入口给的数最少就用哪条。个数型（$s$ 与 $n$ 的大小比较）的题目直接套两条推论，是选择题最快的解法。
+\end{fdeep}
+
+\begin{fdeep}{极大线性无关组与秩：它和“基”是同一个东西}
+向量组的一个部分组若本身线性无关，并且从原组中再添进任何一个向量都线性相关，就称为原向量组的一个\textbf{极大线性无关组}；极大线性无关组所含向量的个数称为该向量组的\textbf{秩}。
+
+三条要点：1）极大线性无关组必与原向量组\textbf{等价}，因为原组每个向量若不能由它表出，就可以添进去而仍然线性无关，与“极大”矛盾；2）一个向量组的\textbf{任意两个}极大线性无关组含相同个数的向量，所以“秩”是向量组自身的属性，与挑法无关；3）向量组线性无关 $\iff$ 它的秩等于它所含向量的个数。
+
+\textbf{与“基”的打通}：向量组 $\alpha_1,\dots,\alpha_s$ 的一个极大线性无关组，恰好就是生成子空间 $L(\alpha_1,\dots,\alpha_s)$ 的一组\textbf{基}。于是“向量组的秩 = 它张成空间的维数”，第 3 章的“秩”与第 6 章的“维数”从此是同一件事的两个名字。
+\fbref{}服务考纲〔向量〕“会求向量组的秩和极大线性无关组”。求法要点：把向量\textbf{按列}拼成矩阵，只作初等\textbf{行}变换化阶梯形；主元个数即秩，主元所在列对应的\textbf{原向量}构成极大无关组（不能用化简后的列向量作答）。反过来，若题目给出“秩为 $r$”，就等于说“存在 $r$ 个线性无关的向量且任意 $r+1$ 个相关”。
+\end{fdeep}
+
+\begin{fdeep}{向量组等价与矩阵等价：两个“等价”不是一回事}
+\textbf{向量组等价}：两个向量组能\textbf{互相线性表出}。它满足自反性、对称性、传递性；并且向量组 $\alpha_1,\dots,\alpha_r$ 与 $\beta_1,\dots,\beta_t$ 等价当且仅当
+\fml{L(\alpha_1,\dots,\alpha_r)=L(\beta_1,\dots,\beta_t)}
+即等价与“生成同一个子空间”是同一件事。两条常用结论：等价的两个向量组秩必相等，但\textbf{秩相等推不出等价}（例如 $(1,0,0),(0,1,0)$ 与 $(1,0,0),(0,0,1)$ 的秩都是 $2$，张成的却是不同的平面）；两个都线性无关的等价向量组必含相同个数的向量。
+
+\textbf{矩阵等价}：$A$ 经有限次初等变换化为 $B$，等价条件是 $A$ 与 $B$ \textbf{同型}（行数、列数分别相同）且秩相等。
+
+\textbf{区别所在}：矩阵等价是同型矩阵之间的关系，判据只看秩；向量组等价是两组向量之间的关系，除了秩相等，还要求两个矩阵的列向量组张成\textbf{同一个}子空间。
+\fbref{}服务考纲〔向量〕“理解向量组等价的概念”。判断题里“$A$ 与 $B$ 等价”与“$A$ 的列向量组与 $B$ 的列向量组等价”是两个不同的命题：前者只要同型同秩，后者要求列空间相同，因此“列向量组等价 $\Longrightarrow$ 矩阵等价”成立，反之不成立（除非 $A$ 可逆这类额外条件）。抓住这一点可避开一大类概念陷阱。
+\end{fdeep}
+
+\fsec{\texorpdfstring{2. $\alpha_1,\alpha_2,\cdots,\alpha_n$}{2. alpha_1,...,alpha_n}}
+
+（1）若向量个数大于维数，则必线性相关.
+
+（2）若向量个数等于维数，则可用行列式讨论.
+
+① $|\alpha_1,\alpha_2,\cdots,\alpha_n|=0\iff$ 线性相关；
+
+② $|\alpha_1,\alpha_2,\cdots,\alpha_n|\ne0\iff$ 线性无关.
+
+（3）若向量个数小于维数，则化阶梯形 $A=[\alpha_1,\alpha_2,\cdots,\alpha_n]\xrightarrow{\text{初等行变换}}\left[\;\begin{array}{@{}c@{\;\;}c@{\;\;}c@{}}\ulcorner&\vdots&\square\end{array}\;\right]$.
+
+① $r(A)<n\iff$ 线性相关.
+
+② $r(A)=n\iff$ 线性无关.
+
+③ 若线性相关，问 $\alpha_s$ 与 $\alpha_1,\cdots,\alpha_{s-1},\alpha_{s+1},\cdots,\alpha_n$ 的表示关系，回到“1.”即可.
+
+% OPD 蓝色标注（原稿）：本页右缘蓝色竖排模块标签「隐含条件体系」（方法论模块名，不排入正文）
+
+\begin{fnote}
+【注】含未知参数的向量组是常考题型.
+\end{fnote}
+
+\begin{fcard}{例6.2}
+设向量 $\alpha_1=\begin{bmatrix}a\\1\\-1\\1\end{bmatrix}$，$\alpha_2=\begin{bmatrix}1\\1\\b\\a\end{bmatrix}$，$\alpha_3=\begin{bmatrix}1\\a\\-1\\1\end{bmatrix}$. 若 $\alpha_1,\alpha_2,\alpha_3$ 线性相关，且其中任意两个向量均线性无关，则（\quad）.
+
+（A）$a=1$，$b\ne-1$\qquad（B）$a=1$，$b=-1$
+
+（C）$a\ne-2$，$b=2$\qquad（D）$a=-2$，$b=2$
+
+【解】应选（D）.
+
+\fml{[\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}a&1&1\\1&1&a\\-1&b&-1\\1&a&1\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&a-1&1-a\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&0&2-a^2-a\end{bmatrix}.}
+
+因为 $\alpha_1,\alpha_2,\alpha_3$ 线性相关，且其中任意两个向量均线性无关，则 $r(\alpha_1,\alpha_2,\alpha_3)\le2$，又 $r(\alpha_i,\alpha_j)=2(i\ne j)$.
+
+于是 $r(\alpha_1,\alpha_2,\alpha_3)=2$.
+
+①当 $a=1$ 时，$\alpha_1$ 与 $\alpha_3$ 线性相关，不满足题意；
+
+②当 $a\ne1$ 时，
+
+% -----------------------------------------------------------
+% PDF p78（印刷页 67）
+% -----------------------------------------------------------
+\fml{[\alpha_1,\alpha_2,\alpha_3]\to\begin{bmatrix}1&1&a\\0&1&1+a\\0&b+1&a-1\\0&0&a+2\end{bmatrix}\to\begin{bmatrix}1&1&a\\0&1&1+a\\0&0&-b(a+1)-2\\0&0&a+2\end{bmatrix},}
+
+要满足题意，则 $a+2=0$ 且 $-b(a+1)-2=0$，故 $\begin{cases}a=-2,\\b=2.\end{cases}$
+\end{fcard}
+
+\fsec{3. 求极大线性无关组}
+
+给出列向量组 $\alpha_1,\alpha_2,\cdots,\alpha_n$，可按以下步骤求其极大线性无关组.
+
+① 构造 $A=[\alpha_1,\alpha_2,\cdots,\alpha_n]$；
+
+② $A\xrightarrow{\text{初等行变换}}B$（行阶梯形）；
+
+③ 算出台阶数 $r$，按列找出一个秩为 $r$ 的子矩阵即可.
+
+\begin{fcard}{例6.3}
+设矩阵 $A=\begin{bmatrix}1&-1&3&0&-1\\-1&0&-2&-a&-1\\1&1&a&2&3\end{bmatrix}$ 的秩为 2.
+
+（1）求 $a$ 的值；
+
+（2）求 $A$ 的列向量组的一个极大线性无关组 $\alpha,\beta$，并求矩阵 $H$，使得 $A=GH$，其中 $G=[\alpha,\beta]$.
+
+% OPD 蓝色标注（原稿）：→$D_{22}$（转换等价表述）（箭头指向下面第（2）问）
+
+【解】（1）对 $A$ 施以初等行变换，得
+
+\fml{A=\begin{bmatrix}1&-1&3&0&-1\\-1&0&-2&-a&-1\\1&1&a&2&3\end{bmatrix}\to\begin{bmatrix}1&-1&3&0&-1\\0&-1&1&-a&-2\\0&0&a-1&2(1-a)&0\end{bmatrix}.}
+
+由 $r(A)=2$，得 $a=1$.
+
+（2）记 $A=[\alpha_1,\alpha_2,\alpha_3,\alpha_4,\alpha_5]$，由（1），对 $A$ 施以初等行变换，得
+
+\fml{A\to\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\\0&0&0&0&0\end{bmatrix}.}
+
+取 $\alpha=\alpha_1$，$\beta=\alpha_2$，则 $\alpha,\beta$ 为 $A$ 的列向量组的一个极大线性无关组.
+
+因为 $\alpha_3=2\alpha_1-\alpha_2$，$\alpha_4=\alpha_1+\alpha_2$，$\alpha_5=\alpha_1+2\alpha_2$，所以
+
+\fmll{A=[\alpha_1,\alpha_2,2\alpha_1-\alpha_2,\alpha_1+\alpha_2,\alpha_1+2\alpha_2]\\
+=[\alpha,\beta]\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\end{bmatrix}.}
+
+取 $H=\begin{bmatrix}1&0&2&1&1\\0&1&-1&1&2\end{bmatrix}$，则 $A=GH$.
+\end{fcard}
+
+\fsec{二、研究抽象型向量关系}
+
+% OPD 蓝色标注（原稿）：（$O_2$（盯住目标 2））（位于本节标题内，已删）
+
+\fsec{1. 定义法}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作））（位于本标题内，已删）
+% OPD 蓝色标注（原稿）：句末蓝色小字「传统考查方式」（方法论分类标签）
+
+已知某些向量关系，研究另一些向量关系.
+
+（1）写定义式 $k_1\alpha_1+k_2\alpha_2+\cdots+k_n\alpha_n=0$. \hfill $(*)$
+
+（2）考查 $k_1=k_2=\cdots=k_n=0$ 是否成立.
+
+\begin{fcard}{【注】常用方法}
+①在“（1）”的（$*$）式两边同乘某些量，重新组合等. 数$\times$向量$=0$，若向量$\ne0$，则数$=0$
+
+②转化为证某齐次线性方程组只有零解.
+
+③常与特征值、基础解系、矩阵正定等综合.
+
+④以下定理亦常用.
+
+定理 1\quad 如果向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 可由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，且 $t>s$，则 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 线性相关.（此定理可简单表述为以少表多，多的相关.）
+
+其等价命题：如果向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 可由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，且 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 线性无关，则 $t\le s$.
+
+定理 2\quad 设向量组 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 能由向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性表示，则 $r(\beta_1,\beta_2,\cdots,\beta_t)\le r(\alpha_1,\alpha_2,\cdots,\alpha_s)$.（此定理可简单表述为两向量组中被表示的向量组的秩不大.）
+
+% -----------------------------------------------------------
+% PDF p80（印刷页 69）—— 【注】蓝框续（定理 2 末～定理 4）
+% -----------------------------------------------------------
+
+定理 3\quad 如果向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_m$ 中有一部分向量组线性相关，则整个向量组也线性相关.
+
+其等价命题：如果 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_m$ 线性无关，则其任一部分向量组线性无关.
+
+定理 4\quad 如果 $n$ 维向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性无关，那么把这些向量对应相同位置各任意添加 $m$ 个分量所得到的 $(n+m)$ 维新向量组 $\alpha_1^{*}$，$\alpha_2^{*}$，$\cdots$，$\alpha_s^{*}$ 也线性无关；如果 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 线性相关，那么它们各去掉相同位置的若干个分量所得到的新向量组也线性相关.
+\end{fcard}
+
+\begin{fkey}{定理 3 和定理 4 可简单记为}
+部分相关，整体相关；\\
+整体无关，部分无关；\\
+原来无关，延长无关；\\
+原来相关，缩短相关
+\end{fkey}
+
+\begin{fcard}{例 6.4}
+设 $A$ 为 $n$ 阶方阵，证明：
+
+（1）若 $A^{k-1}\alpha\ne0$，$A^k\alpha=0$，则 $\alpha$，$A\alpha$，$\cdots$，$A^{k-1}\alpha$（$k$ 为正整数）线性无关；
+
+（2）$r(A^{n+1})=r(A^n)$.（证秩等式：一般用方程组同解. 证秩不等式：一般用定理2）
+
+【证】（1）设存在一组数 $l_0$，$l_1$，$\cdots$，$l_{k-1}$，使得
+\fml{l_0\alpha+l_1A\alpha+\cdots+l_{k-1}A^{k-1}\alpha=0,}
+在上式两端左边乘 $A^{k-1}$，得 $l_0A^{k-1}\alpha+l_1A^k\alpha+\cdots+l_{k-1}A^{2(k-1)}\alpha=0$. 由 $A^k\alpha=0$，得 $l_0A^{k-1}\alpha=0$. 又 $A^{k-1}\alpha\ne0$，于是 $l_0=0$. 同理，得 $l_1=\cdots=l_{k-1}=0$. 故 $\alpha$，$A\alpha$，$\cdots$，$A^{k-1}\alpha$ 线性无关.
+
+% -----------------------------------------------------------
+% PDF p80（印刷页 69）—— 例 6.4（2）续
+% -----------------------------------------------------------
+
+（2）设 $\eta$ 为 $A^n x=0$ 的任一解，则 $A^n\eta=0$，于是 $A^{n+1}\eta=0$，即 $A^n x=0$ 的解均是 $A^{n+1}x=0$ 的解. 设 $\gamma$ 为 $A^{n+1}x=0$ 的任一解，即 $A^{n+1}\gamma=0$. 若 $A^n\gamma\ne0$，则由（1）知，$\gamma$，$A\gamma$，$\cdots$，$A^n\gamma$ 线性无关. 又由于 $n+1$ 个 $n$ 维向量必线性相关，矛盾，故 $A^n\gamma=0$，即 $A^{n+1}x=0$ 的解均是 $A^n x=0$ 的解. 两方程组同解，故 $r(A^{n+1})=r(A^n)$.
+\end{fcard}
+
+\fsec{2. 综合问题}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{23}$（化归经典形式））（位于本标题内，已删）
+% 数学标注保留（原稿蓝色，位于标题右侧）：①$x=\eta^{*}+k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$；②$A\xi_i=0$；③$A\eta^{*}=\beta$
+
+①$x=\eta^{*}+k_1\xi_1+\cdots+k_{n-r}\xi_{n-r}$；②$A\xi_i=0$；③$A\eta^{*}=\beta$
+
+这里的综合，一般指与方程组、特征值知识相结合.
+
+\begin{fcard}{例 6.5}
+设矩阵 $A=[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$，若 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性无关，且 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，则方程组 $Ax=\alpha_1+4\alpha_4$ 的通解为 $x=\underline{\hspace{2em}}$.
+
+（总的方向是确定的. ①找 $Ax=0$ 的通解. ②找 $Ax=\beta$ 的特解）
+
+% OPD 蓝色标注（原稿）：$D_{23}$（化归经典形式）（位于上引蓝色旁注「总的方向是确定的」之后）
+
+【解】应填 $k\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}+\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$，$k$ 为任意常数.
+
+由于 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，故 $\alpha_1$，$\alpha_2$，$\alpha_3$，$\alpha_4$ 线性相关，又 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性无关，则 $r(A)=3$.
+
+又 $\alpha_1+\alpha_2=\alpha_3+\alpha_4$，即 $\alpha_1+\alpha_2-\alpha_3-\alpha_4=0$，则 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}=0$. 由 $s=n-r(A)=4-3=1$ 得，$\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}$ 是 $Ax=0$ 的一个基础解系.
+
+由 $[\alpha_1,\alpha_2,\alpha_3,\alpha_4]\begin{bmatrix}1\\0\\0\\4\end{bmatrix}=\alpha_1+4\alpha_4$ 可得，$\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$ 是 $Ax=\alpha_1+4\alpha_4$ 的一个特解.
+
+故 $Ax=\alpha_1+4\alpha_4$ 的通解为 $k\begin{bmatrix}1\\1\\-1\\-1\end{bmatrix}+\begin{bmatrix}1\\0\\0\\4\end{bmatrix}$，其中 $k$ 为任意常数.
+\end{fcard}
+
+\fsec{深化三　维数公式与直和}
+
+\begin{fdeep}{维数公式：$\dim(V_1+V_2)=\dim V_1+\dim V_2-\dim(V_1\cap V_2)$}
+设 $V_1,V_2$ 是线性空间 $V$ 的两个子空间，则
+\fml{\dim(V_1+V_2)=\dim V_1+\dim V_2-\dim(V_1\cap V_2)}
+
+\must{证明思路（三段式，值得记住）}：设 $\dim V_1=n_1$，$\dim V_2=n_2$，$\dim(V_1\cap V_2)=m$。第一步，取 $V_1\cap V_2$ 的一组基 $\alpha_1,\dots,\alpha_m$；第二步，由基的扩充定理把它分别扩充成 $V_1$ 的基 $\alpha_1,\dots,\alpha_m,\beta_1,\dots,\beta_{n_1-m}$ 与 $V_2$ 的基 $\alpha_1,\dots,\alpha_m,\gamma_1,\dots,\gamma_{n_2-m}$；第三步，证明把这两组拼起来所得的向量组（共 $n_1+n_2-m$ 个）线性无关，因此它就是 $V_1+V_2$ 的基。证明线性无关时用反证：设线性组合为零并记该向量为 $\alpha$，则 $\alpha\in V_1$ 且 $\alpha\in V_2$，故 $\alpha\in V_1\cap V_2$，可由 $\alpha_1,\dots,\alpha_m$ 表出，代回原式再由两组基各自线性无关即得系数全为零。
+
+\key{推论}：若 $\dim V_1+\dim V_2>n=\dim V$，则 $V_1\cap V_2$ 中必含非零向量（因为 $\dim(V_1\cap V_2)=\dim V_1+\dim V_2-\dim(V_1+V_2)$，而 $\dim(V_1+V_2)\le n$）。
+\fbref{}服务考纲〔向量〕“了解子空间的交与和”，这是 9 讲几乎不涉及但考研大题常考的公式。三处高频用途：由两组基的维数直接算 $V_1\cap V_2$ 的维数；由“交集为零”反推 $\dim(V_1+V_2)$ 是否等于维数之和（这正是直和）；用推论证明“两个子空间必有公共非零向量”，不必具体解出向量。
+\end{fdeep}
+
+\begin{fdeep}{直和的判定：从两个子空间到多个子空间}
+若 $V_1+V_2$ 中每个向量 $\alpha$ 的分解式 $\alpha=\alpha_1+\alpha_2$（$\alpha_1\in V_1$，$\alpha_2\in V_2$）都是\textbf{唯一}的，就称这个和为\textbf{直和}，记作 $V_1\oplus V_2$。
+
+\textbf{两个子空间的直和，以下条件等价}（北大 六.7 定理 8、9）：
+1）$V_1+V_2$ 是直和；
+2）零向量的分解式唯一（即由 $\alpha_1+\alpha_2=\mathbf{0}$，$\alpha_i\in V_i$ 只能推出 $\alpha_1=\alpha_2=\mathbf{0}$）；
+3）$V_1\cap V_2=\{\mathbf{0}\}$；
+4）$\dim(V_1+V_2)=\dim V_1+\dim V_2$。
+其中 2）与 3）的等价最常用：若 $V_1\cap V_2$ 中有非零向量 $\alpha$，则 $\mathbf{0}=\alpha+(-\alpha)$ 就是一个非平凡分解；反之若 $\alpha_1=-\alpha_2\ne\mathbf{0}$，则该向量同时属于两个子空间。
+\textbf{推广到多个子空间}（定理 11）：$V_1,V_2,\dots,V_s$ 的和是直和 $\iff$ 零向量表法唯一 $\iff$ 对每个 $i$ 都有 $V_i\cap\sum_{j\ne i}V_j=\{\mathbf{0}\}$ $\iff$ $\dim\sum_{i=1}^{s}V_i=\sum_{i=1}^{s}\dim V_i$。\warn{注意}多子空间时必须\textbf{逐个}与“其余全部之和”求交，只验两两之交为零是不够的。此外任一子空间 $W$ 都有补子空间 $W'$ 使 $V=W\oplus W'$（定理 10）。
+\fbref{}服务考纲〔向量〕“了解子空间的概念”“了解维数”。考纲未直接要求“直和”，但它一旦出现，几乎都落在“$V_1\cap V_2=\{\mathbf{0}\}$”与“维数相加”这两条上：题目给出 $\dim V_1+\dim V_2=\dim V$ 时，要立刻想到“只需再验交为零，即可断言 $V=V_1\oplus V_2$，从而任一向量分解唯一，坐标可以分开算”。这是解“分解唯一性”与“求补空间”两类题的快捷入口。
+\end{fdeep}
+
+\fsec{三、研究向量组等价}
+
+% OPD 蓝色标注（原稿）：（$O_3$（盯住目标 3））（位于本节标题内，已删）
+% OPD 蓝色标注（原稿）：右侧蓝色竖排模块标签「等价表述体系块」（方法论模块名，不排入正文）
+
+给出向量组（Ⅰ）：$\alpha_1,\alpha_2,\cdots,\alpha_s$；向量组（Ⅱ）：$\beta_1,\beta_2,\cdots,\beta_t$，其中 $\alpha_i$（$i=1,2,\cdots,s$）与 $\beta_j$（$j=1,2,\cdots,t$）维数相同，若 $\alpha_i$ 均可由 $\beta_1,\beta_2,\cdots,\beta_t$ 线性表示，且 $\beta_j$ 均可由 $\alpha_1,\alpha_2,\cdots,\alpha_s$ 线性表示，则称向量组（Ⅰ）与向量组（Ⅱ）等价.
+
+其等价命题：
+
+（1）$r(\alpha_1,\alpha_2,\cdots,\alpha_s)=r(\beta_1,\beta_2,\cdots,\beta_t)$，且可单方向表示.
+
+\begin{fnote}
+【注】所谓可单方向表示，是指 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_s$ 与 $\beta_1$，$\beta_2$，$\cdots$，$\beta_t$ 这两个向量组中的某一个向量组可由另一个向量组线性表示.
+\end{fnote}
+
+（2）$r(\alpha_1,\alpha_2,\cdots,\alpha_s)=r(\beta_1,\beta_2,\cdots,\beta_t)=r(\alpha_1,\alpha_2,\cdots,\alpha_s,\beta_1,\beta_2,\cdots,\beta_t)$.（三秩相等）
+
+% -----------------------------------------------------------
+% PDF p81（印刷页 70）
+% -----------------------------------------------------------
+
+\begin{fcard}{例 6.6}
+求常数 $a$ 的值，使 $\alpha_1=[1,1,a]^{\mathrm T}$，$\alpha_2=[1,a,1]^{\mathrm T}$，$\alpha_3=[a,1,1]^{\mathrm T}$ 能由 $\beta_1=[1,1,a]^{\mathrm T}$，$\beta_2=[-2,a,4]^{\mathrm T}$，$\beta_3=[-2,a,a]^{\mathrm T}$ 线性表示，但 $\beta_1$，$\beta_2$，$\beta_3$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示.
+
+【解】$\alpha_1$，$\alpha_2$，$\alpha_3$ 能由 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，则 $r(\alpha_1,\alpha_2,\alpha_3)\le r(\beta_1,\beta_2,\beta_3)$. 又 $\beta_1$，$\beta_2$，$\beta_3$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示，故 $r(\alpha_1,\alpha_2,\alpha_3)<r(\beta_1,\beta_2,\beta_3)$. 而 $r(\beta_1,\beta_2,\beta_3)\le3$，于是 $r(\alpha_1,\alpha_2,\alpha_3)<3$，从而 $|\alpha_1,\alpha_2,\alpha_3|=0$，解得 $a=1$ 或 $a=-2$.（否则由本讲的“三、等价命题（1）”知，$\alpha_1$，$\alpha_2$，$\alpha_3$ 与 $\beta_1$，$\beta_2$，$\beta_3$ 等价）
+
+当 $a=1$ 时，$\alpha_1=\alpha_2=\alpha_3=\beta_1=[1,1,1]^{\mathrm T}$，显然 $\alpha_1$，$\alpha_2$，$\alpha_3$ 可由 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，而此时 $\beta_2=[-2,1,4]^{\mathrm T}$ 不能由 $\alpha_1$，$\alpha_2$，$\alpha_3$ 线性表示，即 $a=1$ 符合题意.
+
+当 $a=-2$ 时，有
+\fml{[\beta_1,\beta_2,\beta_3,\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}1&-2&-2&1&1&-2\\1&-2&-2&1&-2&1\\-2&4&-2&-2&1&1\end{bmatrix}\quad(\text{第 1 行乘 }(-1)\text{ 加至第 2 行，第 1 行乘 }2\text{ 加至第 3 行})}
+\fml{\to\begin{bmatrix}1&-2&-2&1&1&-2\\0&0&0&-3&3&3\\0&0&-6&0&3&-3\end{bmatrix}\to\begin{bmatrix}1&-2&-2&1&1&-2\\0&0&-6&0&3&-3\\0&0&0&0&-3&3\end{bmatrix}\quad(\text{第 2、3 行互换}),}
+可知 $r(\beta_1,\beta_2,\beta_3)=2$，而 $r(\beta_1,\beta_2,\beta_3,\alpha_2)=3$，故 $\alpha_2$ 不能由向量组 $\beta_1$，$\beta_2$，$\beta_3$ 线性表示，所以 $a=-2$ 不符合题意.
+
+综上所述，$a=1$.
+\end{fcard}
+
+\fsec{深化四　内积与柯西–施瓦茨不等式}
+
+\begin{fdeep}{内积与欧几里得空间：四条公理与两个典型例子}
+设 $V$ 是实数域 $\mathbb{R}$ 上的线性空间。若在 $V$ 上定义了一个二元实函数 $(\alpha,\beta)$，满足
+\fml{(\alpha,\beta)=(\beta,\alpha);\qquad (k\alpha,\beta)=k(\alpha,\beta);\qquad (\alpha+\beta,\gamma)=(\alpha,\gamma)+(\beta,\gamma);\qquad (\alpha,\alpha)\ge0}
+并且 $(\alpha,\alpha)=0$ 当且仅当 $\alpha=\mathbf{0}$，
+就称 $(\alpha,\beta)$ 为 $\alpha$ 与 $\beta$ 的\textbf{内积}，$V$ 称为\textbf{欧几里得空间}（简称欧氏空间）。这四条依次叫\textbf{对称性、齐次性、可加性、正定性}；前三条合起来就是“对第一个变元线性”（再配合对称性即对两个变元都线性），第四条保证长度有意义。
+
+\textbf{两个典型例子}：
+（1）$\mathbb{R}^n$ 中 $\alpha=(a_1,\dots,a_n)$，$\beta=(b_1,\dots,b_n)$，规定 $(\alpha,\beta)=a_1b_1+a_2b_2+\cdots+a_nb_n$，称为 $\mathbb{R}^n$ 的\textbf{标准内积}；$n=3$ 时它就是几何向量内积的坐标表达式。
+（2）$m\times n$ 实矩阵空间 $M_{m,n}(\mathbb{R})$ 中规定 $(A,B)=\operatorname{tr}(A^{\mathrm T}B)=\sum_{i,j}a_{ij}b_{ij}$，称为 \textbf{Frobenius 内积}。
+\fbref{}服务考纲〔向量〕“理解内积的概念”。考纲要求会判断一个二元函数是否为内积，判据就是这四条：四条中任何一条（尤其是正定性）不成立就不是内积。\warn{注意}正定性里“等号仅当 $\alpha=\mathbf{0}$ 时成立”这一细节，类似 $(A,B)=\operatorname{tr}(AB)$ 或含权为负的“内积”都栽在这一点上。
+\end{fdeep}
+
+\begin{fdeep}{柯西–施瓦茨不等式：证明套路与等号条件}
+对欧氏空间中任意向量 $\alpha,\beta$，有
+\fml{\lvert(\alpha,\beta)\rvert\le\lVert\alpha\rVert\,\lVert\beta\rVert}
+等号成立当且仅当 $\alpha$ 与 $\beta$ \textbf{线性相关}。（北大称柯西–布尼亚科夫斯基不等式。）
+
+\textbf{证明套路（“造一个非负二次式，看判别式”）}：$\beta=\mathbf{0}$ 时显然。设 $\beta\ne\mathbf{0}$，$t$ 为实变量，作 $\gamma=\alpha+t\beta$。由内积的正定性 $(\gamma,\gamma)\ge0$ 得
+\fml{(\alpha,\alpha)+2(\alpha,\beta)t+(\beta,\beta)t^{2}\ge0}
+它对一切实数 $t$ 成立。这是开口向上的二次式恒非负，判别式必 $\le0$：$4(\alpha,\beta)^2-4(\alpha,\alpha)(\beta,\beta)\le0$，即得结论。也可直接取 $t=-\dfrac{(\alpha,\beta)}{(\beta,\beta)}$ 代入化简（这正是 $\alpha$ 在 $\beta$ 方向上投影系数的来源）。等号成立 $\iff$ 存在 $t$ 使 $\gamma=\mathbf{0}$ $\iff$ $\alpha,\beta$ 线性相关。
+
+\textbf{两个直接用途}：$\mathbb{R}^n$ 中即 $\lvert\sum a_ib_i\rvert\le\sqrt{\sum a_i^2}\sqrt{\sum b_i^2}$；函数空间中即 $\lvert\int_a^b fg\,\mathrm{d}x\rvert\le\bigl(\int_a^b f^2\,\mathrm{d}x\bigr)^{1/2}\bigl(\int_a^b g^2\,\mathrm{d}x\bigr)^{1/2}$。正因为有它，$\cos\langle\alpha,\beta\rangle=\dfrac{(\alpha,\beta)}{\lVert\alpha\rVert\lVert\beta\rVert}$ 才落在 $[-1,1]$ 内，夹角定义才合法。
+\fbref{}服务考纲〔向量〕“了解内积的概念”“掌握施密特方法”。不等式本身常用于求参数范围与证明不等式：把待证式写成内积形式 $(\alpha,\beta)$，再套 $\lvert(\alpha,\beta)\rvert\le\lVert\alpha\rVert\lVert\beta\rVert$。等号条件“线性相关”是很多证明题取等号的依据，也是施密特正交化中“投影系数”分母 $(\beta_i,\beta_i)$ 必须非零（即 $\beta_i\ne\mathbf{0}$）的理论保证。
+\end{fdeep}
+
+\begin{fdeep}{长度、夹角、正交与勾股定理}
+\textbf{长度}：非负实数 $\lVert\alpha\rVert=\sqrt{(\alpha,\alpha)}$ 称为向量 $\alpha$ 的长度（模）。它满足 $\lVert k\alpha\rVert=\lvert k\rvert\,\lVert\alpha\rVert$，且只有零向量的长度为零。长度为 $1$ 的向量称为单位向量；当 $\alpha\ne\mathbf{0}$ 时，$\dfrac{1}{\lVert\alpha\rVert}\alpha$ 是单位向量，这一步叫把 $\alpha$ \textbf{单位化}。
+
+\textbf{夹角}：非零向量 $\alpha,\beta$ 的夹角定义为 $\langle\alpha,\beta\rangle=\arccos\dfrac{(\alpha,\beta)}{\lVert\alpha\rVert\lVert\beta\rVert}$，取值在 $[0,\pi]$。由柯西–施瓦茨不等式，这个余弦值必落在 $[-1,1]$ 内。
+
+\textbf{三角不等式}：$\lVert\alpha+\beta\rVert\le\lVert\alpha\rVert+\lVert\beta\rVert$。证明只需把 $\lVert\alpha+\beta\rVert^2$ 展开，用柯西–施瓦茨不等式控制中间项 $2(\alpha,\beta)\le2\lVert\alpha\rVert\lVert\beta\rVert$，右边恰好是 $(\lVert\alpha\rVert+\lVert\beta\rVert)^2$。
+
+\textbf{正交}：若 $(\alpha,\beta)=0$，就称 $\alpha$ 与 $\beta$ \textbf{正交}（互相垂直），记作 $\alpha\perp\beta$。零向量与任何向量（包括它自己）都正交，所以讨论正交向量组时通常要求\textbf{非零}。两个非零向量正交 $\iff$ 它们的夹角为 $\dfrac{\pi}{2}$。
+
+\textbf{勾股定理}：当 $\alpha\perp\beta$ 时 $\lVert\alpha+\beta\rVert^2=\lVert\alpha\rVert^2+\lVert\beta\rVert^2$；更一般地，若 $\alpha_1,\dots,\alpha_m$ 两两正交，则 $\lVert\alpha_1+\cdots+\alpha_m\rVert^2=\lVert\alpha_1\rVert^2+\cdots+\lVert\alpha_m\rVert^2$。
+\fbref{}服务考纲〔向量〕“理解内积的概念，掌握用内积判断向量的正交性”。正交的判据就是内积为零，而内积在标准正交基下化简为坐标分量乘积之和，所以“判断正交”常常转化为“算一个点积”。勾股定理的推广形式是“正交组”题目的万能展开式，比逐项算内积快得多。
+\end{fdeep}
+
+\fsec{四、向量空间（仅数学一）}
+
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4））（位于本节标题内，已删）
+
+\fsec{1. 概念}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{22}$（转换等价表述））（位于本标题内，已删）
+% OPD 蓝色标注（原稿）：标题右下方蓝色旁注「→将这里的概念与方程组相应的概念做好等价转化」
+
+设 $V$ 是向量空间，如果 $V$ 中有 $r$ 个向量 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$，满足
+
+① $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 线性无关；
+
+② $V$ 中任一向量都可由 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 线性表示.
+
+则称向量组 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 为向量空间 $V$ 的一个基，称 $r$ 为向量空间 $V$ 的维数，并称 $V$ 为 $r$ 维向量空间.
+
+若 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 是 $r$ 维向量空间 $V$ 的一个基，则 $V$ 中任一向量 $\xi$ 都可由这个基唯一地线性表示：
+\fml{\xi=x_1\alpha_1+x_2\alpha_2+\cdots+x_r\alpha_r,}
+称有序数组 $x_1$，$x_2$，$\cdots$，$x_r$ 为向量 $\xi$ 在基 $\alpha_1$，$\alpha_2$，$\cdots$，$\alpha_r$ 下的坐标. 从而 $V$ 可表示为
+\fml{V=\{\xi=x_1\alpha_1+x_2\alpha_2+\cdots+x_r\alpha_r|x_1,x_2,\cdots,x_r\in\mathbb{R}\}.}
+
+\fsec{深化五　过渡矩阵、坐标变换与度量矩阵}
+
+\begin{fdeep}{过渡矩阵与坐标变换：方向千万别记反}
+设 $\varepsilon_1,\dots,\varepsilon_n$ 与 $\eta_1,\dots,\eta_n$ 是同一个 $n$ 维空间的两组基。
+“用旧基表示新基”就是\textbf{过渡矩阵} $P$：
+\fml{(\eta_1,\dots,\eta_n)=(\varepsilon_1,\dots,\varepsilon_n)P}
+把这两组基分别写成行向量组，$P$ 的第 $j$ 列就是 $\eta_j$ 在旧基下的坐标。
+\textbf{一个关键性质}：$P$ 必可逆（因为两组基能互相线性表示）。
+反之，任一可逆矩阵 $P$ 都能通过这个等式定义出一组新基——这就是“可逆矩阵”与“基变换”的一一对应。
+
+\medskip
+\textbf{坐标变换公式（最容易记反的一步）}：
+设向量 $\alpha$ 在旧基下坐标为 $x$、在新基下坐标为 $y$，则
+\fml{\alpha=(\varepsilon_1,\dots,\varepsilon_n)x=(\eta_1,\dots,\eta_n)y
+=(\varepsilon_1,\dots,\varepsilon_n)Py}
+比较系数（旧基线性无关）得 $x=Py$，即
+\fml{\boxed{\,y=P^{-1}x\,}}
+\textbf{记忆要点}：\emph{基的变换用 $P$，坐标的变换用 $P^{-1}$}——\textbf{两者方向相反}。
+原因很直观：新基“变长了”（被 $P$ 放大），同一个向量的坐标就得“变短”（被 $P^{-1}$ 缩小）才能对上。
+
+\textbf{两条实用性质}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{链式法则}：若从第 1 组基到第 2 组基的过渡矩阵为 $P_1$，从第 2 组基到第 3 组基的为 $P_2$，
+      则从第 1 组基到第 3 组基的过渡矩阵为 $P_1P_2$（\textbf{顺序与基的顺序一致，不反}）。
+      多组基连续转换时不必逐次硬算。
+\item \textbf{过渡矩阵与相似的联系}：同一线性变换在两组基下的矩阵 $A$ 与 $B$ 满足
+      $B=P^{-1}AP$——这正是“相似”的来源。所以第 8 章讲相似矩阵时，
+      $P$ 的几何身份就是\textbf{过渡矩阵}，$P^{-1}AP$ 就是“换个基再看同一个变换”。
+\end{itemize}
+\fbref{}服务考纲〔向量〕“了解基变换和坐标变换公式，会求过渡矩阵”。
+这条是考纲明确要求但 9 讲覆盖薄弱的内容。考场上两个高频失分点：
+① 把坐标变换写成 $y=Px$（方向反了）；② 链式法则乘的顺序反了。
+\must{记住}“基用 $P$、坐标用 $P^{-1}$”与“顺序与基的顺序一致”，两处都不会错。
+\end{fdeep}
+
+\begin{fdeep}{度量矩阵：把内积写成矩阵，换基时变合同}
+设 $\varepsilon_1,\dots,\varepsilon_n$ 是 $n$ 维欧氏空间 $V$ 的一组基，$a_{ij}=(\varepsilon_i,\varepsilon_j)$，则 $A=(a_{ij})$ 称为这组基的\textbf{度量矩阵}（它就是向量组 $\varepsilon_1,\dots,\varepsilon_n$ 的 Gram 矩阵；其定义、秩公式与正定性的完整讨论见本章 Gram 矩阵深化块，此处不重复）。
+
+有了它，内积可以\textbf{按坐标直接算}：若 $\alpha=\sum_i x_i\varepsilon_i$，$\beta=\sum_j y_j\varepsilon_j$，则
+\fml{(\alpha,\beta)=\sum_{i,j}a_{ij}x_iy_j=X^{\mathrm T}AY}
+其中 $X=(x_1,\dots,x_n)^{\mathrm T}$、$Y=(y_1,\dots,y_n)^{\mathrm T}$ 分别是 $\alpha,\beta$ 的坐标。把内积展开，这正是一个以 $A$ 为矩阵的二次型：$(\alpha,\alpha)=X^{\mathrm T}AX$。所以\textbf{度量矩阵完全确定了内积}；这也说明“$A$ 正定”与“长度的平方恒非负、且仅零向量为零”是同一句话。
+
+\textbf{换基时的变化}：若从 $\varepsilon_1,\dots,\varepsilon_n$ 到 $\eta_1,\dots,\eta_n$ 的过渡矩阵为 $C$，则新基的度量矩阵 $B$ 满足
+\fml{B=C^{\mathrm T}AC}
+即不同基下的度量矩阵彼此\textbf{合同}。请对照二次型的换元 $X=CY$：此时矩阵同样变成 $C^{\mathrm T}AC$，两处是同一个代数事实。标准正交基之所以好算，正因为它的度量矩阵是单位矩阵 $E$，$(\alpha,\beta)=X^{\mathrm T}Y$ 退化成普通点积。
+\fbref{}服务考纲〔向量〕“理解内积的概念”，并与〔二次型〕“了解合同变换”直接呼应。三个考场用途：题目给出基的内积表（即度量矩阵）时，一切内积计算化为 $X^{\mathrm T}AY$，不必逐个展开；“合同”与“相似”的区分中，度量矩阵换基正是合同的教科书例子；由 $B=C^{\mathrm T}AC$ 知 $|B|=|C|^{2}|A|$，可判断换基前后度量矩阵行列式的符号与是否为零都不变。
+\end{fdeep}
+
+\begin{fdeep}{Gram 矩阵（度量矩阵）：定义与三种来源}
+\key{定义}：欧氏空间 $V$ 中向量组 $\alpha_{1},\alpha_{2},\dots,\alpha_{m}$ 的 Gram 矩阵为
+\fml{G(\alpha_{1},\alpha_{2},\dots,\alpha_{m})=
+\begin{pmatrix}
+(\alpha_{1},\alpha_{1})&(\alpha_{1},\alpha_{2})&\cdots&(\alpha_{1},\alpha_{m})\\
+(\alpha_{2},\alpha_{1})&(\alpha_{2},\alpha_{2})&\cdots&(\alpha_{2},\alpha_{m})\\
+\vdots & \vdots & & \vdots\\
+(\alpha_{m},\alpha_{1})&(\alpha_{m},\alpha_{2})&\cdots&(\alpha_{m},\alpha_{m})
+\end{pmatrix}.}
+欧氏空间 $V$ 中关于基 $\alpha_{1},\dots,\alpha_{n}$ 的度量矩阵就是 $G(\alpha_{1},\dots,\alpha_{n})$；特别地，$V$ 的任一标准正交基的度量矩阵是单位矩阵 $E$。
+\textbf{第三种来源（最实用）}：若向量组 $\alpha_{1},\dots,\alpha_{m}$ 在标准正交基下的坐标分别为矩阵 $A$ 的列向量，则
+\fml{G(\alpha_{1},\alpha_{2},\dots,\alpha_{m})=A^{\mathrm T}A.}
+
+\fbref{}服务考纲〔向量〕“了解内积的概念”。这是把“内积条件”翻译成\textbf{矩阵方程}的桥梁：凡题目出现“$(\beta,\alpha_{i})=b_{i}$”，写出的系数矩阵就是 Gram 矩阵；另外 $A^{\mathrm T}A$、$AA^{\mathrm T}$ 一律要认成 Gram 矩阵（分别是列、行向量组的），这是把抽象内积题“矩阵化”的第一步。
+\end{fdeep}
+
+\fsec{2. 过渡矩阵}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{42}$（引入符号））（位于本标题内，已删）
+
+设 $V$ 的两个基 $\eta_1$，$\eta_2$，$\cdots$，$\eta_n$；$\xi_1$，$\xi_2$，$\cdots$，$\xi_n$，若
+\fml{[\eta_1,\eta_2,\cdots,\eta_n]=[\xi_1,\xi_2,\cdots,\xi_n]C,}
+则称 $C$ 为由基 $\xi_1$，$\xi_2$，$\cdots$，$\xi_n$ 到基 $\eta_1$，$\eta_2$，$\cdots$，$\eta_n$ 的过渡矩阵（注意 $C$ 的位置）.
+
+\fsec{3. 坐标变换}
+
+% OPD 蓝色标注（原稿）：（$D_1$（常规操作）$+D_{42}$（引入符号））（位于本标题内，已删）
+
+\fml{\alpha=[\xi_1,\xi_2,\cdots,\xi_n]x=[\eta_1,\eta_2,\cdots,\eta_n]y=[\xi_1,\xi_2,\cdots,\xi_n]Cy,}
+
+% -----------------------------------------------------------
+% PDF p82（印刷页 71）
+% -----------------------------------------------------------
+
+其中 $x=Cy$ 称为坐标变换公式.
+
+\begin{fcard}{例 6.7}
+设 $\mathbb{R}^3$ 中的基（Ⅰ）$\beta_1=[1,0,0]^{\mathrm T}$，$\beta_2=[1,1,0]^{\mathrm T}$，$\beta_3=[1,1,1]^{\mathrm T}$ 到基（Ⅱ）$\alpha_1=[1,a,0]^{\mathrm T}$，$\alpha_2=[0,1,b]^{\mathrm T}$，$\alpha_3=[1,0,1]^{\mathrm T}$ 的过渡矩阵为 $\begin{bmatrix}0&-1&1\\1&0&-1\\0&1&1\end{bmatrix}$.
+
+（1）求 $a$，$b$ 的值；
+
+（2）已知 $\xi$ 在基（Ⅰ）$\beta_1$，$\beta_2$，$\beta_3$ 下的坐标为 $[1,0,2]^{\mathrm T}$，求 $\xi$ 在基（Ⅱ）$\alpha_1$，$\alpha_2$，$\alpha_3$ 下的坐标.
+
+【解】（1）设 $[\alpha_1,\alpha_2,\alpha_3]=[\beta_1,\beta_2,\beta_3]C$，其中 $C$ 是过渡矩阵，则
+\fmll{C=[\beta_1,\beta_2,\beta_3]^{-1}[\alpha_1,\alpha_2,\alpha_3]=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}^{-1}\begin{bmatrix}1&0&1\\a&1&0\\0&b&1\end{bmatrix}}
+\fmll{=\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}\begin{bmatrix}1&0&1\\a&1&0\\0&b&1\end{bmatrix}}
+\fmll{=\begin{bmatrix}1-a&-1&1\\a&1-b&-1\\0&b&1\end{bmatrix}=\begin{bmatrix}0&-1&1\\1&0&-1\\0&1&1\end{bmatrix},}
+故 $a=b=1$.
+
+（2）设 $\xi=[\alpha_1,\alpha_2,\alpha_3]\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=[\beta_1,\beta_2,\beta_3]\begin{bmatrix}1\\0\\2\end{bmatrix}$，则
+\fmll{\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=[\alpha_1,\alpha_2,\alpha_3]^{-1}[\beta_1,\beta_2,\beta_3]\begin{bmatrix}1\\0\\2\end{bmatrix}=\begin{bmatrix}1&0&1\\1&1&0\\0&1&1\end{bmatrix}^{-1}\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1\\0\\2\end{bmatrix}}
+\fmll{=\frac{1}{2}\begin{bmatrix}1&1&-1\\-1&1&1\\1&-1&1\end{bmatrix}\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}1\\0\\2\end{bmatrix}=\frac{1}{2}\begin{bmatrix}3\\1\\3\end{bmatrix},}
+得 $\xi$ 在基（Ⅱ）$\alpha_1$，$\alpha_2$，$\alpha_3$ 下的坐标为 $\left[\frac{3}{2},\frac{1}{2},\frac{3}{2}\right]^{\mathrm T}$.
+\end{fcard}
+
+% 第 6 讲至此结束（PDF p82 印刷页 71 下半页整页留白，无「习题」栏）。
+% 第 7 讲「特征值与特征向量」自印刷页 72（PDF p83）开始。
+
+\fsec{深化六　施密特正交化与正交矩阵}
+
+\begin{fdeep}{施密特正交化：本质是“逐个剔除已有方向上的投影”}
+给定线性无关组 $\alpha_1,\dots,\alpha_r$，要把它变成规范正交组 $\eta_1,\dots,\eta_r$。做法分两步：
+
+\textbf{第一步：正交化}（先得到两两正交、但长度不一定为 $1$ 的 $\beta_i$）
+\fml{\beta_1=\alpha_1,\qquad
+\beta_k=\alpha_k-\sum_{i=1}^{k-1}\frac{(\alpha_k,\beta_i)}{(\beta_i,\beta_i)}\,\beta_i
+\quad(k=2,\dots,r)}
+\textbf{它在做什么}：$\dfrac{(\alpha_k,\beta_i)}{(\beta_i,\beta_i)}\beta_i$ 正是 $\alpha_k$ 在 $\beta_i$ 方向上的
+\textbf{投影向量}，所以每一步是“从 $\alpha_k$ 中扣掉它在所有已有方向上的投影”，
+剩下的部分自然与前面每个 $\beta_i$ 都正交。\textbf{这就是公式的唯一含义，不必死记。}
+
+\textbf{第二步：单位化}
+\fml{\eta_k=\frac{1}{\lVert\beta_k\rVert}\beta_k}
+
+\textbf{三条必须清楚的性质}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{张成的空间不变}：$\operatorname{span}\{\eta_1,\dots,\eta_k\}=\operatorname{span}\{\alpha_1,\dots,\alpha_k\}$
+      对每个 $k$ 都成立。原因：每一步都只是“加减已有向量的倍数”，不改变张成空间。
+      \textbf{这条最重要}——它保证了正交化不会“丢掉”或“多出”方向。
+\item \textbf{规范正交组必线性无关}，且 $\lVert\eta_i\rVert=1$、$(\eta_i,\eta_j)=0\ (i\ne j)$，
+      即 $Q^{\mathrm T}Q=E$。
+\item 若对\textbf{矩阵的列}做这一步，就得到 $A=QR$ 分解（$R$ 为上三角可逆阵）——
+      这是“正交化”在线性代数里的主要用途之一。
+\end{enumerate}
+
+\warn{常见符号陷阱}：分母是 $(\beta_i,\beta_i)$ 而\textbf{不是} $\lVert\beta_i\rVert$；
+如果用的是已经单位化的 $\eta_i$，则因为 $(\eta_i,\eta_i)=1$，系数就简化为
+$(\alpha_k,\eta_i)$——\warn{先把公式用在未单位化版本上更不容易错}。
+
+\fbref{}服务考纲〔向量〕“掌握线性无关向量组正交规范化的施密特（Schmidt）方法”。
+这是实对称矩阵正交对角化（第 7、8 章）的必要前置：那里求出的特征向量必须正交化才能拼成正交矩阵 $Q$。
+理解“投影剔除”之后，考场上即使一时想不起公式，也能现推出每一步该减什么。
+\end{fdeep}
+
+\begin{fdeep}{正交矩阵：六条等价刻画与“保长度”的本质}
+设 $Q$ 为 $n$ 阶实矩阵，以下命题\textbf{两两等价}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item $Q^{\mathrm T}Q=E$（即 $Q^{\mathrm T}$ 就是 $Q^{-1}$）；
+\item $QQ^{\mathrm T}=E$；
+\item $Q$ 的\textbf{列向量组}是规范正交基；
+\item $Q$ 的\textbf{行向量组}是规范正交基；
+\item $Q$ 可逆且 $Q^{-1}=Q^{\mathrm T}$；
+\item 对任意向量 $x$ 有 $\lVert Qx\rVert=\lVert x\rVert$（保长度）。
+\end{enumerate}
+\textbf{为什么 ①$\iff$③}：$Q^{\mathrm T}Q$ 的第 $(i,j)$ 元恰好是 $Q$ 第 $i$ 列与第 $j$ 列的内积，
+故 $Q^{\mathrm T}Q=E$ 就是在说“列的模长全为 $1$、两两正交”，正是规范正交基的定义。
+\textbf{为什么 ⑥ 成立}：$\lVert Qx\rVert^{2}=(Qx)^{\mathrm T}(Qx)=x^{\mathrm T}Q^{\mathrm T}Qx=x^{\mathrm T}x=\lVert x\rVert^{2}$。
+逆命题也可证，所以“保长度”可以作为正交矩阵的定义。
+
+\textbf{另外两条常用性质}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{正交变换保内积}：$(Qx,Qy)=(x,y)$——保长度只是取 $x=y$ 的特例。
+      故正交变换是“刚体运动”（旋转或反射），不拉伸、不扭曲。
+\item $\lvert Q\rvert=\pm1$；若 $\lvert Q\rvert=1$ 称为\textbf{第一类}（旋转），$\lvert Q\rvert=-1$ 为\textbf{第二类}（含反射）。
+      $n=2$ 时第一类就是旋转矩阵 $\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$。
+\item 两个正交矩阵之积、正交矩阵的逆仍是正交矩阵（构成一个群）。
+\end{itemize}
+\fbref{}服务考纲〔向量〕“了解规范正交基、正交矩阵的概念以及它们的性质”。
+这六条要\must{整体记住}：选择题常问“下列哪个是正交矩阵的充要条件”，
+而“正交”与“可逆”的区别在于前者要求列向量\textbf{既正交又单位化}（可逆只要求线性无关）。
+第 7、8 章用正交矩阵把实对称矩阵对角化时，靠的就是这套性质。
+\end{fdeep}
+
+\begin{fdeep}{标准正交基：正交组必线性无关，坐标与内积同时变简单}
+\key{定义}：欧氏空间 $V$ 中一组\textbf{非零}向量若两两正交，称为\textbf{正交向量组}；由 $n$ 个向量组成的正交向量组称为\textbf{正交基}；由单位向量组成的正交基称为\textbf{标准正交基}（规范正交基），即满足 $(\eta_i,\eta_j)=\delta_{ij}$。
+
+\textbf{正交向量组必线性无关}。证明只有两步：设 $k_1\alpha_1+\cdots+k_m\alpha_m=\mathbf{0}$，用 $\alpha_i$ 与等式两边作内积，由两两正交得 $k_i(\alpha_i,\alpha_i)=0$；又 $\alpha_i\ne\mathbf{0}$ 故 $(\alpha_i,\alpha_i)>0$，于是 $k_i=0$。由此立即得到：$n$ 维欧氏空间中两两正交的非零向量\textbf{不可能超过 $n$ 个}。
+
+\textbf{标准正交基的三条好处}：
+1）一组基是标准正交基 $\iff$ 它的度量矩阵是单位矩阵 $E$（因为 $a_{ij}=(\eta_i,\eta_j)=\delta_{ij}$）。标准正交基一定存在。
+2）坐标可以“用内积直接读出”：若 $\alpha=x_1\eta_1+\cdots+x_n\eta_n$，则 $x_i=(\eta_i,\alpha)$，即 $\alpha=(\eta_1,\alpha)\eta_1+\cdots+(\eta_n,\alpha)\eta_n$。
+3）内积化为坐标的普通点积：$(\alpha,\beta)=x_1y_1+x_2y_2+\cdots+x_ny_n=X^{\mathrm T}Y$。这就是“在标准正交基下，欧氏空间的几何就是 $\mathbb{R}^n$ 的几何”的原因。
+\fbref{}服务考纲〔向量〕“了解规范正交基的概念及其性质”。选择题常考“正交向量组是否线性无关”（是）、“$n$ 维空间中能否有 $n+1$ 个两两正交的非零向量”（不能）。第 2 条把“求坐标”变成“算内积”，在已知标准正交基的题目中比解方程组快得多；第 3 条则是实对称矩阵正交相似对角化后内积仍好算的依据。
+\end{fdeep}
+
+\begin{fdeep}{正交组的扩充：定理 1 的构造法本身就是施密特方法}
+\key{定理 1}：$n$ 维欧氏空间中任一正交向量组都能扩充成一组正交基。
+
+证明用的是对 $n-m$ 的归纳，但\textbf{归纳步给出的就是构造方法}：设已有正交组 $\alpha_1,\dots,\alpha_m$，取一个不能被它们线性表出的向量 $\beta$，令
+\fml{\alpha_{m+1}=\beta-k_1\alpha_1-k_2\alpha_2-\cdots-k_m\alpha_m,\qquad k_i=\frac{(\beta,\alpha_i)}{(\alpha_i,\alpha_i)}}
+这里的 $k_i$ 正是 $\beta$ 在 $\alpha_i$ 方向上的\textbf{投影系数}，故 $(\alpha_{m+1},\alpha_i)=(\beta,\alpha_i)-k_i(\alpha_i,\alpha_i)=0$，即 $\alpha_{m+1}$ 与每个 $\alpha_i$ 都正交。又因 $\beta$ 不能被 $\alpha_1,\dots,\alpha_m$ 表出，故 $\alpha_{m+1}\ne\mathbf{0}$。如此逐个扩充，最后单位化即得标准正交基。把“已知正交组”换成“只单位化了前 $m$ 个”的情形，同一套式子逐次做下去就是\textbf{施密特正交化}（其完整叙述见主控撰写的对应拓展块）。
+
+\textbf{一个常被忽略的等价说法}：两组标准正交基之间的\textbf{过渡矩阵必是正交矩阵}。设 $\eta_1,\dots,\eta_n$ 与 $\varepsilon_1,\dots,\varepsilon_n$ 都是标准正交基，$(\eta_1,\dots,\eta_n)=(\varepsilon_1,\dots,\varepsilon_n)A$，则 $A$ 的第 $j$ 列是 $\eta_j$ 在标准正交基 $\varepsilon_i$ 下的坐标，由 $(\eta_i,\eta_j)=\delta_{ij}$ 代入内积的坐标表达式即得 $A^{\mathrm T}A=E$。
+\fbref{}服务考纲〔向量〕“掌握线性无关向量组正交规范化的施密特方法”与“了解正交矩阵”。扩充定理的公式 $\alpha_{m+1}=\beta-\sum\frac{(\beta,\alpha_i)}{(\alpha_i,\alpha_i)}\alpha_i$ 就是施密特方法的单步，理解了它，正交化公式就不必硬背（“减掉已有方向上的投影”）。而“标准正交基到标准正交基的过渡矩阵是正交矩阵”把第 6 章的基变换与第 7、8 章的正交对角化串成一条线：实对称矩阵正交对角化时拼出的 $Q$ 正是两组标准正交基之间的过渡矩阵。
+\end{fdeep}
+
+\begin{fdeep}{$|Q|=\pm1$ 的两条直接推论}
+\textbf{推论一}：设 $A$ 是 $n$ 阶正交矩阵且 $|A|=-1$，则 $-1$ 必是 $A$ 的特征值。证明只用行列式的乘法与转置：
+\fml{|E+A|=|AA^{\mathrm T}+A|=|A|\,|A^{\mathrm T}+E|=|A|\,|A+E|=-|E+A|,}
+故 $|E+A|=0$。把它与“奇数阶 $|A|=1$”合起来可统一记忆：正交矩阵的实特征值只能是 $\pm1$；$n$ 为奇数时复特征值成共轭对出现、乘积为 $1$，故实特征值有奇数个且乘积 $=|A|$，于是 $|A|=1$ 时 $1$ 必是特征值（$|A|=-1$ 时 $-1$ 必是特征值）。三阶正交阵中这是最常用的一条。
+\textbf{推论二}：设 $A,B$ 都是正交矩阵且 $|A|+|B|=0$，则 $|A+B|=0$。证明：由 $|A|^{2}=|B|^{2}=1$ 与 $|A|+|B|=0$ 得 $|AB|=-1$，于是
+\fml{|A+B|=|AB^{\mathrm T}B+BA^{\mathrm T}B|=|A|\,|(A+B)^{\mathrm T}|\,|B|=-|A+B|.}
+
+\fbref{}服务考纲〔向量〕正交矩阵、〔行列式〕行列式的性质。“正交 + 行列式为 $-1$（或奇数阶且行列式为 $1$）$\Rightarrow$ 必有 $\pm1$ 特征值”是选择题与证明题的高频切口；而 $|A|+|B|=0$ 推出 $|A+B|=0$ 的套路就是“乘 $A^{\mathrm T}A$ 或 $B^{\mathrm T}B$ 造出转置”。
+\end{fdeep}
+
+\begin{fdeep}{正交矩阵的元素与代数余子式：$a_{ij}=\pm A_{ij}$}
+设 $A=(a_{ij})$ 是 $n$ 阶\textbf{实}方阵，下面两组命题等价：
+（一）$A$ 是正交矩阵且 $|A|=1$ 或 $|A|=-1$；
+（二）$|A|=1$ 时，$A$ 的每一个元素等于该元素的代数余子式，即 $a_{ij}=A_{ij}$；$|A|=-1$ 时，$A$ 的每一个元素等于该元素的代数余子式的相反数，即 $a_{ij}=-A_{ij}$（$1\le i,j\le n$）。
+\textbf{证明思路（一句话）}：核心是伴随矩阵的恒等式 $AA^{*}=|A|E$ 与 $A^{*}=|A|A^{-1}$；正交时 $A^{-1}=A^{\mathrm T}$，故 $A^{*}=|A|A^{-1}=|A|A^{\mathrm T}$，把 $|A|=1$ 或 $-1$ 代入并逐元素比较即得。反过来只用到 $A^{*}=\pm A^{\mathrm T}$ 与 $AA^{*}=|A|E$，直接算出 $A^{\mathrm T}A=E$。
+
+\fbref{}服务考纲〔行列式〕代数余子式、〔矩阵〕伴随矩阵与逆矩阵。这是一个\textbf{反着用}的判定：题目若给出“每个元素等于它的代数余子式”（或都等于代数余子式的相反数），不必展开九个行列式，直接断言 $A$ 正交且 $|A|=\pm1$；反之已知正交，即可把元素与代数余子式互相替换，用来化简含 $A^{*}$ 的式子。
+\end{fdeep}
+
+\begin{fdeep}{上（下）三角的正交矩阵必为对角矩阵，对角元只能是 $\pm1$}
+\textbf{结论}：任一上三角正交矩阵必为对角矩阵，且对角线上的元素为 $1$ 或 $-1$；下三角情形同理。
+\textbf{证明思路一（用求逆的封闭性）}：$A$ 上三角正交，则 $A^{-1}$ 也是上三角；而 $A^{-1}=A^{\mathrm T}$ 是下三角，既上三角又下三角的矩阵必为对角矩阵；再由 $A^{\mathrm T}A=E$ 得 $a_{ii}^{2}=1$，故 $a_{ii}=\pm1$。
+\textbf{证明思路二（分块归纳）}：$n=1$ 显然。设结论对 $n-1$ 阶成立，把 $A$ 分块为 $A=\begin{pmatrix}a_{11}&\alpha\\ 0&B\end{pmatrix}$，其中 $\alpha$ 为 $1\times(n-1)$ 行向量、$B$ 为 $n-1$ 阶上三角矩阵。由
+\fml{A^{\mathrm T}A=\begin{pmatrix}a_{11}&0\\ \alpha^{\mathrm T}&B^{\mathrm T}\end{pmatrix}
+\begin{pmatrix}a_{11}&\alpha\\ 0&B\end{pmatrix}
+=\begin{pmatrix}a_{11}^{2}&a_{11}\alpha\\ a_{11}\alpha^{\mathrm T}&\alpha^{\mathrm T}\alpha+B^{\mathrm T}B\end{pmatrix}=E}
+得 $a_{11}^{2}=1$（即 $a_{11}=\pm1$）、$a_{11}\alpha=0$（故 $\alpha=0$）、$B^{\mathrm T}B=E_{n-1}$。可见 $B$ 是 $n-1$ 阶上三角正交矩阵，由归纳假设 $B$ 为对角阵且对角元为 $\pm1$，从而 $A$ 也是如此。
+
+\fbref{}服务考纲〔矩阵〕〔向量〕正交矩阵的判定。选择题里几乎秒杀：“可能是正交矩阵”的选项中，非对角的上三角矩阵一律排除。它也是 $A=QR$ 分解唯一性的关键引理——两个上三角正交因子相比只能得到对角矩阵。
+\end{fdeep}
+
+\begin{fdeep}{判定补充二：元素平方和 $\sigma(A)=\operatorname{tr}(A^{\mathrm T}A)$ 的恒等式}
+记 $A=(a_{ij})$ 的全部元素的平方和为 $\sigma(A)=\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}^{2}$，则
+（1）$\sigma(A)=\operatorname{tr}(A^{\mathrm T}A)$；
+（2）$\sigma(A^{\mathrm T}A)=\sigma(AA^{\mathrm T})$；
+（3）$A$ 为正交矩阵的充分必要条件是：对任意 $n$ 阶实方阵 $B$，都有 $\sigma(A^{\mathrm T}BA)=\sigma(B)$。
+\textbf{（3）的证明要点}：必要性直接算
+$\sigma(A^{\mathrm T}BA)=\operatorname{tr}\bigl((A^{\mathrm T}BA)^{\mathrm T}(A^{\mathrm T}BA)\bigr)=\operatorname{tr}(B^{\mathrm T}B)=\sigma(B)$；充分性取 $B=E_{ii}$ 得 $\sigma(A^{\mathrm T}E_{ii}A)=1$，逐列算出各列模长为 $1$，再取 $B=E$ 得 $\sigma(A^{\mathrm T}A)=n$，两者结合推出 $A^{\mathrm T}A=E$。
+
+\fbref{}服务考纲〔向量〕“了解正交矩阵”与〔矩阵〕迹的计算。$\sigma(A)=\operatorname{tr}(A^{\mathrm T}A)=\sum a_{ij}^{2}$ 这条把“元素平方和、迹、内积（列向量模长平方之和）”三者打通，是含 $\operatorname{tr}(A^{\mathrm T}A)$ 类题目的统一入口；正定判定中常用的“对角元之和 = 全部元素平方和”也是它。
+\end{fdeep}
+
+\begin{fdeep}{Gram 矩阵（度量矩阵）：定义与三种来源}
+\key{定义}：欧氏空间 $V$ 中向量组 $\alpha_{1},\alpha_{2},\dots,\alpha_{m}$ 的 Gram 矩阵为
+\fml{G(\alpha_{1},\alpha_{2},\dots,\alpha_{m})=
+\begin{pmatrix}
+(\alpha_{1},\alpha_{1})&(\alpha_{1},\alpha_{2})&\cdots&(\alpha_{1},\alpha_{m})\\
+(\alpha_{2},\alpha_{1})&(\alpha_{2},\alpha_{2})&\cdots&(\alpha_{2},\alpha_{m})\\
+\vdots & \vdots & & \vdots\\
+(\alpha_{m},\alpha_{1})&(\alpha_{m},\alpha_{2})&\cdots&(\alpha_{m},\alpha_{m})
+\end{pmatrix}.}
+欧氏空间 $V$ 中关于基 $\alpha_{1},\dots,\alpha_{n}$ 的度量矩阵就是 $G(\alpha_{1},\dots,\alpha_{n})$；特别地，$V$ 的任一标准正交基的度量矩阵是单位矩阵 $E$。
+\textbf{第三种来源（最实用）}：若向量组 $\alpha_{1},\dots,\alpha_{m}$ 在标准正交基下的坐标分别为矩阵 $A$ 的列向量，则
+\fml{G(\alpha_{1},\alpha_{2},\dots,\alpha_{m})=A^{\mathrm T}A.}
+
+\fbref{}服务考纲〔向量〕“了解内积的概念”。这是把“内积条件”翻译成\textbf{矩阵方程}的桥梁：凡题目出现“$(\beta,\alpha_{i})=b_{i}$”，写出的系数矩阵就是 Gram 矩阵；另外 $A^{\mathrm T}A$、$AA^{\mathrm T}$ 一律要认成 Gram 矩阵（分别是列、行向量组的），这是把抽象内积题“矩阵化”的第一步。
+\end{fdeep}
+
+\begin{fdeep}{Gram 矩阵的秩 $=$ 向量组的秩（线性无关判据）}
+\fml{\operatorname{rank}G(\alpha_{1},\dots,\alpha_{m})=\operatorname{rank}(\alpha_{1},\dots,\alpha_{m});}
+特别地，$\alpha_{1},\dots,\alpha_{m}$ 线性无关当且仅当它们的 Gram 矩阵非奇异（$m$ 阶方阵时即 $|G|\ne0$）。
+\textbf{证明要点}（把抽象内积变成矩阵运算）：把每个 $\alpha_{j}$ 用标准正交基 $\eta_{1},\dots,\eta_{n}$ 展开得 $\alpha_{j}=\sum_{k=1}^{n}b_{kj}\eta_{k}$，代入内积得
+\fml{(\alpha_{i},\alpha_{j})=\Bigl(\sum_{k=1}^{n}b_{ki}\eta_{k},\sum_{k=1}^{n}b_{kj}\eta_{k}\Bigr)=\sum_{k=1}^{n}b_{ki}b_{kj},}
+即 $G=B^{\mathrm T}B$（$B=(b_{ij})_{n\times m}$）。于是 $\operatorname{rank}G=\operatorname{rank}(B^{\mathrm T}B)=\operatorname{rank}B=\operatorname{rank}(\alpha_{1},\dots,\alpha_{m})$。
+
+\fbref{}服务考纲〔向量〕“了解内积”与〔向量〕线性相关性的判定。它给出一条与坐标系无关的线性无关判据：不必解方程组，只算 Gram 行列式是否为零；反过来，抽象空间里“内积为定值”的线性方程组，其系数矩阵就是 Gram 矩阵，可逆即唯一解。
+\end{fdeep}
+
+\begin{fdeep}{Gram 矩阵：半正定恒成立，正定 $\iff$ 线性无关}
+设 $\gamma_{1},\gamma_{2},\dots,\gamma_{t}$ 是 $n$ 维欧氏空间 $V$ 中的向量组，则它\textbf{线性无关}的充分必要条件是它的 Gram 矩阵 $G(\gamma_{1},\gamma_{2},\dots,\gamma_{t})$ \textbf{正定}；更一般地，欧氏空间中\textbf{任一}向量组的 Gram 矩阵都是\textbf{半正定}矩阵。
+\textbf{一句话证明}（把二次型认成向量的长度平方）：记 $A=G(\gamma_{1},\dots,\gamma_{t})$，任取 $x\in\mathbb R^{t}$ 并令 $\xi=(\gamma_{1},\gamma_{2},\dots,\gamma_{t})x$，则
+\fml{x^{\mathrm T}Ax=x^{\mathrm T}G(\gamma_{1},\dots,\gamma_{t})x=(\xi,\xi)\ge0,}
+即 $A$ 半正定；当 $\gamma_{1},\dots,\gamma_{t}$ 线性无关时 $x\ne0\Rightarrow\xi\ne0\Rightarrow(\xi,\xi)>0$，故 $A$ 正定。反过来，若 $A$ 正定而 $\xi=0$，则 $x^{\mathrm T}Ax=0$，由正定性得 $x=0$，即向量组线性无关。$A$ 是实对称矩阵这一点不必单独证：第 $(i,j)$ 元与第 $(j,i)$ 元都是 $(\gamma_{i},\gamma_{j})$。
+
+\fbref{}服务考纲〔二次型〕“掌握正定二次型与正定矩阵的判别”及〔向量〕内积。这条把两章打通：\textbf{要证一个实对称矩阵正定，最省力的办法是把它写成 Gram 矩阵}（找 $\gamma_{i}$ 使 $a_{ij}=(\gamma_{i},\gamma_{j})$），然后一句 $x^{\mathrm T}Ax=|\xi|^{2}\ge0$ 收尾；反之判向量组线性无关也可转为判 $|G|>0$。
+\end{fdeep}
+
+\begin{fdeep}{Gram 行列式：正交化不变性与 Gram 不等式}
+\textbf{结论一（施密特正交化不改变 Gram 行列式）}：设线性无关向量组 $\alpha_{1},\dots,\alpha_{m}$ 经施密特方法化成两两正交的 $\beta_{1},\dots,\beta_{m}$，则
+\fml{|G(\alpha_{1},\dots,\alpha_{m})|=|G(\beta_{1},\dots,\beta_{m})|=|\beta_{1}|^{2}|\beta_{2}|^{2}\cdots|\beta_{m}|^{2}.}
+证明思路：正交化过程可写成 $(\beta_{1},\dots,\beta_{m})=(\alpha_{1},\dots,\alpha_{m})Q$，其中 $Q$ 是主对角元全为 $1$ 的上三角矩阵，故 $|Q|=1$，于是 $G(\beta)=Q^{\mathrm T}G(\alpha)Q$，两边取行列式即得。
+\textbf{结论二（Gram 不等式）}：对任一非零向量组，
+\fml{0\le|G(\alpha_{1},\dots,\alpha_{m})|\le|\alpha_{1}|^{2}|\alpha_{2}|^{2}\cdots|\alpha_{m}|^{2},}
+其中左边等号成立当且仅当 $\alpha_{1},\dots,\alpha_{m}$ 线性相关；右边等号成立当且仅当它们两两正交（两个等号不能同时成立）。
+
+\fbref{}服务考纲〔行列式〕〔向量〕内积。记忆单元是“$|G|=$ 以这些向量为棱的平行体的体积平方”：线性相关时体积为零，两两正交时体积最大（等于各棱长之积）。有了它，$\operatorname{rank}G=\operatorname{rank}(\alpha_{1},\dots,\alpha_{m})$、线性无关判据、下一条 Hadamard 不等式就是同一件事的三种说法。
+\end{fdeep}

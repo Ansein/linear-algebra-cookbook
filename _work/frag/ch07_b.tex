@@ -1,0 +1,152 @@
+% ===========================================================
+% 《线性代数9讲》第 7 讲  特征值与特征向量 —— 片段 B（本讲后半，收尾片）
+% 源：线代9讲强化.pdf  PDF p87–p89（印刷页 76–78），共 3 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文；
+%      但节标题内的**路线/方法名照本片要求保留**（只删 OPD 代码括号）：
+%        · PDF p88（77）节标题下方蓝色路线行
+%          （$D_1$（常规操作）$+D_{22}$（转换等价表述）$+D_{23}$（化归经典形式））
+%          → 删 OPD 代码，保留方法名，收入 \fsec 标题：
+%            「三、利用矩阵方程命题（常规操作$+$转换等价表述$+$化归经典形式）」
+%      其余纯 OPD 代码（均带蓝色箭头，指向文末或旁侧）：
+%        · PDF p88（77）「（1）」段末 →$D_{23}$（化归经典形式）
+%        · PDF p88（77）「且 $B=[e_1,e_2,\cdots,e_n]$，于是…即 $A=\lambda E$．」句末
+%          →$D_{23}$（化归经典形式） 与 句末右侧 $D_{23}$（化归经典形式）←
+%        · PDF p88（77）「（3）」式右侧 $\xrightarrow{若}$ 上方行的 $D_{23}$（化归经典形式）
+%        · PDF p88（77）「（4）」左下方蓝色 $D_{23}$（化归经典形式）
+%        · PDF p88（77）「（5）」式下方 D_{22}（转换等价表述）
+%        · PDF p88（77）「（6）」段末 →$D_{22}$（转换等价表述）
+%        · PDF p88（77）例 7.4 题干「求矩阵 $A$ 的特征值与特征向量．」右侧 →$D_{23}$（化归经典形式）
+%        · PDF p88（77）例 7.4 解中「即 $A\beta_i=-2\beta_i$…的特征向量．」下方 →$D_{21}$（观察研究对象）
+%        · PDF p89（78）「即 $A\alpha_i=2\alpha_i$…的特征向量．」句末蓝色 $D_{23}$（化归经典形式）
+%      页边竖排模块名（方法论模块标签，按第 6 章先例删除）：
+%        · PDF p87（76）左边栏竖排「隐含条件体系块」
+%        · PDF p88（77）左边栏竖排「形式化归体系块」
+%   2) **数学操作旁注照原文排入**：交叉引用「①②」「（1）～（7）」，公式内 $i=1,2,3$ 等脚注，
+%      以及「故」「即」「综上」等推导连接词全部照原文；例 7.3、例 7.4 选项编号（A）～（D）照抄.
+%   3) **本片无页首思维导图**（第 7 讲导图在 PDF p83，印刷页 72）；
+%      PDF p87 右上角、PDF p88 右上角各有 1 个蓝色装饰性二维码（非正文，未转写）.
+%   4) **本片无位图插图**，无 `fdeep`（9 讲正文不使用）.
+%   5) ⚠️ **第 7 讲末尾（PDF p87–p89，印刷页 76–78）无「习题」栏**（已逐页核实）：
+%      PDF p89（印刷页 78）以例 7.4 解答结束（「…$k_3\ne0$．」），其后整页留白；
+%      第 8 讲「相似理论」自印刷页 79（PDF p90）开始.
+%
+% 接缝说明：
+%   · 本片首行承 PDF p86（印刷页 75）——左边栏「隐含条件体系块」的编号结论列表自本页续第 ⑨ 条
+%     （①～⑧ 在其前页，由片段 A 负责）；本片首行无节标题；
+%   · 例 7.3 题干在本片首（PDF p87），解答亦全在 PDF p87，未跨页；
+%   · 例 7.4 题干与①在 PDF p88（77），②与结论在 PDF p89（78），本片按一个 fcard 排完；
+%   · PDF p88 的「（1）～（7）」原稿为一个大蓝框（左边栏竖排「形式化归体系块」＋左花括号），
+%     本片按编号拆为 7 张 fcard，编号与内容顺序不变.
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p87（印刷页 76）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：左边栏竖排模块名「隐含条件体系块」（方法论模块标签，已删）
+% 承 PDF p86（印刷页 75）——编号结论列表续第 ⑨ 条（①～⑧ 见片段 A）
+
+⑨ 若 $r(A)+r(B)<n$，则 $Ax=0$，$Bx=0$ 至少有一个公共非零解 $\xi$.
+
+\begin{fnote}
+【注】证 $r\begin{pmatrix}A\\B\end{pmatrix}\le r\begin{pmatrix}A&O\\O&B\end{pmatrix}=r(A)+r(B)<n$，故 $\begin{cases}Ax=0\\Bx=0\end{cases}$ 有非零解 $\xi$，即 $A\xi=0$，$B\xi=0$，证毕．
+\end{fnote}
+
+\begin{fcard}{例 7.3}
+已知 $P^{-1}AP=\begin{pmatrix}1&0&0\\0&3&0\\0&0&3\end{pmatrix}$，$\alpha_1$ 是矩阵 $A$ 属于特征值 $\lambda=1$ 的特征向量，$\alpha_2$，$\alpha_3$ 是矩阵 $A$ 属于特征值 $\lambda=3$ 的线性无关的特征向量，则矩阵 $P$ 不可以是（\quad）．
+
+（A）$[\alpha_1,\ -2\alpha_2,\ \alpha_3]$
+
+（B）$[\alpha_1,\ \alpha_2+\alpha_3,\ \alpha_2-2\alpha_3]$
+
+（C）$[\alpha_1,\ \alpha_3,\ \alpha_2]$
+
+（D）$[\alpha_1+\alpha_2,\ \alpha_1-\alpha_2,\ \alpha_3]$
+
+【解】应选（D）．
+
+若 $P^{-1}AP=\Lambda=\begin{pmatrix}a_1&&\\&a_2&\\&&a_3\end{pmatrix}$，$P=[\gamma_1,\gamma_2,\gamma_3]$，则有 $AP=P\Lambda$，即
+\fml{A[\gamma_1,\gamma_2,\gamma_3]=[\gamma_1,\gamma_2,\gamma_3]\begin{pmatrix}a_1&&\\&a_2&\\&&a_3\end{pmatrix},}
+也即 $[A\gamma_1,A\gamma_2,A\gamma_3]=[a_1\gamma_1,a_2\gamma_2,a_3\gamma_3]$. 由此，$\gamma_i$ 是矩阵 $A$ 属于特征值 $a_i$（$i=1,2,3$）的特征向量，又因矩阵 $P$ 可逆，因此，$\gamma_1$，$\gamma_2$，$\gamma_3$ 线性无关．
+
+若 $\alpha$ 是属于特征值 $\lambda$ 的特征向量，则 $-2\alpha$ 仍是属于特征值 $\lambda$ 的特征向量，故（A）正确．
+
+若 $\alpha$，$\beta$ 是属于特征值 $\lambda$ 的线性无关的特征向量，则非零向量 $k_1\alpha+k_2\beta$ 仍是属于特征值 $\lambda$ 的特征向量．本题中，$\alpha_2$，$\alpha_3$ 是属于 $\lambda=3$ 的线性无关的特征向量，故 $\alpha_2+\alpha_3$，$\alpha_2-2\alpha_3$ 仍是属于 $\lambda=3$ 的特征向量，并且 $\alpha_2+\alpha_3$，$\alpha_2-2\alpha_3$ 线性无关，故（B）正确．
+
+关于（C），因为 $\alpha_2$，$\alpha_3$ 均是 $\lambda=3$ 的特征向量，所以 $\alpha_2$，$\alpha_3$ 谁在前谁在后均正确，即（C）正确．
+
+由于 $\alpha_1$，$\alpha_2$ 是不同特征值的特征向量，因此 $\alpha_1+\alpha_2$，$\alpha_1-\alpha_2$ 不再是矩阵 $A$ 的特征向量，故（D）不正确．
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p88（印刷页 77）
+% -----------------------------------------------------------
+
+% OPD 蓝色标注（原稿）：左边栏竖排模块名「形式化归体系块」（方法论模块标签，已删）
+% 原稿右上角：蓝色装饰性二维码 1 个（非正文，未转写）
+
+\fsec{三、利用矩阵方程命题}
+
+\begin{fcard}{（1）}
+$AB=O\Rightarrow A[\beta_1,\beta_2,\cdots,\beta_n]=[0,0,\cdots,0]$，即 $A\beta_i=0\beta_i$（$i=1,2,\cdots,n$），若 $\beta_i$ 均为非零列向量，则 $\beta_i$ 为 $A$ 的属于特征值 $\lambda=0$ 的特征向量．
+% OPD 蓝色标注（原稿）：段末 →$D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（2）}
+若任意 $n$ 维列向量 $\xi$（$\ne0$）均为 $(\lambda E-A)x=0$ 的解，则令 $e_1=\begin{pmatrix}1\\0\\\vdots\\0\end{pmatrix}$，$e_2=\begin{pmatrix}0\\1\\\vdots\\0\end{pmatrix}$，$\cdots$，$e_n=\begin{pmatrix}0\\0\\\vdots\\1\end{pmatrix}$，
+且 $B=[e_1,e_2,\cdots,e_n]$，于是 $(\lambda E-A)B=O$，由于 $B$ 可逆，因此有 $\lambda E-A=O$，即 $A=\lambda E$．
+% OPD 蓝色标注（原稿）：句末 →$D_{23}$（化归经典形式）；句末右侧 $D_{23}$（化归经典形式）←
+\end{fcard}
+
+\begin{fcard}{（3）}
+$AB=C\Rightarrow A[\beta_1,\beta_2,\cdots,\beta_n]=[\gamma_1,\gamma_2,\cdots,\gamma_n]\xrightarrow{\text{若}}[\lambda_1\beta_1,\lambda_2\beta_2,\cdots,\lambda_n\beta_n]$，即 $A\beta_i=\lambda_i\beta_i$（$i=1,2,\cdots,n$），其中 $\gamma_i=\lambda_i\beta_i$，$\beta_i$ 为非零列向量，则 $\beta_i$ 为 $A$ 的属于特征值 $\lambda_i$ 的特征向量．
+% OPD 蓝色标注（原稿）：上式 $\xrightarrow{若}$ 所在行的右侧 $D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（4）}
+$AP=PB$，$P$ 可逆 $\Rightarrow P^{-1}AP=B\Rightarrow A\sim B\Rightarrow \lambda_A=\lambda_B$．
+% OPD 蓝色标注（原稿）：本式左下方蓝色 $D_{23}$（化归经典形式）
+\end{fcard}
+
+\begin{fcard}{（5）}
+$A$ 的每行元素之和均为 $k\Rightarrow A\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}=k\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}\Rightarrow k$ 是特征值，$\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}$ 是 $A$ 的属于特征值 $k$ 的特征向量．
+% OPD 蓝色标注（原稿）：本式下方 $D_{22}$（转换等价表述）
+\end{fcard}
+
+\begin{fcard}{（6）}
+若 $A$ 可逆，$A$ 的每行元素之和均为 $k$，则 $A^{-1}$ 的每行元素之和均为 $\frac{1}{k}$．
+% OPD 蓝色标注（原稿）：段末 →$D_{22}$（转换等价表述）
+\end{fcard}
+
+\begin{fcard}{（7）}
+若 $A$ 的每行元素之和均为 $k$，则 $A^n$ 的每行元素之和均为 $k^n$．
+\end{fcard}
+
+\begin{fcard}{例 7.4}
+设 $A$，$B$，$C$ 均是 3 阶矩阵，且满足 $(A+2E)B=O$，$CA^{\mathrm{T}}=2C$，其中
+\fml{B=\begin{pmatrix}1&2&3\\-1&1&0\\2&-1&1\end{pmatrix},\quad C=\begin{pmatrix}1&-2&1\\-2&4&-2\\-1&2&-1\end{pmatrix},}
+求矩阵 $A$ 的特征值与特征向量．
+% OPD 蓝色标注（原稿）：题干右侧 →$D_{23}$（化归经典形式）
+
+【解】由题设条件，①由 $(A+2E)B=O$，得 $AB+2B=O$，即 $AB=-2B$，将 $B$ 按列分块，设 $B=[\beta_1,\beta_2,\beta_3]$，则有
+\fml{A[\beta_1,\beta_2,\beta_3]=-2[\beta_1,\beta_2,\beta_3],}
+即 $A\beta_i=-2\beta_i$，$i=1,2,3$，故 $\beta_i$（$i=1,2,3$）是 $A$ 的属于特征值 $\lambda=-2$ 的特征向量．
+% OPD 蓝色标注（原稿）：上式下方 →$D_{21}$（观察研究对象）
+
+% -----------------------------------------------------------
+% PDF p89（印刷页 78）—— 例 7.4 续（②及结论）
+% -----------------------------------------------------------
+
+又因 $\beta_1$，$\beta_2$ 线性无关，$\beta_3=\beta_1+\beta_2$，故 $\beta_1$，$\beta_2$ 是 $A$ 的属于特征值 $\lambda=-2$ 的线性无关的特征向量，且 $\lambda=-2$ 至少是二重根．因为若 $\lambda=-2$ 是单根，则其恰有一个线性无关的特征向量，矛盾．
+
+② $CA^{\mathrm{T}}=2C$，两边取转置得 $AC^{\mathrm{T}}=2C^{\mathrm{T}}$，将 $C^{\mathrm{T}}$ 按列分块，设 $C^{\mathrm{T}}=[\alpha_1,\alpha_2,\alpha_3]$，则有
+\fml{A[\alpha_1,\alpha_2,\alpha_3]=2[\alpha_1,\alpha_2,\alpha_3],}
+即 $A\alpha_i=2\alpha_i$，$i=1,2,3$，故 $\alpha_i$（$i=1,2,3$）是 $A$ 的属于特征值 $\lambda=2$ 的特征向量．
+% OPD 蓝色标注（原稿）：句末蓝色 $D_{23}$（化归经典形式）
+
+因 $\alpha_1$，$\alpha_2$，$\alpha_3$ 互成比例，故 $\alpha_1$ 是 $A$ 的属于特征值 $\lambda=2$ 的特征向量，于是 $\lambda=-2$ 是二重根．
+
+综上，$A$ 的特征值为 $\lambda_1=\lambda_2=-2$，$\lambda_3=2$，对应于 $\lambda_1=\lambda_2=-2$ 的全部特征向量是 $k_1\begin{pmatrix}1\\-1\\2\end{pmatrix}+k_2\begin{pmatrix}2\\1\\-1\end{pmatrix}$，$k_1$，$k_2$ 不全为 0；对应于 $\lambda_3=2$ 的全部特征向量是 $k_3\begin{pmatrix}1\\-2\\1\end{pmatrix}$，$k_3\ne0$．
+\end{fcard}

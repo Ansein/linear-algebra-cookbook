@@ -1,0 +1,275 @@
+% ===========================================================
+% 《线性代数9讲》第 5 讲  线性方程组 —— 片段 C（本讲后半，收尾片）
+% 源：线代9讲强化.pdf  PDF p70–p74（印刷页 59–63），共 5 页
+%
+% 处理说明：
+%   1) OPD 方法论标记（依 AGENTS.md §7.1 决定 2）：原稿蓝色「三向解题法」标记中
+%      **纯 OPD 代码 / 方法论语句**一律以 `% OPD 蓝色标注（原稿）` 注释留痕，不排入正文：
+%        · PDF p70（59）$D_{22}$（转换等价表述）．将①⇔③转化为①⇔③
+%        · PDF p70（59）「（1）的解答过程完整展示了"方程组（Ⅰ）的解是方程组（Ⅱ）的解"的常规解法，一定要掌握」
+%        · PDF p71（60）$D_{22}$（转换等价表述）（箭头指向 $[B,\beta]\to$ 后的矩阵）
+%        · PDF p71（60）节标题下的（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{22}$（转换等价表述）$+D_{43}$（数形结合））
+%        · PDF p72（61）表（a）标题右侧 $\to D_1$（常规操作）
+%        · PDF p72（61）表（b）标题右侧 $\to D_1$（常规操作）
+%        · PDF p73（62）例 5.9 解首 $D_{43}$（数形结合）；例 5.9 图右侧 $D_{22}$（转换等价表述）$+D_{43}$（数形结合）
+%        · PDF p74（63）例 5.10 选项右侧 $D_{22}$（转换等价表述）$+D_{43}$（数形结合）
+%   2) **数学操作旁注保留**（照原文排入）：PDF p70（59）「步骤一：求方程组（Ⅰ）的通解」
+%      「步骤二：将（Ⅰ）的通解代入（Ⅱ）」「步骤三：验证（Ⅰ）的通解满足（Ⅱ）」；
+%      PDF p71（60）「表达平面 $\Pi_i$ 的方向」「表达确定方向后 $\Pi_i$ 的位置」；
+%      交叉引用（①、②、③、④，（Ⅰ）、（Ⅱ））照原文排入；
+%   3) **几何示意图一律不重绘、不丢弃**，按主控要求留 `% FIGURE:` 占位行：
+%      PDF p72（61）表（a）4 幅、表（b）2 幅；PDF p73（62）续表 2 幅、例 5.9 题干 1 幅；
+%      共 9 幅，均待主控裁切原图或重绘后替换；
+%   4) 第 5 讲末尾（PDF p73–p74，印刷页 62–63）**无「习题」栏**（已逐页核实）：
+%      PDF p74（印刷页 63）以例 5.10 结束，其后整页留白（下半页全空）；
+%      第 6 讲「向量组」自印刷页 64（PDF p75）开始；
+%   5) 本片无页首思维导图（第 5 讲导图在 PDF p60，印刷页 49）。
+%
+% 接缝说明：
+%   · 本片首行承 PDF p69（印刷页 58）【注】框的余下部分（该框在本页续完，原稿在本页仍画蓝框）；
+%   · 例 5.8 题干与（1）在 PDF p70、（2）在 PDF p70 末～PDF p71 首，本片按一个卡片排完；
+%   · 表（a）、表（b）与 PDF p73 的「续表」原为一张跨页大表，本片按情形拆为 6 张 fcard，
+%     并以 \fgroup 标出表名与「续表」。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p70（印刷页 59）
+% -----------------------------------------------------------
+% 承 PDF p69（印刷页 58）【注】框的余下部分（该框在本页续完）
+\begin{fnote}
+$[A,\beta]$，即 $QB=A$，$Q\gamma=\beta$.
+
+现设 $\eta^{*}$ 为（Ⅰ）的任一解，即 $A\eta^{*}=\beta$，则 $B\eta^{*}=PA\eta^{*}=P\beta=\gamma$，即 $\eta^{*}$ 也为（Ⅱ）的任一解.
+
+反过来，亦可证明（Ⅱ）的任一解亦是（Ⅰ）的任一解. ①成立.
+
+证明①$\sim$④循环封闭，故①$\sim$④为等价命题.
+\end{fnote}
+
+\begin{fcard}{例5.8}
+设矩阵 $A=\begin{pmatrix}1&-1&0&-1\\1&1&0&3\\2&1&2&6\end{pmatrix}$，$B=\begin{pmatrix}1&0&1&2\\1&-1&a&a-1\\2&-3&2&-2\end{pmatrix}$，向量 $\alpha=\begin{pmatrix}0\\2\\3\end{pmatrix}$，$\beta=\begin{pmatrix}1\\0\\-1\end{pmatrix}$.
+
+（1）证明：方程组 $Ax=\alpha$ 的解均为方程组 $Bx=\beta$ 的解；
+
+（2）若方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 不同解，求 $a$ 的值.
+
+（1）【证】对 $Ax=\alpha$ 的增广矩阵施以初等行变换，有
+
+\fml{[A,\alpha]=\left(\begin{array}{cccc|c}1&-1&0&-1&0\\1&1&0&3&2\\2&1&2&6&3\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&0&1&1\\0&1&0&2&1\\0&0&1&1&0\end{array}\right),}
+
+（步骤一：求方程组（Ⅰ）的通解）
+
+得 $Ax=\alpha$ 的通解为
+
+\fml{x=\begin{pmatrix}1\\1\\0\\0\end{pmatrix}+k\begin{pmatrix}-1\\-2\\-1\\1\end{pmatrix}=\begin{pmatrix}1-k\\1-2k\\-k\\k\end{pmatrix},\quad\text{其中}\ k\ \text{为任意常数}.}
+
+（步骤二：将（Ⅰ）的通解代入（Ⅱ））
+
+将 $Ax=\alpha$ 的通解代入 $Bx$ 得
+
+\fml{Bx=\begin{pmatrix}1&0&1&2\\1&-1&a&a-1\\2&-3&2&-2\end{pmatrix}\begin{pmatrix}1-k\\1-2k\\-k\\k\end{pmatrix}=\begin{pmatrix}1\\0\\-1\end{pmatrix}=\beta,}
+
+（步骤三：验证（Ⅰ）的通解满足（Ⅱ））
+
+% OPD 蓝色标注（原稿）：（1）的解答过程完整展示了"方程组（Ⅰ）的解是方程组（Ⅱ）的解"的常规解法，一定要掌握
+
+所以方程组 $Ax=\alpha$ 的解均为方程组 $Bx=\beta$ 的解.
+
+（2）【解】对 $Bx=\beta$ 的增广矩阵施以初等行变换，有
+
+\fml{[B,\beta]=\left(\begin{array}{cccc|c}1&0&1&2&1\\1&-1&a&a-1&0\\2&-3&2&-2&-1\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&1-a&3-a&1\\0&0&a-1&a-1&0\end{array}\right).}
+
+当 $a\ne1$ 时，再经初等行变换，有
+
+\fml{[B,\beta]\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&1-a&3-a&1\\0&0&a-1&a-1&0\end{array}\right)\to\left(\begin{array}{cccc|c}1&0&0&1&1\\0&1&0&2&1\\0&0&1&1&0\end{array}\right),}
+
+% -----------------------------------------------------------
+% PDF p71（印刷页 60）
+% -----------------------------------------------------------
+得方程组 $Bx=\beta$ 的通解为
+
+\fml{x=\begin{pmatrix}1\\1\\0\\0\end{pmatrix}+k\begin{pmatrix}-1\\-2\\-1\\1\end{pmatrix},\quad\text{其中}\ k\ \text{为任意常数},}
+
+所以方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 同解.
+
+当 $a=1$ 时，经初等行变换，有
+
+\fml{[B,\beta]\to\left(\begin{array}{cccc|c}1&0&1&2&1\\0&1&0&2&1\\0&0&0&0&0\end{array}\right),}
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）（位于该式左侧，箭头指向该矩阵）
+
+知 $r([A,\alpha])\ne r([B,\beta])$. 所以方程组 $Ax=\alpha$ 与方程组 $Bx=\beta$ 不同解.
+
+综上可知，$a=1$.
+\end{fcard}
+
+\fsec{三、线性方程组的几何意义（仅数学一）}
+% OPD 蓝色标注（原稿）：（$O_4$（盯住目标 4）$+D_1$（常规操作）$+D_{22}$（转换等价表述）$+D_{43}$（数形结合））
+
+设线性方程组
+
+\fml{\begin{cases}a_1x+b_1y+c_1z=d_1,\\a_2x+b_2y+c_2z=d_2,\\a_3x+b_3y+c_3z=d_3.\end{cases}}
+
+记
+
+\fmll{\text{表达平面}\Pi_i\text{的方向}\longrightarrow A=\begin{pmatrix}a_1&b_1&c_1\\a_2&b_2&c_2\\a_3&b_3&c_3\end{pmatrix},\qquad \overline{A}=\begin{pmatrix}a_1&b_1&c_1&d_1\\a_2&b_2&c_2&d_2\\a_3&b_3&c_3&d_3\end{pmatrix}\longrightarrow\text{表达确定方向后}\Pi_i\text{的位置}.}
+
+且 $\Pi_i$（$i=1$，2，3）表示第 $i$ 张平面：$a_ix+b_iy+c_iz=d_i$，$\alpha_i$（$i=1$，2，3）表示第 $i$ 张平面的法向量 $[a_i,\ b_i,\ c_i]$，即 $A$ 的行向量，$\beta_i$（$i=1$，2，3）表示 $[a_i,\ b_i,\ c_i,\ d_i]$，即 $\overline{A}$ 的行向量.
+
+\begin{fnote}
+【注】以下 $i\ne j$.
+
+①$\alpha_i$ 与 $\alpha_j$ 线性相关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 平行或重合.
+
+②$\alpha_i$ 与 $\alpha_j$ 线性无关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 相交.
+
+③$\beta_i$ 与 $\beta_j$ 线性相关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 重合.
+
+如 $\Pi_1:x+y+z=1$，$\Pi_2:2x+2y+2z=2$，其中
+
+\fml{\beta_1=[1,\ 1,\ 1,\ 1],\ \beta_2=[2,\ 2,\ 2,\ 2],}
+
+$\beta_1$ 与 $\beta_2$ 线性相关，故 $\Pi_1$ 与 $\Pi_2$ 重合.
+
+④$\beta_i$ 与 $\beta_j$ 线性无关 $\Leftrightarrow \Pi_i$ 与 $\Pi_j$ 不重合.
+
+如 $\Pi_1:x+y+z=0$，$\Pi_2:x+y+z=1$，其中
+
+\fml{\beta_1=[1,\ 1,\ 1,\ 0],\ \beta_2=[1,\ 1,\ 1,\ 1],}
+
+$\beta_1$ 与 $\beta_2$ 线性无关，故 $\Pi_1$ 与 $\Pi_2$ 不重合.
+\end{fnote}
+
+% -----------------------------------------------------------
+% PDF p72（印刷页 61）
+% -----------------------------------------------------------
+综上，可按不同情形列表（a）和表（b）.
+
+% OPD 蓝色标注（原稿）：$\to D_1$（常规操作）（位于表（a）标题右上方）
+
+\fgroup{表（a）\quad 方程组有解的情形}
+
+\begin{fcard}{三张平面相交于一点}
+% FIGURE: 印刷页 61（PDF p72）表（a）第 1 行「图形」列 —— 三张平面交于一点（图中标的「唯一解」）
+\fml{r(A)=r(\overline{A})=3}
+\fml{\Leftrightarrow Ax=\beta\ \text{有唯一解}}
+\end{fcard}
+
+\begin{fcard}{三张平面相交于一条直线}
+% FIGURE: 印刷页 61（PDF p72）表（a）第 2 行「图形」列 —— 三张平面交于同一条直线
+\fml{r(A)=r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中任意两个向量都线性无关.
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}\qquad\text{任何两个面都不重合}}
+\end{fcard}
+
+\begin{fcard}{两张平面重合，第三张平面与之相交}
+% FIGURE: 印刷页 61（PDF p72）表（a）第 3 行「图形」列 —— 两张平面重合，第三张平面与它们相交
+\fml{r(A)=r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中有两个向量线性相关.
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}\qquad\text{存在两个面重合}}
+\end{fcard}
+
+\begin{fcard}{三张平面重合}
+% FIGURE: 印刷页 61（PDF p72）表（a）第 4 行「图形」列 —— 三张平面重合
+\fml{r(A)=r(\overline{A})=1}
+\fml{\Leftrightarrow Ax=\beta\ \text{有无穷多解}}
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：$\to D_1$（常规操作）（位于表（b）标题右侧）
+
+\fgroup{表（b）\quad 方程组无解的情形}
+
+\begin{fcard}{三张平面两两相交，且交线相互平行}
+% FIGURE: 印刷页 61（PDF p72）表（b）第 1 行「图形」列 —— 三张平面两两相交且交线相互平行
+\fml{r(A)=2,\ r(\overline{A})=3,}
+且 $\alpha_1$，$\alpha_2$，$\alpha_3$ 中任意两个向量都线性无关.
+\fml{\text{任何两个面都相交}}
+\end{fcard}
+
+\begin{fcard}{两张平面平行，第三张平面与它们相交}
+% FIGURE: 印刷页 61（PDF p72）表（b）第 2 行「图形」列 —— 两张平面平行，第三张平面与它们相交
+\fml{r(A)=2,\ r(\overline{A})=3,}
+且 $\alpha_1$，$\alpha_2$，$\alpha_3$ 中有两个向量线性相关.
+\fml{\text{存在两个面平行但不重合}}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p73（印刷页 62）
+% -----------------------------------------------------------
+\fgroup{续表}
+
+\begin{fcard}{三张平面相互平行但不重合}
+% FIGURE: 印刷页 62（PDF p73）续表第 1 行「图形」列 —— 三张平面相互平行但不重合
+\fml{r(A)=1,\ r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中任意两个向量都线性无关.
+\fml{\text{任何两个面都不重合}}
+\end{fcard}
+
+\begin{fcard}{两张平面重合，第三张平面与它们平行但不重合}
+% FIGURE: 印刷页 62（PDF p73）续表第 2 行「图形」列 —— 两张平面重合，第三张平面与它们平行但不重合
+\fml{r(A)=1,\ r(\overline{A})=2,}
+且 $\beta_1$，$\beta_2$，$\beta_3$ 中有两个向量线性相关.
+\fml{\text{存在两个面重合}}
+\end{fcard}
+
+\begin{fcard}{例5.9}
+在空间直角坐标系 $O-xyz$ 中，三张平面 $\Pi_1:\alpha x+y-z=1$，$\Pi_2:x+y+bz=a$，$\Pi_3:x+ay-z=1$ 的位置关系如图所示，则（\quad）.
+
+（A）$a=1$，$b\ne-1$
+
+（B）$a=1$，$b=-1$
+
+（C）$a\ne-2$，$b=2$
+
+（D）$a=-2$，$b=2$
+
+% FIGURE: 印刷页 62（PDF p73）例 5.9 题干右侧 —— 三张平面相交于一条直线的示意图
+
+% OPD 蓝色标注（原稿）：$D_{43}$（数形结合）（位于「【解】应选（D）.」右侧）
+
+【解】应选（D）.
+
+由于三张平面相交于一条直线，记
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）$+D_{43}$（数形结合）（位于题干示意图右下方，箭头指向下列向量）
+
+\fml{\alpha_1=\begin{pmatrix}a\\1\\-1\end{pmatrix},\ \alpha_2=\begin{pmatrix}1\\1\\b\end{pmatrix},\ \alpha_3=\begin{pmatrix}1\\a\\-1\end{pmatrix},\ \beta_1=\begin{pmatrix}a\\1\\-1\\1\end{pmatrix},\ \beta_2=\begin{pmatrix}1\\1\\b\\a\end{pmatrix},\ \beta_3=\begin{pmatrix}1\\a\\-1\\1\end{pmatrix},}
+
+则 $r(\alpha_1,\alpha_2,\alpha_3)=r(\beta_1,\beta_2,\beta_3)=2$，且 $\beta_1$，$\beta_2$，$\beta_3$ 任意两个向量均线性无关.
+
+\fml{[\beta_1,\beta_2,\beta_3]=\begin{pmatrix}a&1&1\\1&1&a\\-1&b&-1\\1&a&1\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&a-1&1-a\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1-a&1-a^2\\0&b+1&a-1\\0&0&2-a^2-a\end{pmatrix}.}
+
+①当 $a=1$ 时，$\beta_1$ 与 $\beta_3$ 线性相关，不满足题意；
+
+②当 $a\ne1$ 时，
+
+\fml{[\beta_1,\beta_2,\beta_3]\to\begin{pmatrix}1&1&a\\0&1&1+a\\0&b+1&a-1\\0&0&a+2\end{pmatrix}\to\begin{pmatrix}1&1&a\\0&1&1+a\\0&0&-b(a+1)-2\\0&0&a+2\end{pmatrix},}
+
+要满足题意，则 $a+2=0$ 且 $-b(a+1)-2=0$，故 $\begin{cases}a=-2,\\b=2.\end{cases}$
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p74（印刷页 63）—— 第 5 讲末页
+% -----------------------------------------------------------
+\begin{fcard}{例5.10}
+设 $\alpha_1$，$\alpha_2$，$\alpha_3$，$\alpha_4$ 是 $n$ 维列向量，$\alpha_1$，$\alpha_2$ 线性无关，$\alpha_1$，$\alpha_2$，$\alpha_3$ 线性相关，且 $\alpha_1+\alpha_2+\alpha_4=0$. 在空间直角坐标系 $O-xyz$ 中，关于 $x$，$y$，$z$ 的方程组 $x\alpha_1+y\alpha_2+z\alpha_3=\alpha_4$ 的几何图形是（\quad）.
+
+（A）过原点的一个平面\qquad（B）过原点的一条直线
+
+（C）不过原点的一个平面\qquad（D）不过原点的一条直线
+
+% OPD 蓝色标注（原稿）：$D_{22}$（转换等价表述）$+D_{43}$（数形结合）（位于（B）（D）两选项右侧，箭头指向「直线」二字）
+
+【解】应选（D）.
+
+记 $A=[\alpha_1,\alpha_2,\alpha_3]$，由 $\alpha_1$，$\alpha_2$ 线性无关，$\alpha_1$，$\alpha_2$，$\alpha_3$ 线性相关，可得 $r(A)=2$. 记 $\overline{A}=[A,\alpha_4]=[\alpha_1,\alpha_2,\alpha_3,\alpha_4]$，再由 $\alpha_1+\alpha_2+\alpha_4=0$，得 $r(\overline{A})=2$. 于是 $Ax=\alpha_4$ 有无穷多解，若过原点，则 $\alpha_4=0$，进而可知 $\alpha_1+\alpha_2=0$，与 $\alpha_1$，$\alpha_2$ 线性无关矛盾，故不过原点.
+
+由上述分析可知 $r(A)=r(\overline{A})=2$，则 $x\alpha_1+y\alpha_2+z\alpha_3=\alpha_4$ 不妨设为
+
+\fml{\begin{cases}a_{11}x+a_{12}y+a_{13}z=a_{14},\\a_{21}x+a_{22}y+a_{23}z=a_{24},\end{cases}}
+
+两平面交于一条直线，且不过原点. 故选（D）.
+\end{fcard}
+
+% 第 5 讲至此结束（印刷页 63 下半页留白）。
+% 第 5 讲末尾（PDF p73–p74，印刷页 62–63）无「习题」栏（已逐页核实），故无需 `% 习题栏：按仓库决定不收录`。

@@ -1,0 +1,104 @@
+% ===========================================================
+%  第 6 章 向量组与向量空间 —— 高等代数【深化】拓展框（主控撰写）
+%  对应 OUTLINE.md §7「深化清单」6.1–6.8
+%  本章是纲要指出的"9 讲覆盖薄弱、必须补强"部分（考纲三.5/6/7/8）
+% ===========================================================
+
+% ---------- 6.3 基变换与坐标变换（对应 OUTLINE 6.3 / 6.4）----------
+\begin{fdeep}{过渡矩阵与坐标变换：方向千万别记反}
+设 $\varepsilon_1,\dots,\varepsilon_n$ 与 $\eta_1,\dots,\eta_n$ 是同一个 $n$ 维空间的两组基。
+"用旧基表示新基"就是\textbf{过渡矩阵} $P$：
+\fml{(\eta_1,\dots,\eta_n)=(\varepsilon_1,\dots,\varepsilon_n)P}
+把这两组基分别写成行向量组，$P$ 的第 $j$ 列就是 $\eta_j$ 在旧基下的坐标。
+\textbf{一个关键性质}：$P$ 必可逆（因为两组基能互相线性表示）。
+反之，任一可逆矩阵 $P$ 都能通过这个等式定义出一组新基——这就是"可逆矩阵"与"基变换"的一一对应。
+
+\medskip
+\textbf{坐标变换公式（最容易记反的一步）}：
+设向量 $\alpha$ 在旧基下坐标为 $x$、在新基下坐标为 $y$，则
+\fml{\alpha=(\varepsilon_1,\dots,\varepsilon_n)x=(\eta_1,\dots,\eta_n)y
+=(\varepsilon_1,\dots,\varepsilon_n)Py}
+比较系数（旧基线性无关）得 $x=Py$，即
+\fml{\boxed{\,y=P^{-1}x\,}}
+\textbf{记忆要点}：\emph{基的变换用 $P$，坐标的变换用 $P^{-1}$}——\textbf{两者方向相反}。
+原因很直观：新基"变长了"（被 $P$ 放大），同一个向量的坐标就得"变短"（被 $P^{-1}$ 缩小）才能对上。
+
+\textbf{两条实用性质}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{链式法则}：若从第 1 组基到第 2 组基的过渡矩阵为 $P_1$，从第 2 组基到第 3 组基的为 $P_2$，
+      则从第 1 组基到第 3 组基的过渡矩阵为 $P_1P_2$（\textbf{顺序与基的顺序一致，不反}）。
+      多组基连续转换时不必逐次硬算。
+\item \textbf{过渡矩阵与相似的联系}：同一线性变换在两组基下的矩阵 $A$ 与 $B$ 满足
+      $B=P^{-1}AP$——这正是"相似"的来源。所以第 8 章讲相似矩阵时，
+      $P$ 的几何身份就是\textbf{过渡矩阵}，$P^{-1}AP$ 就是"换个基再看同一个变换"。
+\end{itemize}
+【反哺点】服务考纲〔向量〕"了解基变换和坐标变换公式，会求过渡矩阵"。
+这条是考纲明确要求但 9 讲覆盖薄弱的内容。考场上两个高频失分点：
+① 把坐标变换写成 $y=Px$（方向反了）；② 链式法则乘的顺序反了。
+记住"基用 $P$、坐标用 $P^{-1}$"与"顺序与基的顺序一致"，两处都不会错。
+\end{fdeep}
+
+% ---------- 6.6 施密特正交化（对应 OUTLINE 6.6 / 6.7）----------
+\begin{fdeep}{施密特正交化：本质是"逐个剔除已有方向上的投影"}
+给定线性无关组 $\alpha_1,\dots,\alpha_r$，要把它变成规范正交组 $\eta_1,\dots,\eta_r$。做法分两步：
+
+\textbf{第一步：正交化}（先得到两两正交、但长度不一定为 $1$ 的 $\beta_i$）
+\fml{\beta_1=\alpha_1,\qquad
+\beta_k=\alpha_k-\sum_{i=1}^{k-1}\frac{(\alpha_k,\beta_i)}{(\beta_i,\beta_i)}\,\beta_i
+\quad(k=2,\dots,r)}
+\textbf{它在做什么}：$\dfrac{(\alpha_k,\beta_i)}{(\beta_i,\beta_i)}\beta_i$ 正是 $\alpha_k$ 在 $\beta_i$ 方向上的
+\textbf{投影向量}，所以每一步是"从 $\alpha_k$ 中扣掉它在所有已有方向上的投影"，
+剩下的部分自然与前面每个 $\beta_i$ 都正交。\textbf{这就是公式的唯一含义，不必死记。}
+
+\textbf{第二步：单位化}
+\fml{\eta_k=\frac{1}{\lVert\beta_k\rVert}\beta_k}
+
+\textbf{三条必须清楚的性质}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{张成的空间不变}：$\operatorname{span}\{\eta_1,\dots,\eta_k\}=\operatorname{span}\{\alpha_1,\dots,\alpha_k\}$
+      对每个 $k$ 都成立。原因：每一步都只是"加减已有向量的倍数"，不改变张成空间。
+      \textbf{这条最重要}——它保证了正交化不会"丢掉"或"多出"方向。
+\item \textbf{规范正交组必线性无关}，且 $\lVert\eta_i\rVert=1$、$(\eta_i,\eta_j)=0\ (i\ne j)$，
+      即 $Q^{\mathrm T}Q=E$。
+\item 若对\textbf{矩阵的列}做这一步，就得到 $A=QR$ 分解（$R$ 为上三角可逆阵）——
+      这是"正交化"在线性代数里的主要用途之一。
+\end{enumerate}
+
+\textbf{常见符号陷阱}：分母是 $(\beta_i,\beta_i)$ 而\textbf{不是} $\lVert\beta_i\rVert$；
+如果用的是已经单位化的 $\eta_i$，则因为 $(\eta_i,\eta_i)=1$，系数就简化为
+$(\alpha_k,\eta_i)$——\textbf{先把公式用在未单位化版本上更不容易错}。
+
+【反哺点】服务考纲〔向量〕"掌握线性无关向量组正交规范化的施密特（Schmidt）方法"。
+这是实对称矩阵正交对角化（第 7、8 章）的必要前置：那里求出的特征向量必须正交化才能拼成正交矩阵 $Q$。
+理解"投影剔除"之后，考场上即使一时想不起公式，也能现推出每一步该减什么。
+\end{fdeep}
+
+% ---------- 6.7 正交矩阵（对应 OUTLINE 6.7）----------
+\begin{fdeep}{正交矩阵：六条等价刻画与"保长度"的本质}
+设 $Q$ 为 $n$ 阶实矩阵，以下命题\textbf{两两等价}：
+\begin{enumerate}[leftmargin=2.2em,itemsep=0.22em]
+\item $Q^{\mathrm T}Q=E$（即 $Q^{\mathrm T}$ 就是 $Q^{-1}$）；
+\item $QQ^{\mathrm T}=E$；
+\item $Q$ 的\textbf{列向量组}是规范正交基；
+\item $Q$ 的\textbf{行向量组}是规范正交基；
+\item $Q$ 可逆且 $Q^{-1}=Q^{\mathrm T}$；
+\item 对任意向量 $x$ 有 $\lVert Qx\rVert=\lVert x\rVert$（保长度）。
+\end{enumerate}
+\textbf{为什么 ①$\iff$③}：$Q^{\mathrm T}Q$ 的第 $(i,j)$ 元恰好是 $Q$ 第 $i$ 列与第 $j$ 列的内积，
+故 $Q^{\mathrm T}Q=E$ 就是在说"列的模长全为 $1$、两两正交"，正是规范正交基的定义。
+\textbf{为什么 ⑥ 成立}：$\lVert Qx\rVert^{2}=(Qx)^{\mathrm T}(Qx)=x^{\mathrm T}Q^{\mathrm T}Qx=x^{\mathrm T}x=\lVert x\rVert^{2}$。
+逆命题也可证，所以"保长度"可以作为正交矩阵的定义。
+
+\textbf{另外两条常用性质}：
+\begin{itemize}[leftmargin=2.2em,itemsep=0.22em]
+\item \textbf{正交变换保内积}：$(Qx,Qy)=(x,y)$——保长度只是取 $x=y$ 的特例。
+      故正交变换是"刚体运动"（旋转或反射），不拉伸、不扭曲。
+\item $\lvert Q\rvert=\pm1$；若 $\lvert Q\rvert=1$ 称为\textbf{第一类}（旋转），$\lvert Q\rvert=-1$ 为\textbf{第二类}（含反射）。
+      $n=2$ 时第一类就是旋转矩阵 $\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$。
+\item 两个正交矩阵之积、正交矩阵的逆仍是正交矩阵（构成一个群）。
+\end{itemize}
+【反哺点】服务考纲〔向量〕"了解规范正交基、正交矩阵的概念以及它们的性质"。
+这六条要\textbf{整体记住}：选择题常问"下列哪个是正交矩阵的充要条件"，
+而"正交"与"可逆"的区别在于前者要求列向量\textbf{既正交又单位化}（可逆只要求线性无关）。
+第 7、8 章用正交矩阵把实对称矩阵对角化时，靠的就是这套性质。
+\end{fdeep}

@@ -1,0 +1,305 @@
+% ===========================================================
+% 《线性代数9讲》第 9 讲  二次型 —— 片段 B（本讲后半）
+% 源：线代9讲强化.pdf  PDF p113–p121（印刷页 102–110），共 9 页
+%
+% 处理说明：
+%   1) OPD 方法论标记按 AGENTS.md §7.1 决定二「不保留方法论」的统一口径剔除：
+%      · \fsec 标题里的 OPD 括号连同其中的 OPD 词组**整段删除**：
+%        「六、合同与相似的异同」（原附 $O_6$（盯住目标 6）+$D_1$（常规操作）
+%          +$D_{23}$（化归经典形式））——已删；
+%        「七、正定的判定与应用」（原附 $O_7$（盯住目标 7）+$D_1$（常规操作）
+%          +$D_{23}$（化归经典形式））——已删；
+%        「八、二次型的最大值」（原附 $O_8$（盯住目标 8）+$D_1$（常规操作）
+%          +$D_{22}$（转换等价表述）+$D_{23}$（化归经典形式））——已删；
+%      · 正文蓝色纯 OPD 代码 / 方法论语句一律以 `% OPD 蓝色标注（原稿）：…` 留痕，不排入正文；
+%      · 版心左侧竖排模块名「等价表述体系块」、右侧竖排模块名「隐含条件体系块」
+%        （PDF p115，OPD 体系块标记）→ 删除并留痕；
+%      · 原稿各页右上角蓝色装饰性二维码（PDF p113、p115、p116、p118，非正文）→ 未转写。
+%   2) **数学操作旁注保留**（原稿蓝色手写，照原文以内联 `\quad(\text{…})` 排入）：
+%      · PDF p114（103）$f=z_1^2+z_2^2$ 右侧「$1$ 不一定是特征值」；
+%      · PDF p116（105）例 9.13 题设右侧「已知 $D^{\mathrm T}D$（格拉姆矩阵），求 $D$」；
+%      · PDF p118（107）八节推导框首行上方「$Q$ 为正交矩阵」；
+%      · PDF p119（108）（2）式计算末「转化成瑞利商形式，故只需分析矩阵 $M$ 的最大特征值即可」。
+%   3) 页眉（「第9讲 二次型」）、页脚（102–110 及云纹）为每页重复装饰，按规范忽略。
+%   4) 本片 9 页**无「习题」栏**（已逐页核实 PDF p113–p121）；PDF p121 为全书最后一页，**整页空白**。
+%   5) 交底：PDF p120（109）的【注】框是**印刷正文**（非 \fsec 标题、非蓝色旁注），
+%      依「严禁增删内容」照抄；其中含「三向解题法」及 $D_{23}$（化归经典形式）等 OPD 方法论措辞，
+%      已在最终回复中报告，供主控决定是否再删。
+%
+% 接缝说明：
+%   · 本片首行「则 $A=D^{\mathrm T}BD$.」承 PDF p112（印刷页 101）上一例题【解】的末行；
+%   · 例 9.11 的解答跨 PDF p113～p114（102～103），例 9.15 的解答跨 PDF p118～p119（107～108），
+%     均未另开卡片，以正文承接。
+% ===========================================================
+
+% -----------------------------------------------------------
+% PDF p113（印刷页 102）
+% -----------------------------------------------------------
+% 承 PDF p112（印刷页 101）上一例题【解】的末行
+则 $A=D^{\mathrm{T}}BD$.
+
+\begin{fnote}
+【注】此处得到 $C^{\mathrm{T}}AC=B$，即 $A$ 与 $B$ 合同，$C$ 可逆，但 $A$ 与 $B$ 未必相似，故不一定存在正交矩阵 $Q$，使得 $Q^{\mathrm{T}}AQ=B$. 例 9.11 会再次研究这个问题.
+\end{fnote}
+
+\fsec{六、合同与相似的异同}
+% OPD 蓝色标注（原稿）：节标题下附（$O_6$（盯住目标 6）+$D_1$（常规操作）+$D_{23}$（化归经典形式）），按统一口径整段删除
+
+对于实对称矩阵 $A$ 与 $B$，相似必合同，反之不成立.
+
+\begin{fcard}{例9.10}
+设矩阵 $A=\begin{bmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{bmatrix}$，$B=\begin{bmatrix}1&0&0\\0&1&0\\0&0&0\end{bmatrix}$，则 $A$ 与 $B$（\quad）.
+
+（A）合同且相似\qquad（B）合同，但不相似
+
+（C）不合同，但相似\qquad（D）既不合同，也不相似
+
+【解】应选（B）.
+
+因为
+\fml{|\lambda E-A|=\begin{vmatrix}\lambda-2&1&1\\1&\lambda-2&1\\1&1&\lambda-2\end{vmatrix}=\lambda(\lambda-3)^2,}
+所以矩阵 $A$ 的特征值为 $3$，$3$，$0$，由此可知矩阵 $A$ 与 $B$ 不相似，从而选项（A）和（C）错误.
+
+又因为实对称矩阵 $A$ 相似且合同于对角矩阵
+\fml{C=\begin{bmatrix}3&0&0\\0&3&0\\0&0&0\end{bmatrix},}
+而矩阵 $C$ 显然合同于矩阵 $B$，根据合同关系的传递性知矩阵 $A$ 合同于 $B$，即选项（B）正确.
+\end{fcard}
+
+\begin{fcard}{★★★例9.11}
+已知二次型
+\fml{f(x_1,x_2,x_3)=x_1^2+2x_2^2+2x_3^2+2x_1x_2-2x_1x_3,}
+\fml{g(y_1,y_2,y_3)=y_1^2+y_2^2+y_3^2+2y_2y_3,}
+（1）求可逆变换 $x=Py$，将 $f(x_1,x_2,x_3)$ 化成 $g(y_1,y_2,y_3)$.
+
+（2）是否存在正交变换 $x=Qy$，将 $f(x_1,x_2,x_3)$ 化成 $g(y_1,y_2,y_3)$？
+
+【解】（1）由于
+\fml{f(x_1,x_2,x_3)=x_1^2+2x_2^2+2x_3^2+2x_1x_2-2x_1x_3=(x_1+x_2-x_3)^2+(x_2+x_3)^2,}
+于是作可逆线性变换
+
+% -----------------------------------------------------------
+% PDF p114（印刷页 103）—— 例 9.11 续；（本页末为七节起始）
+% -----------------------------------------------------------
+\fml{\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}=\begin{bmatrix}1&1&-1\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix},}
+得 $f(x_1,x_2,x_3)=z_1^2+z_2^2$\quad（$1$ 不一定是特征值）.
+% 数学操作旁注（原稿蓝色手写）：上式右侧箭头 →「$1$ 不一定是特征值」，已按规范内联保留
+
+由于 $g(y_1,y_2,y_3)=y_1^2+y_2^2+y_3^2+2y_2y_3=y_1^2+(y_2+y_3)^2$，于是作可逆线性变换
+\fml{\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}=\begin{bmatrix}1&0&0\\0&1&1\\0&0&1\end{bmatrix}\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix},}
+得 $g(y_1,y_2,y_3)=z_1^2+z_2^2$.
+
+令
+\fml{P=\begin{bmatrix}1&1&-1\\0&1&1\\0&0&1\end{bmatrix}^{-1}\begin{bmatrix}1&0&0\\0&1&1\\0&0&1\end{bmatrix}=\begin{bmatrix}1&-1&1\\0&1&0\\0&0&1\end{bmatrix},}
+则在可逆变换 $x=Py$ 下，
+\fml{f(x_1,x_2,x_3)=g(y_1,y_2,y_3).}
+
+（2）二次型 $f(x_1,x_2,x_3)$ 与 $g(y_1,y_2,y_3)$ 对应的矩阵分别为
+\fml{A=\begin{bmatrix}1&1&-1\\1&2&0\\-1&0&2\end{bmatrix},\qquad B=\begin{bmatrix}1&0&0\\0&1&1\\0&1&1\end{bmatrix}.}
+由于 $\operatorname{tr}(A)\ne\operatorname{tr}(B)$，因此矩阵 $A$ 与 $B$ 不相似，故不存在正交变换 $x=Qy$，将 $f(x_1,x_2,x_3)$ 化成 $g(y_1,y_2,y_3)$.
+\end{fcard}
+
+\begin{fnote}
+【注】以上两题，就是从命题手法上改变了同一知识点的难度，命制成例 9.10 这样的选择题，题干要求明确、直白，考生一般答得很好，但命制成例 9.11 这样的解答题，第（1）问是给出“$f$ 与 $g$ 合同”的等价说法；第（2）问是给出“$f$ 与 $g$ 所对应的二次型矩阵 $A$ 与 $B$ 不相似”的等价说法，且问题呈开放性，给考生答题带来了不小的难度.
+\end{fnote}
+
+\fsec{七、正定的判定与应用}
+% OPD 蓝色标注（原稿）：节标题下附（$O_7$（盯住目标 7）+$D_1$（常规操作）+$D_{23}$（化归经典形式）），按统一口径整段删除
+
+\begin{fcard}{1. 前提}
+\fml{A=A^{\mathrm{T}}\text{（}A\text{ 是实对称矩阵）}.}
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p115（印刷页 104）
+% -----------------------------------------------------------
+% OPD 蓝色标注（原稿）：→$D_2$（脱胎换骨）（箭头指向下条标题「2. 二次型 $f=x^{\mathrm T}Ax$ 正定的充要条件」）
+% OPD 蓝色标注（原稿）：版心左侧竖排模块名「等价表述体系块」（方法论模块标签，已删）
+
+\begin{fcard}{2. 二次型 $f=x^{\mathrm{T}}Ax$ 正定的充要条件}
+$n$ 元二次型 $f=x^{\mathrm{T}}Ax$ 正定
+\fml{\left\{\begin{aligned}
+&\iff \text{对任意的 } x\ne0\text{，有 } x^{\mathrm{T}}Ax>0\text{（定义）}\\
+&\iff A\text{ 的特征值 }\lambda_i>0\ (i=1,2,\dots,n)\\
+&\iff f\text{ 的正惯性指数 }p=n\\
+&\iff \text{存在可逆矩阵 } D\text{，使得 } A=D^{\mathrm{T}}D\\
+&\iff A\text{ 与 } E\text{ 合同}\\
+&\iff A\text{ 的各阶顺序主子式均大于 }0.
+\end{aligned}\right.}
+% 数学操作旁注（原稿蓝色手写）：上式第 4 个「$\iff$」右侧箭头 →「尤其注意」（指向「存在可逆矩阵 $D$，使得 $A=D^{\mathrm T}D$」）
+\end{fcard}
+
+\begin{fcard}{3. 二次型 $f=x^{\mathrm{T}}Ax$ 正定的必要条件}
+①$a_{ii}>0\ (i=1,2,\dots,n)$.
+
+②$|A|>0$.
+\end{fcard}
+
+% OPD 蓝色标注（原稿）：版心右侧竖排模块名「隐含条件体系块」（方法论模块标签，已删；起自「4. 重要结论」行）
+
+\begin{fcard}{4. 重要结论}
+①若 $A$ 正定，则 $A^{-1}$，$A^{*}$，$A^{m}$（$m$ 为正整数），$kA$（$k>0$），$C^{\mathrm{T}}AC$（$C$ 可逆）均正定.
+
+②若 $A$，$B$ 正定，则 $A+B$ 正定，$\begin{bmatrix}A&O\\O&B\end{bmatrix}$ 正定.
+
+③若 $A$，$B$ 正定，则 $AB$ 正定的充要条件是 $AB=BA$.
+\end{fcard}
+
+\begin{fcard}{例9.12}
+设矩阵
+\fml{A=\begin{bmatrix}1&2\\-2&-a\end{bmatrix},\qquad B=\begin{bmatrix}1&0\\1&a\end{bmatrix},}
+若 $f(x,y)=|xA+yB|$ 是正定二次型，则 $a$ 的取值范围是（\quad）.
+
+（A）$(0,2-\sqrt{3})$\qquad（B）$(2-\sqrt{3},2+\sqrt{3})$
+
+（C）$(2+\sqrt{3},4)$\qquad（D）$(0,4)$
+
+% OPD 蓝色标注（原稿）：→$D_1$（常规操作），表达式“新”并不意味着内容“新”，其一下看看便知
+
+【解】应选（B）.
+
+\fml{xA+yB=\begin{bmatrix}x&2x\\-2x&-ax\end{bmatrix}+\begin{bmatrix}y&0\\y&ay\end{bmatrix}=\begin{bmatrix}x+y&2x\\-2x+y&-ax+ay\end{bmatrix},}
+\fml{\begin{aligned}
+f(x,y)=|xA+yB|&=\begin{vmatrix}x+y&2x\\-2x+y&-ax+ay\end{vmatrix}=-a(x+y)(x-y)-2x(-2x+y)\\
+&=(4-a)x^2-2xy+ay^2,
+\end{aligned}}
+二次型的矩阵为 $\begin{bmatrix}4-a&-1\\-1&a\end{bmatrix}$，若 $f(x,y)=|xA+yB|$ 是正定二次型，则
+
+% -----------------------------------------------------------
+% PDF p116（印刷页 105）—— 例 9.12 收尾；例 9.13
+% -----------------------------------------------------------
+\fml{4-a>0,\qquad \begin{vmatrix}4-a&-1\\-1&a\end{vmatrix}=4a-a^2-1>0,}
+解得 $2-\sqrt{3}<a<2+\sqrt{3}$. 选（B）.
+\end{fcard}
+
+\begin{fcard}{例9.13}
+若可逆矩阵 $D$ 满足
+\fml{D^{\mathrm{T}}D=\begin{bmatrix}1&-1&1\\-1&2&-3\\1&-3&6\end{bmatrix},}
+则 $D=$ \underline{\hspace{4em}}\quad（已知 $D^{\mathrm{T}}D$（格拉姆矩阵），求 $D$）.
+% 数学操作旁注（原稿蓝色手写）：上式右侧箭头 →「已知 $D^{\mathrm T}D$（格拉姆矩阵），求 $D$」，已按规范内联保留
+
+【解】应填 $\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}$.
+
+法一\quad 记 $\begin{bmatrix}1&-1&1\\-1&2&-3\\1&-3&6\end{bmatrix}=A$，则其对应的二次型为
+\fmll{\begin{aligned}
+f(x_1,x_2,x_3)&=x^{\mathrm{T}}Ax=x_1^2+2x_2^2+6x_3^2-2x_1x_2+2x_1x_3-6x_2x_3\\
+&=(x_1-x_2+x_3)^2+(x_2-2x_3)^2+x_3^2\\
+&=[x_1-x_2+x_3,\ x_2-2x_3,\ x_3]\begin{bmatrix}x_1-x_2+x_3\\x_2-2x_3\\x_3\end{bmatrix}\\
+&=[x_1,x_2,x_3]\begin{bmatrix}1&0&0\\-1&1&0\\1&-2&1\end{bmatrix}\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\
+&\overset{\text{记}}{=}(x_1,x_2,x_3)D^{\mathrm{T}}D\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix},
+\end{aligned}}
+其中 $A=D^{\mathrm{T}}D$，$D=\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}$.
+
+法二\quad 在法一中，$f(x_1,x_2,x_3)=x^{\mathrm{T}}Ax=(x_1-x_2+x_3)^2+(x_2-2x_3)^2+x_3^2$，令 $\begin{cases}x_1-x_2+x_3=y_1,\\x_2-2x_3=y_2,\\x_3=y_3,\end{cases}$ 则
+$f(x_1,x_2,x_3)=y_1^2+y_2^2+y_3^2$，也即作可逆线性变换 $x=Cy$，其中 $\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}$，得 $C=\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}^{-1}$.
+
+因此
+\fml{f=x^{\mathrm{T}}Ax=y^{\mathrm{T}}C^{\mathrm{T}}ACy=y^{\mathrm{T}}Ey,}
+
+% -----------------------------------------------------------
+% PDF p117（印刷页 106）—— 例 9.13 收尾；例 9.14
+% -----------------------------------------------------------
+故 $C^{\mathrm{T}}AC=E$，则 $A=(C^{-1})^{\mathrm{T}}C^{-1}=D^{\mathrm{T}}D$，故 $D=C^{-1}=\begin{bmatrix}1&-1&1\\0&1&-2\\0&0&1\end{bmatrix}$.
+\end{fcard}
+
+\begin{fnote}
+【注】所求的矩阵 $D$ 不唯一.
+\end{fnote}
+
+\begin{fcard}{例9.14}
+设矩阵 $A=\begin{bmatrix}a&1&-1\\1&a&-1\\-1&-1&a\end{bmatrix}$.
+
+（1）求正交矩阵 $P$，使 $P^{\mathrm{T}}AP$ 为对角矩阵；
+
+（2）求正定矩阵 $C$，使 $C^2=(a+3)E-A$，其中 $E$ 为 3 阶单位矩阵.
+
+【解】（1）因为 $|\lambda E-A|=\begin{vmatrix}\lambda-a&-1&1\\-1&\lambda-a&1\\1&1&\lambda-a\end{vmatrix}=(\lambda-a+1)^2(\lambda-a-2)$，所以 $A$ 的特征值为 $\lambda_1=\lambda_2=a-1$，$\lambda_3=a+2$.
+
+当 $\lambda_1=\lambda_2=a-1$ 时，解方程组 $[(a-1)E-A]x=0$，得 $A$ 的线性无关的特征向量 $\xi_1=\begin{bmatrix}-1\\1\\0\end{bmatrix}$，$\xi_2=\begin{bmatrix}1\\0\\1\end{bmatrix}$，进
+行施密特正交单位化得 $\eta_1=\begin{bmatrix}-\dfrac{\sqrt{2}}{2}\\[2mm]\dfrac{\sqrt{2}}{2}\\[1mm]0\end{bmatrix}$，$\eta_2=\begin{bmatrix}\dfrac{\sqrt{6}}{6}\\[2mm]\dfrac{\sqrt{6}}{6}\\[2mm]\dfrac{\sqrt{6}}{3}\end{bmatrix}$.
+
+当 $\lambda_3=a+2$ 时，解方程组 $[(a+2)E-A]x=0$，得 $A$ 的特征向量 $\xi_3=\begin{bmatrix}-1\\-1\\1\end{bmatrix}$，单位化得 $\eta_3=\begin{bmatrix}-\dfrac{\sqrt{3}}{3}\\[2mm]-\dfrac{\sqrt{3}}{3}\\[2mm]\dfrac{\sqrt{3}}{3}\end{bmatrix}$.
+
+令 $P=[\eta_1,\eta_2,\eta_3]=\begin{bmatrix}-\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]0&\dfrac{\sqrt{6}}{3}&\dfrac{\sqrt{3}}{3}\end{bmatrix}$，则
+
+% -----------------------------------------------------------
+% PDF p118（印刷页 107）—— 例 9.14 收尾；八节；例 9.15
+% -----------------------------------------------------------
+\fml{P^{\mathrm{T}}AP=\begin{bmatrix}a-1&0&0\\0&a-1&0\\0&0&a+2\end{bmatrix},}
+故 $P$ 为所求正交矩阵.
+
+（2）由（1）知
+\fml{(a+3)E-A=(a+3)E-P\begin{bmatrix}a-1&0&0\\0&a-1&0\\0&0&a+2\end{bmatrix}P^{\mathrm{T}}=P\begin{bmatrix}4&0&0\\0&4&0\\0&0&1\end{bmatrix}P^{\mathrm{T}}.}
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式），对矩阵“开方”是对矩阵“开方”的逆向运算，但总的局面仍是相似对角化
+
+令 $C=P\begin{bmatrix}2&0&0\\0&2&0\\0&0&1\end{bmatrix}P^{\mathrm{T}}$，则 $C^2=(a+3)E-A$. 故所求正定矩阵是
+\fml{\begin{aligned}
+C&=\begin{bmatrix}-\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]0&\dfrac{\sqrt{6}}{3}&\dfrac{\sqrt{3}}{3}\end{bmatrix}\begin{bmatrix}2&0&0\\0&2&0\\0&0&1\end{bmatrix}\begin{bmatrix}-\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]\dfrac{\sqrt{2}}{2}&\dfrac{\sqrt{6}}{6}&-\dfrac{\sqrt{3}}{3}\\[2mm]0&\dfrac{\sqrt{6}}{3}&\dfrac{\sqrt{3}}{3}\end{bmatrix}^{\mathrm{T}}\\
+&=\begin{bmatrix}\dfrac{5}{3}&-\dfrac{1}{3}&\dfrac{1}{3}\\[2mm]-\dfrac{1}{3}&\dfrac{5}{3}&\dfrac{1}{3}\\[2mm]\dfrac{1}{3}&\dfrac{1}{3}&\dfrac{5}{3}\end{bmatrix}.
+\end{aligned}}
+\end{fcard}
+
+\fsec{八、二次型的最大值}
+% OPD 蓝色标注（原稿）：节标题下附（$O_8$（盯住目标 8）+$D_1$（常规操作）+$D_{22}$（转换等价表述）+$D_{23}$（化归经典形式）），按统一口径整段删除
+
+% 原稿：节标题下方为蓝色边框的推导框（无编号），以下按提示框排入
+\begin{fnote}
+求瑞利商 $\dfrac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}x}$ 的最值：$f=x^{\mathrm{T}}Ax\overset{x=Qy\ (\text{$Q$ 为正交矩阵})}{=}y^{\mathrm{T}}\Lambda y$
+\fml{=\lambda_1y_1^2+\lambda_2y_2^2+\lambda_3y_3^2.}
+令 $\lambda_{\max}=\max\{\lambda_1,\lambda_2,\lambda_3\}$；$\lambda_{\min}=\min\{\lambda_1,\lambda_2,\lambda_3\}$.
+\fml{\lambda_{\min}\underbrace{(y_1^2+y_2^2+y_3^2)}_{x_1^2+x_2^2+x_3^2}\le f\le\lambda_{\max}\underbrace{(y_1^2+y_2^2+y_3^2)}_{x_1^2+x_2^2+x_3^2}\implies \lambda_{\min}\le\frac{f}{x_1^2+x_2^2+x_3^2}=\frac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}x}\le\lambda_{\max}}
+% 数学操作旁注（原稿）：推导框首行上方蓝色手写「$Q$ 为正交矩阵」及其左向箭头（指向 $x=Qy$），已内联于上式
+\end{fnote}
+
+\begin{fcard}{例9.15}
+设二次型 $f(x_1,x_2)=x_1^2-4x_1x_2+4x_2^2$，$g(x_1,x_2)$ 的二次型矩阵为
+\fml{B=\begin{bmatrix}1&-1\\-1&2\end{bmatrix}.}
+
+（1）是否存在可逆矩阵 $D$，使 $B=D^{\mathrm{T}}D$？若存在，求出矩阵 $D$，若不存在，说明理由.
+
+（2）求 $\max\limits_{x\ne0}\dfrac{f(x)}{g(x)}$，其中 $x=\begin{bmatrix}x_1\\x_2\end{bmatrix}$.
+
+% -----------------------------------------------------------
+% PDF p119（印刷页 108）—— 例 9.15 解答
+% -----------------------------------------------------------
+【解】（1）由于 $B^{\mathrm{T}}=B$，$1>0$，$\begin{vmatrix}1&-1\\-1&2\end{vmatrix}>0$，因此 $B$ 为正定矩阵. 又 $g(x_1,x_2)=(x_1-x_2)^2+x_2^2$，令
+$\begin{cases}x_1-x_2=y_1,\\x_2=y_2,\end{cases}$ 于是有 $\begin{cases}x_1=y_1+y_2,\\x_2=y_2,\end{cases}$ 即 $x=\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}1&1\\0&1\end{bmatrix}\begin{bmatrix}y_1\\y_2\end{bmatrix}=Cy$，使 $x^{\mathrm{T}}Bx=y^{\mathrm{T}}C^{\mathrm{T}}BCy=y^{\mathrm{T}}y$，即
+\fml{C^{\mathrm{T}}BC=E,\qquad B=(C^{-1})^{\mathrm{T}}C^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}^{\mathrm{T}}\begin{bmatrix}1&-1\\0&1\end{bmatrix}=D^{\mathrm{T}}D.}
+故存在可逆矩阵 $D=\begin{bmatrix}1&-1\\0&1\end{bmatrix}$，使 $B=D^{\mathrm{T}}D$.
+% OPD 蓝色标注（原稿）：→$D_{23}$（化归经典形式）
+
+（2）设 $f(x)$ 的二次型矩阵为 $A$，则
+\fml{\frac{f(x)}{g(x)}=\frac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}Bx}=\frac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}D^{\mathrm{T}}Dx}=\frac{x^{\mathrm{T}}Ax}{(Dx)^{\mathrm{T}}Dx}\overset{\text{令}Dx=z}{=}\frac{(D^{-1}z)^{\mathrm{T}}A(D^{-1}z)}{z^{\mathrm{T}}z}=\frac{z^{\mathrm{T}}(D^{-1})^{\mathrm{T}}AD^{-1}z}{z^{\mathrm{T}}z},}
+其中 $z=\begin{bmatrix}z_1\\z_2\end{bmatrix}$\quad（转化成瑞利商形式，故只需分析矩阵 $M$ 的最大特征值即可）.
+% 数学操作旁注（原稿蓝色手写）：上式右侧「转化成瑞利商形式，故只需分析矩阵 $M$ 的最大特征值即可」，已按规范内联保留
+
+又
+\fml{\begin{aligned}
+(D^{-1})^{\mathrm{T}}AD^{-1}=C^{\mathrm{T}}AC&=\begin{bmatrix}1&0\\1&1\end{bmatrix}\begin{bmatrix}1&-2\\-2&4\end{bmatrix}\begin{bmatrix}1&1\\0&1\end{bmatrix}=\begin{bmatrix}1&-2\\-1&2\end{bmatrix}\begin{bmatrix}1&1\\0&1\end{bmatrix}\\
+&=\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\overset{\text{记}}{=}M,
+\end{aligned}}
+其对应的二次型为 $h(z_1,z_2)=z_1^2+z_2^2-2z_1z_2$，则由
+\fml{|\lambda E-M|=\begin{vmatrix}\lambda-1&1\\1&\lambda-1\end{vmatrix}=(\lambda-1)^2-1=\lambda(\lambda-2)=0,}
+得 $\lambda_1=2$，$\xi_1=\dfrac{1}{\sqrt{2}}\begin{bmatrix}-1\\1\end{bmatrix}$；$\lambda_2=0$，$\xi_2=\dfrac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}$，令 $Q=\dfrac{1}{\sqrt{2}}\begin{bmatrix}-1&1\\1&1\end{bmatrix}$，$z=Qr=Q\begin{bmatrix}r_1\\r_2\end{bmatrix}$，则
+\fml{\begin{aligned}
+z^{\mathrm{T}}Mz=r^{\mathrm{T}}Q^{\mathrm{T}}MQr&=r^{\mathrm{T}}\begin{bmatrix}2&0\\0&0\end{bmatrix}r=2r_1^2\\
+&\le 2(r_1^2+r_2^2)\overset{z^{\mathrm{T}}z=r^{\mathrm{T}}Q^{\mathrm{T}}Qr=r^{\mathrm{T}}r}{=}2(z_1^2+z_2^2),
+\end{aligned}}
+于是 $z^{\mathrm{T}}Mz\le 2z^{\mathrm{T}}z$，即 $\dfrac{z^{\mathrm{T}}Mz}{z^{\mathrm{T}}z}\le 2$，令 $z_0=Q\begin{bmatrix}1\\0\end{bmatrix}$，得 $\dfrac{\begin{bmatrix}1,0\end{bmatrix}\begin{bmatrix}2&0\\0&0\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}}{\begin{bmatrix}1,0\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}}=2$，此时 $x_0=D^{-1}z_0=D^{-1}Q\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}0\\[1mm]\dfrac{1}{\sqrt{2}}\end{bmatrix}$，
+于是 $\max\limits_{x\ne0}\dfrac{f(x)}{g(x)}=2$.
+\end{fcard}
+
+% -----------------------------------------------------------
+% PDF p120（印刷页 109）—— 全页仅一个【注】框（印刷正文）
+% -----------------------------------------------------------
+\begin{fnote}
+【注】本题是作者新命制的题目，事实上，$\dfrac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}Bx}$ 比 $\dfrac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}x}$ 使用范围更为广泛，后者已经在真题中出现过，前者尚未出现，值得注意. 细心的考生应已发现，$\dfrac{x^{\mathrm{T}}Ax}{x^{\mathrm{T}}Bx}$ 依然要转化到 $\dfrac{z^{\mathrm{T}}Mz}{z^{\mathrm{T}}z}$ 上.
+\end{fnote}
+% 说明：上框为原稿印刷正文。按 AGENTS.md §7.1 决定 2「不保留 OPD 方法论」，
+%       已删去末尾的方法论说教（原稿：「这是"三向解题法"中 $D_{23}$（化归经典形式）的
+%       再一次具体体现……注意，是意识，意识为先，有了主动的化归意识，办法自然就来了」），
+%       **保留全部考点信息**（新命制题型、适用范围更广、后者已考过、仍需化为 $\frac{z^TMz}{z^Tz}$）。
+
+% -----------------------------------------------------------
+% PDF p121（印刷页 110）—— 全书最后一页，整页空白，无正文/习题/附录
+% -----------------------------------------------------------
+% PDF p121（印刷页 110）为全书最后一页，整页空白（无任何文字、无页脚以外的装饰），按规范不排版。

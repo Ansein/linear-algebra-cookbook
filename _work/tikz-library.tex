@@ -1,0 +1,124 @@
+% ===========================================================
+%  tikz-library.tex — 可复用的数学图像宏
+%  用法：在 style.tex 之后 \input{tikz-library.tex}
+%        （依赖 style.tex 定义的 cPrimary / cAccent / cGray / cRule 颜色）
+%  这些都是"原稿位图 → 矢量重绘"的成果，比裁图清晰，且能跟随配色主题。
+% ===========================================================
+
+% ---------- 反三角函数 ----------
+\newcommand{\figarcsin}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=1.0cm,y=0.9cm,font=\tiny]
+  \draw[step=0.5,cRule!70,line width=0.2pt] (-1.5,-1.4) grid (1.5,1.4);
+  \draw[->,cGray,line width=0.5pt] (-1.6,0)--(1.8,0) node[below right=-1pt]{$x$};
+  \draw[->,cGray,line width=0.5pt] (0,-1.5)--(0,1.9) node[left=-1pt]{$y$};
+  \draw[cPrimary,line width=0.9pt,domain=-1:1,samples=120,smooth] plot (\x,{asin(\x)*pi/180});
+  \draw[dashed,cRule] (-1,0)--(-1,{-pi/2}) (1,0)--(1,{pi/2});
+  \fill[cAccent] (-1,{-pi/2}) circle (0.9pt) (1,{pi/2}) circle (0.9pt);
+  \node[below] at (-1,-0.05) {\scriptsize$-1$};
+  \node[below] at (1,-0.05) {\scriptsize$1$};
+  \node[left=-1pt] at (0,{pi/2}) {\scriptsize$\frac{\pi}{2}$};
+  \node[left=-1pt] at (0,{-pi/2}) {\scriptsize$-\frac{\pi}{2}$};
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+\newcommand{\figarccos}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=1.0cm,y=0.52cm,font=\tiny]
+  \draw[step=0.5,cRule!70,line width=0.2pt] (-1.5,-0.5) grid (1.5,3.6);
+  \draw[->,cGray,line width=0.5pt] (-1.6,0)--(1.8,0) node[below right=-1pt]{$x$};
+  \draw[->,cGray,line width=0.5pt] (0,-0.6)--(0,4.0) node[left=-1pt]{$y$};
+  \draw[cPrimary,line width=0.9pt,domain=-1:1,samples=120,smooth] plot (\x,{acos(\x)*pi/180});
+  \draw[dashed,cRule] (-1,0)--(-1,{pi}) (1,0)--(1,{pi/2});
+  \fill[cAccent] (-1,{pi}) circle (0.9pt) (1,{pi/2}) circle (0.9pt);
+  \node[below] at (-1,-0.05) {\scriptsize$-1$};
+  \node[below] at (1,-0.05) {\scriptsize$1$};
+  \node[left=-1pt] at (0,{pi}) {\scriptsize$\pi$};
+  \node[left=-1pt] at (0,{pi/2}) {\scriptsize$\frac{\pi}{2}$};
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+% ---------- 常考曲线 ----------
+% 摆线 x=a(t-sin t), y=a(1-cos t)：两拱
+\newcommand{\figcycloid}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=0.60cm,y=0.95cm,font=\tiny]
+  \draw[step=0.5,cRule!60,line width=0.2pt] (-0.1,-0.15) grid (6.3,2.2);
+  \draw[->,cGray,line width=0.5pt] (-0.35,0)--(6.6,0) node[below right=-1pt]{$x$};
+  \draw[->,cGray,line width=0.5pt] (0,-0.3)--(0,2.45) node[left=-1pt]{$y$};
+  \draw[cPrimary,line width=0.9pt,domain=0:4*pi,samples=260,smooth,variable=\t]
+     plot ({0.5*(\t - sin(\t r))}, {1.0*(1-cos(\t r))});
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+% 星形线 x=a cos^3 t, y=a sin^3 t
+\newcommand{\figastroid}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=0.85cm,y=0.85cm,font=\tiny]
+  \draw[step=0.5,cRule!60,line width=0.2pt] (-1.6,-1.6) grid (1.6,1.6);
+  \draw[->,cGray,line width=0.5pt] (-1.85,0)--(1.95,0) node[below right=-1pt]{$x$};
+  \draw[->,cGray,line width=0.5pt] (0,-1.85)--(0,1.95) node[left=-1pt]{$y$};
+  \draw[cPrimary,line width=0.9pt,domain=0:360,samples=260,smooth,variable=\t]
+     plot ({1.45*cos(\t)^3}, {1.45*sin(\t)^3});
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+% 心形线 r=a(1-cosθ)/(1+cosθ)/(1-sinθ)/(1+sinθ) 四联图
+% ⚠ 坑：同一张 tikzpicture 里混用 scope 的 cm 平移与 x=..cm 的坐标缩放，
+%    曲线会错位。所有子图坐标必须都在同一坐标系里算（用 k*间距 显式相加）。
+\newcommand{\figcardioid}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=0.60cm,y=0.60cm,font=\tiny]
+  \foreach \k in {0,1,2,3}{%
+    \draw[step=0.5,cRule!60,line width=0.2pt] ({\k*4.7-2.3},-2.3) grid ({\k*4.7+2.3},2.3);
+    \draw[->,cGray,line width=0.4pt] ({\k*4.7-2.4},0)--({\k*4.7+2.4},0);
+    \draw[->,cGray,line width=0.4pt] (\k*4.7,-2.4)--(\k*4.7,2.4);}
+  \draw[cPrimary,line width=0.8pt,domain=0:360,samples=240,smooth,variable=\t]
+     plot ({0*4.7+1.05*(1-cos(\t))*cos(\t)}, {1.05*(1-cos(\t))*sin(\t)});
+  \draw[cPrimary,line width=0.8pt,domain=0:360,samples=240,smooth,variable=\t]
+     plot ({1*4.7+1.05*(1+cos(\t))*cos(\t)}, {1.05*(1+cos(\t))*sin(\t)});
+  \draw[cPrimary,line width=0.8pt,domain=0:360,samples=240,smooth,variable=\t]
+     plot ({2*4.7+1.05*(1-sin(\t))*cos(\t)}, {1.05*(1-sin(\t))*sin(\t)});
+  \draw[cPrimary,line width=0.8pt,domain=0:360,samples=240,smooth,variable=\t]
+     plot ({3*4.7+1.05*(1+sin(\t))*cos(\t)}, {1.05*(1+sin(\t))*sin(\t)});
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+% 伯努利双纽线 r²=a²cos2θ 与 r²=a²sin2θ
+% ⚠ 坑：sqrt(负数) 会让 pgfmath 报错，必须按定义域分段（cos2θ≥0 / sin2θ≥0）
+\newcommand{\figlemniscate}{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=1.05cm,y=1.05cm,font=\tiny]
+  \begin{scope}
+    \draw[step=0.5,cRule!60,line width=0.2pt] (-1.4,-1.0) grid (1.4,1.0);
+    \draw[->,cGray,line width=0.4pt] (-1.5,0)--(1.6,0) node[below right=-1pt]{$x$};
+    \draw[->,cGray,line width=0.4pt] (0,-1.1)--(0,1.2) node[left=-1pt]{$y$};
+    \draw[cPrimary,line width=0.8pt,domain=-45:45,samples=120,smooth,variable=\t]
+      plot ({1.25*sqrt(cos(2*\t))*cos(\t)}, {1.25*sqrt(cos(2*\t))*sin(\t)});
+    \draw[cPrimary,line width=0.8pt,domain=135:225,samples=120,smooth,variable=\t]
+      plot ({1.25*sqrt(cos(2*\t))*cos(\t)}, {1.25*sqrt(cos(2*\t))*sin(\t)});
+  \end{scope}
+  \begin{scope}[xshift=4.4cm]
+    \draw[step=0.5,cRule!60,line width=0.2pt] (-1.4,-1.0) grid (1.4,1.0);
+    \draw[->,cGray,line width=0.4pt] (-1.5,0)--(1.6,0) node[below right=-1pt]{$x$};
+    \draw[->,cGray,line width=0.4pt] (0,-1.1)--(0,1.2) node[left=-1pt]{$y$};
+    \draw[cPrimary,line width=0.8pt,domain=0:90,samples=120,smooth,variable=\t]
+      plot ({1.25*sqrt(sin(2*\t))*cos(\t)}, {1.25*sqrt(sin(2*\t))*sin(\t)});
+    \draw[cPrimary,line width=0.8pt,domain=180:270,samples=120,smooth,variable=\t]
+      plot ({1.25*sqrt(sin(2*\t))*cos(\t)}, {1.25*sqrt(sin(2*\t))*sin(\t)});
+  \end{scope}
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
+
+% ---------- 通用：任意参数曲线 ----------
+% \figparam[宽cm]{domain 起}{domain 止}{x(t) 表达式}{y(t) 表达式}
+% 例：\figparam{0}{360}{cos(\t)^3}{sin(\t)^3}
+\newcommand{\figparam}[5][1.0]{%
+\par\vspace{1mm}\begin{center}
+\begin{tikzpicture}[x=#1cm,y=#1cm,font=\tiny]
+  \draw[->,cGray,line width=0.5pt] (-1.8,0)--(1.8,0) node[below right=-1pt]{$x$};
+  \draw[->,cGray,line width=0.5pt] (0,-1.8)--(0,1.8) node[left=-1pt]{$y$};
+  \draw[cPrimary,line width=0.9pt,domain=#2:#3,samples=250,smooth,variable=\t]
+     plot ({#4}, {#5});
+\end{tikzpicture}
+\end{center}\par\vspace{0.5mm}}
