@@ -1,12 +1,25 @@
 # 考研线性代数蓝本
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Release](https://img.shields.io/github/v/release/Ansein/linear-algebra-cookbook)](https://github.com/Ansein/linear-algebra-cookbook/releases/latest)
+[![Issues](https://img.shields.io/github/issues/Ansein/linear-algebra-cookbook)](https://github.com/Ansein/linear-algebra-cookbook/issues)
 
 以《线性代数9讲》（张宇）为骨架、《全国硕士研究生招生考试数学考试大纲》为范围边界，
 用北大《高等代数》第五版与樊启斌《高等代数典型问题与方法》补充**深化知识**，
 用 LaTeX 重排而成的单册考研复习蓝本。
 
-**成品：[`考研线性代数蓝本.pdf`](考研线性代数蓝本.pdf) — 167 页，可直接编译。**
+## ⬇️ 下载
+
+**[📕 考研线性代数蓝本 v1.0.0（167 页，1.4 MB）](https://github.com/Ansein/linear-algebra-cookbook/releases/latest)**
+—— 或直接下载：
+[`kaoyan-linear-algebra-cookbook-v1.0.0.pdf`](https://github.com/Ansein/linear-algebra-cookbook/releases/download/v1.0.0/kaoyan-linear-algebra-cookbook-v1.0.0.pdf)
+
+```bash
+curl -L -o 考研线性代数蓝本.pdf \
+  https://github.com/Ansein/linear-algebra-cookbook/releases/download/v1.0.0/kaoyan-linear-algebra-cookbook-v1.0.0.pdf
+```
+
+仓库内也保留了源码同名成品 [`考研线性代数蓝本.pdf`](考研线性代数蓝本.pdf)（与 Release 附件字节一致）。
 
 ## 特点
 
@@ -88,6 +101,27 @@ python3 _work/check_bookmarks.py
 | 蓝 `\key{}` | 「要记住名字」：定理/定义/性质名、方法名 |
 | 红 `\warn{}` `\must{}` | 「会做错」：易错点、陷阱、必记结论 |
 | 金 `\fbref{}` | `【反哺点】` 标签 |
+
+## 反馈与贡献 — 欢迎提 Issue 🙌
+
+**发现任何问题都欢迎开 Issue，不必客气。** 这份蓝本是逐页看图转录 + 手工重排的产物，
+虽然每章都过了自动验收（编译、缺字、溢出、书签页码、反哺点齐全），
+但**机器查不出内容错误**。尤其欢迎以下类型：
+
+| 类型 | 例子 |
+|---|---|
+| 🐛 **内容错误** | 公式抄错、上下标错、结论有误、定理条件漏写 |
+| ✏️ **笔误 / 排版** | 错别字、引号或标点异常、公式断行难看、颜色用得不合适 |
+| 📐 **数学表述** | 某处「反哺点」没讲清楚、某个深化点其实反哺不了解题 |
+| 💡 **内容建议** | 某考点讲得太浅 / 太深、该补的深化知识没补、某段可以删 |
+| 🔗 **失效链接** | 下载链接、徽章、交叉引用 |
+
+提 Issue 时如果方便，请附上**页码**（PDF 页脚上的页码即可），这样定位最快。
+
+> 提 Issue 不需要懂 LaTeX。只描述「哪一页、哪里不对、应该是什么」就够了。
+
+**关于 Pull Request**：欢迎，但请先开 Issue 讨论——因为正文改动可能牵涉排版体例
+（见下方「排版体例」），先对齐再动手更省事。
 
 ## 许可协议
 
